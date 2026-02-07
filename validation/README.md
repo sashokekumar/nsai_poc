@@ -30,6 +30,11 @@ This folder contains validation notebooks that compare different NSAI levels to 
 - Rule trigger statistics
 - Exportable CSV: `validation_results.csv`
 
+Additional structured output:
+- `l1b_decision_trace` (JSON): per-utterance explainability trace produced by Level1B. Contains `detectors_fired`, `hard_rules_failed`, `soft_rules_passed`, and `alternatives_eliminated` so decision paths can be audited for L3 compliance.
+
+Note: validation outputs (CSV and executed notebooks) are intentionally untracked by Git (see `.gitignore`).
+
 **Expandable**: When Level 2+ are implemented, this notebook will include multi-level comparisons.
 
 ## Usage

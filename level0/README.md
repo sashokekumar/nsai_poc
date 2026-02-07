@@ -44,6 +44,7 @@ LogisticRegression(
 - `level0_tfidf_classification.ipynb`: Main notebook (22 cells)
 - `models/`: Saved model artifacts (if any)
 - `artifacts/`: Output files and visualizations
+ - `level0_model.py`: Reusable Level0Classifier module for predict/save/load (used by validation)
 
 ## Usage
 ```bash

@@ -212,3 +212,5 @@ __marimo__/
 # Validation outputs (do not commit generated results or executed notebooks)
 /validation/validation_results.csv
 /validation/*.executed.ipynb
+# Temporary debug helpers
+/validation/debug_imports.py

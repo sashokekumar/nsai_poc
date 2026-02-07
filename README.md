@@ -83,6 +83,8 @@ jupyter notebook
 - Decision states: `accepted`, `needs_clarification`, `blocked`
 - Structured JSON output with full explainability
 
+Note: Level1B now emits a structured `decision_trace` per utterance (for L3 path explainability) and provides a reusable `level1b_model.py` module. This trace includes `detectors_fired`, `hard_rules_failed`, `soft_rules_passed`, and `alternatives_eliminated` to support auditability.
+
 **Key Output**:
 ```json
 {
@@ -155,6 +157,8 @@ cd validation
 jupyter notebook validation.ipynb
 # Run all cells to see side-by-side comparison
 ```
+
+Note: `validation_results.csv` includes a `l1b_decision_trace` JSON column with the full decision path; validation outputs are not tracked in Git.
 
 ## Key Concepts
 
