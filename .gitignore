@@ -91,7 +91,10 @@ ipython_config.py
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
 #   However, in case of collaboration, if having platform-specific dependencies or dependencies
 #   having no cross-platform support, pipenv may install dependencies that don't work, or not
-#   install all needed dependencies.
+# Existing rules
+# Ignore all artifacts and models folders in any subdirectory (e.g. level0, level1, ...)
+**/artifacts/
+**/models/
 #Pipfile.lock
 
 # UV

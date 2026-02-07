@@ -1,0 +1,615 @@
+utterance,intent
+"why is server host123 cpu high",investigate
+"check memory usage on db-server-7",investigate
+"what caused the outage last night",investigate
+"show me errors from the last deployment",investigate
+"analyze why response time increased",investigate
+"investigate cpu spike on web-server-3",investigate
+"what is causing high memory on app-01",investigate
+"why did the database go down",investigate
+"show me the root cause of latency issues",investigate
+"analyze the performance degradation",investigate
+"why is disk usage at 90 percent",investigate
+"check network connectivity on prod-env",investigate
+"what caused the service failure",investigate
+"investigate error rate spike in production",investigate
+"why are requests timing out",investigate
+"analyze the failed deployment",investigate
+"what triggered the alert",investigate
+"check for anomalies in metrics",investigate
+"investigate the database slowdown",investigate
+"why is load balancer unhealthy",investigate
+"show root cause analysis for outage",investigate
+"what caused memory leak in app",investigate
+"analyze cpu consumption trends",investigate
+"investigate disk I/O bottleneck",investigate
+"why is application responding slowly",investigate
+"check what went wrong with deployment",investigate
+"investigate failed authentication attempts",investigate
+"why did backup job fail",investigate
+"analyze network latency issues",investigate
+"what is causing service degradation",investigate
+"investigate high error rate",investigate
+"why did health check fail",investigate
+"check what caused the crash",investigate
+"investigate timeout errors",investigate
+"why is cache miss rate high",investigate
+"analyze exception logs",investigate
+"investigate connection pool exhaustion",investigate
+"why are requests queued",investigate
+"check what's causing the bottleneck",investigate
+"investigate memory fragmentation",investigate
+"why is cpu throttling happening",investigate
+"analyze performance metrics",investigate
+"investigate deadlock in database",investigate
+"why is replication lagging",investigate
+"check what caused sync failure",investigate
+"investigate cluster node failure",investigate
+"why are containers crashing",investigate
+"analyze resource constraints",investigate
+"investigate queue backlog",investigate
+"why is throughput degraded",investigate
+"check what went wrong",investigate
+"why is the ssl certificate expired on prod",investigate
+"can you look into the dns resolution failure",investigate
+"what is causing packet loss on the network",investigate
+"investigate the sudden increase in 5xx errors",investigate
+"why is the api gateway returning 503",investigate
+"analyze the thread dump from app server",investigate
+"check why cron jobs are failing",investigate
+"what caused the spike in garbage collection time",investigate
+"investigate why websocket connections are dropping",investigate
+"why is the message broker not consuming messages",investigate
+"look into the storage IOPS issue",investigate
+"what is causing the high swap usage on node-5",investigate
+"analyze the slow query logs for the past hour",investigate
+"check why the read replicas are out of sync",investigate
+"investigate the TLS handshake failures",investigate
+"why is the CDN cache invalidation not working",investigate
+"examine the kernel panic logs on host-42",investigate
+"what caused the pod evictions in kubernetes",investigate
+"investigate the intermittent connection resets",investigate
+"why is the redis cluster showing high fragmentation",investigate
+"check the firewall rules blocking traffic",investigate
+"analyze the heap dump for memory leak",investigate
+"investigate the data corruption in table orders",investigate
+"why is the queue consumer lagging behind producer",investigate
+"what triggered the auto-scaling event",investigate
+"look into the certificate chain validation error",investigate
+"examine the audit logs for suspicious activity",investigate
+"why is the etcd cluster showing leader election issues",investigate
+"investigate the network partition between zones",investigate
+"what is causing the high p99 latency",investigate
+"check why the batch processing job is stuck",investigate
+"analyze the jvm thread contention issue",investigate
+"why is the load test showing degraded throughput",investigate
+"investigate the file descriptor leak",investigate
+"what caused the split brain in the cluster",investigate
+"look into the http connection pool timeout",investigate
+"why is the search indexer falling behind",investigate
+"check the correlation between cpu spike and deployments",investigate
+"investigate the disk write latency on ssd array",investigate
+"what is causing the oauth token refresh failures",investigate
+"analyze why the canary deployment is showing errors",investigate
+"check why the health endpoint is returning stale data",investigate
+"investigate the memory pressure alerts on worker nodes",investigate
+"why is the graphql resolver timing out",investigate
+"look into the prometheus scrape failures",investigate
+"what caused the raft consensus timeout",investigate
+"investigate the grpc deadline exceeded errors",investigate
+"why is the connection draining taking too long",investigate
+"analyze the rate of retries on downstream calls",investigate
+"check what is causing the event loop blocking",investigate
+"investigate the segfault in the native module",investigate
+"why is the WAL replay taking hours on postgres",investigate
+"what caused the index corruption on elasticsearch",investigate
+"look into the consistent hashing rebalance issue",investigate
+"why is the service mesh sidecar consuming too much cpu",investigate
+"investigate the clock skew between nodes",investigate
+"what is causing the write amplification on the database",investigate
+"analyze the open file handle count on prod servers",investigate
+"check why the circuit breaker keeps tripping",investigate
+"investigate the cold start latency in serverless functions",investigate
+"why is the bloom filter returning false positives",investigate
+"look into the mutex contention on shared resource",investigate
+"what caused the thundering herd on cache expiry",investigate
+"investigate the asymmetric network routing issue",investigate
+"why is the compaction process stalling on cassandra",investigate
+"analyze the tombstone accumulation in the database",investigate
+"check the tcp retransmission rate on the interface",investigate
+"investigate the cross-region replication delay",investigate
+"why is the garbage collector pausing for 500ms",investigate
+"look into the inode exhaustion on the log partition",investigate
+"what caused the connection storm after failover",investigate
+"investigate the flapping health checks",investigate
+"why is the dns ttl causing stale lookups",investigate
+"analyze the kernel scheduler latency spikes",investigate
+"check what is triggering the oom killer",investigate
+"investigate the ssl renegotiation overhead",investigate
+"why is the background job worker deadlocking",investigate
+"what caused the data skew in the partitioned table",investigate
+"look into the nfs mount hanging issue",investigate
+"investigate the spurious wakeups in the thread pool",investigate
+"why is the zookeeper session expiring frequently",investigate
+"analyze the log rotation failure on app-server-12",investigate
+"check why the reverse proxy is dropping headers",investigate
+"investigate the network buffer overflow on ingress",investigate
+"why is the snapshot restore taking longer than expected",investigate
+"what caused the lease expiration on the distributed lock",investigate
+"look into the memory allocation failure in container",investigate
+"investigate the cpu steal time on virtual machines",investigate
+"why is the database vacuum process not completing",investigate
+"analyze the socket backlog on the listener",investigate
+"check the semaphore deadlock in the process pool",investigate
+"investigate the page cache thrashing issue",investigate
+"why is the io scheduler causing write starvation",investigate
+"what is causing the tcp connection reset by peer",investigate
+"look into the systemd service restart loop",investigate
+"investigate the kernel soft lockup warnings",investigate
+"why is the cgroup memory limit being exceeded",investigate
+"analyze the numa imbalance on the multi-socket server",investigate
+"restart nginx on host123",execution
+"scale the api service to 5 replicas",execution
+"clear disk space on server alpha",execution
+"run the remediation playbook for cpu spike",execution
+"apply security patch on db-server-7",execution
+"restart application server",execution
+"scale up the database replica",execution
+"kill the hanging process",execution
+"clear cache on all nodes",execution
+"restart the load balancer",execution
+"apply configuration changes",execution
+"rollback the deployment",execution
+"start backup job",execution
+"stop the runaway query",execution
+"reset network interface",execution
+"clear log files",execution
+"restart monitoring agent",execution
+"flush dns cache",execution
+"rebuild index on table",execution
+"restart container",execution
+"scale down resources",execution
+"enable circuit breaker",execution
+"trigger failover",execution
+"drain connections gracefully",execution
+"reset application state",execution
+"restart background worker",execution
+"apply rate limiting",execution
+"enable request throttling",execution
+"purge old logs",execution
+"vacuum database",execution
+"restart api gateway",execution
+"scale message queue",execution
+"apply hotfix",execution
+"reset error counters",execution
+"enable debug logging",execution
+"restart health check",execution
+"force garbage collection",execution
+"apply network policy",execution
+"restart session manager",execution
+"scale job scheduler",execution
+"apply backup retention policy",execution
+"restart log aggregator",execution
+"enable auto-healing",execution
+"apply security rules",execution
+"restart cluster coordinator",execution
+"scale data cache",execution
+"apply database migration",execution
+"restart service mesh",execution
+"enable tracing",execution
+"deploy the latest build to staging",execution
+"rotate the ssl certificates on all endpoints",execution
+"provision a new ec2 instance for the web tier",execution
+"stop all running containers on host-9",execution
+"update the firewall rules to allow port 8443",execution
+"migrate the database schema to version 3.2",execution
+"resize the persistent volume to 500gb",execution
+"restart the kafka broker on node-3",execution
+"terminate the zombie processes",execution
+"create a snapshot of the production database",execution
+"enable maintenance mode on the website",execution
+"disable the feature flag for dark mode",execution
+"scale the worker pool to 20 instances",execution
+"flush the redis cache completely",execution
+"redeploy the microservice with the fix",execution
+"configure the auto-scaling policy for peak hours",execution
+"mount the nfs share on the batch server",execution
+"run the data integrity check script",execution
+"rotate the api keys for third party integrations",execution
+"update the dns records for the new ip",execution
+"restart the elasticsearch cluster rolling",execution
+"enable write-ahead logging on the database",execution
+"switch traffic to the blue deployment",execution
+"increase the connection pool size to 200",execution
+"run the certificate renewal automation",execution
+"disable the deprecated api endpoint",execution
+"execute the database cleanup stored procedure",execution
+"start the canary deployment for version 4.1",execution
+"set up the vpn tunnel to the partner network",execution
+"enable gzip compression on the web server",execution
+"apply the kernel security update and reboot",execution
+"initialize the new replica set member",execution
+"run the load test against staging environment",execution
+"configure the log shipping to the siem",execution
+"enable the new rate limit policy globally",execution
+"evict stale entries from the distributed cache",execution
+"restart the cron scheduler service",execution
+"apply the terraform plan for infrastructure changes",execution
+"update the helm chart values and upgrade release",execution
+"provision additional read replicas for the database",execution
+"reconfigure the reverse proxy routing rules",execution
+"bounce the application pool in iis",execution
+"start the disaster recovery failover procedure",execution
+"compress and archive the old log files",execution
+"enable ssl termination on the load balancer",execution
+"update the oauth client credentials",execution
+"rebalance the kafka topic partitions",execution
+"set the jvm heap size to 8gb and restart",execution
+"deploy the hotfix to all production nodes",execution
+"enable cross-origin resource sharing headers",execution
+"run the ansible playbook for server hardening",execution
+"trigger the ci cd pipeline for the release branch",execution
+"reset the admin password on the management console",execution
+"configure the health check interval to 30 seconds",execution
+"enable persistent connections on the proxy",execution
+"run the vacuum full on the postgres database",execution
+"set up the monitoring alerts for the new service",execution
+"decommission the old server from the cluster",execution
+"enable binary logging on the mysql primary",execution
+"apply the network acl changes to the subnet",execution
+"restart the prometheus and grafana stack",execution
+"execute the blue green deployment switch",execution
+"increase the file descriptor limit to 65535",execution
+"run the chaos engineering test on staging",execution
+"configure the backup schedule for hourly snapshots",execution
+"enable query caching on the database",execution
+"deploy the sidecar proxy to all pods",execution
+"update the tls cipher suite configuration",execution
+"run the storage migration to the new array",execution
+"scale the ingress controller replicas",execution
+"apply the pod security policy changes",execution
+"enable audit logging on the api gateway",execution
+"restart the message queue consumers",execution
+"configure the retry policy with exponential backoff",execution
+"run the index optimization on the search cluster",execution
+"set up the cross-region replication",execution
+"enable http2 on the reverse proxy",execution
+"apply the resource quota to the namespace",execution
+"execute the rolling restart of all microservices",execution
+"configure the connection timeout to 30 seconds",execution
+"run the compliance scan on all servers",execution
+"enable the new caching strategy globally",execution
+"deploy the database proxy layer",execution
+"update the container image to the patched version",execution
+"run the performance benchmark suite",execution
+"configure the dead letter queue for failed messages",execution
+"enable request tracing across all services",execution
+"apply the storage class changes for the volumes",execution
+"restart the gossip protocol seed nodes",execution
+"run the data migration script for the new schema",execution
+"configure the circuit breaker thresholds",execution
+"enable the web application firewall rules",execution
+"apply the cpu and memory limits to all pods",execution
+"trigger the automated rollback procedure",execution
+"set up the service mesh mutual tls",execution
+"run the database failover test",execution
+"configure the log retention policy to 90 days",execution
+"enable the distributed tracing collector",execution
+"apply the egress network policy",execution
+"restart the coordination service",execution
+"run the cluster health verification script",execution
+"summarize the incident from yesterday",summarization
+"give me a summary of alerts for last week",summarization
+"summarize system health for app payments",summarization
+"provide a brief on today's outages",summarization
+"summarize what actions were taken",summarization
+"summarize the error logs",summarization
+"give me incident summary",summarization
+"summarize deployment changes",summarization
+"provide metrics summary",summarization
+"summarize alert trends",summarization
+"give me event summary",summarization
+"summarize service status",summarization
+"provide performance summary",summarization
+"summarize resource usage",summarization
+"give me uptime summary",summarization
+"summarize configuration changes",summarization
+"provide security incident summary",summarization
+"summarize capacity report",summarization
+"give me operational summary",summarization
+"summarize troubleshooting steps",summarization
+"provide maintenance summary",summarization
+"summarize backup status",summarization
+"give me compliance summary",summarization
+"summarize test results",summarization
+"provide health check summary",summarization
+"summarize user impact",summarization
+"give me cost summary",summarization
+"summarize dependency status",summarization
+"provide ecosystem summary",summarization
+"summarize network traffic",summarization
+"give me error rate summary",summarization
+"summarize database performance",summarization
+"provide cache hit summary",summarization
+"summarize queue depth",summarization
+"give me latency summary",summarization
+"summarize throughput metrics",summarization
+"provide availability summary",summarization
+"summarize scaling events",summarization
+"give me replication summary",summarization
+"summarize cluster health",summarization
+"provide node status summary",summarization
+"summarize deployment timeline",summarization
+"give me rollback summary",summarization
+"summarize incident timeline",summarization
+"provide weekly report summary",summarization
+"summarize monthly trends",summarization
+"give me a rundown of the production issues this week",summarization
+"summarize the api response times over the past month",summarization
+"provide a brief on the infrastructure costs this quarter",summarization
+"summarize the changes made during the maintenance window",summarization
+"give me a summary of failed jobs in the last 24 hours",summarization
+"summarize the security audit findings",summarization
+"provide a recap of the database migration results",summarization
+"summarize the load test results from yesterday",summarization
+"give me an overview of the release notes for version 5.0",summarization
+"summarize the sla compliance for the past month",summarization
+"provide a brief on the disaster recovery drill results",summarization
+"summarize the on-call handoff notes",summarization
+"give me a summary of the patch management status",summarization
+"summarize the network topology changes this sprint",summarization
+"provide an overview of the monitoring coverage gaps",summarization
+"summarize the capacity planning recommendations",summarization
+"give me a brief on the vendor incident reports",summarization
+"summarize the access control audit results",summarization
+"provide a summary of the ci cd pipeline performance",summarization
+"summarize the container orchestration metrics",summarization
+"give me a recap of the storage utilization trends",summarization
+"summarize the ssl certificate expiry status across services",summarization
+"provide a brief on the api deprecation timeline",summarization
+"summarize the cross-team dependency updates",summarization
+"give me an overview of the error budget consumption",summarization
+"summarize the feature flag rollout status",summarization
+"provide a summary of the dns query patterns",summarization
+"summarize the cold storage archival progress",summarization
+"give me a brief on the kubernetes cluster upgrade status",summarization
+"summarize the third party integration health",summarization
+"provide a recap of the rate limiting effectiveness",summarization
+"summarize the canary deployment observations",summarization
+"give me a summary of the log ingestion volume trends",summarization
+"summarize the backup verification test outcomes",summarization
+"provide an overview of the mean time to recovery metrics",summarization
+"summarize the service mesh traffic routing changes",summarization
+"give me a brief on the auto-scaling behavior this week",summarization
+"summarize the compliance remediation progress",summarization
+"provide a summary of the data replication lag trends",summarization
+"summarize the incident postmortem action items",summarization
+"give me an overview of the alerting rule changes",summarization
+"summarize the performance optimization results",summarization
+"provide a recap of the server provisioning activities",summarization
+"summarize the vulnerability scan findings",summarization
+"give me a brief on the edge cache performance",summarization
+"summarize the message queue throughput metrics",summarization
+"provide a summary of the connection pool utilization",summarization
+"summarize the batch processing job completion rates",summarization
+"give me an overview of the system resource allocation",summarization
+"summarize the uptime report for all critical services",summarization
+"provide a brief on the network bandwidth usage",summarization
+"summarize the failover test results from last friday",summarization
+"give me a summary of the application profiling results",summarization
+"summarize the infrastructure drift detection report",summarization
+"provide a recap of the cost optimization initiatives",summarization
+"summarize the blue green deployment outcome",summarization
+"give me an overview of the service dependency mapping",summarization
+"summarize the certificate rotation completion status",summarization
+"provide a brief on the database connection pool stats",summarization
+"summarize the real user monitoring metrics for this week",summarization
+"give me a summary of the distributed tracing insights",summarization
+"summarize the chaos engineering experiment results",summarization
+"provide an overview of the resource quota usage by namespace",summarization
+"summarize the api gateway performance for the past sprint",summarization
+"give me a recap of the infrastructure as code changes",summarization
+"summarize the synthetic monitoring test results",summarization
+"provide a summary of the log analysis findings",summarization
+"summarize the change management board decisions",summarization
+"give me an overview of the platform reliability metrics",summarization
+"summarize the multi-region deployment status",summarization
+"provide a brief of the runbook updates this month",summarization
+"summarize the observability stack health",summarization
+"give me a summary of the cost allocation by team",summarization
+"summarize the incident response time trends",summarization
+"provide an overview of the technical debt remediation",summarization
+"summarize the service level objective performance",summarization
+"give me a recap of the cluster autoscaler decisions",summarization
+"summarize the data pipeline execution summary",summarization
+"provide a brief on the release deployment frequency",summarization
+"summarize the mean time between failures report",summarization
+"give me a summary of the pod scheduling efficiency",summarization
+"summarize the network policy audit results",summarization
+"provide a recap of the capacity forecast model output",summarization
+"summarize the operational readiness review findings",summarization
+"give me an overview of the endpoint latency distribution",summarization
+"summarize the storage tier migration progress",summarization
+"provide a summary of the api versioning status",summarization
+"summarize the horizontal pod autoscaler activity",summarization
+"give me a brief on the service health dashboard metrics",summarization
+"summarize the weekly change failure rate",summarization
+"provide an overview of the deployment lead time trends",summarization
+"summarize the toil reduction progress this quarter",summarization
+"give me a recap of the on-call escalation patterns",summarization
+"summarize the system hardening checklist compliance",summarization
+"provide a brief on the observability coverage by service",summarization
+"summarize the database query performance trends",summarization
+"give me a summary of the infrastructure scaling events",summarization
+"summarize the platform availability monthly report",summarization
+"provide a recap of the secrets rotation audit",summarization
+"summarize the release rollback frequency and causes",summarization
+"hello how are you",out_of_scope
+"what is the capital of france",out_of_scope
+"tell me a joke",out_of_scope
+"who won the world cup",out_of_scope
+"write a poem about servers",out_of_scope
+"how is the weather today",out_of_scope
+"what time is it",out_of_scope
+"tell me about astronomy",out_of_scope
+"who is the president",out_of_scope
+"what is the meaning of life",out_of_scope
+"tell me a story",out_of_scope
+"how do I bake a cake",out_of_scope
+"what is quantum physics",out_of_scope
+"tell me about history",out_of_scope
+"what are your hobbies",out_of_scope
+"how can I learn spanish",out_of_scope
+"what is machine learning",out_of_scope
+"tell me about music",out_of_scope
+"how do I play guitar",out_of_scope
+"what is philosophy",out_of_scope
+"tell me about art",out_of_scope
+"how do I cook pasta",out_of_scope
+"what is biology",out_of_scope
+"tell me about sports",out_of_scope
+"how do I stay healthy",out_of_scope
+"what is chemistry",out_of_scope
+"tell me about travel",out_of_scope
+"how do I meditate",out_of_scope
+"what is psychology",out_of_scope
+"tell me about movies",out_of_scope
+"how do I dance",out_of_scope
+"what is economics",out_of_scope
+"tell me about books",out_of_scope
+"how do I write poetry",out_of_scope
+"what is literature",out_of_scope
+"tell me about languages",out_of_scope
+"how do I draw",out_of_scope
+"what is painting",out_of_scope
+"tell me about architecture",out_of_scope
+"how do I photograph",out_of_scope
+"what is sculpture",out_of_scope
+"tell me about fashion",out_of_scope
+"how do I sew",out_of_scope
+"what is design",out_of_scope
+"tell me about furniture",out_of_scope
+"what is your favorite color",out_of_scope
+"can you sing a song",out_of_scope
+"who invented the telephone",out_of_scope
+"what is the speed of light",out_of_scope
+"how do I tie a tie",out_of_scope
+"tell me about dinosaurs",out_of_scope
+"what is the tallest mountain",out_of_scope
+"how do I make coffee",out_of_scope
+"who painted the mona lisa",out_of_scope
+"what is the deepest ocean",out_of_scope
+"how do I learn to swim",out_of_scope
+"tell me about volcanoes",out_of_scope
+"what is a black hole",out_of_scope
+"how do I change a tire",out_of_scope
+"who wrote hamlet",out_of_scope
+"what is cryptocurrency",out_of_scope
+"how do I fold a paper airplane",out_of_scope
+"tell me about the solar system",out_of_scope
+"what is the boiling point of water",out_of_scope
+"how do I ride a bicycle",out_of_scope
+"who discovered penicillin",out_of_scope
+"what is genetics",out_of_scope
+"how do I play chess",out_of_scope
+"tell me about ancient rome",out_of_scope
+"what is the longest river",out_of_scope
+"how do I knit a scarf",out_of_scope
+"what is photosynthesis",out_of_scope
+"tell me about the renaissance",out_of_scope
+"who is beethoven",out_of_scope
+"how do I make pizza dough",out_of_scope
+"what is the periodic table",out_of_scope
+"tell me about space exploration",out_of_scope
+"how do I start a garden",out_of_scope
+"what is dna",out_of_scope
+"tell me about the pyramids",out_of_scope
+"who invented the internet",out_of_scope
+"how do I juggle",out_of_scope
+"what is climate change",out_of_scope
+"tell me about whales",out_of_scope
+"how do I play tennis",out_of_scope
+"what is relativity theory",out_of_scope
+"tell me about the moon landing",out_of_scope
+"who wrote pride and prejudice",out_of_scope
+"how do I build a birdhouse",out_of_scope
+"what is artificial intelligence",out_of_scope
+"tell me about coral reefs",out_of_scope
+"how do I solve a rubiks cube",out_of_scope
+"what is blockchain",out_of_scope
+"tell me about rainforests",out_of_scope
+"how do I do origami",out_of_scope
+"what is the fibonacci sequence",out_of_scope
+"tell me about the ice age",out_of_scope
+"who discovered gravity",out_of_scope
+"how do I whistle",out_of_scope
+"what is evolution",out_of_scope
+"tell me about mars",out_of_scope
+"how do I make sushi",out_of_scope
+"what is democracy",out_of_scope
+"tell me about butterflies",out_of_scope
+"who composed the four seasons",out_of_scope
+"how do I plant a tree",out_of_scope
+"what is nanotechnology",out_of_scope
+"tell me about the great wall of china",out_of_scope
+"how do I learn to cook",out_of_scope
+"what is renewable energy",out_of_scope
+"tell me about penguins",out_of_scope
+"who wrote the odyssey",out_of_scope
+"how do I make candles",out_of_scope
+"what is sociology",out_of_scope
+"tell me about the northern lights",out_of_scope
+"how do I skip stones",out_of_scope
+"what is anthropology",out_of_scope
+"tell me about elephants",out_of_scope
+"who is shakespeare",out_of_scope
+"how do I do a cartwheel",out_of_scope
+"what is yoga",out_of_scope
+"tell me about thunderstorms",out_of_scope
+"how do I make a smoothie",out_of_scope
+"what is geology",out_of_scope
+"tell me about dolphins",out_of_scope
+"who discovered electricity",out_of_scope
+"how do I paint a wall",out_of_scope
+"what is robotics",out_of_scope
+"tell me about the amazon river",out_of_scope
+"how do I fix a leaky faucet",out_of_scope
+"what is astronomy",out_of_scope
+"tell me about tigers",out_of_scope
+"who invented the light bulb",out_of_scope
+"how do I make bread",out_of_scope
+"what is oceanography",out_of_scope
+"tell me about pandas",out_of_scope
+"how do I do push ups",out_of_scope
+"what is meteorology",out_of_scope
+"tell me about eagles",out_of_scope
+"who wrote war and peace",out_of_scope
+"how do I make ice cream",out_of_scope
+"what is paleontology",out_of_scope
+"tell me about koalas",out_of_scope
+"how do I play basketball",out_of_scope
+"what is archaeology",out_of_scope
+"tell me about the bermuda triangle",out_of_scope
+"who painted starry night",out_of_scope
+"how do I roller skate",out_of_scope
+"what is marine biology",out_of_scope
+"tell me about hummingbirds",out_of_scope
+"how do I fly a kite",out_of_scope
+"what is astrophysics",out_of_scope
+"tell me about owls",out_of_scope
+"who invented the airplane",out_of_scope
+"how do I make soap",out_of_scope
+"what is forensic science",out_of_scope
+"tell me about wolves",out_of_scope
+"how do I surf",out_of_scope
+"what is ecology",out_of_scope
+"tell me about octopuses",out_of_scope
+"who wrote the great gatsby",out_of_scope
+"how do I skateboard",out_of_scope
+"what is pharmacology",out_of_scope
+"tell me about giraffes",out_of_scope
+"how do I mountain climb",out_of_scope
+"what is zoology",out_of_scope
+"tell me about chameleons",out_of_scope
+"who composed moonlight sonata",out_of_scope
+"how do I play soccer",out_of_scope
