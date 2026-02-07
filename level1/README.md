@@ -114,8 +114,11 @@ RULE_PRIORITY = ["R1", "R4", "R2", "R3"]  # Explicit precedence
 ```
 
 ## Files
-- `level1_tfidf_classification.ipynb`: Main notebook (15 cells)
-- `artifacts/`: Output files and visualizations
+- `level1_tfidf_classification.ipynb`: Main notebook (11 cells)
+- `level1_model.py`: Shared module with CONFIG, signal extraction, decision rules, voting
+- `artifacts/level1a/`: Output files and visualizations (level1a variant)
+
+**Note**: The notebook imports from `level1_model.py` to avoid code duplication.
 
 ## Notebook Structure
 

@@ -123,6 +123,9 @@ nsai_poc/
 │   ├── README.md                     # Level 1 documentation
 │   ├── level1_tfidf_classification.ipynb
 │   └── artifacts/                    # Outputs
+├── validation/
+│   ├── README.md                     # Validation documentation
+│   └── validation.ipynb              # Multi-level model comparison
 ├── level2/                           # (TBD)
 ├── level3/                           # (TBD)
 ├── level4/                           # (TBD)
@@ -144,6 +147,13 @@ jupyter notebook level0_tfidf_classification.ipynb
 cd level1
 jupyter notebook level1_tfidf_classification.ipynb
 # Run all cells sequentially
+```
+
+### Compare Models (Validation)
+```bash
+cd validation
+jupyter notebook validation.ipynb
+# Run all cells to see side-by-side comparison
 ```
 
 ## Key Concepts
@@ -185,6 +195,7 @@ Every decision includes:
 ## Documentation
 - [Level 0 README](level0/README.md) - Baseline statistical classifier
 - [Level 1 README](level1/README.md) - Neuro-symbolic decision layer
+- [Validation README](validation/README.md) - Model comparison & analysis
 - [Root README](README.md) - This file
 
 ## Contributing
