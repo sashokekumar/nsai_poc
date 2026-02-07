@@ -95,6 +95,10 @@ ipython_config.py
 # Ignore all artifacts and models folders in any subdirectory (e.g. level0, level1, ...)
 **/artifacts/
 **/models/
+
+# Temporary tools and scripts (not for version control)
+tools/
+
 #Pipfile.lock
 
 # UV
@@ -214,3 +218,6 @@ __marimo__/
 /validation/*.executed.ipynb
 # Temporary debug helpers
 /validation/debug_imports.py
+
+# Local test data not for repo
+/data/intents_level3.csv
