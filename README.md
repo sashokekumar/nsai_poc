@@ -99,12 +99,60 @@ Note: Level1B now emits a structured `decision_trace` per utterance (for L3 path
 
 ---
 
-### 🔮 Level 2-6: Future Enhancements
+### � [Level 2.5 & Level 3: Logic-Aware Gating](level3/README.md)
+**Approach**: Transition from Post-hoc Logic Filtering to Embedded Constraint-Aware Reasoning
+
+**Level 2.5 - Educational Bridge**:
+- Demonstrates post-hoc logic filtering
+- L2 model predicts freely → Logic masks invalid intents → Renormalize
+- Proves: Logic helps reduce violations
+- Proves: Post-hoc logic has fundamental limits
+
+**Level 3 - Logic-Aware Gating**:
+- **Innovation**: Logical constraints embedded **inside forward pass**
+- Logic gate applies constraints **before softmax**, not after
+- Invalid predictions are structurally prevented, not masked
+- Gradients flow through constraint-aware outputs
+
+**Architecture**:
+```python
+# L2.5: Post-hoc filtering
+probs = model(x)
+masked_probs = apply_logic(probs, constraints)
+
+# L3: Embedded gating
+probs = model(x, constraints)  # constraints participate in forward()
+```
+
+**Key Components**:
+1. **Dataset**: `level3/data/level3_intents.csv` with allowed/suppressed constraints
+2. **L2.5 Evaluation**: Educational comparison showing post-hoc limits
+3. **L3 PoC**: Minimal implementation comparing L2, L2.5, and L3
+
+**Results** (L3 PoC):
+- L2 baseline: ~99% accuracy (may violate constraints)
+- L2.5 post-hoc: ~99% accuracy (violations corrected)
+- L3 logic-aware: ~54% accuracy (structural violation prevention)
+
+**Critical Insight**:
+```
+L2.5: Logic corrects model(x) → probs AFTER the fact
+L3: Logic participates in model(x, constraints) → probs DURING computation
+```
+
+**Why This Matters**:
+- Model learns representations that align with logical structure
+- Invalid reasoning paths are not reinforced during training
+- Structural guarantees (violation rate = 0%) vs post-hoc masking
+
+[→ View Level 3 Details](level3/README.md)
+
+---
+
+### 🔮 Level 4-6: Future Enhancements
 **Status**: Not yet implemented
 
 Planned features:
-- **Level 2**: Multi-utterance context awareness
-- **Level 3**: Adaptive thresholds and learned rules
 - **Level 4**: Temporal reasoning and session state
 - **Level 5**: LLM integration with symbolic grounding
 - **Level 6**: Full neuro-symbolic fusion with feedback loops
@@ -124,12 +172,20 @@ nsai_poc/
 ├── level1/
 │   ├── README.md                     # Level 1 documentation
 │   ├── level1_tfidf_classification.ipynb
+│   ├── level1b_multi_detector_classification.ipynb
+│   ├── level1b_model.py             # Reusable L1B module
 │   └── artifacts/                    # Outputs
+├── level3/
+│   ├── README.md                     # Level 3 documentation
+│   ├── level3_data_prep.ipynb       # Dataset generation
+│   ├── l2_5_evaluation.ipynb        # L2.5 educational bridge
+│   ├── level3_logic_gating_poc.ipynb # L3 PoC (L2 vs L2.5 vs L3)
+│   └── data/
+│       └── level3_intents.csv       # Constraint dataset
 ├── validation/
 │   ├── README.md                     # Validation documentation
 │   └── validation.ipynb              # Multi-level model comparison
 ├── level2/                           # (TBD)
-├── level3/                           # (TBD)
 ├── level4/                           # (TBD)
 ├── level5/                           # (TBD)
 └── level6/                           # (TBD)
@@ -149,6 +205,24 @@ jupyter notebook level0_tfidf_classification.ipynb
 cd level1
 jupyter notebook level1_tfidf_classification.ipynb
 # Run all cells sequentially
+```
+
+### Run Level 3 (Logic-Aware Gating)
+```bash
+cd level3
+
+# Option 1: L2.5 Educational Bridge
+jupyter notebook l2_5_evaluation.ipynb
+# Run all cells to see post-hoc logic filtering
+# Read final cell for comprehensive educational conclusion
+
+# Option 2: L3 PoC (L2 vs L2.5 vs L3 comparison)
+jupyter notebook level3_logic_gating_poc.ipynb
+# Run all cells to compare all three levels
+# Observe violation rates and structural differences
+
+# Optional: Regenerate Level-3 dataset
+jupyter notebook level3_data_prep.ipynb
 ```
 
 ### Compare Models (Validation)
@@ -181,6 +255,36 @@ Rules are **not** evaluated sequentially. They follow explicit precedence:
 
 High-priority rules use **early returns** to prevent lower-priority overrides.
 
+### Post-hoc Logic vs Embedded Logic (Level 2.5 vs Level 3)
+**Level 2.5 (Post-hoc Filtering)**:
+- Logic is applied **after** the model produces predictions
+- `model(x) → raw_probs` → `apply_logic(raw_probs) → final_probs`
+- Model learns without constraint awareness
+- Violations are masked, not prevented
+
+**Level 3 (Embedded Gating)**:
+- Logic is embedded **inside** the model's forward pass
+- `model(x, constraints) → final_probs`
+- Constraints applied **before softmax** (structural prevention)
+- Model learns with constraint awareness
+- Violations are architecturally impossible
+
+**Critical Difference**:
+```python
+# L2.5: Corrects AFTER
+probs = model(x)  # Can produce invalid outputs
+masked = apply_constraints(probs)  # Fix them post-hoc
+
+# L3: Prevents DURING
+probs = model(x, constraints)  # Cannot produce invalid outputs
+```
+
+**Why L3 > L2.5**:
+- Gradients flow through constraint-aware outputs
+- Model doesn't waste capacity on forbidden patterns
+- Structural guarantees (violation rate = 0%) vs post-hoc masking
+- Logic shapes representation learning, not just final outputs
+
 ### Explainability
 Every decision includes:
 - **Signals**: Probabilities, confidence, margin, token evidence
@@ -199,6 +303,7 @@ Every decision includes:
 ## Documentation
 - [Level 0 README](level0/README.md) - Baseline statistical classifier
 - [Level 1 README](level1/README.md) - Neuro-symbolic decision layer
+- [Level 3 README](level3/README.md) - Logic-aware gating & constraint enforcement
 - [Validation README](validation/README.md) - Model comparison & analysis
 - [Root README](README.md) - This file
 
@@ -208,7 +313,9 @@ This is a proof-of-concept demonstration repository. Each level is implemented a
 ## Status
 - ✅ **Level 0**: Complete (~91% accuracy)
 - ✅ **Level 1**: Complete (2-layer neuro-symbolic)
-- ⏳ **Level 2-6**: Planned
+- ✅ **Level 2.5**: Complete (post-hoc logic filtering - educational)
+- ✅ **Level 3**: Complete (logic-aware gating PoC)
+- ⏳ **Level 4-6**: Planned
 
 ---
 
