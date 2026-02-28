@@ -1,615 +1,1662 @@
 utterance,intent
-"why is server host123 cpu high",investigate
-"check memory usage on db-server-7",investigate
-"what caused the outage last night",investigate
-"show me errors from the last deployment",investigate
-"analyze why response time increased",investigate
-"investigate cpu spike on web-server-3",investigate
-"what is causing high memory on app-01",investigate
-"why did the database go down",investigate
-"show me the root cause of latency issues",investigate
-"analyze the performance degradation",investigate
-"why is disk usage at 90 percent",investigate
-"check network connectivity on prod-env",investigate
-"what caused the service failure",investigate
-"investigate error rate spike in production",investigate
-"why are requests timing out",investigate
-"analyze the failed deployment",investigate
-"what triggered the alert",investigate
-"check for anomalies in metrics",investigate
-"investigate the database slowdown",investigate
-"why is load balancer unhealthy",investigate
-"show root cause analysis for outage",investigate
-"what caused memory leak in app",investigate
-"analyze cpu consumption trends",investigate
-"investigate disk I/O bottleneck",investigate
-"why is application responding slowly",investigate
-"check what went wrong with deployment",investigate
-"investigate failed authentication attempts",investigate
-"why did backup job fail",investigate
-"analyze network latency issues",investigate
-"what is causing service degradation",investigate
-"investigate high error rate",investigate
-"why did health check fail",investigate
-"check what caused the crash",investigate
-"investigate timeout errors",investigate
-"why is cache miss rate high",investigate
-"analyze exception logs",investigate
-"investigate connection pool exhaustion",investigate
-"why are requests queued",investigate
-"check what's causing the bottleneck",investigate
-"investigate memory fragmentation",investigate
-"why is cpu throttling happening",investigate
-"analyze performance metrics",investigate
-"investigate deadlock in database",investigate
-"why is replication lagging",investigate
-"check what caused sync failure",investigate
-"investigate cluster node failure",investigate
-"why are containers crashing",investigate
-"analyze resource constraints",investigate
-"investigate queue backlog",investigate
-"why is throughput degraded",investigate
-"check what went wrong",investigate
-"why is the ssl certificate expired on prod",investigate
-"can you look into the dns resolution failure",investigate
-"what is causing packet loss on the network",investigate
-"investigate the sudden increase in 5xx errors",investigate
-"why is the api gateway returning 503",investigate
-"analyze the thread dump from app server",investigate
-"check why cron jobs are failing",investigate
-"what caused the spike in garbage collection time",investigate
-"investigate why websocket connections are dropping",investigate
-"why is the message broker not consuming messages",investigate
-"look into the storage IOPS issue",investigate
-"what is causing the high swap usage on node-5",investigate
-"analyze the slow query logs for the past hour",investigate
-"check why the read replicas are out of sync",investigate
-"investigate the TLS handshake failures",investigate
-"why is the CDN cache invalidation not working",investigate
-"examine the kernel panic logs on host-42",investigate
-"what caused the pod evictions in kubernetes",investigate
-"investigate the intermittent connection resets",investigate
-"why is the redis cluster showing high fragmentation",investigate
-"check the firewall rules blocking traffic",investigate
-"analyze the heap dump for memory leak",investigate
-"investigate the data corruption in table orders",investigate
-"why is the queue consumer lagging behind producer",investigate
-"what triggered the auto-scaling event",investigate
-"look into the certificate chain validation error",investigate
-"examine the audit logs for suspicious activity",investigate
-"why is the etcd cluster showing leader election issues",investigate
-"investigate the network partition between zones",investigate
-"what is causing the high p99 latency",investigate
-"check why the batch processing job is stuck",investigate
-"analyze the jvm thread contention issue",investigate
-"why is the load test showing degraded throughput",investigate
-"investigate the file descriptor leak",investigate
-"what caused the split brain in the cluster",investigate
-"look into the http connection pool timeout",investigate
-"why is the search indexer falling behind",investigate
-"check the correlation between cpu spike and deployments",investigate
-"investigate the disk write latency on ssd array",investigate
-"what is causing the oauth token refresh failures",investigate
-"analyze why the canary deployment is showing errors",investigate
-"check why the health endpoint is returning stale data",investigate
-"investigate the memory pressure alerts on worker nodes",investigate
-"why is the graphql resolver timing out",investigate
-"look into the prometheus scrape failures",investigate
-"what caused the raft consensus timeout",investigate
-"investigate the grpc deadline exceeded errors",investigate
-"why is the connection draining taking too long",investigate
-"analyze the rate of retries on downstream calls",investigate
-"check what is causing the event loop blocking",investigate
-"investigate the segfault in the native module",investigate
-"why is the WAL replay taking hours on postgres",investigate
-"what caused the index corruption on elasticsearch",investigate
-"look into the consistent hashing rebalance issue",investigate
-"why is the service mesh sidecar consuming too much cpu",investigate
-"investigate the clock skew between nodes",investigate
-"what is causing the write amplification on the database",investigate
-"analyze the open file handle count on prod servers",investigate
-"check why the circuit breaker keeps tripping",investigate
-"investigate the cold start latency in serverless functions",investigate
-"why is the bloom filter returning false positives",investigate
-"look into the mutex contention on shared resource",investigate
-"what caused the thundering herd on cache expiry",investigate
-"investigate the asymmetric network routing issue",investigate
-"why is the compaction process stalling on cassandra",investigate
-"analyze the tombstone accumulation in the database",investigate
-"check the tcp retransmission rate on the interface",investigate
-"investigate the cross-region replication delay",investigate
-"why is the garbage collector pausing for 500ms",investigate
-"look into the inode exhaustion on the log partition",investigate
-"what caused the connection storm after failover",investigate
-"investigate the flapping health checks",investigate
-"why is the dns ttl causing stale lookups",investigate
-"analyze the kernel scheduler latency spikes",investigate
-"check what is triggering the oom killer",investigate
-"investigate the ssl renegotiation overhead",investigate
-"why is the background job worker deadlocking",investigate
-"what caused the data skew in the partitioned table",investigate
-"look into the nfs mount hanging issue",investigate
-"investigate the spurious wakeups in the thread pool",investigate
-"why is the zookeeper session expiring frequently",investigate
-"analyze the log rotation failure on app-server-12",investigate
-"check why the reverse proxy is dropping headers",investigate
-"investigate the network buffer overflow on ingress",investigate
-"why is the snapshot restore taking longer than expected",investigate
-"what caused the lease expiration on the distributed lock",investigate
-"look into the memory allocation failure in container",investigate
-"investigate the cpu steal time on virtual machines",investigate
-"why is the database vacuum process not completing",investigate
-"analyze the socket backlog on the listener",investigate
-"check the semaphore deadlock in the process pool",investigate
-"investigate the page cache thrashing issue",investigate
-"why is the io scheduler causing write starvation",investigate
-"what is causing the tcp connection reset by peer",investigate
-"look into the systemd service restart loop",investigate
-"investigate the kernel soft lockup warnings",investigate
-"why is the cgroup memory limit being exceeded",investigate
-"analyze the numa imbalance on the multi-socket server",investigate
-"restart nginx on host123",execution
-"scale the api service to 5 replicas",execution
-"clear disk space on server alpha",execution
-"run the remediation playbook for cpu spike",execution
-"apply security patch on db-server-7",execution
-"restart application server",execution
-"scale up the database replica",execution
-"kill the hanging process",execution
-"clear cache on all nodes",execution
-"restart the load balancer",execution
-"apply configuration changes",execution
-"rollback the deployment",execution
-"start backup job",execution
-"stop the runaway query",execution
-"reset network interface",execution
-"clear log files",execution
-"restart monitoring agent",execution
-"flush dns cache",execution
-"rebuild index on table",execution
-"restart container",execution
-"scale down resources",execution
-"enable circuit breaker",execution
-"trigger failover",execution
-"drain connections gracefully",execution
-"reset application state",execution
-"restart background worker",execution
-"apply rate limiting",execution
-"enable request throttling",execution
-"purge old logs",execution
-"vacuum database",execution
-"restart api gateway",execution
-"scale message queue",execution
-"apply hotfix",execution
-"reset error counters",execution
-"enable debug logging",execution
-"restart health check",execution
-"force garbage collection",execution
-"apply network policy",execution
-"restart session manager",execution
-"scale job scheduler",execution
-"apply backup retention policy",execution
-"restart log aggregator",execution
-"enable auto-healing",execution
-"apply security rules",execution
-"restart cluster coordinator",execution
-"scale data cache",execution
-"apply database migration",execution
-"restart service mesh",execution
-"enable tracing",execution
-"deploy the latest build to staging",execution
-"rotate the ssl certificates on all endpoints",execution
-"provision a new ec2 instance for the web tier",execution
-"stop all running containers on host-9",execution
-"update the firewall rules to allow port 8443",execution
-"migrate the database schema to version 3.2",execution
-"resize the persistent volume to 500gb",execution
-"restart the kafka broker on node-3",execution
-"terminate the zombie processes",execution
-"create a snapshot of the production database",execution
-"enable maintenance mode on the website",execution
-"disable the feature flag for dark mode",execution
-"scale the worker pool to 20 instances",execution
-"flush the redis cache completely",execution
-"redeploy the microservice with the fix",execution
-"configure the auto-scaling policy for peak hours",execution
-"mount the nfs share on the batch server",execution
-"run the data integrity check script",execution
-"rotate the api keys for third party integrations",execution
-"update the dns records for the new ip",execution
-"restart the elasticsearch cluster rolling",execution
-"enable write-ahead logging on the database",execution
-"switch traffic to the blue deployment",execution
-"increase the connection pool size to 200",execution
-"run the certificate renewal automation",execution
-"disable the deprecated api endpoint",execution
-"execute the database cleanup stored procedure",execution
-"start the canary deployment for version 4.1",execution
-"set up the vpn tunnel to the partner network",execution
-"enable gzip compression on the web server",execution
-"apply the kernel security update and reboot",execution
-"initialize the new replica set member",execution
-"run the load test against staging environment",execution
-"configure the log shipping to the siem",execution
-"enable the new rate limit policy globally",execution
-"evict stale entries from the distributed cache",execution
-"restart the cron scheduler service",execution
-"apply the terraform plan for infrastructure changes",execution
-"update the helm chart values and upgrade release",execution
-"provision additional read replicas for the database",execution
-"reconfigure the reverse proxy routing rules",execution
-"bounce the application pool in iis",execution
-"start the disaster recovery failover procedure",execution
-"compress and archive the old log files",execution
-"enable ssl termination on the load balancer",execution
-"update the oauth client credentials",execution
-"rebalance the kafka topic partitions",execution
-"set the jvm heap size to 8gb and restart",execution
-"deploy the hotfix to all production nodes",execution
-"enable cross-origin resource sharing headers",execution
-"run the ansible playbook for server hardening",execution
-"trigger the ci cd pipeline for the release branch",execution
-"reset the admin password on the management console",execution
-"configure the health check interval to 30 seconds",execution
-"enable persistent connections on the proxy",execution
-"run the vacuum full on the postgres database",execution
-"set up the monitoring alerts for the new service",execution
-"decommission the old server from the cluster",execution
-"enable binary logging on the mysql primary",execution
-"apply the network acl changes to the subnet",execution
-"restart the prometheus and grafana stack",execution
-"execute the blue green deployment switch",execution
-"increase the file descriptor limit to 65535",execution
-"run the chaos engineering test on staging",execution
-"configure the backup schedule for hourly snapshots",execution
-"enable query caching on the database",execution
-"deploy the sidecar proxy to all pods",execution
-"update the tls cipher suite configuration",execution
-"run the storage migration to the new array",execution
-"scale the ingress controller replicas",execution
-"apply the pod security policy changes",execution
-"enable audit logging on the api gateway",execution
-"restart the message queue consumers",execution
-"configure the retry policy with exponential backoff",execution
-"run the index optimization on the search cluster",execution
-"set up the cross-region replication",execution
-"enable http2 on the reverse proxy",execution
-"apply the resource quota to the namespace",execution
-"execute the rolling restart of all microservices",execution
-"configure the connection timeout to 30 seconds",execution
-"run the compliance scan on all servers",execution
-"enable the new caching strategy globally",execution
-"deploy the database proxy layer",execution
-"update the container image to the patched version",execution
-"run the performance benchmark suite",execution
-"configure the dead letter queue for failed messages",execution
-"enable request tracing across all services",execution
-"apply the storage class changes for the volumes",execution
-"restart the gossip protocol seed nodes",execution
-"run the data migration script for the new schema",execution
-"configure the circuit breaker thresholds",execution
-"enable the web application firewall rules",execution
-"apply the cpu and memory limits to all pods",execution
-"trigger the automated rollback procedure",execution
-"set up the service mesh mutual tls",execution
-"run the database failover test",execution
-"configure the log retention policy to 90 days",execution
-"enable the distributed tracing collector",execution
-"apply the egress network policy",execution
-"restart the coordination service",execution
-"run the cluster health verification script",execution
-"summarize the incident from yesterday",summarization
-"give me a summary of alerts for last week",summarization
-"summarize system health for app payments",summarization
-"provide a brief on today's outages",summarization
-"summarize what actions were taken",summarization
-"summarize the error logs",summarization
-"give me incident summary",summarization
-"summarize deployment changes",summarization
-"provide metrics summary",summarization
-"summarize alert trends",summarization
-"give me event summary",summarization
-"summarize service status",summarization
-"provide performance summary",summarization
-"summarize resource usage",summarization
-"give me uptime summary",summarization
-"summarize configuration changes",summarization
-"provide security incident summary",summarization
-"summarize capacity report",summarization
-"give me operational summary",summarization
-"summarize troubleshooting steps",summarization
-"provide maintenance summary",summarization
-"summarize backup status",summarization
-"give me compliance summary",summarization
-"summarize test results",summarization
-"provide health check summary",summarization
-"summarize user impact",summarization
-"give me cost summary",summarization
-"summarize dependency status",summarization
-"provide ecosystem summary",summarization
-"summarize network traffic",summarization
-"give me error rate summary",summarization
-"summarize database performance",summarization
-"provide cache hit summary",summarization
-"summarize queue depth",summarization
-"give me latency summary",summarization
-"summarize throughput metrics",summarization
-"provide availability summary",summarization
-"summarize scaling events",summarization
-"give me replication summary",summarization
-"summarize cluster health",summarization
-"provide node status summary",summarization
-"summarize deployment timeline",summarization
-"give me rollback summary",summarization
-"summarize incident timeline",summarization
-"provide weekly report summary",summarization
-"summarize monthly trends",summarization
-"give me a rundown of the production issues this week",summarization
-"summarize the api response times over the past month",summarization
-"provide a brief on the infrastructure costs this quarter",summarization
-"summarize the changes made during the maintenance window",summarization
-"give me a summary of failed jobs in the last 24 hours",summarization
-"summarize the security audit findings",summarization
-"provide a recap of the database migration results",summarization
-"summarize the load test results from yesterday",summarization
-"give me an overview of the release notes for version 5.0",summarization
-"summarize the sla compliance for the past month",summarization
-"provide a brief on the disaster recovery drill results",summarization
-"summarize the on-call handoff notes",summarization
-"give me a summary of the patch management status",summarization
-"summarize the network topology changes this sprint",summarization
-"provide an overview of the monitoring coverage gaps",summarization
-"summarize the capacity planning recommendations",summarization
-"give me a brief on the vendor incident reports",summarization
-"summarize the access control audit results",summarization
-"provide a summary of the ci cd pipeline performance",summarization
-"summarize the container orchestration metrics",summarization
-"give me a recap of the storage utilization trends",summarization
-"summarize the ssl certificate expiry status across services",summarization
-"provide a brief on the api deprecation timeline",summarization
-"summarize the cross-team dependency updates",summarization
-"give me an overview of the error budget consumption",summarization
-"summarize the feature flag rollout status",summarization
-"provide a summary of the dns query patterns",summarization
-"summarize the cold storage archival progress",summarization
-"give me a brief on the kubernetes cluster upgrade status",summarization
-"summarize the third party integration health",summarization
-"provide a recap of the rate limiting effectiveness",summarization
-"summarize the canary deployment observations",summarization
-"give me a summary of the log ingestion volume trends",summarization
-"summarize the backup verification test outcomes",summarization
-"provide an overview of the mean time to recovery metrics",summarization
-"summarize the service mesh traffic routing changes",summarization
-"give me a brief on the auto-scaling behavior this week",summarization
-"summarize the compliance remediation progress",summarization
-"provide a summary of the data replication lag trends",summarization
-"summarize the incident postmortem action items",summarization
-"give me an overview of the alerting rule changes",summarization
-"summarize the performance optimization results",summarization
-"provide a recap of the server provisioning activities",summarization
-"summarize the vulnerability scan findings",summarization
-"give me a brief on the edge cache performance",summarization
-"summarize the message queue throughput metrics",summarization
-"provide a summary of the connection pool utilization",summarization
-"summarize the batch processing job completion rates",summarization
-"give me an overview of the system resource allocation",summarization
-"summarize the uptime report for all critical services",summarization
-"provide a brief on the network bandwidth usage",summarization
-"summarize the failover test results from last friday",summarization
-"give me a summary of the application profiling results",summarization
-"summarize the infrastructure drift detection report",summarization
-"provide a recap of the cost optimization initiatives",summarization
-"summarize the blue green deployment outcome",summarization
-"give me an overview of the service dependency mapping",summarization
-"summarize the certificate rotation completion status",summarization
-"provide a brief on the database connection pool stats",summarization
-"summarize the real user monitoring metrics for this week",summarization
-"give me a summary of the distributed tracing insights",summarization
-"summarize the chaos engineering experiment results",summarization
-"provide an overview of the resource quota usage by namespace",summarization
-"summarize the api gateway performance for the past sprint",summarization
-"give me a recap of the infrastructure as code changes",summarization
-"summarize the synthetic monitoring test results",summarization
-"provide a summary of the log analysis findings",summarization
-"summarize the change management board decisions",summarization
-"give me an overview of the platform reliability metrics",summarization
-"summarize the multi-region deployment status",summarization
-"provide a brief of the runbook updates this month",summarization
-"summarize the observability stack health",summarization
-"give me a summary of the cost allocation by team",summarization
-"summarize the incident response time trends",summarization
-"provide an overview of the technical debt remediation",summarization
-"summarize the service level objective performance",summarization
-"give me a recap of the cluster autoscaler decisions",summarization
-"summarize the data pipeline execution summary",summarization
-"provide a brief on the release deployment frequency",summarization
-"summarize the mean time between failures report",summarization
-"give me a summary of the pod scheduling efficiency",summarization
-"summarize the network policy audit results",summarization
-"provide a recap of the capacity forecast model output",summarization
-"summarize the operational readiness review findings",summarization
-"give me an overview of the endpoint latency distribution",summarization
-"summarize the storage tier migration progress",summarization
-"provide a summary of the api versioning status",summarization
-"summarize the horizontal pod autoscaler activity",summarization
-"give me a brief on the service health dashboard metrics",summarization
-"summarize the weekly change failure rate",summarization
-"provide an overview of the deployment lead time trends",summarization
-"summarize the toil reduction progress this quarter",summarization
-"give me a recap of the on-call escalation patterns",summarization
-"summarize the system hardening checklist compliance",summarization
-"provide a brief on the observability coverage by service",summarization
-"summarize the database query performance trends",summarization
-"give me a summary of the infrastructure scaling events",summarization
-"summarize the platform availability monthly report",summarization
-"provide a recap of the secrets rotation audit",summarization
-"summarize the release rollback frequency and causes",summarization
-"hello how are you",out_of_scope
-"what is the capital of france",out_of_scope
-"tell me a joke",out_of_scope
-"who won the world cup",out_of_scope
-"write a poem about servers",out_of_scope
-"how is the weather today",out_of_scope
-"what time is it",out_of_scope
-"tell me about astronomy",out_of_scope
-"who is the president",out_of_scope
-"what is the meaning of life",out_of_scope
-"tell me a story",out_of_scope
-"how do I bake a cake",out_of_scope
-"what is quantum physics",out_of_scope
-"tell me about history",out_of_scope
-"what are your hobbies",out_of_scope
-"how can I learn spanish",out_of_scope
-"what is machine learning",out_of_scope
-"tell me about music",out_of_scope
-"how do I play guitar",out_of_scope
-"what is philosophy",out_of_scope
-"tell me about art",out_of_scope
-"how do I cook pasta",out_of_scope
-"what is biology",out_of_scope
-"tell me about sports",out_of_scope
-"how do I stay healthy",out_of_scope
-"what is chemistry",out_of_scope
-"tell me about travel",out_of_scope
-"how do I meditate",out_of_scope
-"what is psychology",out_of_scope
-"tell me about movies",out_of_scope
-"how do I dance",out_of_scope
-"what is economics",out_of_scope
-"tell me about books",out_of_scope
-"how do I write poetry",out_of_scope
-"what is literature",out_of_scope
-"tell me about languages",out_of_scope
-"how do I draw",out_of_scope
-"what is painting",out_of_scope
-"tell me about architecture",out_of_scope
-"how do I photograph",out_of_scope
-"what is sculpture",out_of_scope
-"tell me about fashion",out_of_scope
-"how do I sew",out_of_scope
-"what is design",out_of_scope
-"tell me about furniture",out_of_scope
-"what is your favorite color",out_of_scope
-"can you sing a song",out_of_scope
-"who invented the telephone",out_of_scope
-"what is the speed of light",out_of_scope
-"how do I tie a tie",out_of_scope
-"tell me about dinosaurs",out_of_scope
-"what is the tallest mountain",out_of_scope
-"how do I make coffee",out_of_scope
-"who painted the mona lisa",out_of_scope
-"what is the deepest ocean",out_of_scope
-"how do I learn to swim",out_of_scope
-"tell me about volcanoes",out_of_scope
-"what is a black hole",out_of_scope
-"how do I change a tire",out_of_scope
-"who wrote hamlet",out_of_scope
-"what is cryptocurrency",out_of_scope
-"how do I fold a paper airplane",out_of_scope
-"tell me about the solar system",out_of_scope
-"what is the boiling point of water",out_of_scope
-"how do I ride a bicycle",out_of_scope
-"who discovered penicillin",out_of_scope
-"what is genetics",out_of_scope
-"how do I play chess",out_of_scope
-"tell me about ancient rome",out_of_scope
-"what is the longest river",out_of_scope
-"how do I knit a scarf",out_of_scope
-"what is photosynthesis",out_of_scope
-"tell me about the renaissance",out_of_scope
-"who is beethoven",out_of_scope
-"how do I make pizza dough",out_of_scope
-"what is the periodic table",out_of_scope
-"tell me about space exploration",out_of_scope
-"how do I start a garden",out_of_scope
-"what is dna",out_of_scope
-"tell me about the pyramids",out_of_scope
-"who invented the internet",out_of_scope
-"how do I juggle",out_of_scope
-"what is climate change",out_of_scope
-"tell me about whales",out_of_scope
-"how do I play tennis",out_of_scope
-"what is relativity theory",out_of_scope
-"tell me about the moon landing",out_of_scope
-"who wrote pride and prejudice",out_of_scope
-"how do I build a birdhouse",out_of_scope
-"what is artificial intelligence",out_of_scope
-"tell me about coral reefs",out_of_scope
-"how do I solve a rubiks cube",out_of_scope
-"what is blockchain",out_of_scope
-"tell me about rainforests",out_of_scope
-"how do I do origami",out_of_scope
-"what is the fibonacci sequence",out_of_scope
-"tell me about the ice age",out_of_scope
-"who discovered gravity",out_of_scope
-"how do I whistle",out_of_scope
-"what is evolution",out_of_scope
-"tell me about mars",out_of_scope
-"how do I make sushi",out_of_scope
-"what is democracy",out_of_scope
-"tell me about butterflies",out_of_scope
-"who composed the four seasons",out_of_scope
-"how do I plant a tree",out_of_scope
-"what is nanotechnology",out_of_scope
-"tell me about the great wall of china",out_of_scope
-"how do I learn to cook",out_of_scope
-"what is renewable energy",out_of_scope
-"tell me about penguins",out_of_scope
-"who wrote the odyssey",out_of_scope
-"how do I make candles",out_of_scope
-"what is sociology",out_of_scope
-"tell me about the northern lights",out_of_scope
-"how do I skip stones",out_of_scope
-"what is anthropology",out_of_scope
-"tell me about elephants",out_of_scope
-"who is shakespeare",out_of_scope
-"how do I do a cartwheel",out_of_scope
-"what is yoga",out_of_scope
-"tell me about thunderstorms",out_of_scope
-"how do I make a smoothie",out_of_scope
-"what is geology",out_of_scope
-"tell me about dolphins",out_of_scope
-"who discovered electricity",out_of_scope
-"how do I paint a wall",out_of_scope
-"what is robotics",out_of_scope
-"tell me about the amazon river",out_of_scope
-"how do I fix a leaky faucet",out_of_scope
-"what is astronomy",out_of_scope
-"tell me about tigers",out_of_scope
-"who invented the light bulb",out_of_scope
-"how do I make bread",out_of_scope
-"what is oceanography",out_of_scope
-"tell me about pandas",out_of_scope
-"how do I do push ups",out_of_scope
-"what is meteorology",out_of_scope
-"tell me about eagles",out_of_scope
-"who wrote war and peace",out_of_scope
-"how do I make ice cream",out_of_scope
-"what is paleontology",out_of_scope
-"tell me about koalas",out_of_scope
-"how do I play basketball",out_of_scope
-"what is archaeology",out_of_scope
-"tell me about the bermuda triangle",out_of_scope
-"who painted starry night",out_of_scope
-"how do I roller skate",out_of_scope
-"what is marine biology",out_of_scope
-"tell me about hummingbirds",out_of_scope
-"how do I fly a kite",out_of_scope
-"what is astrophysics",out_of_scope
-"tell me about owls",out_of_scope
-"who invented the airplane",out_of_scope
-"how do I make soap",out_of_scope
-"what is forensic science",out_of_scope
-"tell me about wolves",out_of_scope
-"how do I surf",out_of_scope
-"what is ecology",out_of_scope
-"tell me about octopuses",out_of_scope
-"who wrote the great gatsby",out_of_scope
-"how do I skateboard",out_of_scope
-"what is pharmacology",out_of_scope
-"tell me about giraffes",out_of_scope
-"how do I mountain climb",out_of_scope
-"what is zoology",out_of_scope
-"tell me about chameleons",out_of_scope
-"who composed moonlight sonata",out_of_scope
-"how do I play soccer",out_of_scope
+summarize the horizontal pod autoscaler activity,summarization
+provide a recap of the cost trends by environment,summarization
+how do I play basketball,out_of_scope
+configure the health check interval to 30 seconds,execution
+inject a latency fault into the payment service,execution
+summarize the observability stack health,summarization
+why is the backup not completing within the window,investigate
+summarize the scheduled downtime impact on availability sla,summarization
+tell me about travel,out_of_scope
+check why the message acknowledgment is not being sent,investigate
+enable the volume snapshot class for backup,execution
+restart the message queue consumers,execution
+tell me about the industrial revolution,out_of_scope
+check why the aggregation job is producing empty output,investigate
+what is a comet,out_of_scope
+provide a brief on the service catalog update status,summarization
+how do I learn woodworking,out_of_scope
+analyze the rate of retries on downstream calls,investigate
+who wrote the aeneid,out_of_scope
+summarize the load test performance baseline results,summarization
+how do I start a business,out_of_scope
+analyze the pod restart loop on the payment service,investigate
+tell me about dinosaurs,out_of_scope
+what is the population of the earth,out_of_scope
+check why the kubernetes node is not ready,investigate
+provision additional read replicas for the database,execution
+provide a recap of the network changes this quarter,summarization
+how do I make ice cream,out_of_scope
+how do I juggle,out_of_scope
+investigate the TLS handshake failures,investigate
+provide a brief on the message delivery success rate,summarization
+provide a recap of the release frequency this quarter,summarization
+give me an overview of the release notes for version 5.0,summarization
+investigate disk I/O bottleneck,investigate
+who painted starry night,out_of_scope
+why is throughput degraded,investigate
+provide a summary of the log analysis findings,summarization
+tell me about the bermuda triangle,out_of_scope
+who composed requiem,out_of_scope
+provide a brief of the runbook updates this month,summarization
+stop the runaway query,execution
+run the chef recipe on the fleet,execution
+summarize the observability signal quality this quarter,summarization
+tell me about ancient greece,out_of_scope
+configure the destination rule circuit breaker,execution
+check why the database schema version does not match,investigate
+give me a summary of the pod scheduling efficiency,summarization
+tell me about the han dynasty,out_of_scope
+tell me about the great barrier reef,out_of_scope
+provide node status summary,summarization
+investigate the broken pipe errors in application logs,investigate
+what is causing service degradation,investigate
+tell me about the crusades,out_of_scope
+how do I learn morse code,out_of_scope
+provide a brief on the key metrics from last night,summarization
+why does the pod take too long to enter running state,investigate
+why is the redis cluster showing high fragmentation,investigate
+what is meteorology,out_of_scope
+investigate high error rate,investigate
+summarize the cost optimization actions taken this month,summarization
+summarize the etl job success and failure rates,summarization
+how do I make ramen from scratch,out_of_scope
+run the health check script on all instances,execution
+tell me about the spanish armada,out_of_scope
+summarize what actions were taken,summarization
+provide a brief on the long-running query trends,summarization
+give me a summary of the latency percentile trends,summarization
+what is relativity theory,out_of_scope
+provide a recap of the automated remediation actions,summarization
+give me a recap of the key findings from the postmortem review,summarization
+how do I surf,out_of_scope
+give me a summary of the api consumer adoption trends,summarization
+update the known hosts file after host migration,execution
+apply the io scheduler change to deadline,execution
+summarize the ssl certificate expiry status across services,summarization
+analyze the latency introduced by the proxy sidecar,investigate
+how is the weather today,out_of_scope
+configure the container registry garbage collection,execution
+how do I tie a tie,out_of_scope
+summarize the user impact analysis from the last incident,summarization
+what is causing the excessive memory paging,investigate
+check why the ephemeral storage is filling up quickly,investigate
+check what caused the crash,investigate
+provide a recap of the cross-service dependency changes,summarization
+give me a summary of the top database tables by row count,summarization
+why is the snapshot restore taking longer than expected,investigate
+what is causing the repeated auth failures,investigate
+what is the stock market,out_of_scope
+provide a brief on the ratio of planned versus unplanned work,summarization
+check why the api gateway is caching stale tokens,investigate
+tell me about music,out_of_scope
+what is a catalyst,out_of_scope
+summarize the release impact on key user flows,summarization
+tell me about architecture,out_of_scope
+what is the speed of light,out_of_scope
+what is a gene,out_of_scope
+restart container,execution
+give me a summary of alerts for last week,summarization
+investigate why websocket connections are dropping,investigate
+set the socket receive buffer size for throughput,execution
+investigate the intermittent connection resets,investigate
+what is causing the service to consume 100 percent cpu,investigate
+give me an overview of the tenant usage statistics,summarization
+investigate the async callback queue overflow,investigate
+summarize the system hardening checklist compliance,summarization
+how do I train a dog basic commands,out_of_scope
+summarize what alerts fired during the incident window,summarization
+why is the compaction process stalling on cassandra,investigate
+summarize the third party integration health,summarization
+run the chaos engineering test on staging,execution
+what is anthropology,out_of_scope
+summarize incident timeline,summarization
+what is a supernova,out_of_scope
+update the kerberos keytab on the server,execution
+give me an overview of the external dependency health,summarization
+why is the etcd cluster showing leader election issues,investigate
+summarize the api gateway performance for the past sprint,summarization
+what is the greenhouse gas,out_of_scope
+give me a brief on the vendor incident reports,summarization
+how do I play tennis,out_of_scope
+apply the resource quota to the namespace,execution
+who discovered electricity,out_of_scope
+give me a brief on the service health dashboard metrics,summarization
+provide a brief on the rollback rate trends,summarization
+how do I make miso paste,out_of_scope
+run the trivy vulnerability scan on the image,execution
+cordon the node before maintenance,execution
+why is the background sync job being preempted,investigate
+apply the coredns custom forwarding rule,execution
+summarize the compliance remediation progress,summarization
+enable cross-origin resource sharing headers,execution
+summarize capacity report,summarization
+why is the reverse proxy adding unexpected headers,investigate
+check what is causing the cache stampede,investigate
+enable the web application firewall rules,execution
+analyze the kernel scheduler latency spikes,investigate
+give me an overview of the capacity headroom by service,summarization
+who is galileo,out_of_scope
+how do I tie dye a shirt,out_of_scope
+provide a brief on the retry rate trends,summarization
+provide a brief on the system vulnerability exposure index,summarization
+start the disaster recovery failover procedure,execution
+how do I whistle,out_of_scope
+how do I skip stones,out_of_scope
+summarize the multi-region deployment status,summarization
+enable the vpa recommendation mode on the namespace,execution
+run the tls delegation certificate signing request,execution
+tell me about the maya calendar,out_of_scope
+what is magnetism,out_of_scope
+what is nanotechnology,out_of_scope
+investigate the cache warmup causing latency at startup,investigate
+investigate the http pipelining issue on the proxy,investigate
+investigate the namespace collision in kubernetes,investigate
+summarize the data pipeline execution summary,summarization
+how do I learn how to play harmonica,out_of_scope
+why is the health status endpoint returning wrong version,investigate
+investigate the data corruption in table orders,investigate
+check why the circuit breaker keeps tripping,investigate
+why are write locks being held for too long,investigate
+what is a black dwarf star,out_of_scope
+reset application state,execution
+give me a brief on the auto-scaling behavior this week,summarization
+give me an overview of the kafka consumer lag trends,summarization
+prune the docker volumes on the build agent,execution
+configure the retry policy with exponential backoff,execution
+tell me about the sumerian civilization,out_of_scope
+why is the ssl certificate expired on prod,investigate
+who is aristotle and his philosophy,out_of_scope
+look into the certificate chain validation error,investigate
+check what is causing the spike in error rate,investigate
+provide cache hit summary,summarization
+force garbage collection,execution
+redeploy the microservice with the fix,execution
+how do I start a garden,out_of_scope
+provide a recap of the data pipeline job outcomes,summarization
+why is the dns ttl causing stale lookups,investigate
+rebalance the kafka topic partitions,execution
+what is causing the node disk pressure warning,investigate
+scale job scheduler,execution
+why is the batch job consuming all available memory,investigate
+what time is it,out_of_scope
+how do I clean a cast iron pan,out_of_scope
+how do I make a quilt,out_of_scope
+how do I make pesto from scratch,out_of_scope
+who is florence nightingale,out_of_scope
+how do I learn to surf beginner tips,out_of_scope
+give me an overview of the platform reliability metrics,summarization
+enable the transparent hugepages for the database,execution
+provide a brief on the jvm memory pool utilization,summarization
+scale the worker pool to 20 instances,execution
+provide a summary of the dns query patterns,summarization
+examine the kernel panic logs on host-42,investigate
+migrate the database schema to version 3.2,execution
+give me a summary of the top recurring failure modes,summarization
+check the semaphore deadlock in the process pool,investigate
+update the opensearch index template,execution
+why are retries increasing the backend load,investigate
+analyze the cause of the high cardinality in logs,investigate
+who is frida kahlo,out_of_scope
+enable the numa-aware memory allocation,execution
+what is climate change,out_of_scope
+why is the distributed transaction not committing,investigate
+tell me about the golden age of islam,out_of_scope
+switch traffic to the blue deployment,execution
+what is a solar system,out_of_scope
+give me a summary of the resource consumption by service,summarization
+give me a summary of the top 10 high-memory services,summarization
+what is philosophy,out_of_scope
+restart health check,execution
+enable the graceful shutdown sequence on the workers,execution
+enable the maintenance page on the cdn,execution
+give me an overview of the cache performance metrics,summarization
+summarize monthly trends,summarization
+summarize the api gateway error breakdown for the week,summarization
+who is napoleon,out_of_scope
+summarize the api deprecation timeline and impact,summarization
+provide a recap of the compliance checks this quarter,summarization
+how do I fold a paper airplane,out_of_scope
+how do I build a model train,out_of_scope
+investigate the cpu steal time on the vm host,investigate
+give me a summary of the audit findings by control area,summarization
+how do I draw,out_of_scope
+check why the replica is not accepting writes,investigate
+configure the slack webhook for incident notifications,execution
+tell me about coral reefs,out_of_scope
+analyze the high rate of cache evictions,investigate
+bounce the application pool in iis,execution
+configure the secret zero bootstrap for the service,execution
+analyze the cpu soft irq time spikes,investigate
+label the nodes for the gpu workload,execution
+what is evolution,out_of_scope
+investigate the stale configmap being used after rollout,investigate
+apply the updated retention policy to the log bucket,execution
+remove the stale cname record,execution
+how do I make a terrarium,out_of_scope
+tell me about chameleons,out_of_scope
+sync the configuration from the control plane,execution
+who invented the airplane,out_of_scope
+restart the coordination service,execution
+enable the brotli compression on the proxy,execution
+execute the blue green deployment switch,execution
+investigate the slow kafka consumer group commit,investigate
+apply the horizontal pod autoscaler policy,execution
+summarize the load test results from yesterday,summarization
+enable circuit breaker,execution
+what is the most spoken language in the world,out_of_scope
+enable the slow query log on the database,execution
+check what is causing the repeated pod preemptions,investigate
+check what caused sync failure,investigate
+provide a recap of the capacity forecast model output,summarization
+what is entropy,out_of_scope
+why are the kubernetes events showing back-off restart,investigate
+give me an overview of the service catalog coverage gaps,summarization
+tell me about wolves,out_of_scope
+configure the cache-control headers on the web server,execution
+provide a brief on the api deprecation timeline,summarization
+give me an overview of the cold storage growth rate,summarization
+what is painting,out_of_scope
+summarize the network policy audit results,summarization
+give me an overview of the pod scheduling efficiency,summarization
+apply rate limiting,execution
+check why the liveness probe keeps failing,investigate
+provide a brief on the observability coverage by service,summarization
+who wrote a midsummer night dream,out_of_scope
+tell me about the machu picchu history,out_of_scope
+investigate the multicast routing failure on the switch,investigate
+deploy the latest build to staging,execution
+analyze the failed deployment,investigate
+what is causing the session timeout in the middleware,investigate
+what is causing the frequent index rebuilds,investigate
+why is the etl pipeline producing duplicate records,investigate
+summarize the infrastructure drift detection report,summarization
+who composed the magic flute,out_of_scope
+summarize the security audit findings,summarization
+why is the dns resolution returning stale results,investigate
+run the cluster health verification script,execution
+rotate the ssl certificates on all endpoints,execution
+tell me about the sahara desert,out_of_scope
+summarize the test coverage and quality metrics,summarization
+tell me about penguins,out_of_scope
+disable the noisy alerting rule temporarily,execution
+configure the nfs export options for the new client,execution
+how do I make soap,out_of_scope
+how do I make natural dye,out_of_scope
+tell me about the gold rush,out_of_scope
+analyze the thread dump from app server,investigate
+tell me about ancient rome,out_of_scope
+why is replication lagging,investigate
+check what is causing the event loop blocking,investigate
+enable http2 on the reverse proxy,execution
+provide a brief on the availability by region,summarization
+investigate the segfault in the native module,investigate
+why are there checksum mismatches in the storage layer,investigate
+what is causing the write amplification on the database,investigate
+what is the speed of a bullet,out_of_scope
+tell me about fashion,out_of_scope
+who is the president,out_of_scope
+investigate the network timeout between microservices,investigate
+provide a brief on the change management board decisions,summarization
+why is the service mesh reporting timeout for internal calls,investigate
+what is a haiku,out_of_scope
+enable the preemptive cache warming job,execution
+capture a packet trace on the pod interface,execution
+what caused the data skew in the partitioned table,investigate
+investigate the mismatch between reported and actual cpu,investigate
+summarize queue depth,summarization
+summarize user impact,summarization
+what is causing the abnormal number of goroutines,investigate
+what is literature,out_of_scope
+give me an overview of the api usage patterns,summarization
+tell me about butterflies,out_of_scope
+apply the datadog apm sampling configuration,execution
+what caused the alert flood at midnight,investigate
+what is an electron shell,out_of_scope
+give me an overview of the endpoint latency distribution,summarization
+run the node affinity migration for gpu pods,execution
+tell me about the maya civilization,out_of_scope
+upgrade the control plane to the new version,execution
+analyze the slow shutdown of the worker process,investigate
+provide a summary of the data replication lag trends,summarization
+what is inflation,out_of_scope
+tell me about the silk road trade route,out_of_scope
+who is charles darwin,out_of_scope
+provide a recap of the database migration results,summarization
+why is the object storage throughput degraded,investigate
+set up the vpn tunnel to the partner network,execution
+configure the log shipping to the siem,execution
+analyze the inconsistency in the distributed counter,investigate
+how do I make sourdough bread,out_of_scope
+summarize the cluster health over the past 30 days,summarization
+reset network interface,execution
+summarize the service level objective performance,summarization
+deploy the new gateway api version,execution
+run the storage migration to the new array,execution
+analyze the numa imbalance on the multi-socket server,investigate
+what is a wormhole,out_of_scope
+tell me about the viking age,out_of_scope
+what is archaeology,out_of_scope
+give me a summary of the connection draining patterns,summarization
+summarize deployment changes,summarization
+apply security rules,execution
+give me event summary,summarization
+tell me about mount everest,out_of_scope
+analyze the slow query logs for the past hour,investigate
+why is the secret rotation breaking dependent services,investigate
+what is the largest country by area,out_of_scope
+push the puppet manifest changes to production,execution
+run the smoke test suite after the deployment,execution
+what is renewable energy,out_of_scope
+who is claude monet,out_of_scope
+enable the kernel huge pages for the database host,execution
+check why the alerting rule is not firing,investigate
+check what triggered the node eviction,investigate
+restart the elasticsearch cluster rolling,execution
+tell me about eagles,out_of_scope
+restart the gossip protocol seed nodes,execution
+why are the job workers being starved of resources,investigate
+provide a brief recap of the service ownership audit,summarization
+give me a summary of the distributed tracing insights,summarization
+who wrote war and peace,out_of_scope
+how do I write poetry,out_of_scope
+configure the cosign policy for image verification,execution
+what is the speed of sound,out_of_scope
+what is the law of thermodynamics,out_of_scope
+give me a summary of the api error taxonomy this sprint,summarization
+investigate the hot partition in the event stream,investigate
+who is edgar allan poe,out_of_scope
+configure the session affinity timeout,execution
+how do I make a dreamcatcher,out_of_scope
+provide a recap of the endpoint coverage by synthetic monitors,summarization
+tell me about the roman empire,out_of_scope
+tell me about the tang dynasty,out_of_scope
+investigate the request timeout during peak traffic,investigate
+who is pablo picasso,out_of_scope
+give me an overview of the container runtime health,summarization
+tell me about the byzantine empire,out_of_scope
+apply the cors policy update on the gateway,execution
+configure the pgbouncer pool size,execution
+tell me about thunderstorms,out_of_scope
+configure the topology spread constraints,execution
+investigate the frequent oom kills in the sidecar,investigate
+how do tides work,out_of_scope
+configure the connection timeout to 30 seconds,execution
+give me a summary of the compute reservation coverage,summarization
+who is wassily kandinsky,out_of_scope
+what is the milky way galaxy,out_of_scope
+trigger the failback to the primary region,execution
+update the helm chart values and upgrade release,execution
+why are there duplicate messages in the event stream,investigate
+how do I speak italian,out_of_scope
+what is a chromosomal mutation,out_of_scope
+summarize the uptime report for all critical services,summarization
+tell me about the titanic,out_of_scope
+provide a recap of the patch compliance status,summarization
+enable maintenance mode on the website,execution
+switch the routing policy to latency-based,execution
+give me a summary of the chaos experiment outcomes,summarization
+who is beethoven,out_of_scope
+what caused the spike in garbage collection time,investigate
+approve the manual gate in the release pipeline,execution
+give me an overview of the secret management compliance,summarization
+tell me about the great wall of china,out_of_scope
+scale down the stateful set to zero replicas,execution
+give me an overview of the fleet patching status,summarization
+provide a summary of the ci cd pipeline performance,summarization
+what is the history of tea,out_of_scope
+summarize the sla compliance for the past month,summarization
+how do I meditate properly,out_of_scope
+summarize the write path latency breakdown by layer,summarization
+what is a light year,out_of_scope
+how do I speak japanese,out_of_scope
+enable open file cache on the web server,execution
+set up the service mesh mutual tls,execution
+what is astrophysics,out_of_scope
+give me a summary of the event-driven architecture reliability,summarization
+what is the greenhouse effect,out_of_scope
+enable the geo-restriction policy on the cdn,execution
+who invented the printing press,out_of_scope
+give me an overview of the application security posture,summarization
+evict stale entries from the distributed cache,execution
+what is the pythagorean theorem,out_of_scope
+how do I play the violin,out_of_scope
+restart service mesh,execution
+what caused the rollback to fail midway,investigate
+sync the parameter store values to the pods,execution
+how do I do yoga,out_of_scope
+check why the batch processing job is stuck,investigate
+tell me about the polynesian navigation,out_of_scope
+what is the longest river,out_of_scope
+provide a brief on the endpoint deprecation usage,summarization
+flush all active user sessions from the cache,execution
+summarize the service mesh traffic routing changes,summarization
+why is the bloom filter returning false positives,investigate
+who is stephen hawking,out_of_scope
+who is marco polo,out_of_scope
+what is the tallest building in the world,out_of_scope
+what is artificial intelligence,out_of_scope
+tell me about the french revolution,out_of_scope
+provide a recap of the change management decisions,summarization
+what caused the deployment to break backward compatibility,investigate
+give me a summary of the disk growth trends by volume,summarization
+summarize service status,summarization
+tell me about the french impressionism,out_of_scope
+provide an overview of the deployment activity this sprint,summarization
+tell me about rainforests,out_of_scope
+check what is causing the container image pull failure,investigate
+give me an overview of the user-facing error rate trends,summarization
+enable the continuous profiling on the service,execution
+summarize the inter-service call failure rates,summarization
+summarize the infrastructure readiness for the launch,summarization
+add the new disk to the lvm volume group,execution
+how do birds navigate during migration,out_of_scope
+flush the connection state on the stateful firewall,execution
+investigate the evicted pods in the production namespace,investigate
+enable the request coalescing on the cache layer,execution
+what is your favorite color,out_of_scope
+tell me about the sumerians,out_of_scope
+what is zoology,out_of_scope
+how do I make a smoothie,out_of_scope
+why is the persistent volume not being bound,investigate
+give me a summary of the failed deployments this month,summarization
+flush the varnish cache for the stale content,execution
+summarize the monitoring coverage by service tier,summarization
+who is virginia woolf,out_of_scope
+provide ecosystem summary,summarization
+set up the monitoring alerts for the new service,execution
+why are there conflicting iptables rules,investigate
+summarize test results,summarization
+summarize the dependency freshness across repositories,summarization
+delete the unused container images on all nodes,execution
+configure the max in-flight requests for the service,execution
+why is the object lock conflicting with replication,investigate
+what caused the database query plan regression,investigate
+apply the terraform changes to the dev environment,execution
+purge old logs,execution
+what is sculpture,out_of_scope
+analyze the failed health probes in the cluster,investigate
+what is plate tectonics,out_of_scope
+look into the http connection pool timeout,investigate
+provide a recap of the database deadlock frequency,summarization
+tell me about the seven wonders of the world,out_of_scope
+give me a recap of the storage utilization trends,summarization
+how does the aurora borealis form,out_of_scope
+tell me about the battle of waterloo,out_of_scope
+update the tls cipher suite configuration,execution
+run the data migration script for the new schema,execution
+how do I make my own hot sauce,out_of_scope
+summarize the network topology changes this sprint,summarization
+investigate the sudden increase in 5xx errors,investigate
+summarize the open incidents and their current state,summarization
+give me an overview of the read write ratio by service,summarization
+tell me about the ming emperors,out_of_scope
+why is the object store showing inconsistent reads,investigate
+analyze the latency spikes during peak hours,investigate
+what is cellular respiration,out_of_scope
+give me a summary of the certificate status across services,summarization
+increase the connection pool size to 200,execution
+what caused the thundering herd on cache expiry,investigate
+why is the rpc client timing out during service restart,investigate
+what is causing the repeated connection draining on alb,investigate
+investigate the config map update causing service restart,investigate
+how do I make coffee,out_of_scope
+restart background worker,execution
+what is the history of the olympic games,out_of_scope
+how do I make mead,out_of_scope
+apply the updated service account iam bindings,execution
+provide a recap of the service discovery health checks,summarization
+investigate the database slowdown,investigate
+provide a brief on the release deployment frequency,summarization
+configure the codeowners file for the new team,execution
+apply the storage class changes for the volumes,execution
+provide a brief on the security incident response timeline,summarization
+summarize the operational readiness review findings,summarization
+provide a recap of the planned maintenance windows,summarization
+who wrote pride and prejudice,out_of_scope
+why did health check fail,investigate
+why is the dns lookup causing increased latency,investigate
+investigate the anomalously high network egress cost,investigate
+mount the nfs share on the batch server,execution
+tell me about tigers,out_of_scope
+summarize dependency status,summarization
+provide a recap of the service-level objectives this period,summarization
+provide a recap of the slow transaction breakdown,summarization
+how do I start composting,out_of_scope
+give me rollback summary,summarization
+why is the cgroup memory limit being exceeded,investigate
+summarize the capacity planning recommendations,summarization
+why is the load test showing degraded throughput,investigate
+investigate queue backlog,investigate
+tell me about sports,out_of_scope
+scale up the database replica,execution
+run the network policy connectivity test,execution
+who is copernicus,out_of_scope
+summarize the uptime trend for payment services,summarization
+who is the author of harry potter,out_of_scope
+how do I learn to swim,out_of_scope
+restart api gateway,execution
+investigate the flaky test failures in ci environment,investigate
+investigate the connection leak in the service,investigate
+check why the distributed lock is not being released,investigate
+tell me about whales,out_of_scope
+summarize the api response times over the past month,summarization
+give me an overview of the error distribution across services,summarization
+what is the national animal of australia,out_of_scope
+what is astronomy,out_of_scope
+close the inactive elasticsearch indices,execution
+why is the primary database not accepting connections,investigate
+set up the pagerduty escalation policy,execution
+update the oauth client credentials,execution
+give me an overview of the request success rate by service,summarization
+summarize resource usage,summarization
+provide an overview of the deployment lead time trends,summarization
+what is a tidal wave,out_of_scope
+analyze the io latency breakdown on nvme drives,investigate
+summarize alert trends,summarization
+summarize the storage tier migration progress,summarization
+summarize the feature flag rollout status,summarization
+check why the health check endpoint is slow,investigate
+apply hotfix,execution
+why are the pod logs showing oom killed errors,investigate
+apply the signed commit requirement on main branch,execution
+why is the pod eviction disrupting the stateful workload,investigate
+how do I grow a bonsai tree,out_of_scope
+apply the egress network policy,execution
+give me an overview of the telemetry pipeline health,summarization
+what is machine learning,out_of_scope
+configure the vault policy for the new service,execution
+run the dependency update bot on the repository,execution
+give me a summary of the log ingestion volume trends,summarization
+flush the iptables nat rules,execution
+investigate the ssl renegotiation overhead,investigate
+create the ingress rule for the new subdomain,execution
+set up the bulkhead pattern for the downstream service,execution
+provide a brief on the disaster recovery drill results,summarization
+give me a summary of the top services by error volume,summarization
+disable the feature flag for dark mode,execution
+analyze the socket backlog on the listener,investigate
+provide a brief on the traffic split during the canary,summarization
+archive the old build artifacts from the registry,execution
+give me a summary of the feature flag states in production,summarization
+summarize the service deprecation and migration status,summarization
+how do I make cheese at home,out_of_scope
+why are database writes slowing down,investigate
+run the storage filesystem consistency check,execution
+set the resource limits on the logging sidecar,execution
+what is pharmacology,out_of_scope
+why is disk usage at 90 percent,investigate
+give me an overview of the deployment environment parity,summarization
+run the performance benchmark suite,execution
+trigger the automated rollback procedure,execution
+what caused the breach of the sla threshold,investigate
+restart the coredns deployment after config change,execution
+look into the nfs mount hanging issue,investigate
+provide health check summary,summarization
+upgrade the worker node pool to the target version,execution
+investigate the concurrent write conflicts in the db,investigate
+what is causing the connection reset errors,investigate
+how do I play soccer,out_of_scope
+why did the kubernetes job fail,investigate
+block the suspicious ip range at the firewall,execution
+what is causing the jitter in the rpc response times,investigate
+restart the load balancer,execution
+how do I make limoncello,out_of_scope
+what is photosynthesis,out_of_scope
+who is socrates,out_of_scope
+tell me about owls,out_of_scope
+apply database migration,execution
+what is a proton,out_of_scope
+investigate the 502 bad gateway errors on frontend,investigate
+summarize the synthetic monitoring test results,summarization
+what caused the raft consensus timeout,investigate
+what is the history of coffee,out_of_scope
+drain and replace the node for os upgrade,execution
+kill the hanging process,execution
+provide an overview of the technical debt remediation,summarization
+how do I knit a sweater,out_of_scope
+tell me about books,out_of_scope
+terminate a random pod to test resilience,execution
+configure the async io thread pool size,execution
+provide a recap of the api contract violations,summarization
+tell me a joke,out_of_scope
+apply the jit compiler optimization flags,execution
+vacuum database,execution
+summarize the message queue throughput metrics,summarization
+how do I make bread,out_of_scope
+tell me about the black plague,out_of_scope
+investigate the high read amplification factor on lsm,investigate
+what is an atom,out_of_scope
+investigate why the service is not reachable,investigate
+run the disk defragmentation on the storage volume,execution
+trigger the argocd sync for the production environment,execution
+repair the xfs filesystem after unclean shutdown,execution
+investigate the page cache thrashing issue,investigate
+provide a recap of the release deployment lead time,summarization
+set the kubernetes api server admission webhook,execution
+enable the ddos protection on the edge layer,execution
+apply the network policy to restrict egress,execution
+check if the api latency is correlated to gc pauses,investigate
+configure the log retention policy to 90 days,execution
+apply the helm values override for the hotfix,execution
+who is harriet tubman,out_of_scope
+check the correlation between cpu spike and deployments,investigate
+analyze performance metrics,investigate
+how do I build a small pond,out_of_scope
+why is the zookeeper session expiring frequently,investigate
+configure the sonarqube quality gate policy,execution
+give me an overview of the data consistency check results,summarization
+provide a recap of the resolved alerts from overnight,summarization
+what is dark energy,out_of_scope
+what caused the service to skip the retry logic,investigate
+clear log files,execution
+apply the cpu and memory limits to all pods,execution
+how do I build a go-kart,out_of_scope
+investigate the cluster node reporting not ready,investigate
+summarize the changes made during the maintenance window,summarization
+how do I paint a wall,out_of_scope
+give me an overview of the pipeline execution times,summarization
+how do I make turkish coffee,out_of_scope
+check what is causing the increased tail latency,investigate
+summarize the deployment frequency by team,summarization
+clean up the stale branches from the remote,execution
+disable the debug endpoint on the production service,execution
+tell me about history,out_of_scope
+provide a recap of the rate limiting effectiveness,summarization
+give me latency summary,summarization
+who was the first person to climb everest,out_of_scope
+who painted the sistine chapel,out_of_scope
+what is quantum entanglement,out_of_scope
+tell me about ancient egypt,out_of_scope
+investigate the unexpected data loss after failover,investigate
+how do I make risotto,out_of_scope
+run the cluster upgrade preflight checks,execution
+summarize network traffic,summarization
+provide a brief on the backup storage growth rate,summarization
+summarize troubleshooting steps,summarization
+provide a recap of the service migration progress,summarization
+reconfigure the bgp session with the upstream provider,execution
+what is photon,out_of_scope
+rebuild index on table,execution
+what caused the service failure,investigate
+trigger failover,execution
+why are there too many open file descriptors,investigate
+increase the file descriptor limit to 65535,execution
+set up the upstream health checks on nginx,execution
+investigate the frequent leader re-elections in raft,investigate
+restart the prometheus and grafana stack,execution
+rotate the kubelet serving certificates,execution
+investigate the cpu steal time on virtual machines,investigate
+who composed the four seasons,out_of_scope
+what caused the connection refused on the rpc port,investigate
+provide a brief on the ml model serving latency trends,summarization
+apply the backpressure policy to the queue consumer,execution
+apply the external secrets operator configuration,execution
+what is sociology,out_of_scope
+why is the database vacuum process not completing,investigate
+how do I learn ballet,out_of_scope
+tell me about the moon landing,out_of_scope
+execute the database cleanup stored procedure,execution
+why is the consumer group rebalancing frequently,investigate
+give me a recap of the infrastructure as code changes,summarization
+give me cost summary,summarization
+why is the storage iops quota being exceeded,investigate
+summarize the incident from yesterday,summarization
+configure the cgroup memory limit for the container,execution
+run the backup verification on the latest snapshot,execution
+investigate the metadata server latency spike,investigate
+what is the law of conservation of mass,out_of_scope
+restart cluster coordinator,execution
+summarize the database query performance trends,summarization
+tell me about the amazon river,out_of_scope
+how do I change a tire,out_of_scope
+who wrote the great gatsby,out_of_scope
+give me an overview of the security scanning results,summarization
+who wrote les miserables,out_of_scope
+show me errors from the last deployment,investigate
+who built the eiffel tower,out_of_scope
+what is biology,out_of_scope
+give me compliance summary,summarization
+investigate cpu spike on web-server-3,investigate
+run the certificate renewal automation,execution
+what is democracy,out_of_scope
+trigger the database vacuum on the large table,execution
+investigate memory fragmentation,investigate
+who discovered gravity,out_of_scope
+enable ssl termination on the load balancer,execution
+what caused the lease expiration on the distributed lock,investigate
+who is aristotle,out_of_scope
+provide a recap of the tracing coverage expansion,summarization
+analyze the checkpoint failure on the database,investigate
+silence the alert during the planned maintenance,execution
+what is an isotope,out_of_scope
+give me a summary of the observability coverage,summarization
+create the read replica in the secondary region,execution
+how do I make ghee,out_of_scope
+how do I do push ups,out_of_scope
+how do I make jam,out_of_scope
+who won the tour de france recently,out_of_scope
+what is causing the recurring service crash,investigate
+enable the opa policy enforcement,execution
+tell me about the phoenician alphabet,out_of_scope
+summarize the canary deployment observations,summarization
+summarize the monthly infrastructure cost report,summarization
+summarize configuration changes,summarization
+summarize the platform availability monthly report,summarization
+run the certificate expiry check across all services,execution
+provide maintenance summary,summarization
+test the service-to-service communication path,execution
+why is the service container starting but not ready,investigate
+tell me about the hundred years war,out_of_scope
+provide a recap of the infrastructure cost anomalies,summarization
+summarize the mean time between failures report,summarization
+how do I learn to cook,out_of_scope
+tell me about hummingbirds,out_of_scope
+what is the fastest animal on earth,out_of_scope
+summarize the cross-team dependency updates,summarization
+summarize the service dependency changes this sprint,summarization
+reindex the elasticsearch data to the new mapping,execution
+summarize the auto-remediation success rate this sprint,summarization
+check what is causing the recurring storage disconnection,investigate
+enable gzip compression on the web server,execution
+run the game day scenario for database failover,execution
+configure the weighted routing between blue and green,execution
+apply the salt state to the target nodes,execution
+how do I make hard candy,out_of_scope
+why is the CDN cache invalidation not working,investigate
+give me an overview of the system resource allocation,summarization
+what is oceanography,out_of_scope
+why is application responding slowly,investigate
+flush the redis cache completely,execution
+provide a recap of the compliance violation findings,summarization
+how do I learn how to juggle,out_of_scope
+how do I solve a rubiks cube,out_of_scope
+what is molecular biology,out_of_scope
+provide a recap of the runbook effectiveness metrics,summarization
+what caused the split brain in the cluster,investigate
+tell me about machu picchu,out_of_scope
+run the index optimization on the search cluster,execution
+configure the sudoers file with the new rule,execution
+provide a recap of the cross-region failover tests,summarization
+investigate the failure in the distributed snapshot,investigate
+tell me about the berlin wall,out_of_scope
+why did the scheduled task miss its window,investigate
+restart the failing csi driver pods,execution
+what is mitosis,out_of_scope
+how do I make kimchi fried rice,out_of_scope
+what is cryptocurrency,out_of_scope
+set up the cross-region replication,execution
+update the grafana dashboard with new panels,execution
+force the kustomize overlay apply,execution
+summarize the access control audit results,summarization
+provide a brief on the volume of support tickets versus incidents,summarization
+investigate the http 429 rate limit errors from upstream,investigate
+what caused the outage last night,investigate
+what is causing high memory on app-01,investigate
+provide performance summary,summarization
+enable the dast scan in the staging pipeline,execution
+how do I grow succulents,out_of_scope
+investigate the repeated pod scheduling failures,investigate
+summarize the container orchestration metrics,summarization
+how do volcanoes form,out_of_scope
+run the data integrity check script,execution
+check what is slowing down the ci build pipeline,investigate
+why did backup job fail,investigate
+summarize the memory usage trends across the fleet,summarization
+who invented the internet,out_of_scope
+how do I make kefir,out_of_scope
+backup the etcd snapshot to object storage,execution
+why is the cpu user time unexpectedly high,investigate
+enable the connection rate limiting on haproxy,execution
+investigate the log level misconfiguration causing noise,investigate
+why is the thread pool saturated,investigate
+what is impressionism in art,out_of_scope
+analyze the cpu throttling events in the cgroup,investigate
+why did the database go down,investigate
+enable binary logging on the mysql primary,execution
+why is the api client receiving truncated responses,investigate
+check what went wrong with deployment,investigate
+summarize scaling events,summarization
+what is robotics,out_of_scope
+analyze resource constraints,investigate
+investigate the clock skew between nodes,investigate
+give me a summary of failed jobs in the last 24 hours,summarization
+why is the api gateway returning 503,investigate
+summarize the service mesh telemetry for the past week,summarization
+configure the auto-scaling policy for peak hours,execution
+look into the inode exhaustion on the log partition,investigate
+run the memory bandwidth benchmark on the server,execution
+give me an overview of the graceful degradation events,summarization
+analyze the change in baseline memory usage,investigate
+analyze the heap dump for memory leak,investigate
+investigate the cpu pinning misconfiguration on host,investigate
+what is the theory of relativity,out_of_scope
+summarize the alert fatigue metrics for the team,summarization
+provide a recap of the operational load by team this month,summarization
+investigate cluster node failure,investigate
+who is nikola tesla,out_of_scope
+what is dna,out_of_scope
+enable the new rate limit policy globally,execution
+delete the unused cluster role bindings,execution
+provide a brief on the container security scan coverage,summarization
+give me an overview of the synthetic monitor pass rates,summarization
+restore the etcd snapshot from the backup,execution
+how do I build a birdhouse,out_of_scope
+export and import the zfs pool after migration,execution
+summarize the on-call escalation patterns this quarter,summarization
+what is ecology,out_of_scope
+tell me about art,out_of_scope
+purge the cdn cache for the updated assets,execution
+investigate the slow recovery after leader failover,investigate
+how do I ferment vegetables,out_of_scope
+restart the fluentd log forwarder on all nodes,execution
+enable the vault audit logging,execution
+why is the message broker not consuming messages,investigate
+enable the cpu quota enforcement on the tenant,execution
+check why the health endpoint is returning stale data,investigate
+why are database transactions taking so long,investigate
+what is causing the api to return incomplete data,investigate
+scale data cache,execution
+deploy the database proxy layer,execution
+analyze the failed readiness probes in staging,investigate
+provide an overview of the monitoring coverage gaps,summarization
+how do I make pizza dough,out_of_scope
+summarize the network egress cost by region,summarization
+run the dependency vulnerability scan,execution
+investigate what is causing the memory balloon in vm,investigate
+reset error counters,execution
+restart the flapping pods after the node recovery,execution
+give me a summary of the infrastructure drift detected,summarization
+investigate the cold start latency in serverless functions,investigate
+give me a summary of the platform capacity model output,summarization
+investigate deadlock in database,investigate
+investigate the replication stream lag on postgres,investigate
+check what is triggering the oom killer,investigate
+resize the persistent volume to 500gb,execution
+configure the keepalive connections on haproxy,execution
+can you look into the dns resolution failure,investigate
+give me an overview of the deployment pipeline health,summarization
+tell me about mars,out_of_scope
+what caused the pod evictions in kubernetes,investigate
+summarize the data pipeline reliability metrics,summarization
+tell me about the solar system,out_of_scope
+provide a brief on the continuous delivery pipeline metrics,summarization
+give me error rate summary,summarization
+enable the database connection pooling proxy,execution
+enable debug logging,execution
+look into the memory allocation failure in container,investigate
+why is the kubernetes cronjob missing executions,investigate
+analyze the log rotation failure on app-server-12,investigate
+what is causing the high p99 latency,investigate
+tell me about the life cycle of a butterfly,out_of_scope
+why is the service mesh sidecar consuming too much cpu,investigate
+give me an overview of the application profiling insights,summarization
+tell me about the ice age,out_of_scope
+execute the tenant data migration script,execution
+tell me about languages,out_of_scope
+restart monitoring agent,execution
+run the ansible playbook for server hardening,execution
+provide metrics summary,summarization
+what is the capital of france,out_of_scope
+enable the secrets manager rotation schedule,execution
+investigate the transaction deadlock pattern in the db,investigate
+summarize throughput metrics,summarization
+summarize the distributed lock acquisition patterns,summarization
+analyze the traffic imbalance across availability zones,investigate
+investigate the grpc deadline exceeded errors,investigate
+configure the tcp keepalive settings on the host,execution
+what is the largest desert in the world,out_of_scope
+analyze what changed before the performance degraded,investigate
+configure the jenkins pipeline webhook trigger,execution
+provide a brief on the idle resource cost across workloads,summarization
+give me a recap of the cluster autoscaler decisions,summarization
+why is the WAL replay taking hours on postgres,investigate
+summarize the weekly change failure rate,summarization
+why is the queue consumer lagging behind producer,investigate
+what is the standard model in physics,out_of_scope
+apply the ingress rate limit rules,execution
+enable the sticky session on the load balancer,execution
+apply the kernel security update and reboot,execution
+who wrote frankenstein,out_of_scope
+reset the alert suppression window,execution
+provide a brief on today's outages,summarization
+who is joan of arc,out_of_scope
+how do I write a novel,out_of_scope
+summarize the dependency version drift across microservices,summarization
+why is the config reload triggering connection draining,investigate
+check the reason for the slowdown in the api fanout,investigate
+why is there no response from the upstream service,investigate
+summarize the vulnerability scan findings,summarization
+apply the terraform plan for infrastructure changes,execution
+who is vincent van gogh,out_of_scope
+scale the ingress controller replicas,execution
+give me incident summary,summarization
+what is osmosis,out_of_scope
+update the rbac role bindings for the new team,execution
+check the tcp retransmission rate on the interface,investigate
+summarize the change-failure rate for the current quarter,summarization
+why is the queue depth continuously growing,investigate
+trigger the ci cd pipeline for the release branch,execution
+provide a brief on the database query cost distribution,summarization
+how do I grow tomatoes at home,out_of_scope
+check the firewall rules blocking traffic,investigate
+why is the graphql resolver timing out,investigate
+replace the failed disk in the raid array,execution
+investigate timeout errors,investigate
+why is the write throughput lower than expected,investigate
+summarize the load distribution by availability zone,summarization
+tell me about the silk road,out_of_scope
+who won the world cup,out_of_scope
+hello how are you,out_of_scope
+why is the grpc stream being terminated early,investigate
+analyze the query optimizer choosing a bad plan,investigate
+apply the blkio throttle policy to the container,execution
+give me a summary of the recent platform incidents by tier,summarization
+why is server host123 cpu high,investigate
+how do I learn to draw,out_of_scope
+summarize the memory leak patterns across services,summarization
+examine the audit logs for suspicious activity,investigate
+investigate the file descriptor leak,investigate
+what is causing the tcp connection reset by peer,investigate
+analyze the jvm thread contention issue,investigate
+what is quantum physics,out_of_scope
+rotate the ssh host keys on the new server,execution
+investigate the service crash after config reload,investigate
+what is buoyancy,out_of_scope
+provide a brief on the node termination event summary,summarization
+summarize the toil reduction progress this quarter,summarization
+investigate the certificate revocation check failure,investigate
+why is the query result cache warming too slowly,investigate
+investigate the high iowait on storage server,investigate
+why is the service not draining connections before termination,investigate
+configure the nginx worker processes,execution
+summarize the queue consumer performance metrics,summarization
+give me a summary of the request routing efficiency,summarization
+give me an overview of the observability stack capacity,summarization
+summarize the real user monitoring metrics for this week,summarization
+how do I make perfect scrambled eggs,out_of_scope
+apply the password complexity policy update,execution
+provide a recap of the production readiness review results,summarization
+look into the consistent hashing rebalance issue,investigate
+how do I mountain climb,out_of_scope
+run the ansible playbook for the new server setup,execution
+summarize the cross-team dependency resolution status,summarization
+analyze the impact of the dns change on traffic,investigate
+rotate the vault root token,execution
+investigate the service endpoint returning wrong data,investigate
+summarize the request timeout frequency by endpoint,summarization
+configure the sssd daemon for the new domain,execution
+what is causing the high swap usage on node-5,investigate
+update the container image to the patched version,execution
+why is the pod failing the security context check,investigate
+why is the replication factor not being maintained,investigate
+summarize the pod resource efficiency across namespaces,summarization
+reconfigure the reverse proxy routing rules,execution
+disable the deprecated api endpoint,execution
+look into the systemd service restart loop,investigate
+who is dante alighieri,out_of_scope
+give me a brief on the kubernetes cluster upgrade status,summarization
+who is thomas jefferson,out_of_scope
+investigate the cross-region replication delay,investigate
+give me a summary of the network policy audit findings,summarization
+what is the lifespan of a redwood tree,out_of_scope
+reset the admin password on the management console,execution
+who is rumi,out_of_scope
+provide a recap of the multi-tenancy isolation audit,summarization
+summarize the slo violation events this month,summarization
+analyze the performance degradation,investigate
+write a poem about servers,out_of_scope
+what is a red giant star,out_of_scope
+set the swappiness to zero on database hosts,execution
+why is the tracing collector losing spans,investigate
+decommission the old server from the cluster,execution
+taint the node to prevent general scheduling,execution
+what is marine biology,out_of_scope
+give me a brief on the edge cache performance,summarization
+provide a recap of the cloud provider incident impact,summarization
+give me an overview of the infrastructure tagging compliance,summarization
+how do I make candles,out_of_scope
+rotate the service account credentials,execution
+increase the max connections on the postgres primary,execution
+who wrote moby dick,out_of_scope
+enable the fault injection policy in the service mesh,execution
+how can I learn spanish,out_of_scope
+analyze the impact of schema change on query performance,investigate
+tell me about stonehenge,out_of_scope
+tell me about the iron age,out_of_scope
+configure the grpc timeout on the proxy layer,execution
+tell me about volcanoes,out_of_scope
+investigate the unexpected pod termination,investigate
+what is ecological succession,out_of_scope
+investigate the abnormal tls session ticket rotation rate,investigate
+what caused the routing table mismatch between zones,investigate
+how do I do origami,out_of_scope
+investigate the missing index causing full table scans,investigate
+what is a meteor shower,out_of_scope
+give me a high-level overview of what happened today,summarization
+configure the retry budget on the service,execution
+summarize the cold storage archival progress,summarization
+analyze the correlation between load and response times,investigate
+tell me about the great depression,out_of_scope
+give me a summary of the patch management status,summarization
+create the service account with least privilege,execution
+check what is causing the connection saturation on api,investigate
+investigate the stalled compaction job on rocksdb,investigate
+enable the response caching on the graphql layer,execution
+apply the pod security admission config,execution
+how do I make mozzarella,out_of_scope
+summarize the integration test results from latest build,summarization
+provide a recap of the weekly change freeze exceptions,summarization
+who wrote don quixote,out_of_scope
+how do I build a birdfeeder,out_of_scope
+delete the orphaned persistent volume claim,execution
+investigate the network partition between zones,investigate
+analyze the fan-in bottleneck in the aggregation layer,investigate
+how do I make kimchi,out_of_scope
+check why the autoscaler is not triggering,investigate
+summarize the distributed cache hit rate by region,summarization
+check why cron jobs are failing,investigate
+check why the reverse proxy is dropping headers,investigate
+configure the ipvs load balancing mode on the node,execution
+who is michelangelo,out_of_scope
+investigate the shard imbalance in the search cluster,investigate
+who wrote hamlet,out_of_scope
+what is a quasar,out_of_scope
+provide a brief on the infrastructure costs this quarter,summarization
+summarize the performance optimization results,summarization
+configure the adaptive concurrency limit,execution
+rotate the database master password,execution
+analyze the rollout pause caused by failed canary metrics,investigate
+who wrote the divine comedy,out_of_scope
+how do I dance,out_of_scope
+what is the capital of japan,out_of_scope
+why is the cache invalidation not propagating,investigate
+drain connections gracefully,execution
+check what's causing the bottleneck,investigate
+check why prometheus is showing no data,investigate
+what is causing the oauth token refresh failures,investigate
+tell me about the league of nations,out_of_scope
+investigate the message fanout causing consumer lag,investigate
+enable the software bill of materials generation,execution
+disable the auto-scaling for the maintenance window,execution
+what are the best hiking trails in europe,out_of_scope
+what is the deepest ocean,out_of_scope
+summarize cluster health,summarization
+analyze network latency issues,investigate
+import the existing resource into the terraform state,execution
+tell me about the phoenicians,out_of_scope
+delete the datadog monitors that are no longer valid,execution
+scale down resources,execution
+tune the jvm garbage collector flags,execution
+can you sing a song,out_of_scope
+apply the log parsing rule update to the pipeline,execution
+set the timeout policy for the external api call,execution
+tell me about koalas,out_of_scope
+why is the ssl offloader causing increased latency,investigate
+check the dead letter queue accumulation,investigate
+restart the cron scheduler service,execution
+investigate the repeated auth token expiry in logs,investigate
+summarize the service restart count by host,summarization
+what is the population of brazil,out_of_scope
+apply the seccomp profile to the container,execution
+trigger the zfs scrub on the storage pool,execution
+analyze the open file handle count on prod servers,investigate
+what is the water cycle,out_of_scope
+what is geology,out_of_scope
+flush the arp cache on the router,execution
+configure the alertmanager routing rules,execution
+configure the hugepage allocation at boot,execution
+apply the sbom attestation to the build,execution
+summarize the resource quota consumption by namespace,summarization
+create a configmap from the updated settings file,execution
+what is dark matter,out_of_scope
+what is causing the spike in connection establishment time,investigate
+check the anomaly in the request rate pattern,investigate
+what caused the burst in disk writes,investigate
+what is the meaning of life,out_of_scope
+deploy the sidecar proxy to all pods,execution
+what triggered the auto-scaling event,investigate
+summarize the release rollback frequency and causes,summarization
+provide a brief on the network bandwidth usage,summarization
+enable request throttling,execution
+enable the tcp fast open on the server,execution
+who is confucius,out_of_scope
+give me an overview of the dependency health status,summarization
+how do I make beef jerky,out_of_scope
+how do I fly a kite,out_of_scope
+look into the storage IOPS issue,investigate
+investigate the certificate authority chain trust failure,investigate
+summarize the number of open vulnerabilities by severity,summarization
+what is the big bang theory,out_of_scope
+run the compliance scan on all servers,execution
+investigate connection pool exhaustion,investigate
+investigate the permission denied errors in logs,investigate
+what is a nebula,out_of_scope
+provide a brief on the alerting rule coverage gaps,summarization
+configure the node local dns cache,execution
+give me a summary of the deployment frequency trends this year,summarization
+what is causing the high variance in response times,investigate
+enable auto-healing,execution
+start the log streaming pipeline,execution
+how do I bake a cake,out_of_scope
+what is causing the tls certificate mismatch errors,investigate
+investigate the abnormal memory growth after restart,investigate
+tell me about the renaissance art,out_of_scope
+investigate the spike in 5xx errors after the release,investigate
+summarize the change management board decisions,summarization
+unlock the terraform state after failed apply,execution
+check why the rate limiter is not enforcing limits,investigate
+what is causing the database connection timeout,investigate
+investigate the asymmetric network routing issue,investigate
+give me a summary of the cost allocation by team,summarization
+tell me about the age of exploration,out_of_scope
+run the kube-bench cis benchmark scan,execution
+tell me about octopuses,out_of_scope
+who is hypatia,out_of_scope
+investigate the disk write latency on ssd array,investigate
+why is the prometheus rule evaluation too slow,investigate
+provide a brief on the backup restore test outcomes,summarization
+how do I make croissants at home,out_of_scope
+investigate the unexpected high fan-out in the topology,investigate
+who painted the mona lisa,out_of_scope
+check network connectivity on prod-env,investigate
+summarize the failover test results from last friday,summarization
+enable request tracing across all services,execution
+clear the zfs arc cache to free memory,execution
+investigate the large object heap pressure in dotnet,investigate
+what is the distance to the moon,out_of_scope
+what is a parallax,out_of_scope
+what caused the surge in rejected requests,investigate
+investigate the service port conflict after update,investigate
+apply configuration changes,execution
+revoke the compromised api token,execution
+provide a brief on the rate limiting effectiveness report,summarization
+apply the network acl changes to the subnet,execution
+provide availability summary,summarization
+tell me about the aztec calendar,out_of_scope
+run the flamegraph capture on the cpu hotspot,execution
+how do I knit a scarf,out_of_scope
+force a manual dns propagation check,execution
+why does the query return inconsistent results,investigate
+who is plato,out_of_scope
+why is the config sync lagging behind the control plane,investigate
+provide a brief on the secrets rotation completion status,summarization
+how do earthquakes happen,out_of_scope
+tell me about space exploration,out_of_scope
+analyze cpu consumption trends,investigate
+summarize the on-call handoff notes,summarization
+how do I make candles at home,out_of_scope
+summarize deployment timeline,summarization
+provide a summary of the api versioning status,summarization
+what is psychology,out_of_scope
+update the dns records for the new ip,execution
+scale the kafka cluster to add two more brokers,execution
+how do I brew beer at home,out_of_scope
+optimize the server-side tls handshake settings,execution
+tell me about the golden gate bridge,out_of_scope
+investigate the memory pressure alerts on worker nodes,investigate
+apply the upstream load balancing weight change,execution
+configure the cifs share with the new permissions,execution
+configure the flux reconciliation interval,execution
+what is causing the flapping network route,investigate
+what is the largest mammal in the ocean,out_of_scope
+update the ip allowlist on the security group,execution
+apply security patch on db-server-7,execution
+configure the remote backend for terraform,execution
+who is sigmund freud,out_of_scope
+what is the history of the piano,out_of_scope
+why is the storage volume mounting as read-only,investigate
+tell me about pandas,out_of_scope
+what caused the connection pool to drain,investigate
+who invented calculus,out_of_scope
+how do I sew,out_of_scope
+tell me about the northern lights,out_of_scope
+summarize the recent alerts and their resolution status,summarization
+run the sast scan on the new code change,execution
+what is causing the worker pool to deadlock,investigate
+how do I play chess,out_of_scope
+investigate the token validation failures on the api,investigate
+provide a recap of the operational maturity assessments,summarization
+what is antimatter,out_of_scope
+summarize the impact of last week outage,summarization
+check why the helm release is stuck in pending upgrade,investigate
+analyze the tombstone accumulation in the database,investigate
+why is the load balancer session persistence broken,investigate
+enroll the new host in the certificate authority,execution
+investigate the mismatch in reported vs actual disk usage,investigate
+why is the garbage collector pausing for 500ms,investigate
+why is the circuit breaker in open state,investigate
+how do I make my own perfume,out_of_scope
+check the connection refused errors on port 5432,investigate
+give me an overview of the error budget consumption,summarization
+apply the pod security policy changes,execution
+investigate the sudden increase in 404 errors,investigate
+enable the apparmor policy on the workload pod,execution
+what caused the message ordering to break,investigate
+why is the distributed join causing cross-node traffic,investigate
+why are containers crashing,investigate
+how do I make pottery,out_of_scope
+update the health check thresholds on the target group,execution
+why is the application not reading the updated configmap,investigate
+what caused the job to exceed its resource quota,investigate
+summarize the workload autoscaling behavior this week,summarization
+what is the deepest lake in the world,out_of_scope
+analyze why response time increased,investigate
+restart the varnish cache after config change,execution
+tell me about the ottoman empire,out_of_scope
+enable query caching on the database,execution
+provide a brief on the kafka topic partition distribution,summarization
+what is radioactivity,out_of_scope
+provide a recap of the secrets rotation audit,summarization
+configure the proxy buffer size for large responses,execution
+enable the ldap group sync for the service,execution
+investigate the hot spot in the key-value store,investigate
+how do I learn how to sew clothes,out_of_scope
+summarize the error logs,summarization
+give me an overview of the log-based metric trends,summarization
+give me uptime summary,summarization
+restart nginx on host123,execution
+provide a brief on the database performance this month,summarization
+summarize the access request audit for the past month,summarization
+how do I fix a leaky faucet,out_of_scope
+check what went wrong,investigate
+give me a summary of the runtime crash trends,summarization
+why is the user session being invalidated unexpectedly,investigate
+investigate the request being routed to a terminating pod,investigate
+push the signed container image to the registry,execution
+provide a brief on the mean time to detect this sprint,summarization
+what is chemistry,out_of_scope
+enable the audit log policy on the api server,execution
+analyze the slow startup time of the service,investigate
+provide a recap of the cost optimization initiatives,summarization
+what is genetics,out_of_scope
+summarize backup status,summarization
+why is load balancer unhealthy,investigate
+why is the deployment rollout stuck,investigate
+analyze exception logs,investigate
+rebuild the corrupted index on the users table,execution
+why is the read cache not warming up as expected,investigate
+what is the doppler effect,out_of_scope
+provide an overview of the resource quota usage by namespace,summarization
+stop the runaway data export job,execution
+what is blockchain,out_of_scope
+analyze the packet fragmentation on the uplink,investigate
+configure the md raid rebuild priority,execution
+provide a recap of the kubernetes event anomalies,summarization
+set the jvm heap size to 8gb and restart,execution
+rotate the iam role credentials for the batch job,execution
+investigate the missing pod metrics from the scraper,investigate
+tell me about furniture,out_of_scope
+restart application server,execution
+apply the virtual service retry policy,execution
+check why the multi-region failover is taking too long,investigate
+what caused the memory oom on worker-node-4,investigate
+check why jobs are failing silently in the queue,investigate
+tell me about dolphins,out_of_scope
+who wrote gulliver travels,out_of_scope
+check for anomalies in metrics,investigate
+why is the background job worker deadlocking,investigate
+summarize the observability maturity assessment results,summarization
+what countries border france,out_of_scope
+mount the backup volume in read-only mode,execution
+enable the kubernetes event exporter,execution
+how is silk produced,out_of_scope
+restart log aggregator,execution
+apply the priority class to the critical workloads,execution
+enable the cross-zone load balancing,execution
+how do I make soy candles,out_of_scope
+who is albert einstein,out_of_scope
+how do I skateboard,out_of_scope
+scale message queue,execution
+summarize system health for app payments,summarization
+what is the tallest mountain,out_of_scope
+who is marie curie,out_of_scope
+who composed la traviata,out_of_scope
+what is a genome,out_of_scope
+tell me about the renaissance,out_of_scope
+update the exports file and refresh nfsd,execution
+what is economics,out_of_scope
+clear cache on all nodes,execution
+summarize the health of the multi-region setup,summarization
+summarize the error budget status for all services,summarization
+what triggered the alert,investigate
+restore the selinux context on the data directory,execution
+what is the coldest place on earth,out_of_scope
+how do I make sushi,out_of_scope
+investigate the webhook delivery failures,investigate
+how do I make chocolate chip cookies,out_of_scope
+configure the route53 health check failover,execution
+what is the theory of evolution,out_of_scope
+enable the mutual tls between all services,execution
+who is thomas edison,out_of_scope
+configure the dead letter queue for failed messages,execution
+check what is causing the excessive context switches,investigate
+who won the latest academy awards,out_of_scope
+start the canary deployment for version 4.1,execution
+investigate failed authentication attempts,investigate
+what is a tectonic plate,out_of_scope
+give me a recap of the on-call escalation patterns,summarization
+what is the ozone layer,out_of_scope
+initialize the new replica set member,execution
+why are requests queued,investigate
+investigate the corrupted data in the cache layer,investigate
+apply the cpu frequency scaling governor change,execution
+how do I stay healthy,out_of_scope
+what is the higgs boson,out_of_scope
+how do I make origami cranes,out_of_scope
+why is service discovery returning stale endpoints,investigate
+how do I learn how to type faster,out_of_scope
+analyze the jvm heap after the memory spike,investigate
+how do I learn calligraphy,out_of_scope
+give me a summary of the cluster upgrade progress,summarization
+give me a summary of the scaling decisions this week,summarization
+how do I make homemade bread,out_of_scope
+summarize the edge cache performance by region,summarization
+what is string theory,out_of_scope
+analyze the segment fault in the native library,investigate
+rollback the deployment,execution
+restart the envoy proxy with the new configuration,execution
+summarize the distributed tracing insights for the api,summarization
+analyze the io error rate on the san,investigate
+tell me about the persian empire,out_of_scope
+force delete the stuck pod in the production namespace,execution
+set the pod disruption budget to allow one eviction,execution
+run the remediation playbook for cpu spike,execution
+tell me about the discovery of dna,out_of_scope
+how do I ride a bicycle,out_of_scope
+apply the cluster autoscaler priority expander config,execution
+provide a brief on the data retention compliance status,summarization
+tell me about the aztec civilization,out_of_scope
+what caused the index corruption on elasticsearch,investigate
+what is paleontology,out_of_scope
+how do I learn how to paint with watercolor,out_of_scope
+give me a recap of the infrastructure changes this week,summarization
+what is causing packet loss on the network,investigate
+clear disk space on server alpha,execution
+provide a brief on the database connection pool stats,summarization
+how do I learn how to whistle,out_of_scope
+create a snapshot of the production database,execution
+tell me about ancient babylon,out_of_scope
+apply the security hotfix to the dependency,execution
+tell me about the mongol empire,out_of_scope
+show me the root cause of latency issues,investigate
+renew the lets encrypt certificate manually,execution
+who is julius caesar,out_of_scope
+extend the filesystem after volume resize,execution
+tell me about astronomy,out_of_scope
+run the vacuum full on the postgres database,execution
+summarize the failure domain isolation test results,summarization
+add the new host to the monitoring system,execution
+tell me about the stone age,out_of_scope
+uncordon the node after patching,execution
+what is the uncertainty principle,out_of_scope
+why is the ingress controller rejecting requests,investigate
+give me a rundown of the production issues this week,summarization
+how do I play poker,out_of_scope
+configure the backup schedule for hourly snapshots,execution
+summarize the release candidate validation results,summarization
+scale the api service to 5 replicas,execution
+how do I meditate,out_of_scope
+what is causing the jdbc connection pool saturation,investigate
+what is the history of chess,out_of_scope
+what is a cytoplasm,out_of_scope
+how do I plant a tree,out_of_scope
+umount the nfs share that is hanging,execution
+what is design,out_of_scope
+how do I make wine at home,out_of_scope
+summarize the incident classification by severity,summarization
+investigate the kernel soft lockup warnings,investigate
+tell me about the roman gladiators,out_of_scope
+summarize the certificate rotation completion status,summarization
+configure the jaeger sampling rate,execution
+how do I make butter at home,out_of_scope
+why is the container runtime consuming so much memory,investigate
+who discovered america,out_of_scope
+how do I play guitar,out_of_scope
+provide a recap of the security posture improvement this quarter,summarization
+apply network policy,execution
+summarize the findings from the recent security audit,summarization
+give me a summary of the runtime exception trends,summarization
+tell me about giraffes,out_of_scope
+why is the io scheduler causing write starvation,investigate
+analyze the slow query explain plan,investigate
+configure the metrics server resource requests,execution
+enable tracing,execution
+annotate the service with the canary weight,execution
+enable the new caching strategy globally,execution
+run the database failover test,execution
+tell me about the trojan war,out_of_scope
+summarize the blue green deployment outcome,summarization
+investigate the flapping health checks,investigate
+summarize the open actionable items from postmortems,summarization
+update the firewall rules to allow port 8443,execution
+analyze the ingress rule causing traffic leak,investigate
+deploy the hotfix to all production nodes,execution
+how do I make a rope,out_of_scope
+how do I carve soap,out_of_scope
+summarize the on-call activity for the past month,summarization
+tell me about the inca empire,out_of_scope
+summarize the incident postmortem action items,summarization
+how do submarines work,out_of_scope
+investigate the excessive logging causing disk saturation,investigate
+enable write-ahead logging on the database,execution
+investigate the dropped packets on the vpn interface,investigate
+check memory usage on db-server-7,investigate
+look into the mutex contention on shared resource,investigate
+why is the replica set not converging,investigate
+what is the nitrogen cycle,out_of_scope
+run the automated rollback on failed deployment,execution
+what is the food chain,out_of_scope
+tell me about the olympics history,out_of_scope
+how do I become a chef,out_of_scope
+summarize the configuration drift detections this week,summarization
+how do I make paella,out_of_scope
+give me a summary of the infrastructure scaling events,summarization
+configure the webhook timeout for the admission controller,execution
+provide a brief on the certificate rotation status,summarization
+what is the human genome,out_of_scope
+why is the proxy returning empty responses,investigate
+what is a pulsar,out_of_scope
+give me an overview of the active feature rollouts,summarization
+who is winston churchill,out_of_scope
+give me operational summary,summarization
+investigate the tcp syn flood on the public interface,investigate
+tell me about the cold war,out_of_scope
+analyze the slow commit log replay after recovery,investigate
+how do I plant a vegetable garden,out_of_scope
+summarize the thread pool utilization trends this week,summarization
+configure the etcd compaction interval,execution
+why is the log shipper dropping records,investigate
+what is causing the increased p95 latency,investigate
+summarize the transaction rollback rate by service,summarization
+what is jazz music,out_of_scope
+tell me about the middle ages,out_of_scope
+give me a summary of the automated remediation coverage,summarization
+what is a binary star system,out_of_scope
+give me a summary of the observability alert noise ratio,summarization
+how do I make french press coffee,out_of_scope
+how do I start a podcast,out_of_scope
+how do I learn to identify birds,out_of_scope
+who composed the nutcracker,out_of_scope
+investigate the file system corruption on node-8,investigate
+why is the api response size unexpectedly large,investigate
+configure the ocsp stapling on the server,execution
+who wrote the odyssey,out_of_scope
+analyze the retry storm on downstream services,investigate
+who invented the light bulb,out_of_scope
+enable the branch protection rule on the repo,execution
+give me a summary of the tenant sla compliance status,summarization
+summarize the sre toil metrics this quarter,summarization
+tell me about the pyramids,out_of_scope
+resize the logical volume for the data partition,execution
+what is the fibonacci sequence,out_of_scope
+give me a summary of the node utilization across zones,summarization
+check the reason for the network interface flapping,investigate
+how do I whittle wood,out_of_scope
+tell me about medieval castles,out_of_scope
+how do I photograph,out_of_scope
+look into the prometheus scrape failures,investigate
+enable the dns query logging for diagnostics,execution
+who is shakespeare,out_of_scope
+summarize the cost per service unit this quarter,summarization
+investigate the cross-region latency increase,investigate
+analyze the pattern of disk write errors on the host,investigate
+what is a galaxy,out_of_scope
+update the load balancer target group with new instances,execution
+configure the heap profiler for the java service,execution
+terminate the zombie processes,execution
+summarize the batch processing job completion rates,summarization
+what caused the token bucket to overflow,investigate
+analyze the write skew in the distributed transaction,investigate
+give me a summary of the application profiling results,summarization
+what is causing the repeated node draining events,investigate
+what is quantum computing,out_of_scope
+provide a recap of the container image scan results,summarization
+simulate a node failure in staging,execution
+why is the build pipeline timing out,investigate
+how do I take better photos,out_of_scope
+who composed moonlight sonata,out_of_scope
+rotate the istio root certificate authority,execution
+investigate the blocked io thread in the event loop,investigate
+investigate the race condition in the job scheduler,investigate
+why is the connection draining taking too long,investigate
+check the reason for the degraded search ranking,investigate
+summarize the chaos engineering experiment results,summarization
+what is a black hole,out_of_scope
+apply the selinux policy update,execution
+configure the namespace resource quotas,execution
+restart the systemd socket service,execution
+analyze the traffic shaping rule mismatch,investigate
+provision a new ec2 instance for the web tier,execution
+investigate the network buffer overflow on ingress,investigate
+mount the tmpfs for the session data directory,execution
+why is cpu throttling happening,investigate
+add the spf record for the new mail relay,execution
+run the load test against staging environment,execution
+tell me about the ming dynasty art,out_of_scope
+summarize the backup verification test outcomes,summarization
+configure the circuit breaker thresholds,execution
+summarize the incident response time trends,summarization
+provide a summary of the connection pool utilization,summarization
+how do I roller skate,out_of_scope
+who is rembrandt,out_of_scope
+summarize the latency trends for the past sprint,summarization
+apply the vault dynamic database credential policy,execution
+who composed swan lake,out_of_scope
+what is causing the timeout in the payment gateway,investigate
+give me a summary of the storage utilization trends,summarization
+who is mahatma gandhi,out_of_scope
+what is the periodic table,out_of_scope
+check why the read replicas are out of sync,investigate
+why are requests timing out,investigate
+summarize the active incidents for the morning standup,summarization
+run the smart health test on the drive,execution
+who invented the telephone,out_of_scope
+provide an overview of the mean time to recovery metrics,summarization
+restart session manager,execution
+investigate the recurring alert for swap usage,investigate
+rotate the api keys for third party integrations,execution
+investigate the spike in mutex contention metrics,investigate
+configure the pam authentication settings,execution
+patch the deployment to inject the new environment variable,execution
+give me replication summary,summarization
+why is the worker thread unresponsive,investigate
+enable the distributed tracing collector,execution
+update the soa record on the authoritative dns,execution
+give me an overview of the gitops reconciliation status,summarization
+tell me about ancient china,out_of_scope
+tell me a story,out_of_scope
+how do I start beekeeping,out_of_scope
+what is causing the resource cleanup to be slow,investigate
+enable audit logging on the api gateway,execution
+apply the waf rule to block the new attack pattern,execution
+stop all running containers on host-9,execution
+start backup job,execution
+why is the write ahead log growing unbounded,investigate
+give me an overview of the service dependency mapping,summarization
+analyze the certificate pinning failures in mobile clients,investigate
+tell me about the spanish inquisition,out_of_scope
+enable the maintenance mode on the microservice,execution
+what is yoga,out_of_scope
+what is a sonnet,out_of_scope
+configure the load shedding threshold on the api,execution
+run the chaos experiment to test failover,execution
+how do I learn origami,out_of_scope
+trigger the spinnaker pipeline for the hotfix,execution
+restart the kafka broker on node-3,execution
+why is cache miss rate high,investigate
+why is the event sourcing replay taking too long,investigate
+what is the boiling point of water,out_of_scope
+how do I grow herbs indoors,out_of_scope
+tell me about the ming dynasty,out_of_scope
+how do I train for a marathon,out_of_scope
+what is existentialism,out_of_scope
+analyze why the canary deployment is showing errors,investigate
+how do I write a cover letter,out_of_scope
+remove the decommissioned server from the inventory,execution
+how do I do a cartwheel,out_of_scope
+tell me about the amazon rainforest,out_of_scope
+check the metrics cardinality explosion in prometheus,investigate
+compress and archive the old log files,execution
+investigate error rate spike in production,investigate
+provide security incident summary,summarization
+what is forensic science,out_of_scope
+provide a recap of the server provisioning activities,summarization
+summarize the horizontal autoscaler trigger patterns,summarization
+flush dns cache,execution
+investigate the message serialization error in the broker,investigate
+show root cause analysis for outage,investigate
+analyze the traces for the slow checkout flow,investigate
+how do I learn card magic,out_of_scope
+provide a brief on the change success rate this cycle,summarization
+tell me about the boer war,out_of_scope
+why is the persistent connection being dropped,investigate
+summarize the key performance indicators for the quarter,summarization
+who wrote anna karenina,out_of_scope
+tell me about elephants,out_of_scope
+who wrote crime and punishment,out_of_scope
+investigate the degraded write throughput on the database,investigate
+apply the service mesh traffic policy,execution
+apply backup retention policy,execution
+update the kubeconfig with the new credentials,execution
+check the reason behind the pod crashloopbackoff,investigate
+what is a magnetar,out_of_scope
+who discovered penicillin,out_of_scope
+revoke the expired service certificate,execution
+tell me about movies,out_of_scope
+tell me about the ancient roman baths,out_of_scope
+analyze the pattern of recurring memory pressure alerts,investigate
+why is the kubernetes scheduler failing to place pods,investigate
+enable persistent connections on the proxy,execution
+what caused memory leak in app,investigate
+provide an overview of the service health by business domain,summarization
+what are your hobbies,out_of_scope
+provide a brief on the kubernetes cluster utilization,summarization
+execute the rolling restart of all microservices,execution
+enable the opentelemetry collector on the service,execution
+give me an overview of the log ingestion cost trends,summarization
+give me an overview of the alerting rule changes,summarization
+investigate the delayed metric reporting from agent,investigate
+what is continental drift,out_of_scope
+who wrote the iliad,out_of_scope
+provide weekly report summary,summarization
+check what is causing the high cpu wait on nfs,investigate
+give me a summary of the node group scaling history,summarization
+investigate the spurious wakeups in the thread pool,investigate
+what is causing the repeated ip address conflict in the cluster,investigate
+patch the third-party library to the safe version,execution
+who was cleopatra,out_of_scope
+why is the search indexer falling behind,investigate
+tell me about the mesopotamian civilization,out_of_scope
+summarize database performance,summarization
+provide a brief on the job queue wait time trends,summarization
+how do I cook pasta,out_of_scope
+what caused the connection storm after failover,investigate
+how does sonar work,out_of_scope
+configure the kernel network parameters via sysctl,execution
+run the terraform plan review before apply,execution
+configure the database read timeout to 10 seconds,execution
+summarize the scheduled maintenance completion report,summarization
+check what is causing the http keep-alive to be disabled,investigate
+how do I brew kombucha,out_of_scope
+apply the rate limit policy to the external api proxy,execution

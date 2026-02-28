@@ -124,11 +124,80 @@ RULE_PRIORITY = ["R1", "R4", "R2", "R3"]  # Explicit precedence
 - `level1_model.py`: Shared module with CONFIG, signal extraction, decision rules, voting
 - `artifacts/level1a/`: Output files and visualizations
 
+#### Examples (Level 1A)
+
+These examples contrast model outputs with the symbolic rule decisions.
+
+```json
+{
+  "utterance": "restart nginx on host123",
+  "predicted_intent": "execution",
+  "signals": {"max_confidence": 0.78, "margin": 0.25, "meaningful_tokens": 5},
+  "triggered_rules": ["R4"],
+  "decision_state": "blocked",
+  "decision_reason": "execution_safety_block"
+}
+```
+
+```json
+{
+  "utterance": "hello",
+  "predicted_intent": "out_of_scope",
+  "signals": {"meaningful_tokens": 1},
+  "triggered_rules": ["R1"],
+  "decision_state": "blocked",
+  "decision_reason": "insufficient_tokens"
+}
+```
+
+```json
+{
+  "utterance": "why is server cpu high",
+  "predicted_intent": "investigate",
+  "signals": {"max_confidence": 0.92, "margin": 0.45, "meaningful_tokens": 6},
+  "triggered_rules": [],
+  "decision_state": "accepted",
+  "decision_reason": "model_prediction"
+}
+```
+
 ### Level 1B (Multi-Detector Architecture)
 - `level1b_multi_detector_classification.ipynb`: Multi-detector notebook
 - `level1b_model.py`: Multi-detector module with binary classifiers + rule engine
 - `models/level1b/`: Trained detectors (one per intent)
 - `artifacts/level1b/`: Predictions, metrics, rule analysis
+
+#### Examples (Level 1B)
+
+```json
+{
+  "utterance": "restart nginx on host123",
+  "detector_scores": {"execution": 0.65, "investigate": 0.40},
+  "triggered_rules": ["R_EXEC_SAFETY"],
+  "decision_state": "needs_clarification",
+  "decision_reason": "R_EXEC_SAFETY"
+}
+```
+
+```json
+{
+  "utterance": "server issues",
+  "detector_scores": {"investigate": 0.55, "execution": 0.52},
+  "triggered_rules": ["R_AMBIGUOUS"],
+  "decision_state": "needs_clarification",
+  "decision_reason": "ambiguous_detectors"
+}
+```
+
+```json
+{
+  "utterance": "summarize last error logs",
+  "detector_scores": {"summarization": 0.88, "investigate": 0.05},
+  "triggered_rules": ["R_DEFAULT"],
+  "decision_state": "accepted",
+  "decision_reason": "R_DEFAULT"
+}
+```
 
 **Note**: Both notebooks import from their respective modules to avoid code duplication.
 
@@ -383,21 +452,115 @@ print(f"Detector Scores: {result['detector_scores']}")
 
 ---
 
+## Level 1C: Symbol-Aligned Neuro-Symbolic Classification
+
+Level 1C refines Level 1B by introducing a strict three-layer separation: numeric scores never leave the neural layer, a symbolization layer converts all signals into predicates, and the rule engine operates exclusively on those predicates with no numeric comparisons in rules.
+
+### Architecture
+
+```
+Neural Detectors → Symbolization Layer → Pure Symbolic Rule Engine
+```
+
+#### Neural Layer (numeric, internal only)
+- Four independent binary TF-IDF + Logistic Regression detectors, one per intent
+- Scores are **not** constrained to sum to 1
+- Also computes the number of active TF-IDF features (model token count) for input-quality evidence
+
+#### Symbolization Layer (all thresholds live here)
+Converts numeric signals into symbolic predicates:
+
+| Predicate | Condition |
+|---|---|
+| `CANDIDATE_<INTENT>` | detector score ≥ `BASE_MIN_SCORE` (0.30) |
+| `HIGH_CONFIDENCE_<INTENT>` | detector score ≥ `HIGH_CONFIDENCE_SCORE` (0.85) |
+| `NOT_HIGH_CONFIDENCE_EXECUTION` | negation, for rule convenience |
+| `NO_CANDIDATE_INTENT` | no detector reached `BASE_MIN_SCORE` |
+| `AMBIGUOUS` | top-to-second score margin < `AMBIGUITY_MARGIN` (0.10) |
+| `RAW_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | raw token count vs `RAW_MIN_TOKENS` (2) |
+| `UNIQUE_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | unique token count vs `UNIQUE_MIN_TOKENS` (2) |
+| `MODEL_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | active TF-IDF features vs `MODEL_MIN_TOKENS` (2) |
+| `VERY_SHORT_UTTERANCE` | raw token count ≤ 1 |
+
+The symbolization layer is **neutral** — it produces only data-derived predicates. No domain keyword lists (e.g. `OOS_KEYWORDS`, `TECH_KEYWORDS`) are used; domain-specific intent biasing is the responsibility of the detectors, not the symbolization layer.
+
+#### Rule Engine (symbolic only, no numeric thresholds)
+Rules are loaded from `models/level1c/rules.json` at runtime and operate purely on the predicate set. Rules are data — they can be inspected, versioned, and modified without changing Python code.
+
+| Rule | Priority | Condition | Outcome |
+|---|---|---|---|
+| `R_INSUFFICIENT_INPUT` | 100 | ALL three token predicates insufficient | `blocked` → `out_of_scope` |
+| `R_NO_CANDIDATE_INTENT` | 95 | `NO_CANDIDATE_INTENT` | `blocked` → `out_of_scope` |
+| `R_EXECUTION_LOW_CONFIDENCE` | 90 | `CANDIDATE_EXECUTION` + `NOT_HIGH_CONFIDENCE_EXECUTION` | `needs_clarification` → `execution` (or downgrades to `investigate` if `CANDIDATE_INVESTIGATE`) |
+| `R_AMBIGUOUS` | 50 | `AMBIGUOUS` | `needs_clarification` → top intent |
+| `R_DEFAULT` | 0 | always | `accepted` → top intent |
+
+### Files
+
+- `level1c_model.py` — `Level1CClassifier` with neural, symbolization, and rule-engine layers; `CONFIG` dict (thresholds only)
+- `level1c_symbolic_intent_classification.ipynb` — end-to-end notebook: train, spot-check, evaluate, save
+- `models/level1c/config.json` — serialised `CONFIG` and intents list
+- `models/level1c/rules.json` — symbolic rules as plain JSON (human-readable, no numeric values)
+- `models/level1c/detector_<intent>.pkl` — one binary detector per intent (4 files)
+- `artifacts/level1c/level1c_predictions.csv` — full test-set predictions including symbols and triggered rules
+- `artifacts/level1c/evaluation_metrics.json` — accuracy, decision-state distribution, rule trigger counts, config snapshot
+
+### Output Structure
+
+```json
+{
+  "utterance": "restart nginx on host123",
+  "symbols": ["CANDIDATE_EXECUTION", "NOT_HIGH_CONFIDENCE_EXECUTION", "RAW_TOKEN_COUNT_SUFFICIENT", "UNIQUE_TOKEN_COUNT_SUFFICIENT", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "predicted_intent": "execution",
+  "decision_state": "needs_clarification",
+  "decision_reason": "R_EXECUTION_LOW_CONFIDENCE",
+  "triggered_rules": ["R_EXECUTION_LOW_CONFIDENCE"],
+  "detector_scores": {"execution": 0.78, "investigate": 0.15, "summarization": 0.04, "out_of_scope": 0.03}
+}
+```
+
+```json
+{
+  "utterance": "why is server cpu high",
+  "symbols": ["CANDIDATE_INVESTIGATE", "HIGH_CONFIDENCE_INVESTIGATE", "RAW_TOKEN_COUNT_SUFFICIENT", "UNIQUE_TOKEN_COUNT_SUFFICIENT", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "predicted_intent": "investigate",
+  "decision_state": "accepted",
+  "decision_reason": "R_DEFAULT",
+  "triggered_rules": ["R_DEFAULT"],
+  "detector_scores": {"investigate": 0.91, "execution": 0.08, "summarization": 0.01, "out_of_scope": 0.00}
+}
+```
+
+```json
+{
+  "utterance": "hello",
+  "symbols": ["RAW_TOKEN_COUNT_INSUFFICIENT", "UNIQUE_TOKEN_COUNT_INSUFFICIENT", "MODEL_TOKEN_COUNT_INSUFFICIENT", "VERY_SHORT_UTTERANCE", "NO_CANDIDATE_INTENT"],
+  "predicted_intent": "out_of_scope",
+  "decision_state": "blocked",
+  "decision_reason": "R_INSUFFICIENT_INPUT",
+  "triggered_rules": ["R_INSUFFICIENT_INPUT"],
+  "detector_scores": {"investigate": 0.10, "execution": 0.05, "summarization": 0.02, "out_of_scope": 0.20}
+}
+```
+
+### Key Design Decisions
+
+1. **Neutral symbolization layer** — predicate derivation is purely statistical; no domain keyword lists. Detectors handle domain specificity.
+2. **Hybrid input quality evidence** — `R_INSUFFICIENT_INPUT` requires *all three* token signals to be insufficient, preventing false blocks on short but model-known vocabulary.
+3. **Externalized rules** — `rules.json` is plain data; rules can be added or tuned without modifying `level1c_model.py`.
+4. **Strict numeric/symbolic separation** — numeric thresholds appear only in `CONFIG` and only inside `_symbolize()`; the rule engine never sees a number.
+
+---
+
 ## Next Level
 → **Level 2**: TBD (will leverage L1B's compound intent detection)
 
 ---
 
-**Level 1 Status**: ✅ Complete (1A + 1B)  
-**Architecture**: 2-Layer Neuro-Symbolic  
-**Approach**: Statistical Learning + Deterministic Rules  
+**Level 1 Status**: ✅ Complete (1A + 1B + 1C)  
+**Architecture**: 2-Layer Neuro-Symbolic (1A/1B) → 3-Layer Symbol-Aligned (1C)  
+**Approach**: Statistical Learning + Deterministic Symbolic Rules  
 **Key Innovation**: Intent/Decision State Separation  
-**Level 1B Innovation**: Multi-Detector Independence + Explicit Rule Types
-→ **Level 2**: TBD (not yet implemented)
-
----
-
-**Level 1 Status**: ✅ Complete  
-**Architecture**: 2-Layer Neuro-Symbolic  
-**Approach**: Statistical Learning + Deterministic Rules  
-**Key Innovation**: Intent/Decision State Separation
+**Level 1B Innovation**: Multi-Detector Independence + Explicit Rule Types  
+**Level 1C Innovation**: Strict Numeric/Symbolic Separation, Externalized Rules, Neutral Symbolization Layer  
+→ **Level 2**: TBD (will leverage L1C structured predicate outputs)
