@@ -8,7 +8,9 @@ Level 3 demonstrates the critical transition from **post-hoc logic filtering** (
 
 ## Notebooks
 
-### 1. `level3_data_prep.ipynb` - Level-3 Dataset Generation
+> **Note**: All notebooks have been moved to [`level5/`](../level5/). The `level3/` directory retains the dataset and this README only.
+
+### 1. `level5/level3_data_prep.ipynb` - Level-3 Dataset Generation
 **Purpose**: Generate a Level-3 dataset with logical constraints (allowed/suppressed intents).
 
 **Input**: Base dataset (`data/intents_base.csv`)
@@ -28,7 +30,7 @@ Level 3 demonstrates the critical transition from **post-hoc logic filtering** (
 
 ---
 
-### 2. `l2_5_evaluation.ipynb` - Level 2.5 Baseline (Post-hoc Logic)
+### 2. `level5/l2_5_evaluation.ipynb` - Level 2.5 Baseline (Post-hoc Logic)
 **Purpose**: Educational bridge demonstrating what Level 2.5 proves and what it cannot fix.
 
 **Architecture**: 
@@ -66,7 +68,7 @@ L2 Model → Raw Predictions → Logic Filter → Constrained Predictions
 
 ---
 
-### 3. `level3_logic_gating_poc.ipynb` - Level 3 Logic-Aware Gating PoC
+### 3. `level5/level3_logic_gating_poc.ipynb` - Level 3 Logic-Aware Gating PoC
 **Purpose**: Minimal, didactic proof-of-concept comparing L2, L2.5, and L3 architectures.
 
 **Architecture**:
@@ -188,24 +190,27 @@ INTENTS = ['investigate', 'execute', 'summarize', 'ops']
 ```
 level3/
 ├── README.md                          # This file
-├── level3_data_prep.ipynb            # Dataset generation
-├── l2_5_evaluation.ipynb             # L2.5 educational bridge
-├── level3_logic_gating_poc.ipynb     # L3 PoC (L2 vs L2.5 vs L3)
 └── data/
     └── level3_intents.csv            # Generated constraint dataset
+
+level5/
+├── level3_data_prep.ipynb            # Dataset generation (moved from level3/)
+├── l2_5_evaluation.ipynb             # L2.5 educational bridge (moved from level3/)
+└── level3_logic_gating_poc.ipynb     # L3 PoC (L2 vs L2.5 vs L3) (moved from level3/)
 ```
 
 ## Quick Start
 
 ### 1. Generate Level-3 Dataset (optional - already generated)
 ```bash
-cd level3
+cd level5
 jupyter notebook level3_data_prep.ipynb
-# Run all cells to regenerate level3_intents.csv
+# Run all cells to regenerate level3/data/level3_intents.csv
 ```
 
 ### 2. Run L2.5 Evaluation
 ```bash
+cd level5
 jupyter notebook l2_5_evaluation.ipynb
 # Run all cells to see post-hoc logic filtering
 # Read final cell for educational conclusion
@@ -213,6 +218,7 @@ jupyter notebook l2_5_evaluation.ipynb
 
 ### 3. Run Level-3 PoC
 ```bash
+cd level5
 jupyter notebook level3_logic_gating_poc.ipynb
 # Run all cells to compare L2, L2.5, and L3
 # Observe violation rates and structural differences
