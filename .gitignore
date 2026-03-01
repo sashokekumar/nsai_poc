@@ -25,6 +25,7 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+*.joblib
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -221,3 +222,7 @@ __marimo__/
 
 # Local test data not for repo
 /data/intents_level3.csv
+
+# PyTorch saved model weights (binary artifacts, do not commit)
+**/*.pt
+**/*.pth

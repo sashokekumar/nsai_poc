@@ -1,0 +1,1662 @@
+utterance,gold_intent,parsed_intent,entity,symptom,time_context,reasoning_mode
+summarize the horizontal pod autoscaler activity,summarization,summarization,horizontal_pod_autoscaler,,,reporting
+provide a recap of the cost trends by environment,summarization,summarization,cost_trends,,,reporting
+how do I play basketball,out_of_scope,out_of_scope,,,,reject
+configure the health check interval to 30 seconds,execution,execution,health_check,,,action
+inject a latency fault into the payment service,execution,execution,payment_service,latency_high,,action
+summarize the observability stack health,summarization,summarization,observability_stack,,,reporting
+why is the backup not completing within the window,investigate,investigate,backup,not_completing,sla_window,diagnostic
+summarize the scheduled downtime impact on availability sla,summarization,summarization,availability_sla,,,reporting
+tell me about travel,out_of_scope,out_of_scope,,,,reject
+check why the message acknowledgment is not being sent,investigate,investigate,message_ack,,,diagnostic
+enable the volume snapshot class for backup,execution,execution,backup,,,action
+restart the message queue consumers,execution,execution,message_queue,,,action
+tell me about the industrial revolution,out_of_scope,out_of_scope,message_queue,,,reject
+check why the aggregation job is producing empty output,investigate,investigate,aggregation_job,empty_output,,diagnostic
+what is a comet,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a brief on the service catalog update status,summarization,summarization,service,,,reporting
+how do I learn woodworking,out_of_scope,out_of_scope,,,,reject
+analyze the rate of retries on downstream calls,investigate,investigate,rate_limiting,,,diagnostic
+who wrote the aeneid,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the load test performance baseline results,summarization,summarization,load_test,,,reporting
+how do I start a business,out_of_scope,out_of_scope,,,,reject
+analyze the pod restart loop on the payment service,investigate,investigate,pod,restart_loop,,diagnostic
+tell me about dinosaurs,out_of_scope,out_of_scope,,,,reject
+what is the population of the earth,out_of_scope,out_of_scope,,,,reject
+check why the kubernetes node is not ready,investigate,investigate,kubernetes_node,not_ready,,diagnostic
+provision additional read replicas for the database,execution,execution,database,,,action
+provide a recap of the network changes this quarter,summarization,summarization,network_policy,,this_quarter,reporting
+how do I make ice cream,out_of_scope,out_of_scope,,,,reject
+how do I juggle,out_of_scope,out_of_scope,,,,reject
+investigate the TLS handshake failures,investigate,investigate,tls,failure,,diagnostic
+provide a brief on the message delivery success rate,summarization,summarization,message_queue,,,reporting
+provide a recap of the release frequency this quarter,summarization,summarization,release_frequency,,this_quarter,reporting
+give me an overview of the release notes for version 5.0,summarization,summarization,release_notes,,,reporting
+investigate disk I/O bottleneck,investigate,investigate,disk_io,bottleneck,,diagnostic
+who painted starry night,out_of_scope,out_of_scope,,,,reject
+why is throughput degraded,investigate,investigate,kubernetes_node,degraded,,diagnostic
+provide a summary of the log analysis findings,summarization,summarization,logs,,,reporting
+tell me about the bermuda triangle,out_of_scope,out_of_scope,message_queue,,,reject
+who composed requiem,out_of_scope,out_of_scope,,,,reject
+provide a brief of the runbook updates this month,summarization,summarization,message_queue,,,reporting
+stop the runaway query,execution,execution,database,,,action
+run the chef recipe on the fleet,execution,execution,message_queue,,,action
+summarize the observability signal quality this quarter,summarization,summarization,observability_stack,,this_quarter,reporting
+tell me about ancient greece,out_of_scope,out_of_scope,,,,reject
+configure the destination rule circuit breaker,execution,execution,circuit_breaker,,,action
+check why the database schema version does not match,investigate,investigate,database,,,diagnostic
+give me a summary of the pod scheduling efficiency,summarization,summarization,pod,,,reporting
+tell me about the han dynasty,out_of_scope,out_of_scope,message_queue,,,reject
+tell me about the great barrier reef,out_of_scope,out_of_scope,message_queue,,,reject
+provide node status summary,summarization,summarization,kubernetes_node,,,reporting
+investigate the broken pipe errors in application logs,investigate,investigate,logs,error,,diagnostic
+what is causing service degradation,investigate,investigate,service,degraded,,diagnostic
+tell me about the crusades,out_of_scope,out_of_scope,message_queue,,,reject
+how do I learn morse code,out_of_scope,out_of_scope,,,,reject
+provide a brief on the key metrics from last night,summarization,summarization,metrics,,last_night,reporting
+why does the pod take too long to enter running state,investigate,investigate,pod,,,diagnostic
+why is the redis cluster showing high fragmentation,investigate,investigate,kubernetes_cluster,,,diagnostic
+what is meteorology,out_of_scope,out_of_scope,logs,,,reject
+investigate high error rate,investigate,investigate,error_budget,error,,diagnostic
+summarize the cost optimization actions taken this month,summarization,summarization,cost_trends,,,reporting
+summarize the etl job success and failure rates,summarization,summarization,,failure,,reporting
+how do I make ramen from scratch,out_of_scope,out_of_scope,,,,reject
+run the health check script on all instances,execution,execution,health_check,,,action
+tell me about the spanish armada,out_of_scope,out_of_scope,message_queue,,,reject
+summarize what actions were taken,summarization,out_of_scope,,,,reject
+provide a brief on the long-running query trends,summarization,summarization,database,,,reporting
+give me a summary of the latency percentile trends,summarization,summarization,cost_trends,latency_high,,reporting
+what is relativity theory,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the automated remediation actions,summarization,summarization,message_queue,,,reporting
+give me a recap of the key findings from the postmortem review,summarization,out_of_scope,,,,reject
+how do I surf,out_of_scope,out_of_scope,,,,reject
+give me a summary of the api consumer adoption trends,summarization,summarization,api,,,reporting
+update the known hosts file after host migration,execution,execution,message_queue,,,action
+apply the io scheduler change to deadline,execution,execution,dns,,,action
+summarize the ssl certificate expiry status across services,summarization,summarization,certificate,,,reporting
+analyze the latency introduced by the proxy sidecar,investigate,investigate,reverse_proxy,latency_high,,diagnostic
+how is the weather today,out_of_scope,out_of_scope,,,today,reject
+configure the container registry garbage collection,execution,execution,container_image,,,action
+how do I tie a tie,out_of_scope,out_of_scope,,,,reject
+summarize the user impact analysis from the last incident,summarization,summarization,incident,,,reporting
+what is causing the excessive memory paging,investigate,out_of_scope,,,,reject
+check why the ephemeral storage is filling up quickly,investigate,investigate,storage,,,diagnostic
+check what caused the crash,investigate,investigate,health_check,crash,,diagnostic
+provide a recap of the cross-service dependency changes,summarization,summarization,service,,,reporting
+give me a summary of the top database tables by row count,summarization,summarization,database,,,reporting
+why is the snapshot restore taking longer than expected,investigate,investigate,volume_snapshot,,,diagnostic
+what is causing the repeated auth failures,investigate,investigate,tls,failure,,diagnostic
+what is the stock market,out_of_scope,out_of_scope,,,,reject
+provide a brief on the ratio of planned versus unplanned work,summarization,summarization,message_queue,,,reporting
+check why the api gateway is caching stale tokens,investigate,investigate,api_gateway,,,diagnostic
+tell me about music,out_of_scope,out_of_scope,,,,reject
+what is a catalyst,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the release impact on key user flows,summarization,summarization,metrics,,,reporting
+tell me about architecture,out_of_scope,out_of_scope,,,,reject
+what is the speed of light,out_of_scope,out_of_scope,,,,reject
+what is a gene,out_of_scope,out_of_scope,kubernetes_node,,,reject
+restart container,execution,execution,container_image,,,action
+give me a summary of alerts for last week,summarization,summarization,alerting,,last_week,reporting
+investigate why websocket connections are dropping,investigate,investigate,,drop,,diagnostic
+set the socket receive buffer size for throughput,execution,execution,message_queue,,,action
+investigate the intermittent connection resets,investigate,investigate,connection_pool,,,diagnostic
+what is causing the service to consume 100 percent cpu,investigate,investigate,service,,,diagnostic
+give me an overview of the tenant usage statistics,summarization,summarization,message_queue,,,reporting
+investigate the async callback queue overflow,investigate,investigate,message_queue,overflow,,diagnostic
+summarize the system hardening checklist compliance,summarization,summarization,message_queue,,,reporting
+how do I train a dog basic commands,out_of_scope,out_of_scope,,,,reject
+summarize what alerts fired during the incident window,summarization,summarization,alerting,,,reporting
+why is the compaction process stalling on cassandra,investigate,out_of_scope,,,,reject
+summarize the third party integration health,summarization,summarization,service,,,reporting
+run the chaos engineering test on staging,execution,execution,load_test,,,action
+what is anthropology,out_of_scope,out_of_scope,logs,,,reject
+summarize incident timeline,summarization,summarization,incident,,,reporting
+what is a supernova,out_of_scope,out_of_scope,kubernetes_node,,,reject
+update the kerberos keytab on the server,execution,out_of_scope,,,,reject
+give me an overview of the external dependency health,summarization,summarization,service,,,reporting
+why is the etcd cluster showing leader election issues,investigate,investigate,kubernetes_cluster,,,diagnostic
+summarize the api gateway performance for the past sprint,summarization,summarization,api_gateway,,past,reporting
+what is the greenhouse gas,out_of_scope,out_of_scope,,,,reject
+give me a brief on the vendor incident reports,summarization,summarization,incident,,,reporting
+how do I play tennis,out_of_scope,out_of_scope,,,,reject
+apply the resource quota to the namespace,execution,execution,namespace,,,action
+who discovered electricity,out_of_scope,out_of_scope,,,,reject
+give me a brief on the service health dashboard metrics,summarization,summarization,service,,,reporting
+provide a brief on the rollback rate trends,summarization,summarization,rate_limiting,,,reporting
+how do I make miso paste,out_of_scope,out_of_scope,,,,reject
+run the trivy vulnerability scan on the image,execution,out_of_scope,,,,reject
+cordon the node before maintenance,execution,execution,kubernetes_node,,,action
+why is the background sync job being preempted,investigate,investigate,message_ack,,,diagnostic
+apply the coredns custom forwarding rule,execution,execution,dns,,,action
+summarize the compliance remediation progress,summarization,summarization,message_queue,,,reporting
+enable cross-origin resource sharing headers,execution,execution,resource_quota,,,action
+summarize capacity report,summarization,out_of_scope,,,,reject
+why is the reverse proxy adding unexpected headers,investigate,investigate,reverse_proxy,,,diagnostic
+check what is causing the cache stampede,investigate,investigate,cache,,,diagnostic
+enable the web application firewall rules,execution,execution,message_queue,,,action
+analyze the kernel scheduler latency spikes,investigate,investigate,message_queue,latency_high,,diagnostic
+give me an overview of the capacity headroom by service,summarization,summarization,service,,,reporting
+who is galileo,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I tie dye a shirt,out_of_scope,out_of_scope,,,,reject
+provide a brief on the retry rate trends,summarization,summarization,rate_limiting,,,reporting
+provide a brief on the system vulnerability exposure index,summarization,summarization,message_queue,,,reporting
+start the disaster recovery failover procedure,execution,execution,message_queue,failure,,action
+how do I whistle,out_of_scope,out_of_scope,,,,reject
+how do I skip stones,out_of_scope,out_of_scope,,,,reject
+summarize the multi-region deployment status,summarization,summarization,deployment,,,reporting
+enable the vpa recommendation mode on the namespace,execution,execution,namespace,,,action
+run the tls delegation certificate signing request,execution,execution,tls,,,action
+tell me about the maya calendar,out_of_scope,out_of_scope,message_queue,,,reject
+what is magnetism,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is nanotechnology,out_of_scope,out_of_scope,logs,,,reject
+investigate the cache warmup causing latency at startup,investigate,investigate,cache,latency_high,,diagnostic
+investigate the http pipelining issue on the proxy,investigate,investigate,reverse_proxy,,,diagnostic
+investigate the namespace collision in kubernetes,investigate,investigate,namespace,,,diagnostic
+summarize the data pipeline execution summary,summarization,summarization,ci_cd_pipeline,,,reporting
+how do I learn how to play harmonica,out_of_scope,out_of_scope,,,,reject
+why is the health status endpoint returning wrong version,investigate,investigate,service,error,,diagnostic
+investigate the data corruption in table orders,investigate,investigate,message_queue,,,diagnostic
+check why the circuit breaker keeps tripping,investigate,investigate,circuit_breaker,,,diagnostic
+why are write locks being held for too long,investigate,investigate,message_ack,,,diagnostic
+what is a black dwarf star,out_of_scope,out_of_scope,kubernetes_node,,,reject
+reset application state,execution,out_of_scope,,,,reject
+give me a brief on the auto-scaling behavior this week,summarization,summarization,message_queue,,this_week,reporting
+give me an overview of the kafka consumer lag trends,summarization,summarization,kafka,,,reporting
+prune the docker volumes on the build agent,execution,execution,message_queue,,,action
+configure the retry policy with exponential backoff,execution,execution,network_policy,,,action
+tell me about the sumerian civilization,out_of_scope,out_of_scope,message_queue,,,reject
+why is the ssl certificate expired on prod,investigate,investigate,certificate,,,diagnostic
+who is aristotle and his philosophy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+look into the certificate chain validation error,investigate,investigate,certificate,error,,diagnostic
+check what is causing the spike in error rate,investigate,investigate,,error,,diagnostic
+provide cache hit summary,summarization,summarization,cache,,,reporting
+force garbage collection,execution,out_of_scope,,,,reject
+redeploy the microservice with the fix,execution,execution,service,,,action
+how do I start a garden,out_of_scope,out_of_scope,,,,reject
+provide a recap of the data pipeline job outcomes,summarization,summarization,ci_cd_pipeline,,,reporting
+why is the dns ttl causing stale lookups,investigate,investigate,dns,,,diagnostic
+rebalance the kafka topic partitions,execution,execution,kafka,,,action
+what is causing the node disk pressure warning,investigate,investigate,kubernetes_node,,,diagnostic
+scale job scheduler,execution,execution,cron_job,,,action
+why is the batch job consuming all available memory,investigate,investigate,batch_job,,,diagnostic
+what time is it,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I clean a cast iron pan,out_of_scope,out_of_scope,,,,reject
+how do I make a quilt,out_of_scope,out_of_scope,,,,reject
+how do I make pesto from scratch,out_of_scope,out_of_scope,,,,reject
+who is florence nightingale,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I learn to surf beginner tips,out_of_scope,out_of_scope,,,,reject
+give me an overview of the platform reliability metrics,summarization,summarization,metrics,,,reporting
+enable the transparent hugepages for the database,execution,execution,database,,,action
+provide a brief on the jvm memory pool utilization,summarization,summarization,connection_pool,,,reporting
+scale the worker pool to 20 instances,execution,execution,connection_pool,,,action
+provide a summary of the dns query patterns,summarization,summarization,dns,,,reporting
+examine the kernel panic logs on host-42,investigate,investigate,logs,,,diagnostic
+migrate the database schema to version 3.2,execution,execution,database,,,action
+give me a summary of the top recurring failure modes,summarization,summarization,dns,failure,,reporting
+check the semaphore deadlock in the process pool,investigate,out_of_scope,,,,reject
+update the opensearch index template,execution,execution,message_queue,,,action
+why are retries increasing the backend load,investigate,investigate,load_test,,,diagnostic
+analyze the cause of the high cardinality in logs,investigate,investigate,logs,,,diagnostic
+who is frida kahlo,out_of_scope,out_of_scope,kubernetes_node,,,reject
+enable the numa-aware memory allocation,execution,execution,message_queue,,,action
+what is climate change,out_of_scope,out_of_scope,dns,,,reject
+why is the distributed transaction not committing,investigate,investigate,distributed_tracing,,,diagnostic
+tell me about the golden age of islam,out_of_scope,out_of_scope,availability_sla,,,reject
+switch traffic to the blue deployment,execution,execution,deployment,,,action
+what is a solar system,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a summary of the resource consumption by service,summarization,summarization,service,,,reporting
+give me a summary of the top 10 high-memory services,summarization,summarization,service,,,reporting
+what is philosophy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+restart health check,execution,execution,health_check,,,action
+enable the graceful shutdown sequence on the workers,execution,execution,message_queue,,,action
+enable the maintenance page on the cdn,execution,execution,message_queue,,,action
+give me an overview of the cache performance metrics,summarization,summarization,cache,,,reporting
+summarize monthly trends,summarization,summarization,cost_trends,,,reporting
+summarize the api gateway error breakdown for the week,summarization,summarization,api_gateway,error,,reporting
+who is napoleon,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the api deprecation timeline and impact,summarization,summarization,api,,,reporting
+provide a recap of the compliance checks this quarter,summarization,summarization,health_check,,this_quarter,reporting
+how do I fold a paper airplane,out_of_scope,out_of_scope,,,,reject
+how do I build a model train,out_of_scope,out_of_scope,,,,reject
+investigate the cpu steal time on the vm host,investigate,investigate,message_queue,,,diagnostic
+give me a summary of the audit findings by control area,summarization,out_of_scope,,,,reject
+how do I draw,out_of_scope,out_of_scope,,,,reject
+check why the replica is not accepting writes,investigate,investigate,kubernetes_node,,,diagnostic
+configure the slack webhook for incident notifications,execution,execution,incident,,,action
+tell me about coral reefs,out_of_scope,out_of_scope,,,,reject
+analyze the high rate of cache evictions,investigate,investigate,cache,,,diagnostic
+bounce the application pool in iis,execution,execution,connection_pool,,,action
+configure the secret zero bootstrap for the service,execution,execution,service,,,action
+analyze the cpu soft irq time spikes,investigate,investigate,message_queue,spike,,diagnostic
+label the nodes for the gpu workload,execution,execution,kubernetes_node,,,action
+what is evolution,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate the stale configmap being used after rollout,investigate,out_of_scope,,,,reject
+apply the updated retention policy to the log bucket,execution,execution,logs,,,action
+remove the stale cname record,execution,execution,message_queue,,,action
+how do I make a terrarium,out_of_scope,out_of_scope,,,,reject
+tell me about chameleons,out_of_scope,out_of_scope,,,,reject
+sync the configuration from the control plane,execution,execution,message_queue,,,action
+who invented the airplane,out_of_scope,out_of_scope,message_queue,,,reject
+restart the coordination service,execution,execution,service,,,action
+enable the brotli compression on the proxy,execution,execution,reverse_proxy,,,action
+execute the blue green deployment switch,execution,execution,deployment,,,action
+investigate the slow kafka consumer group commit,investigate,investigate,kafka,slow,,diagnostic
+apply the horizontal pod autoscaler policy,execution,execution,horizontal_pod_autoscaler,,,action
+summarize the load test results from yesterday,summarization,summarization,load_test,,yesterday,reporting
+enable circuit breaker,execution,execution,circuit_breaker,,,action
+what is the most spoken language in the world,out_of_scope,out_of_scope,,,,reject
+enable the slow query log on the database,execution,execution,database,slow,,action
+check what is causing the repeated pod preemptions,investigate,investigate,pod,,,diagnostic
+check what caused sync failure,investigate,investigate,health_check,failure,,diagnostic
+provide a recap of the capacity forecast model output,summarization,summarization,aggregation_job,,,reporting
+what is entropy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+why are the kubernetes events showing back-off restart,investigate,investigate,kubernetes_node,,,diagnostic
+give me an overview of the service catalog coverage gaps,summarization,summarization,service,,,reporting
+tell me about wolves,out_of_scope,out_of_scope,,,,reject
+configure the cache-control headers on the web server,execution,execution,cache,,,action
+provide a brief on the api deprecation timeline,summarization,summarization,api,,,reporting
+give me an overview of the cold storage growth rate,summarization,summarization,storage,,,reporting
+what is painting,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the network policy audit results,summarization,summarization,network_policy,,,reporting
+give me an overview of the pod scheduling efficiency,summarization,summarization,pod,,,reporting
+apply rate limiting,execution,execution,rate_limiting,,,action
+check why the liveness probe keeps failing,investigate,investigate,health_check,failure,,diagnostic
+provide a brief on the observability coverage by service,summarization,summarization,service,,,reporting
+who wrote a midsummer night dream,out_of_scope,out_of_scope,,,,reject
+tell me about the machu picchu history,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the multicast routing failure on the switch,investigate,investigate,,failure,,diagnostic
+deploy the latest build to staging,execution,execution,message_queue,,,action
+analyze the failed deployment,investigate,investigate,deployment,failure,,diagnostic
+what is causing the session timeout in the middleware,investigate,investigate,,timeout,,diagnostic
+what is causing the frequent index rebuilds,investigate,out_of_scope,,,,reject
+why is the etl pipeline producing duplicate records,investigate,investigate,ci_cd_pipeline,,,diagnostic
+summarize the infrastructure drift detection report,summarization,summarization,cost_anomalies,,,reporting
+who composed the magic flute,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the security audit findings,summarization,summarization,network_policy,,,reporting
+why is the dns resolution returning stale results,investigate,investigate,dns,,,diagnostic
+run the cluster health verification script,execution,execution,kubernetes_cluster,,,action
+rotate the ssl certificates on all endpoints,execution,execution,certificate,,,action
+tell me about the sahara desert,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the test coverage and quality metrics,summarization,summarization,metrics,,,reporting
+tell me about penguins,out_of_scope,out_of_scope,,,,reject
+disable the noisy alerting rule temporarily,execution,execution,alerting,,,action
+configure the nfs export options for the new client,execution,execution,message_queue,,,action
+how do I make soap,out_of_scope,out_of_scope,,,,reject
+how do I make natural dye,out_of_scope,out_of_scope,,,,reject
+tell me about the gold rush,out_of_scope,out_of_scope,message_queue,,,reject
+analyze the thread dump from app server,investigate,investigate,metrics_server,,,diagnostic
+tell me about ancient rome,out_of_scope,out_of_scope,,,,reject
+why is replication lagging,investigate,investigate,kubernetes_node,,,diagnostic
+check what is causing the event loop blocking,investigate,investigate,health_check,,,diagnostic
+enable http2 on the reverse proxy,execution,execution,reverse_proxy,,,action
+provide a brief on the availability by region,summarization,summarization,availability_sla,,,reporting
+investigate the segfault in the native module,investigate,investigate,message_queue,,,diagnostic
+why are there checksum mismatches in the storage layer,investigate,investigate,storage,,,diagnostic
+what is causing the write amplification on the database,investigate,investigate,database,,,diagnostic
+what is the speed of a bullet,out_of_scope,out_of_scope,,,,reject
+tell me about fashion,out_of_scope,out_of_scope,,,,reject
+who is the president,out_of_scope,out_of_scope,,,,reject
+investigate the network timeout between microservices,investigate,investigate,service,timeout,,diagnostic
+provide a brief on the change management board decisions,summarization,summarization,dns,,,reporting
+why is the service mesh reporting timeout for internal calls,investigate,investigate,service_mesh,timeout,,diagnostic
+what is a haiku,out_of_scope,out_of_scope,kubernetes_node,,,reject
+enable the preemptive cache warming job,execution,execution,cache,,,action
+capture a packet trace on the pod interface,execution,execution,pod,,,action
+what caused the data skew in the partitioned table,investigate,investigate,message_queue,,,diagnostic
+investigate the mismatch between reported and actual cpu,investigate,investigate,message_queue,,,diagnostic
+summarize queue depth,summarization,summarization,message_queue,,,reporting
+summarize user impact,summarization,out_of_scope,,,,reject
+what is causing the abnormal number of goroutines,investigate,out_of_scope,,,,reject
+what is literature,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me an overview of the api usage patterns,summarization,summarization,api,,,reporting
+tell me about butterflies,out_of_scope,out_of_scope,,,,reject
+apply the datadog apm sampling configuration,execution,execution,message_queue,,,action
+what caused the alert flood at midnight,investigate,investigate,alerting,,,diagnostic
+what is an electron shell,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me an overview of the endpoint latency distribution,summarization,summarization,api,latency_high,,reporting
+run the node affinity migration for gpu pods,execution,execution,kubernetes_node,,,action
+tell me about the maya civilization,out_of_scope,out_of_scope,message_queue,,,reject
+upgrade the control plane to the new version,execution,execution,message_queue,,,action
+analyze the slow shutdown of the worker process,investigate,investigate,,slow,,diagnostic
+provide a summary of the data replication lag trends,summarization,summarization,cost_trends,,,reporting
+what is inflation,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the silk road trade route,out_of_scope,out_of_scope,message_queue,,,reject
+who is charles darwin,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the database migration results,summarization,summarization,database,,,reporting
+why is the object storage throughput degraded,investigate,investigate,storage,degraded,,diagnostic
+set up the vpn tunnel to the partner network,execution,out_of_scope,,,,reject
+configure the log shipping to the siem,execution,execution,logs,,,action
+analyze the inconsistency in the distributed counter,investigate,out_of_scope,,,,reject
+how do I make sourdough bread,out_of_scope,out_of_scope,,,,reject
+summarize the cluster health over the past 30 days,summarization,summarization,kubernetes_cluster,,past,reporting
+reset network interface,execution,execution,network_policy,,,action
+summarize the service level objective performance,summarization,summarization,service,,,reporting
+deploy the new gateway api version,execution,execution,api,,,action
+run the storage migration to the new array,execution,execution,storage,,,action
+analyze the numa imbalance on the multi-socket server,investigate,out_of_scope,,,,reject
+what is a wormhole,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the viking age,out_of_scope,out_of_scope,message_queue,,,reject
+what is archaeology,out_of_scope,out_of_scope,logs,,,reject
+give me a summary of the connection draining patterns,summarization,summarization,connection_pool,,,reporting
+summarize deployment changes,summarization,summarization,deployment,,,reporting
+apply security rules,execution,out_of_scope,,,,reject
+give me event summary,summarization,out_of_scope,,,,reject
+tell me about mount everest,out_of_scope,out_of_scope,,,,reject
+analyze the slow query logs for the past hour,investigate,investigate,database,slow,past,diagnostic
+why is the secret rotation breaking dependent services,investigate,investigate,service,,,diagnostic
+what is the largest country by area,out_of_scope,out_of_scope,,,,reject
+push the puppet manifest changes to production,execution,execution,message_queue,,,action
+run the smoke test suite after the deployment,execution,execution,deployment,,,action
+what is renewable energy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who is claude monet,out_of_scope,out_of_scope,kubernetes_node,,,reject
+enable the kernel huge pages for the database host,execution,execution,database,,,action
+check why the alerting rule is not firing,investigate,investigate,alerting,,,diagnostic
+check what triggered the node eviction,investigate,investigate,kubernetes_node,,,diagnostic
+restart the elasticsearch cluster rolling,execution,execution,kubernetes_cluster,,,action
+tell me about eagles,out_of_scope,out_of_scope,,,,reject
+restart the gossip protocol seed nodes,execution,execution,kubernetes_node,,,action
+why are the job workers being starved of resources,investigate,out_of_scope,,,,reject
+provide a brief recap of the service ownership audit,summarization,summarization,service,,,reporting
+give me a summary of the distributed tracing insights,summarization,summarization,distributed_tracing,,,reporting
+who wrote war and peace,out_of_scope,out_of_scope,,,,reject
+how do I write poetry,out_of_scope,out_of_scope,,,,reject
+configure the cosign policy for image verification,execution,execution,container_image,,,action
+what is the speed of sound,out_of_scope,out_of_scope,,,,reject
+what is the law of thermodynamics,out_of_scope,out_of_scope,,,,reject
+give me a summary of the api error taxonomy this sprint,summarization,summarization,api,error,,reporting
+investigate the hot partition in the event stream,investigate,investigate,message_queue,,,diagnostic
+who is edgar allan poe,out_of_scope,out_of_scope,kubernetes_node,,,reject
+configure the session affinity timeout,execution,execution,message_queue,timeout,,action
+how do I make a dreamcatcher,out_of_scope,out_of_scope,,,,reject
+provide a recap of the endpoint coverage by synthetic monitors,summarization,summarization,api,,,reporting
+tell me about the roman empire,out_of_scope,out_of_scope,message_queue,,,reject
+tell me about the tang dynasty,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the request timeout during peak traffic,investigate,investigate,message_queue,timeout,,diagnostic
+who is pablo picasso,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me an overview of the container runtime health,summarization,summarization,container_image,,,reporting
+tell me about the byzantine empire,out_of_scope,out_of_scope,message_queue,,,reject
+apply the cors policy update on the gateway,execution,out_of_scope,,,,reject
+configure the pgbouncer pool size,execution,execution,connection_pool,,,action
+tell me about thunderstorms,out_of_scope,out_of_scope,,,,reject
+configure the topology spread constraints,execution,execution,logs,,,action
+investigate the frequent oom kills in the sidecar,investigate,investigate,message_queue,,,diagnostic
+how do tides work,out_of_scope,out_of_scope,,,,reject
+configure the connection timeout to 30 seconds,execution,execution,connection_pool,timeout,,action
+give me a summary of the compute reservation coverage,summarization,summarization,message_queue,,,reporting
+who is wassily kandinsky,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is the milky way galaxy,out_of_scope,out_of_scope,,,,reject
+trigger the failback to the primary region,execution,execution,message_queue,failure,,action
+update the helm chart values and upgrade release,execution,execution,release_notes,,,action
+why are there duplicate messages in the event stream,investigate,investigate,message_queue,,,diagnostic
+how do I speak italian,out_of_scope,out_of_scope,,,,reject
+what is a chromosomal mutation,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the uptime report for all critical services,summarization,summarization,service,,,reporting
+tell me about the titanic,out_of_scope,out_of_scope,message_queue,,,reject
+provide a recap of the patch compliance status,summarization,summarization,service,,,reporting
+enable maintenance mode on the website,execution,execution,message_queue,,,action
+switch the routing policy to latency-based,execution,execution,network_policy,latency_high,,action
+give me a summary of the chaos experiment outcomes,summarization,summarization,message_queue,,,reporting
+who is beethoven,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what caused the spike in garbage collection time,investigate,investigate,message_queue,spike,,diagnostic
+approve the manual gate in the release pipeline,execution,execution,ci_cd_pipeline,,,action
+give me an overview of the secret management compliance,summarization,summarization,message_queue,,,reporting
+tell me about the great wall of china,out_of_scope,out_of_scope,message_queue,,,reject
+scale down the stateful set to zero replicas,execution,execution,read_replicas,,,action
+give me an overview of the fleet patching status,summarization,summarization,service,,,reporting
+provide a summary of the ci cd pipeline performance,summarization,summarization,ci_cd_pipeline,,,reporting
+what is the history of tea,out_of_scope,out_of_scope,,,,reject
+summarize the sla compliance for the past month,summarization,summarization,availability_sla,,past_month,reporting
+how do I meditate properly,out_of_scope,out_of_scope,,,,reject
+summarize the write path latency breakdown by layer,summarization,summarization,,latency_high,,reporting
+what is a light year,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I speak japanese,out_of_scope,out_of_scope,,,,reject
+enable open file cache on the web server,execution,execution,cache,,,action
+set up the service mesh mutual tls,execution,execution,service_mesh,,,action
+what is astrophysics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a summary of the event-driven architecture reliability,summarization,summarization,message_queue,,,reporting
+what is the greenhouse effect,out_of_scope,out_of_scope,,,,reject
+enable the geo-restriction policy on the cdn,execution,out_of_scope,,,,reject
+who invented the printing press,out_of_scope,out_of_scope,message_queue,,,reject
+give me an overview of the application security posture,summarization,summarization,message_queue,,,reporting
+evict stale entries from the distributed cache,execution,execution,cache,,,action
+what is the pythagorean theorem,out_of_scope,out_of_scope,,,,reject
+how do I play the violin,out_of_scope,out_of_scope,message_queue,,,reject
+restart service mesh,execution,execution,service_mesh,,,action
+what caused the rollback to fail midway,investigate,investigate,message_queue,failure,,diagnostic
+sync the parameter store values to the pods,execution,execution,pod,,,action
+how do I do yoga,out_of_scope,out_of_scope,,,,reject
+check why the batch processing job is stuck,investigate,investigate,batch_job,,,diagnostic
+tell me about the polynesian navigation,out_of_scope,out_of_scope,message_queue,,,reject
+what is the longest river,out_of_scope,out_of_scope,,,,reject
+provide a brief on the endpoint deprecation usage,summarization,summarization,api,,,reporting
+flush all active user sessions from the cache,execution,execution,cache,,,action
+summarize the service mesh traffic routing changes,summarization,summarization,service_mesh,,,reporting
+why is the bloom filter returning false positives,investigate,out_of_scope,,,,reject
+who is stephen hawking,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who is marco polo,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is the tallest building in the world,out_of_scope,out_of_scope,,,,reject
+what is artificial intelligence,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the french revolution,out_of_scope,out_of_scope,message_queue,,,reject
+provide a recap of the change management decisions,summarization,summarization,dns,,,reporting
+what caused the deployment to break backward compatibility,investigate,investigate,deployment,,,diagnostic
+give me a summary of the disk growth trends by volume,summarization,summarization,disk_io,,,reporting
+summarize service status,summarization,summarization,service,,,reporting
+tell me about the french impressionism,out_of_scope,out_of_scope,message_queue,,,reject
+provide an overview of the deployment activity this sprint,summarization,summarization,deployment,,,reporting
+tell me about rainforests,out_of_scope,out_of_scope,,,,reject
+check what is causing the container image pull failure,investigate,investigate,container_image,failure,,diagnostic
+give me an overview of the user-facing error rate trends,summarization,summarization,error_budget,error,,reporting
+enable the continuous profiling on the service,execution,execution,service,,,action
+summarize the inter-service call failure rates,summarization,summarization,service,failure,,reporting
+summarize the infrastructure readiness for the launch,summarization,out_of_scope,,,,reject
+add the new disk to the lvm volume group,execution,execution,disk_io,,,action
+how do birds navigate during migration,out_of_scope,out_of_scope,,,,reject
+flush the connection state on the stateful firewall,execution,out_of_scope,,,,reject
+investigate the evicted pods in the production namespace,investigate,investigate,pod,,,diagnostic
+enable the request coalescing on the cache layer,execution,execution,cache,,,action
+what is your favorite color,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the sumerians,out_of_scope,out_of_scope,message_queue,,,reject
+what is zoology,out_of_scope,out_of_scope,logs,,,reject
+how do I make a smoothie,out_of_scope,out_of_scope,,,,reject
+why is the persistent volume not being bound,investigate,investigate,message_ack,,,diagnostic
+give me a summary of the failed deployments this month,summarization,summarization,deployment,failure,,reporting
+flush the varnish cache for the stale content,execution,execution,cache,,,action
+summarize the monitoring coverage by service tier,summarization,summarization,service,,,reporting
+who is virginia woolf,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide ecosystem summary,summarization,out_of_scope,,,,reject
+set up the monitoring alerts for the new service,execution,execution,service,,,action
+why are there conflicting iptables rules,investigate,out_of_scope,,,,reject
+summarize test results,summarization,summarization,load_test,,,reporting
+summarize the dependency freshness across repositories,summarization,summarization,service,,,reporting
+delete the unused container images on all nodes,execution,execution,kubernetes_node,,,action
+configure the max in-flight requests for the service,execution,execution,service,,,action
+why is the object lock conflicting with replication,investigate,investigate,storage,,,diagnostic
+what caused the database query plan regression,investigate,investigate,database,,,diagnostic
+apply the terraform changes to the dev environment,execution,out_of_scope,,,,reject
+purge old logs,execution,execution,logs,,,action
+what is sculpture,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze the failed health probes in the cluster,investigate,investigate,kubernetes_cluster,failure,,diagnostic
+what is plate tectonics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+look into the http connection pool timeout,investigate,investigate,connection_pool,timeout,,diagnostic
+provide a recap of the database deadlock frequency,summarization,summarization,database,,,reporting
+tell me about the seven wonders of the world,out_of_scope,out_of_scope,message_queue,,,reject
+give me a recap of the storage utilization trends,summarization,summarization,storage,,,reporting
+how does the aurora borealis form,out_of_scope,out_of_scope,message_queue,,,reject
+tell me about the battle of waterloo,out_of_scope,out_of_scope,message_queue,,,reject
+update the tls cipher suite configuration,execution,execution,tls,,,action
+run the data migration script for the new schema,execution,execution,message_queue,,,action
+how do I make my own hot sauce,out_of_scope,out_of_scope,,,,reject
+summarize the network topology changes this sprint,summarization,summarization,logs,,,reporting
+investigate the sudden increase in 5xx errors,investigate,investigate,message_queue,error,,diagnostic
+summarize the open incidents and their current state,summarization,summarization,incident,,,reporting
+give me an overview of the read write ratio by service,summarization,summarization,service,,,reporting
+tell me about the ming emperors,out_of_scope,out_of_scope,message_queue,,,reject
+why is the object store showing inconsistent reads,investigate,investigate,storage,,,diagnostic
+analyze the latency spikes during peak hours,investigate,investigate,message_queue,latency_high,,diagnostic
+what is cellular respiration,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a summary of the certificate status across services,summarization,summarization,certificate,,,reporting
+increase the connection pool size to 200,execution,execution,connection_pool,,,action
+what caused the thundering herd on cache expiry,investigate,investigate,cache,,,diagnostic
+why is the rpc client timing out during service restart,investigate,investigate,service,timeout,,diagnostic
+what is causing the repeated connection draining on alb,investigate,investigate,connection_pool,,,diagnostic
+investigate the config map update causing service restart,investigate,investigate,service,,,diagnostic
+how do I make coffee,out_of_scope,out_of_scope,,,,reject
+restart background worker,execution,execution,pod,,,action
+what is the history of the olympic games,out_of_scope,out_of_scope,,,,reject
+how do I make mead,out_of_scope,out_of_scope,,,,reject
+apply the updated service account iam bindings,execution,execution,service,,,action
+provide a recap of the service discovery health checks,summarization,summarization,service,,,reporting
+investigate the database slowdown,investigate,investigate,database,slow,,diagnostic
+provide a brief on the release deployment frequency,summarization,summarization,deployment,,,reporting
+configure the codeowners file for the new team,execution,execution,message_queue,,,action
+apply the storage class changes for the volumes,execution,execution,storage,,,action
+provide a brief on the security incident response timeline,summarization,summarization,incident,,,reporting
+summarize the operational readiness review findings,summarization,summarization,message_queue,,,reporting
+provide a recap of the planned maintenance windows,summarization,summarization,message_queue,,,reporting
+who wrote pride and prejudice,out_of_scope,out_of_scope,,,,reject
+why did health check fail,investigate,investigate,health_check,failure,,diagnostic
+why is the dns lookup causing increased latency,investigate,investigate,dns,latency_high,,diagnostic
+investigate the anomalously high network egress cost,investigate,investigate,cost_trends,,,diagnostic
+mount the nfs share on the batch server,execution,out_of_scope,,,,reject
+tell me about tigers,out_of_scope,out_of_scope,,,,reject
+summarize dependency status,summarization,summarization,service,,,reporting
+provide a recap of the service-level objectives this period,summarization,summarization,service,,,reporting
+provide a recap of the slow transaction breakdown,summarization,summarization,kafka,slow,,reporting
+how do I start composting,out_of_scope,out_of_scope,,,,reject
+give me rollback summary,summarization,out_of_scope,,,,reject
+why is the cgroup memory limit being exceeded,investigate,investigate,message_ack,,,diagnostic
+summarize the capacity planning recommendations,summarization,summarization,message_queue,,,reporting
+why is the load test showing degraded throughput,investigate,investigate,load_test,degraded,,diagnostic
+investigate queue backlog,investigate,investigate,message_queue,,,diagnostic
+tell me about sports,out_of_scope,out_of_scope,,,,reject
+scale up the database replica,execution,execution,database,,,action
+run the network policy connectivity test,execution,execution,network_policy,,,action
+who is copernicus,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the uptime trend for payment services,summarization,summarization,payment_service,,,reporting
+who is the author of harry potter,out_of_scope,out_of_scope,,,,reject
+how do I learn to swim,out_of_scope,out_of_scope,,,,reject
+restart api gateway,execution,execution,api_gateway,,,action
+investigate the flaky test failures in ci environment,investigate,investigate,,failure,,diagnostic
+investigate the connection leak in the service,investigate,investigate,service,leak,,diagnostic
+check why the distributed lock is not being released,investigate,investigate,message_ack,,,diagnostic
+tell me about whales,out_of_scope,out_of_scope,,,,reject
+summarize the api response times over the past month,summarization,summarization,api,latency_high,past_month,reporting
+give me an overview of the error distribution across services,summarization,summarization,service,error,,reporting
+what is the national animal of australia,out_of_scope,out_of_scope,,,,reject
+what is astronomy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+close the inactive elasticsearch indices,execution,execution,message_queue,,,action
+why is the primary database not accepting connections,investigate,investigate,database,,,diagnostic
+set up the pagerduty escalation policy,execution,execution,network_policy,,,action
+update the oauth client credentials,execution,execution,message_queue,,,action
+give me an overview of the request success rate by service,summarization,summarization,service,,,reporting
+summarize resource usage,summarization,summarization,resource_quota,,,reporting
+provide an overview of the deployment lead time trends,summarization,summarization,deployment,,,reporting
+what is a tidal wave,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze the io latency breakdown on nvme drives,investigate,investigate,disk_io,latency_high,,diagnostic
+summarize alert trends,summarization,summarization,alerting,,,reporting
+summarize the storage tier migration progress,summarization,summarization,storage,,,reporting
+summarize the feature flag rollout status,summarization,summarization,service,,,reporting
+check why the health check endpoint is slow,investigate,investigate,health_check,slow,,diagnostic
+apply hotfix,execution,out_of_scope,,,,reject
+why are the pod logs showing oom killed errors,investigate,investigate,pod,error,,diagnostic
+apply the signed commit requirement on main branch,execution,execution,consumer_group,,,action
+why is the pod eviction disrupting the stateful workload,investigate,investigate,pod,,,diagnostic
+how do I grow a bonsai tree,out_of_scope,out_of_scope,,,,reject
+apply the egress network policy,execution,execution,network_policy,,,action
+give me an overview of the telemetry pipeline health,summarization,summarization,ci_cd_pipeline,,,reporting
+what is machine learning,out_of_scope,out_of_scope,kubernetes_node,,,reject
+configure the vault policy for the new service,execution,execution,service,,,action
+run the dependency update bot on the repository,execution,execution,message_queue,,,action
+give me a summary of the log ingestion volume trends,summarization,summarization,logs,,,reporting
+flush the iptables nat rules,execution,execution,message_queue,,,action
+investigate the ssl renegotiation overhead,investigate,investigate,message_queue,,,diagnostic
+create the ingress rule for the new subdomain,execution,out_of_scope,,,,reject
+set up the bulkhead pattern for the downstream service,execution,execution,service,,,action
+provide a brief on the disaster recovery drill results,summarization,summarization,message_queue,,,reporting
+give me a summary of the top services by error volume,summarization,summarization,service,error,,reporting
+disable the feature flag for dark mode,execution,execution,message_queue,,,action
+analyze the socket backlog on the listener,investigate,investigate,logs,,,diagnostic
+provide a brief on the traffic split during the canary,summarization,summarization,message_queue,,,reporting
+archive the old build artifacts from the registry,execution,execution,message_queue,,,action
+give me a summary of the feature flag states in production,summarization,summarization,message_queue,,,reporting
+summarize the service deprecation and migration status,summarization,summarization,service,,,reporting
+how do I make cheese at home,out_of_scope,out_of_scope,,,,reject
+why are database writes slowing down,investigate,investigate,database,slow,,diagnostic
+run the storage filesystem consistency check,execution,execution,storage,,,action
+set the resource limits on the logging sidecar,execution,execution,logs,,,action
+what is pharmacology,out_of_scope,out_of_scope,logs,,,reject
+why is disk usage at 90 percent,investigate,investigate,disk_io,,,diagnostic
+give me an overview of the deployment environment parity,summarization,summarization,deployment,,,reporting
+run the performance benchmark suite,execution,out_of_scope,,,,reject
+trigger the automated rollback procedure,execution,execution,message_queue,,,action
+what caused the breach of the sla threshold,investigate,investigate,availability_sla,,,diagnostic
+restart the coredns deployment after config change,execution,execution,dns,,,action
+look into the nfs mount hanging issue,investigate,investigate,message_queue,,,diagnostic
+provide health check summary,summarization,summarization,health_check,,,reporting
+upgrade the worker node pool to the target version,execution,execution,kubernetes_node,,,action
+investigate the concurrent write conflicts in the db,investigate,investigate,database,,,diagnostic
+what is causing the connection reset errors,investigate,investigate,connection_pool,error,,diagnostic
+how do I play soccer,out_of_scope,out_of_scope,,,,reject
+why did the kubernetes job fail,investigate,investigate,kubernetes_node,failure,,diagnostic
+block the suspicious ip range at the firewall,execution,execution,message_queue,,,action
+what is causing the jitter in the rpc response times,investigate,investigate,,latency_high,,diagnostic
+restart the load balancer,execution,execution,load_balancer,,,action
+how do I make limoncello,out_of_scope,out_of_scope,,,,reject
+what is photosynthesis,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who is socrates,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about owls,out_of_scope,out_of_scope,,,,reject
+apply database migration,execution,execution,database,,,action
+what is a proton,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate the 502 bad gateway errors on frontend,investigate,investigate,api_gateway,error,,diagnostic
+summarize the synthetic monitoring test results,summarization,summarization,load_test,,,reporting
+what caused the raft consensus timeout,investigate,investigate,message_queue,timeout,,diagnostic
+what is the history of coffee,out_of_scope,out_of_scope,,,,reject
+drain and replace the node for os upgrade,execution,execution,kubernetes_node,,,action
+kill the hanging process,execution,execution,message_queue,,,action
+provide an overview of the technical debt remediation,summarization,summarization,message_queue,,,reporting
+how do I knit a sweater,out_of_scope,out_of_scope,,,,reject
+tell me about books,out_of_scope,out_of_scope,,,,reject
+terminate a random pod to test resilience,execution,execution,pod,,,action
+configure the async io thread pool size,execution,execution,connection_pool,,,action
+provide a recap of the api contract violations,summarization,summarization,api,,,reporting
+tell me a joke,out_of_scope,out_of_scope,,,,reject
+apply the jit compiler optimization flags,execution,execution,message_queue,,,action
+vacuum database,execution,execution,database,,,action
+summarize the message queue throughput metrics,summarization,summarization,message_queue,,,reporting
+how do I make bread,out_of_scope,out_of_scope,,,,reject
+tell me about the black plague,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the high read amplification factor on lsm,investigate,investigate,read_replicas,,,diagnostic
+what is an atom,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate why the service is not reachable,investigate,investigate,service,,,diagnostic
+run the disk defragmentation on the storage volume,execution,execution,storage,,,action
+trigger the argocd sync for the production environment,execution,out_of_scope,,,,reject
+repair the xfs filesystem after unclean shutdown,execution,execution,message_queue,,,action
+investigate the page cache thrashing issue,investigate,investigate,cache,,,diagnostic
+provide a recap of the release deployment lead time,summarization,summarization,deployment,,,reporting
+set the kubernetes api server admission webhook,execution,execution,api,,,action
+enable the ddos protection on the edge layer,execution,execution,message_queue,,,action
+apply the network policy to restrict egress,execution,execution,network_policy,,,action
+check if the api latency is correlated to gc pauses,investigate,investigate,api,latency_high,,diagnostic
+configure the log retention policy to 90 days,execution,execution,logs,,,action
+apply the helm values override for the hotfix,execution,execution,message_queue,,,action
+who is harriet tubman,out_of_scope,out_of_scope,kubernetes_node,,,reject
+check the correlation between cpu spike and deployments,investigate,investigate,deployment,spike,,diagnostic
+analyze performance metrics,investigate,investigate,metrics,,,diagnostic
+how do I build a small pond,out_of_scope,out_of_scope,,,,reject
+why is the zookeeper session expiring frequently,investigate,out_of_scope,,,,reject
+configure the sonarqube quality gate policy,execution,execution,network_policy,,,action
+give me an overview of the data consistency check results,summarization,summarization,health_check,,,reporting
+provide a recap of the resolved alerts from overnight,summarization,summarization,alerting,,,reporting
+what is dark energy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what caused the service to skip the retry logic,investigate,investigate,service,,,diagnostic
+clear log files,execution,execution,logs,,,action
+apply the cpu and memory limits to all pods,execution,execution,pod,,,action
+how do I build a go-kart,out_of_scope,out_of_scope,,,,reject
+investigate the cluster node reporting not ready,investigate,investigate,kubernetes_node,not_ready,,diagnostic
+summarize the changes made during the maintenance window,summarization,out_of_scope,,,,reject
+how do I paint a wall,out_of_scope,out_of_scope,,,,reject
+give me an overview of the pipeline execution times,summarization,summarization,ci_cd_pipeline,,,reporting
+how do I make turkish coffee,out_of_scope,out_of_scope,,,,reject
+check what is causing the increased tail latency,investigate,investigate,health_check,latency_high,,diagnostic
+summarize the deployment frequency by team,summarization,summarization,deployment,,,reporting
+clean up the stale branches from the remote,execution,execution,message_queue,,,action
+disable the debug endpoint on the production service,execution,execution,service,,,action
+tell me about history,out_of_scope,out_of_scope,,,,reject
+provide a recap of the rate limiting effectiveness,summarization,summarization,rate_limiting,,,reporting
+give me latency summary,summarization,summarization,,latency_high,,reporting
+who was the first person to climb everest,out_of_scope,out_of_scope,message_queue,,,reject
+who painted the sistine chapel,out_of_scope,out_of_scope,message_queue,,,reject
+what is quantum entanglement,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about ancient egypt,out_of_scope,out_of_scope,,,,reject
+investigate the unexpected data loss after failover,investigate,investigate,message_queue,failure,,diagnostic
+how do I make risotto,out_of_scope,out_of_scope,,,,reject
+run the cluster upgrade preflight checks,execution,execution,kubernetes_cluster,,,action
+summarize network traffic,summarization,summarization,network_policy,,,reporting
+provide a brief on the backup storage growth rate,summarization,summarization,backup,,,reporting
+summarize troubleshooting steps,summarization,out_of_scope,,,,reject
+provide a recap of the service migration progress,summarization,summarization,service,,,reporting
+reconfigure the bgp session with the upstream provider,execution,execution,message_queue,,,action
+what is photon,out_of_scope,out_of_scope,kubernetes_node,,,reject
+rebuild index on table,execution,out_of_scope,,,,reject
+what caused the service failure,investigate,investigate,service,failure,,diagnostic
+trigger failover,execution,execution,,failure,,action
+why are there too many open file descriptors,investigate,out_of_scope,,,,reject
+increase the file descriptor limit to 65535,execution,execution,message_queue,,,action
+set up the upstream health checks on nginx,execution,execution,health_check,,,action
+investigate the frequent leader re-elections in raft,investigate,investigate,message_queue,,,diagnostic
+restart the prometheus and grafana stack,execution,execution,message_queue,,,action
+rotate the kubelet serving certificates,execution,execution,certificate,,,action
+investigate the cpu steal time on virtual machines,investigate,investigate,message_queue,,,diagnostic
+who composed the four seasons,out_of_scope,out_of_scope,message_queue,,,reject
+what caused the connection refused on the rpc port,investigate,out_of_scope,,,,reject
+provide a brief on the ml model serving latency trends,summarization,summarization,cost_trends,latency_high,,reporting
+apply the backpressure policy to the queue consumer,execution,execution,message_queue,,,action
+apply the external secrets operator configuration,execution,execution,message_queue,,,action
+what is sociology,out_of_scope,out_of_scope,logs,,,reject
+why is the database vacuum process not completing,investigate,investigate,database,not_completing,,diagnostic
+how do I learn ballet,out_of_scope,out_of_scope,,,,reject
+tell me about the moon landing,out_of_scope,out_of_scope,message_queue,,,reject
+execute the database cleanup stored procedure,execution,execution,database,,,action
+why is the consumer group rebalancing frequently,investigate,investigate,consumer_group,,,diagnostic
+give me a recap of the infrastructure as code changes,summarization,summarization,cost_anomalies,,,reporting
+give me cost summary,summarization,summarization,cost_trends,,,reporting
+why is the storage iops quota being exceeded,investigate,investigate,storage,,,diagnostic
+summarize the incident from yesterday,summarization,summarization,incident,,yesterday,reporting
+configure the cgroup memory limit for the container,execution,out_of_scope,,,,reject
+run the backup verification on the latest snapshot,execution,execution,backup,,,action
+investigate the metadata server latency spike,investigate,investigate,metrics_server,latency_high,,diagnostic
+what is the law of conservation of mass,out_of_scope,out_of_scope,,,,reject
+restart cluster coordinator,execution,execution,kubernetes_cluster,,,action
+summarize the database query performance trends,summarization,summarization,database,,,reporting
+tell me about the amazon river,out_of_scope,out_of_scope,message_queue,,,reject
+how do I change a tire,out_of_scope,out_of_scope,dns,,,reject
+who wrote the great gatsby,out_of_scope,out_of_scope,message_queue,,,reject
+give me an overview of the security scanning results,summarization,summarization,message_queue,,,reporting
+who wrote les miserables,out_of_scope,out_of_scope,,,,reject
+show me errors from the last deployment,investigate,investigate,deployment,error,,diagnostic
+who built the eiffel tower,out_of_scope,out_of_scope,message_queue,,,reject
+what is biology,out_of_scope,out_of_scope,logs,,,reject
+give me compliance summary,summarization,out_of_scope,,,,reject
+investigate cpu spike on web-server-3,investigate,investigate,metrics_server,spike,,diagnostic
+run the certificate renewal automation,execution,execution,certificate,,,action
+what is democracy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+trigger the database vacuum on the large table,execution,execution,database,,,action
+investigate memory fragmentation,investigate,out_of_scope,,,,reject
+who discovered gravity,out_of_scope,out_of_scope,,,,reject
+enable ssl termination on the load balancer,execution,execution,load_balancer,,,action
+what caused the lease expiration on the distributed lock,investigate,out_of_scope,,,,reject
+who is aristotle,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the tracing coverage expansion,summarization,summarization,distributed_tracing,,,reporting
+analyze the checkpoint failure on the database,investigate,investigate,database,failure,,diagnostic
+silence the alert during the planned maintenance,execution,out_of_scope,,,,reject
+what is an isotope,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a summary of the observability coverage,summarization,summarization,observability_stack,,,reporting
+create the read replica in the secondary region,execution,out_of_scope,,,,reject
+how do I make ghee,out_of_scope,out_of_scope,,,,reject
+how do I do push ups,out_of_scope,out_of_scope,,,,reject
+how do I make jam,out_of_scope,out_of_scope,,,,reject
+who won the tour de france recently,out_of_scope,out_of_scope,message_queue,,recent,reject
+what is causing the recurring service crash,investigate,investigate,service,crash,,diagnostic
+enable the opa policy enforcement,execution,execution,network_policy,,,action
+tell me about the phoenician alphabet,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the canary deployment observations,summarization,summarization,deployment,,,reporting
+summarize the monthly infrastructure cost report,summarization,summarization,cost_trends,,,reporting
+summarize configuration changes,summarization,out_of_scope,,,,reject
+summarize the platform availability monthly report,summarization,summarization,incident,,,reporting
+run the certificate expiry check across all services,execution,execution,certificate,,,action
+provide maintenance summary,summarization,out_of_scope,,,,reject
+test the service-to-service communication path,execution,execution,service,,,action
+why is the service container starting but not ready,investigate,investigate,service,not_ready,,diagnostic
+tell me about the hundred years war,out_of_scope,out_of_scope,message_queue,,,reject
+provide a recap of the infrastructure cost anomalies,summarization,summarization,cost_trends,,,reporting
+summarize the mean time between failures report,summarization,summarization,tls,failure,,reporting
+how do I learn to cook,out_of_scope,out_of_scope,,,,reject
+tell me about hummingbirds,out_of_scope,out_of_scope,,,,reject
+what is the fastest animal on earth,out_of_scope,out_of_scope,,,,reject
+summarize the cross-team dependency updates,summarization,summarization,message_queue,,,reporting
+summarize the service dependency changes this sprint,summarization,summarization,service,,,reporting
+reindex the elasticsearch data to the new mapping,execution,execution,message_queue,,,action
+summarize the auto-remediation success rate this sprint,summarization,summarization,rate_limiting,,,reporting
+check what is causing the recurring storage disconnection,investigate,investigate,storage,,,diagnostic
+enable gzip compression on the web server,execution,execution,metrics_server,,,action
+run the game day scenario for database failover,execution,execution,database,failure,,action
+configure the weighted routing between blue and green,execution,execution,blue_green_deployment,,,action
+apply the salt state to the target nodes,execution,execution,kubernetes_node,,,action
+how do I make hard candy,out_of_scope,out_of_scope,,,,reject
+why is the CDN cache invalidation not working,investigate,investigate,cache,,,diagnostic
+give me an overview of the system resource allocation,summarization,summarization,resource_quota,,,reporting
+what is oceanography,out_of_scope,out_of_scope,kubernetes_node,,,reject
+why is application responding slowly,investigate,investigate,kubernetes_node,slow,,diagnostic
+flush the redis cache completely,execution,execution,cache,,,action
+provide a recap of the compliance violation findings,summarization,summarization,message_queue,,,reporting
+how do I learn how to juggle,out_of_scope,out_of_scope,,,,reject
+how do I solve a rubiks cube,out_of_scope,out_of_scope,,,,reject
+what is molecular biology,out_of_scope,out_of_scope,logs,,,reject
+provide a recap of the runbook effectiveness metrics,summarization,summarization,metrics,,,reporting
+what caused the split brain in the cluster,investigate,investigate,kubernetes_cluster,,,diagnostic
+tell me about machu picchu,out_of_scope,out_of_scope,,,,reject
+run the index optimization on the search cluster,execution,execution,kubernetes_cluster,,,action
+configure the sudoers file with the new rule,execution,out_of_scope,,,,reject
+provide a recap of the cross-region failover tests,summarization,summarization,message_queue,failure,,reporting
+investigate the failure in the distributed snapshot,investigate,investigate,volume_snapshot,failure,,diagnostic
+tell me about the berlin wall,out_of_scope,out_of_scope,message_queue,,,reject
+why did the scheduled task miss its window,investigate,investigate,backup,,,diagnostic
+restart the failing csi driver pods,execution,execution,pod,failure,,action
+what is mitosis,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I make kimchi fried rice,out_of_scope,out_of_scope,,,,reject
+what is cryptocurrency,out_of_scope,out_of_scope,kubernetes_node,,,reject
+set up the cross-region replication,execution,execution,message_queue,,,action
+update the grafana dashboard with new panels,execution,execution,message_queue,,,action
+force the kustomize overlay apply,execution,execution,message_queue,,,action
+summarize the access control audit results,summarization,summarization,network_policy,,,reporting
+provide a brief on the volume of support tickets versus incidents,summarization,summarization,incident,,,reporting
+investigate the http 429 rate limit errors from upstream,investigate,investigate,rate_limiting,error,,diagnostic
+what caused the outage last night,investigate,investigate,message_queue,,last_night,diagnostic
+what is causing high memory on app-01,investigate,investigate,kubernetes_node,,,diagnostic
+provide performance summary,summarization,summarization,load_test,,,reporting
+enable the dast scan in the staging pipeline,execution,execution,ci_cd_pipeline,,,action
+how do I grow succulents,out_of_scope,out_of_scope,,,,reject
+investigate the repeated pod scheduling failures,investigate,investigate,pod,failure,,diagnostic
+summarize the container orchestration metrics,summarization,summarization,metrics,,,reporting
+how do volcanoes form,out_of_scope,out_of_scope,,,,reject
+run the data integrity check script,execution,execution,health_check,,,action
+check what is slowing down the ci build pipeline,investigate,investigate,ci_cd_pipeline,slow,,diagnostic
+why did backup job fail,investigate,investigate,backup,failure,,diagnostic
+summarize the memory usage trends across the fleet,summarization,out_of_scope,,,,reject
+who invented the internet,out_of_scope,out_of_scope,message_queue,,,reject
+how do I make kefir,out_of_scope,out_of_scope,,,,reject
+backup the etcd snapshot to object storage,execution,execution,etcd,,,action
+why is the cpu user time unexpectedly high,investigate,out_of_scope,,,,reject
+enable the connection rate limiting on haproxy,execution,execution,reverse_proxy,,,action
+investigate the log level misconfiguration causing noise,investigate,investigate,logs,,,diagnostic
+why is the thread pool saturated,investigate,investigate,connection_pool,,,diagnostic
+what is impressionism in art,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze the cpu throttling events in the cgroup,investigate,investigate,message_queue,,,diagnostic
+why did the database go down,investigate,investigate,database,,,diagnostic
+enable binary logging on the mysql primary,execution,execution,logs,,,action
+why is the api client receiving truncated responses,investigate,investigate,api,,,diagnostic
+check what went wrong with deployment,investigate,investigate,deployment,,,diagnostic
+summarize scaling events,summarization,out_of_scope,,,,reject
+what is robotics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze resource constraints,investigate,investigate,resource_quota,,,diagnostic
+investigate the clock skew between nodes,investigate,investigate,kubernetes_node,,,diagnostic
+give me a summary of failed jobs in the last 24 hours,summarization,summarization,cron_job,failure,last_24_hours,reporting
+why is the api gateway returning 503,investigate,investigate,api_gateway,,,diagnostic
+summarize the service mesh telemetry for the past week,summarization,summarization,service_mesh,,past,reporting
+configure the auto-scaling policy for peak hours,execution,execution,network_policy,,,action
+look into the inode exhaustion on the log partition,investigate,investigate,kubernetes_node,,,diagnostic
+run the memory bandwidth benchmark on the server,execution,out_of_scope,,,,reject
+give me an overview of the graceful degradation events,summarization,summarization,message_queue,degraded,,reporting
+analyze the change in baseline memory usage,investigate,investigate,dns,,,diagnostic
+analyze the heap dump for memory leak,investigate,investigate,message_queue,leak,,diagnostic
+investigate the cpu pinning misconfiguration on host,investigate,investigate,message_queue,,,diagnostic
+what is the theory of relativity,out_of_scope,out_of_scope,,,,reject
+summarize the alert fatigue metrics for the team,summarization,summarization,metrics,,,reporting
+provide a recap of the operational load by team this month,summarization,summarization,load_test,,,reporting
+investigate cluster node failure,investigate,investigate,kubernetes_node,failure,,diagnostic
+who is nikola tesla,out_of_scope,out_of_scope,availability_sla,,,reject
+what is dna,out_of_scope,out_of_scope,kubernetes_node,,,reject
+enable the new rate limit policy globally,execution,execution,network_policy,,,action
+delete the unused cluster role bindings,execution,execution,kubernetes_cluster,,,action
+provide a brief on the container security scan coverage,summarization,summarization,container_image,,,reporting
+give me an overview of the synthetic monitor pass rates,summarization,summarization,message_queue,,,reporting
+restore the etcd snapshot from the backup,execution,execution,etcd,,,action
+how do I build a birdhouse,out_of_scope,out_of_scope,,,,reject
+export and import the zfs pool after migration,execution,execution,connection_pool,,,action
+summarize the on-call escalation patterns this quarter,summarization,summarization,message_queue,,this_quarter,reporting
+what is ecology,out_of_scope,out_of_scope,logs,,,reject
+tell me about art,out_of_scope,out_of_scope,,,,reject
+purge the cdn cache for the updated assets,execution,execution,cache,,,action
+investigate the slow recovery after leader failover,investigate,investigate,kafka,failure,,diagnostic
+how do I ferment vegetables,out_of_scope,out_of_scope,,,,reject
+restart the fluentd log forwarder on all nodes,execution,execution,kubernetes_node,,,action
+enable the vault audit logging,execution,execution,logs,,,action
+why is the message broker not consuming messages,investigate,investigate,message_queue,,,diagnostic
+enable the cpu quota enforcement on the tenant,execution,out_of_scope,,,,reject
+check why the health endpoint is returning stale data,investigate,investigate,health_check,,,diagnostic
+why are database transactions taking so long,investigate,investigate,database,,,diagnostic
+what is causing the api to return incomplete data,investigate,investigate,api,,,diagnostic
+scale data cache,execution,execution,cache,,,action
+deploy the database proxy layer,execution,execution,reverse_proxy,,,action
+analyze the failed readiness probes in staging,investigate,investigate,message_queue,failure,,diagnostic
+provide an overview of the monitoring coverage gaps,summarization,summarization,message_queue,,,reporting
+how do I make pizza dough,out_of_scope,out_of_scope,,,,reject
+summarize the network egress cost by region,summarization,summarization,cost_trends,,,reporting
+run the dependency vulnerability scan,execution,execution,message_queue,,,action
+investigate what is causing the memory balloon in vm,investigate,out_of_scope,,,,reject
+reset error counters,execution,execution,error_budget,error,,action
+restart the flapping pods after the node recovery,execution,execution,kubernetes_node,,,action
+give me a summary of the infrastructure drift detected,summarization,summarization,cost_anomalies,,,reporting
+investigate the cold start latency in serverless functions,investigate,investigate,message_queue,latency_high,,diagnostic
+give me a summary of the platform capacity model output,summarization,summarization,incident,,,reporting
+investigate deadlock in database,investigate,investigate,database,,,diagnostic
+investigate the replication stream lag on postgres,investigate,investigate,message_queue,,,diagnostic
+check what is triggering the oom killer,investigate,investigate,health_check,,,diagnostic
+resize the persistent volume to 500gb,execution,execution,volume_snapshot,,,action
+configure the keepalive connections on haproxy,execution,execution,reverse_proxy,,,action
+can you look into the dns resolution failure,investigate,investigate,dns,failure,,diagnostic
+give me an overview of the deployment pipeline health,summarization,summarization,ci_cd_pipeline,,,reporting
+tell me about mars,out_of_scope,out_of_scope,,,,reject
+what caused the pod evictions in kubernetes,investigate,investigate,pod,,,diagnostic
+summarize the data pipeline reliability metrics,summarization,summarization,ci_cd_pipeline,,,reporting
+tell me about the solar system,out_of_scope,out_of_scope,message_queue,,,reject
+provide a brief on the continuous delivery pipeline metrics,summarization,summarization,ci_cd_pipeline,,,reporting
+give me error rate summary,summarization,summarization,error_budget,error,,reporting
+enable the database connection pooling proxy,execution,execution,reverse_proxy,,,action
+enable debug logging,execution,execution,logs,,,action
+look into the memory allocation failure in container,investigate,investigate,container_image,failure,,diagnostic
+why is the kubernetes cronjob missing executions,investigate,investigate,kubernetes_node,,,diagnostic
+analyze the log rotation failure on app-server-12,investigate,investigate,logs,failure,,diagnostic
+what is causing the high p99 latency,investigate,investigate,,latency_high,,diagnostic
+tell me about the life cycle of a butterfly,out_of_scope,out_of_scope,message_queue,,,reject
+why is the service mesh sidecar consuming too much cpu,investigate,investigate,service_mesh,,,diagnostic
+give me an overview of the application profiling insights,summarization,summarization,message_queue,,,reporting
+tell me about the ice age,out_of_scope,out_of_scope,message_queue,,,reject
+execute the tenant data migration script,execution,execution,message_queue,,,action
+tell me about languages,out_of_scope,out_of_scope,,,,reject
+restart monitoring agent,execution,execution,pod,,,action
+run the ansible playbook for server hardening,execution,execution,metrics_server,,,action
+provide metrics summary,summarization,summarization,metrics,,,reporting
+what is the capital of france,out_of_scope,out_of_scope,api,,,reject
+enable the secrets manager rotation schedule,execution,execution,certificate,,,action
+investigate the transaction deadlock pattern in the db,investigate,investigate,database,,,diagnostic
+summarize throughput metrics,summarization,summarization,metrics,,,reporting
+summarize the distributed lock acquisition patterns,summarization,summarization,distributed_tracing,,,reporting
+analyze the traffic imbalance across availability zones,investigate,investigate,service,,,diagnostic
+investigate the grpc deadline exceeded errors,investigate,investigate,message_queue,error,,diagnostic
+configure the tcp keepalive settings on the host,execution,execution,message_queue,,,action
+what is the largest desert in the world,out_of_scope,out_of_scope,,,,reject
+analyze what changed before the performance degraded,investigate,investigate,,degraded,,diagnostic
+configure the jenkins pipeline webhook trigger,execution,execution,ci_cd_pipeline,,,action
+provide a brief on the idle resource cost across workloads,summarization,summarization,cost_trends,,,reporting
+give me a recap of the cluster autoscaler decisions,summarization,summarization,horizontal_pod_autoscaler,,,reporting
+why is the WAL replay taking hours on postgres,investigate,out_of_scope,,,,reject
+summarize the weekly change failure rate,summarization,summarization,dns,failure,,reporting
+why is the queue consumer lagging behind producer,investigate,investigate,message_queue,,,diagnostic
+what is the standard model in physics,out_of_scope,out_of_scope,,,,reject
+apply the ingress rate limit rules,execution,execution,rate_limiting,,,action
+enable the sticky session on the load balancer,execution,execution,load_balancer,,,action
+apply the kernel security update and reboot,execution,execution,message_queue,,,action
+who wrote frankenstein,out_of_scope,out_of_scope,,,,reject
+reset the alert suppression window,execution,execution,alerting,,,action
+provide a brief on today's outages,summarization,out_of_scope,,,today,reject
+who is joan of arc,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I write a novel,out_of_scope,out_of_scope,,,,reject
+summarize the dependency version drift across microservices,summarization,summarization,service,,,reporting
+why is the config reload triggering connection draining,investigate,investigate,connection_pool,,,diagnostic
+check the reason for the slowdown in the api fanout,investigate,investigate,api,slow,,diagnostic
+why is there no response from the upstream service,investigate,investigate,service,,,diagnostic
+summarize the vulnerability scan findings,summarization,summarization,message_queue,,,reporting
+apply the terraform plan for infrastructure changes,execution,execution,cost_anomalies,,,action
+who is vincent van gogh,out_of_scope,out_of_scope,kubernetes_node,,,reject
+scale the ingress controller replicas,execution,execution,read_replicas,,,action
+give me incident summary,summarization,summarization,incident,,,reporting
+what is osmosis,out_of_scope,out_of_scope,kubernetes_node,,,reject
+update the rbac role bindings for the new team,execution,execution,message_queue,,,action
+check the tcp retransmission rate on the interface,investigate,out_of_scope,,,,reject
+summarize the change-failure rate for the current quarter,summarization,summarization,,failure,,reporting
+why is the queue depth continuously growing,investigate,investigate,message_queue,,,diagnostic
+trigger the ci cd pipeline for the release branch,execution,execution,ci_cd_pipeline,,,action
+provide a brief on the database query cost distribution,summarization,summarization,database,,,reporting
+how do I grow tomatoes at home,out_of_scope,out_of_scope,,,,reject
+check the firewall rules blocking traffic,investigate,investigate,health_check,,,diagnostic
+why is the graphql resolver timing out,investigate,investigate,,timeout,,diagnostic
+replace the failed disk in the raid array,execution,execution,disk_io,failure,,action
+investigate timeout errors,investigate,investigate,,error,,diagnostic
+why is the write throughput lower than expected,investigate,out_of_scope,,,,reject
+summarize the load distribution by availability zone,summarization,summarization,availability_sla,,,reporting
+tell me about the silk road,out_of_scope,out_of_scope,message_queue,,,reject
+who won the world cup,out_of_scope,out_of_scope,message_queue,,,reject
+hello how are you,out_of_scope,out_of_scope,,,,reject
+why is the grpc stream being terminated early,investigate,investigate,message_ack,,,diagnostic
+analyze the query optimizer choosing a bad plan,investigate,investigate,database,,,diagnostic
+apply the blkio throttle policy to the container,execution,out_of_scope,,,,reject
+give me a summary of the recent platform incidents by tier,summarization,summarization,incident,,recent,reporting
+why is server host123 cpu high,investigate,investigate,metrics_server,,,diagnostic
+how do I learn to draw,out_of_scope,out_of_scope,,,,reject
+summarize the memory leak patterns across services,summarization,summarization,service,leak,,reporting
+examine the audit logs for suspicious activity,investigate,investigate,logs,,,diagnostic
+investigate the file descriptor leak,investigate,investigate,message_queue,leak,,diagnostic
+what is causing the tcp connection reset by peer,investigate,investigate,connection_pool,,,diagnostic
+analyze the jvm thread contention issue,investigate,investigate,message_queue,,,diagnostic
+what is quantum physics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+rotate the ssh host keys on the new server,execution,out_of_scope,,,,reject
+investigate the service crash after config reload,investigate,investigate,service,crash,,diagnostic
+what is buoyancy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a brief on the node termination event summary,summarization,summarization,kubernetes_node,,,reporting
+summarize the toil reduction progress this quarter,summarization,summarization,message_queue,,this_quarter,reporting
+investigate the certificate revocation check failure,investigate,investigate,certificate,failure,,diagnostic
+why is the query result cache warming too slowly,investigate,investigate,database,slow,,diagnostic
+investigate the high iowait on storage server,investigate,investigate,storage,,,diagnostic
+why is the service not draining connections before termination,investigate,investigate,service,,,diagnostic
+configure the nginx worker processes,execution,execution,message_queue,,,action
+summarize the queue consumer performance metrics,summarization,summarization,message_queue,,,reporting
+give me a summary of the request routing efficiency,summarization,summarization,message_queue,,,reporting
+give me an overview of the observability stack capacity,summarization,summarization,observability_stack,,,reporting
+summarize the real user monitoring metrics for this week,summarization,summarization,metrics,,this_week,reporting
+how do I make perfect scrambled eggs,out_of_scope,out_of_scope,,,,reject
+apply the password complexity policy update,execution,execution,network_policy,,,action
+provide a recap of the production readiness review results,summarization,summarization,message_queue,,,reporting
+look into the consistent hashing rebalance issue,investigate,investigate,message_queue,,,diagnostic
+how do I mountain climb,out_of_scope,out_of_scope,,,,reject
+run the ansible playbook for the new server setup,execution,out_of_scope,,,,reject
+summarize the cross-team dependency resolution status,summarization,summarization,service,,,reporting
+analyze the impact of the dns change on traffic,investigate,investigate,dns,,,diagnostic
+rotate the vault root token,execution,execution,message_queue,,,action
+investigate the service endpoint returning wrong data,investigate,investigate,service,error,,diagnostic
+summarize the request timeout frequency by endpoint,summarization,summarization,api,timeout,,reporting
+configure the sssd daemon for the new domain,execution,execution,message_queue,,,action
+what is causing the high swap usage on node-5,investigate,investigate,kubernetes_node,,,diagnostic
+update the container image to the patched version,execution,execution,container_image,,,action
+why is the pod failing the security context check,investigate,investigate,pod,failure,,diagnostic
+why is the replication factor not being maintained,investigate,investigate,message_ack,,,diagnostic
+summarize the pod resource efficiency across namespaces,summarization,summarization,pod,,,reporting
+reconfigure the reverse proxy routing rules,execution,execution,reverse_proxy,,,action
+disable the deprecated api endpoint,execution,execution,api,,,action
+look into the systemd service restart loop,investigate,investigate,service,restart_loop,,diagnostic
+who is dante alighieri,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a brief on the kubernetes cluster upgrade status,summarization,summarization,kubernetes_cluster,,,reporting
+who is thomas jefferson,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate the cross-region replication delay,investigate,investigate,message_queue,,,diagnostic
+give me a summary of the network policy audit findings,summarization,summarization,network_policy,,,reporting
+what is the lifespan of a redwood tree,out_of_scope,out_of_scope,,,,reject
+reset the admin password on the management console,execution,execution,message_queue,,,action
+who is rumi,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the multi-tenancy isolation audit,summarization,summarization,network_policy,,,reporting
+summarize the slo violation events this month,summarization,summarization,message_queue,,,reporting
+analyze the performance degradation,investigate,investigate,,degraded,,diagnostic
+write a poem about servers,out_of_scope,out_of_scope,,,,reject
+what is a red giant star,out_of_scope,out_of_scope,kubernetes_node,,,reject
+set the swappiness to zero on database hosts,execution,execution,database,,,action
+why is the tracing collector losing spans,investigate,investigate,distributed_tracing,,,diagnostic
+decommission the old server from the cluster,execution,execution,kubernetes_cluster,,,action
+taint the node to prevent general scheduling,execution,execution,kubernetes_node,,,action
+what is marine biology,out_of_scope,out_of_scope,logs,,,reject
+give me a brief on the edge cache performance,summarization,summarization,cache,,,reporting
+provide a recap of the cloud provider incident impact,summarization,summarization,incident,,,reporting
+give me an overview of the infrastructure tagging compliance,summarization,summarization,cost_anomalies,,,reporting
+how do I make candles,out_of_scope,out_of_scope,,,,reject
+rotate the service account credentials,execution,execution,service,,,action
+increase the max connections on the postgres primary,execution,execution,message_queue,,,action
+who wrote moby dick,out_of_scope,out_of_scope,,,,reject
+enable the fault injection policy in the service mesh,execution,execution,service_mesh,,,action
+how can I learn spanish,out_of_scope,out_of_scope,,,,reject
+analyze the impact of schema change on query performance,investigate,investigate,database,,,diagnostic
+tell me about stonehenge,out_of_scope,out_of_scope,,,,reject
+tell me about the iron age,out_of_scope,out_of_scope,message_queue,,,reject
+configure the grpc timeout on the proxy layer,execution,execution,reverse_proxy,timeout,,action
+tell me about volcanoes,out_of_scope,out_of_scope,,,,reject
+investigate the unexpected pod termination,investigate,investigate,pod,,,diagnostic
+what is ecological succession,out_of_scope,out_of_scope,logs,,,reject
+investigate the abnormal tls session ticket rotation rate,investigate,investigate,tls,,,diagnostic
+what caused the routing table mismatch between zones,investigate,investigate,message_queue,,,diagnostic
+how do I do origami,out_of_scope,out_of_scope,,,,reject
+investigate the missing index causing full table scans,investigate,investigate,message_queue,,,diagnostic
+what is a meteor shower,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a high-level overview of what happened today,summarization,out_of_scope,,,today,reject
+configure the retry budget on the service,execution,execution,service,,,action
+summarize the cold storage archival progress,summarization,summarization,storage,,,reporting
+analyze the correlation between load and response times,investigate,investigate,incident,latency_high,,diagnostic
+tell me about the great depression,out_of_scope,out_of_scope,message_queue,,,reject
+give me a summary of the patch management status,summarization,summarization,service,,,reporting
+create the service account with least privilege,execution,execution,service,,,action
+check what is causing the connection saturation on api,investigate,investigate,api,saturation,,diagnostic
+investigate the stalled compaction job on rocksdb,investigate,investigate,database,,,diagnostic
+enable the response caching on the graphql layer,execution,out_of_scope,,,,reject
+apply the pod security admission config,execution,execution,pod,,,action
+how do I make mozzarella,out_of_scope,out_of_scope,,,,reject
+summarize the integration test results from latest build,summarization,summarization,load_test,,,reporting
+provide a recap of the weekly change freeze exceptions,summarization,summarization,dns,,,reporting
+who wrote don quixote,out_of_scope,out_of_scope,,,,reject
+how do I build a birdfeeder,out_of_scope,out_of_scope,,,,reject
+delete the orphaned persistent volume claim,execution,execution,volume_snapshot,,,action
+investigate the network partition between zones,investigate,investigate,network_policy,,,diagnostic
+analyze the fan-in bottleneck in the aggregation layer,investigate,investigate,disk_io,bottleneck,,diagnostic
+how do I make kimchi,out_of_scope,out_of_scope,,,,reject
+check why the autoscaler is not triggering,investigate,investigate,horizontal_pod_autoscaler,,,diagnostic
+summarize the distributed cache hit rate by region,summarization,summarization,cache,,,reporting
+check why cron jobs are failing,investigate,investigate,cron_job,failure,,diagnostic
+check why the reverse proxy is dropping headers,investigate,investigate,reverse_proxy,drop,,diagnostic
+configure the ipvs load balancing mode on the node,execution,execution,kubernetes_node,,,action
+who is michelangelo,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate the shard imbalance in the search cluster,investigate,investigate,kubernetes_cluster,,,diagnostic
+who wrote hamlet,out_of_scope,out_of_scope,,,,reject
+what is a quasar,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a brief on the infrastructure costs this quarter,summarization,summarization,cost_trends,,this_quarter,reporting
+summarize the performance optimization results,summarization,out_of_scope,,,,reject
+configure the adaptive concurrency limit,execution,execution,message_queue,,,action
+rotate the database master password,execution,execution,database,,,action
+analyze the rollout pause caused by failed canary metrics,investigate,investigate,metrics,failure,,diagnostic
+who wrote the divine comedy,out_of_scope,out_of_scope,message_queue,,,reject
+how do I dance,out_of_scope,out_of_scope,,,,reject
+what is the capital of japan,out_of_scope,out_of_scope,api,,,reject
+why is the cache invalidation not propagating,investigate,investigate,cache,,,diagnostic
+drain connections gracefully,execution,out_of_scope,,,,reject
+check what's causing the bottleneck,investigate,investigate,disk_io,bottleneck,,diagnostic
+check why prometheus is showing no data,investigate,investigate,health_check,,,diagnostic
+what is causing the oauth token refresh failures,investigate,investigate,tls,failure,,diagnostic
+tell me about the league of nations,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the message fanout causing consumer lag,investigate,investigate,message_queue,,,diagnostic
+enable the software bill of materials generation,execution,execution,message_queue,,,action
+disable the auto-scaling for the maintenance window,execution,out_of_scope,,,,reject
+what are the best hiking trails in europe,out_of_scope,out_of_scope,message_queue,,,reject
+what is the deepest ocean,out_of_scope,out_of_scope,,,,reject
+summarize cluster health,summarization,summarization,kubernetes_cluster,,,reporting
+analyze network latency issues,investigate,investigate,network_policy,latency_high,,diagnostic
+import the existing resource into the terraform state,execution,out_of_scope,,,,reject
+tell me about the phoenicians,out_of_scope,out_of_scope,message_queue,,,reject
+delete the datadog monitors that are no longer valid,execution,execution,message_queue,,,action
+scale down resources,execution,out_of_scope,,,,reject
+tune the jvm garbage collector flags,execution,execution,message_queue,,,action
+can you sing a song,out_of_scope,out_of_scope,,,,reject
+apply the log parsing rule update to the pipeline,execution,execution,ci_cd_pipeline,,,action
+set the timeout policy for the external api call,execution,execution,api,timeout,,action
+tell me about koalas,out_of_scope,out_of_scope,,,,reject
+why is the ssl offloader causing increased latency,investigate,investigate,,latency_high,,diagnostic
+check the dead letter queue accumulation,investigate,investigate,message_queue,,,diagnostic
+restart the cron scheduler service,execution,execution,service,,,action
+investigate the repeated auth token expiry in logs,investigate,investigate,logs,,,diagnostic
+summarize the service restart count by host,summarization,summarization,service,,,reporting
+what is the population of brazil,out_of_scope,out_of_scope,,,,reject
+apply the seccomp profile to the container,execution,out_of_scope,,,,reject
+trigger the zfs scrub on the storage pool,execution,execution,storage,,,action
+analyze the open file handle count on prod servers,investigate,investigate,message_queue,,,diagnostic
+what is the water cycle,out_of_scope,out_of_scope,,,,reject
+what is geology,out_of_scope,out_of_scope,logs,,,reject
+flush the arp cache on the router,execution,execution,cache,,,action
+configure the alertmanager routing rules,execution,execution,message_queue,,,action
+configure the hugepage allocation at boot,execution,execution,message_queue,,,action
+apply the sbom attestation to the build,execution,execution,message_queue,,,action
+summarize the resource quota consumption by namespace,summarization,summarization,namespace,,,reporting
+create a configmap from the updated settings file,execution,execution,message_queue,,,action
+what is dark matter,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is causing the spike in connection establishment time,investigate,investigate,connection_pool,spike,,diagnostic
+check the anomaly in the request rate pattern,investigate,out_of_scope,,,,reject
+what caused the burst in disk writes,investigate,investigate,disk_io,,,diagnostic
+what is the meaning of life,out_of_scope,out_of_scope,,,,reject
+deploy the sidecar proxy to all pods,execution,execution,pod,,,action
+what triggered the auto-scaling event,investigate,investigate,message_queue,,,diagnostic
+summarize the release rollback frequency and causes,summarization,summarization,release_frequency,,,reporting
+provide a brief on the network bandwidth usage,summarization,summarization,network_policy,,,reporting
+enable request throttling,execution,out_of_scope,,,,reject
+enable the tcp fast open on the server,execution,out_of_scope,,,,reject
+who is confucius,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me an overview of the dependency health status,summarization,summarization,service,,,reporting
+how do I make beef jerky,out_of_scope,out_of_scope,,,,reject
+how do I fly a kite,out_of_scope,out_of_scope,,,,reject
+look into the storage IOPS issue,investigate,investigate,storage,,,diagnostic
+investigate the certificate authority chain trust failure,investigate,investigate,certificate,failure,,diagnostic
+summarize the number of open vulnerabilities by severity,summarization,out_of_scope,,,,reject
+what is the big bang theory,out_of_scope,out_of_scope,,,,reject
+run the compliance scan on all servers,execution,execution,message_queue,,,action
+investigate connection pool exhaustion,investigate,investigate,connection_pool,,,diagnostic
+investigate the permission denied errors in logs,investigate,investigate,logs,error,,diagnostic
+what is a nebula,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a brief on the alerting rule coverage gaps,summarization,summarization,alerting,,,reporting
+configure the node local dns cache,execution,execution,kubernetes_node,,,action
+give me a summary of the deployment frequency trends this year,summarization,summarization,deployment,,,reporting
+what is causing the high variance in response times,investigate,investigate,incident,latency_high,,diagnostic
+enable auto-healing,execution,out_of_scope,,,,reject
+start the log streaming pipeline,execution,execution,ci_cd_pipeline,,,action
+how do I bake a cake,out_of_scope,out_of_scope,,,,reject
+what is causing the tls certificate mismatch errors,investigate,investigate,tls,error,,diagnostic
+investigate the abnormal memory growth after restart,investigate,investigate,message_queue,,,diagnostic
+tell me about the renaissance art,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the spike in 5xx errors after the release,investigate,investigate,,error,,diagnostic
+summarize the change management board decisions,summarization,summarization,dns,,,reporting
+unlock the terraform state after failed apply,execution,execution,message_queue,failure,,action
+check why the rate limiter is not enforcing limits,investigate,investigate,kubernetes_node,,,diagnostic
+what is causing the database connection timeout,investigate,investigate,database,timeout,,diagnostic
+investigate the asymmetric network routing issue,investigate,investigate,network_policy,,,diagnostic
+give me a summary of the cost allocation by team,summarization,summarization,cost_trends,,,reporting
+tell me about the age of exploration,out_of_scope,out_of_scope,message_queue,,,reject
+run the kube-bench cis benchmark scan,execution,execution,message_queue,,,action
+tell me about octopuses,out_of_scope,out_of_scope,,,,reject
+who is hypatia,out_of_scope,out_of_scope,kubernetes_node,,,reject
+investigate the disk write latency on ssd array,investigate,investigate,disk_io,latency_high,,diagnostic
+why is the prometheus rule evaluation too slow,investigate,investigate,alerting,slow,,diagnostic
+provide a brief on the backup restore test outcomes,summarization,summarization,backup,,,reporting
+how do I make croissants at home,out_of_scope,out_of_scope,,,,reject
+investigate the unexpected high fan-out in the topology,investigate,investigate,logs,,,diagnostic
+who painted the mona lisa,out_of_scope,out_of_scope,message_queue,,,reject
+check network connectivity on prod-env,investigate,investigate,health_check,,,diagnostic
+summarize the failover test results from last friday,summarization,summarization,load_test,failure,,reporting
+enable request tracing across all services,execution,execution,service,,,action
+clear the zfs arc cache to free memory,execution,execution,cache,,,action
+investigate the large object heap pressure in dotnet,investigate,investigate,storage,,,diagnostic
+what is the distance to the moon,out_of_scope,out_of_scope,,,,reject
+what is a parallax,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what caused the surge in rejected requests,investigate,investigate,message_queue,,,diagnostic
+investigate the service port conflict after update,investigate,investigate,service,,,diagnostic
+apply configuration changes,execution,out_of_scope,,,,reject
+revoke the compromised api token,execution,execution,api,,,action
+provide a brief on the rate limiting effectiveness report,summarization,summarization,rate_limiting,,,reporting
+apply the network acl changes to the subnet,execution,out_of_scope,,,,reject
+provide availability summary,summarization,summarization,availability_sla,,,reporting
+tell me about the aztec calendar,out_of_scope,out_of_scope,message_queue,,,reject
+run the flamegraph capture on the cpu hotspot,execution,execution,message_queue,,,action
+how do I knit a scarf,out_of_scope,out_of_scope,,,,reject
+force a manual dns propagation check,execution,execution,dns,,,action
+why does the query return inconsistent results,investigate,investigate,database,,,diagnostic
+who is plato,out_of_scope,out_of_scope,kubernetes_node,,,reject
+why is the config sync lagging behind the control plane,investigate,out_of_scope,,,,reject
+provide a brief on the secrets rotation completion status,summarization,summarization,service,,,reporting
+how do earthquakes happen,out_of_scope,out_of_scope,,,,reject
+tell me about space exploration,out_of_scope,out_of_scope,,,,reject
+analyze cpu consumption trends,investigate,investigate,resource_quota,,,diagnostic
+summarize the on-call handoff notes,summarization,summarization,release_notes,,,reporting
+how do I make candles at home,out_of_scope,out_of_scope,,,,reject
+summarize deployment timeline,summarization,summarization,deployment,,,reporting
+provide a summary of the api versioning status,summarization,summarization,api,,,reporting
+what is psychology,out_of_scope,out_of_scope,logs,,,reject
+update the dns records for the new ip,execution,execution,dns,,,action
+scale the kafka cluster to add two more brokers,execution,execution,kubernetes_cluster,,,action
+how do I brew beer at home,out_of_scope,out_of_scope,,,,reject
+optimize the server-side tls handshake settings,execution,execution,tls,tls_handshake_failure,,action
+tell me about the golden gate bridge,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the memory pressure alerts on worker nodes,investigate,investigate,kubernetes_node,,,diagnostic
+apply the upstream load balancing weight change,execution,execution,dns,,,action
+configure the cifs share with the new permissions,execution,execution,message_queue,,,action
+configure the flux reconciliation interval,execution,execution,flux,,,action
+what is causing the flapping network route,investigate,investigate,network_policy,,,diagnostic
+what is the largest mammal in the ocean,out_of_scope,out_of_scope,,,,reject
+update the ip allowlist on the security group,execution,out_of_scope,,,,reject
+apply security patch on db-server-7,execution,execution,database,,,action
+configure the remote backend for terraform,execution,execution,message_queue,,,action
+who is sigmund freud,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is the history of the piano,out_of_scope,out_of_scope,,,,reject
+why is the storage volume mounting as read-only,investigate,investigate,storage,,,diagnostic
+tell me about pandas,out_of_scope,out_of_scope,,,,reject
+what caused the connection pool to drain,investigate,investigate,connection_pool,,,diagnostic
+who invented calculus,out_of_scope,out_of_scope,,,,reject
+how do I sew,out_of_scope,out_of_scope,,,,reject
+tell me about the northern lights,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the recent alerts and their resolution status,summarization,summarization,alerting,,recent,reporting
+run the sast scan on the new code change,execution,out_of_scope,,,,reject
+what is causing the worker pool to deadlock,investigate,investigate,connection_pool,,,diagnostic
+how do I play chess,out_of_scope,out_of_scope,,,,reject
+investigate the token validation failures on the api,investigate,investigate,api,failure,,diagnostic
+provide a recap of the operational maturity assessments,summarization,summarization,message_queue,,,reporting
+what is antimatter,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the impact of last week outage,summarization,summarization,message_queue,,last_week,reporting
+check why the helm release is stuck in pending upgrade,investigate,investigate,health_check,,,diagnostic
+analyze the tombstone accumulation in the database,investigate,investigate,database,,,diagnostic
+why is the load balancer session persistence broken,investigate,investigate,load_balancer,,,diagnostic
+enroll the new host in the certificate authority,execution,execution,certificate,,,action
+investigate the mismatch in reported vs actual disk usage,investigate,investigate,disk_io,,,diagnostic
+why is the garbage collector pausing for 500ms,investigate,out_of_scope,,,,reject
+why is the circuit breaker in open state,investigate,investigate,circuit_breaker,,,diagnostic
+how do I make my own perfume,out_of_scope,out_of_scope,,,,reject
+check the connection refused errors on port 5432,investigate,investigate,connection_pool,error,,diagnostic
+give me an overview of the error budget consumption,summarization,summarization,error_budget,error,,reporting
+apply the pod security policy changes,execution,execution,pod,,,action
+investigate the sudden increase in 404 errors,investigate,investigate,message_queue,error,,diagnostic
+enable the apparmor policy on the workload pod,execution,execution,pod,,,action
+what caused the message ordering to break,investigate,investigate,message_queue,,,diagnostic
+why is the distributed join causing cross-node traffic,investigate,investigate,kubernetes_node,,,diagnostic
+why are containers crashing,investigate,investigate,,crash,,diagnostic
+how do I make pottery,out_of_scope,out_of_scope,,,,reject
+update the health check thresholds on the target group,execution,execution,health_check,,,action
+why is the application not reading the updated configmap,investigate,out_of_scope,,,,reject
+what caused the job to exceed its resource quota,investigate,investigate,resource_quota,,,diagnostic
+summarize the workload autoscaling behavior this week,summarization,summarization,message_queue,,this_week,reporting
+what is the deepest lake in the world,out_of_scope,out_of_scope,,,,reject
+analyze why response time increased,investigate,investigate,incident,,,diagnostic
+restart the varnish cache after config change,execution,execution,cache,,,action
+tell me about the ottoman empire,out_of_scope,out_of_scope,message_queue,,,reject
+enable query caching on the database,execution,execution,database,,,action
+provide a brief on the kafka topic partition distribution,summarization,summarization,kafka,,,reporting
+what is radioactivity,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the secrets rotation audit,summarization,summarization,certificate,,,reporting
+configure the proxy buffer size for large responses,execution,execution,reverse_proxy,,,action
+enable the ldap group sync for the service,execution,execution,service,,,action
+investigate the hot spot in the key-value store,investigate,out_of_scope,,,,reject
+how do I learn how to sew clothes,out_of_scope,out_of_scope,,,,reject
+summarize the error logs,summarization,summarization,logs,error,,reporting
+give me an overview of the log-based metric trends,summarization,summarization,logs,,,reporting
+give me uptime summary,summarization,out_of_scope,,,,reject
+restart nginx on host123,execution,execution,pod,,,action
+provide a brief on the database performance this month,summarization,summarization,database,,,reporting
+summarize the access request audit for the past month,summarization,out_of_scope,,,past_month,reject
+how do I fix a leaky faucet,out_of_scope,out_of_scope,,leak,,reject
+check what went wrong,investigate,investigate,health_check,,,diagnostic
+give me a summary of the runtime crash trends,summarization,summarization,cost_trends,crash,,reporting
+why is the user session being invalidated unexpectedly,investigate,investigate,message_ack,,,diagnostic
+investigate the request being routed to a terminating pod,investigate,investigate,pod,,,diagnostic
+push the signed container image to the registry,execution,execution,container_image,,,action
+provide a brief on the mean time to detect this sprint,summarization,summarization,message_queue,,,reporting
+what is chemistry,out_of_scope,out_of_scope,kubernetes_node,,,reject
+enable the audit log policy on the api server,execution,execution,api,,,action
+analyze the slow startup time of the service,investigate,investigate,service,slow,,diagnostic
+provide a recap of the cost optimization initiatives,summarization,summarization,cost_trends,,,reporting
+what is genetics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize backup status,summarization,summarization,backup,,,reporting
+why is load balancer unhealthy,investigate,investigate,load_balancer,,,diagnostic
+why is the deployment rollout stuck,investigate,investigate,deployment,,,diagnostic
+analyze exception logs,investigate,investigate,logs,,,diagnostic
+rebuild the corrupted index on the users table,execution,execution,message_queue,,,action
+why is the read cache not warming up as expected,investigate,investigate,cache,,,diagnostic
+what is the doppler effect,out_of_scope,out_of_scope,,,,reject
+provide an overview of the resource quota usage by namespace,summarization,summarization,namespace,,,reporting
+stop the runaway data export job,execution,execution,cron_job,,,action
+what is blockchain,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze the packet fragmentation on the uplink,investigate,investigate,message_queue,,,diagnostic
+configure the md raid rebuild priority,execution,execution,message_queue,,,action
+provide a recap of the kubernetes event anomalies,summarization,summarization,cost_anomalies,,,reporting
+set the jvm heap size to 8gb and restart,execution,execution,message_queue,,,action
+rotate the iam role credentials for the batch job,execution,execution,batch_job,,,action
+investigate the missing pod metrics from the scraper,investigate,investigate,pod,,,diagnostic
+tell me about furniture,out_of_scope,out_of_scope,,,,reject
+restart application server,execution,execution,metrics_server,,,action
+apply the virtual service retry policy,execution,execution,service,,,action
+check why the multi-region failover is taking too long,investigate,investigate,health_check,failure,,diagnostic
+what caused the memory oom on worker-node-4,investigate,investigate,kubernetes_node,,,diagnostic
+check why jobs are failing silently in the queue,investigate,investigate,message_queue,failure,,diagnostic
+tell me about dolphins,out_of_scope,out_of_scope,,,,reject
+who wrote gulliver travels,out_of_scope,out_of_scope,,,,reject
+check for anomalies in metrics,investigate,investigate,metrics,,,diagnostic
+why is the background job worker deadlocking,investigate,out_of_scope,,,,reject
+summarize the observability maturity assessment results,summarization,summarization,observability_stack,,,reporting
+what countries border france,out_of_scope,out_of_scope,,,,reject
+mount the backup volume in read-only mode,execution,execution,backup,,,action
+enable the kubernetes event exporter,execution,execution,kubernetes_node,,,action
+how is silk produced,out_of_scope,out_of_scope,kubernetes_node,,,reject
+restart log aggregator,execution,execution,logs,,,action
+apply the priority class to the critical workloads,execution,out_of_scope,,,,reject
+enable the cross-zone load balancing,execution,execution,load_test,,,action
+how do I make soy candles,out_of_scope,out_of_scope,,,,reject
+who is albert einstein,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I skateboard,out_of_scope,out_of_scope,,,,reject
+scale message queue,execution,execution,message_queue,,,action
+summarize system health for app payments,summarization,summarization,service,,,reporting
+what is the tallest mountain,out_of_scope,out_of_scope,,,,reject
+who is marie curie,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who composed la traviata,out_of_scope,out_of_scope,,,,reject
+what is a genome,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the renaissance,out_of_scope,out_of_scope,message_queue,,,reject
+update the exports file and refresh nfsd,execution,execution,message_queue,,,action
+what is economics,out_of_scope,out_of_scope,kubernetes_node,,,reject
+clear cache on all nodes,execution,execution,kubernetes_node,,,action
+summarize the health of the multi-region setup,summarization,summarization,message_queue,,,reporting
+summarize the error budget status for all services,summarization,summarization,service,error,,reporting
+what triggered the alert,investigate,investigate,alerting,,,diagnostic
+restore the selinux context on the data directory,execution,execution,message_queue,,,action
+what is the coldest place on earth,out_of_scope,out_of_scope,,,,reject
+how do I make sushi,out_of_scope,out_of_scope,,,,reject
+investigate the webhook delivery failures,investigate,investigate,tls,failure,,diagnostic
+how do I make chocolate chip cookies,out_of_scope,out_of_scope,,,,reject
+configure the route53 health check failover,execution,execution,health_check,failure,,action
+what is the theory of evolution,out_of_scope,out_of_scope,,,,reject
+enable the mutual tls between all services,execution,execution,tls,,,action
+who is thomas edison,out_of_scope,out_of_scope,kubernetes_node,,,reject
+configure the dead letter queue for failed messages,execution,execution,message_queue,failure,,action
+check what is causing the excessive context switches,investigate,investigate,health_check,,,diagnostic
+who won the latest academy awards,out_of_scope,out_of_scope,message_queue,,,reject
+start the canary deployment for version 4.1,execution,execution,deployment,,,action
+investigate failed authentication attempts,investigate,investigate,,failure,,diagnostic
+what is a tectonic plate,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a recap of the on-call escalation patterns,summarization,summarization,message_queue,,,reporting
+what is the ozone layer,out_of_scope,out_of_scope,,,,reject
+initialize the new replica set member,execution,execution,message_queue,,,action
+why are requests queued,investigate,investigate,message_queue,,,diagnostic
+investigate the corrupted data in the cache layer,investigate,investigate,cache,,,diagnostic
+apply the cpu frequency scaling governor change,execution,execution,dns,,,action
+how do I stay healthy,out_of_scope,out_of_scope,,,,reject
+what is the higgs boson,out_of_scope,out_of_scope,,,,reject
+how do I make origami cranes,out_of_scope,out_of_scope,,,,reject
+why is service discovery returning stale endpoints,investigate,investigate,service,,,diagnostic
+how do I learn how to type faster,out_of_scope,out_of_scope,,,,reject
+analyze the jvm heap after the memory spike,investigate,investigate,message_queue,spike,,diagnostic
+how do I learn calligraphy,out_of_scope,out_of_scope,,,,reject
+give me a summary of the cluster upgrade progress,summarization,summarization,kubernetes_cluster,,,reporting
+give me a summary of the scaling decisions this week,summarization,summarization,message_queue,,this_week,reporting
+how do I make homemade bread,out_of_scope,out_of_scope,,,,reject
+summarize the edge cache performance by region,summarization,summarization,cache,,,reporting
+what is string theory,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze the segment fault in the native library,investigate,investigate,message_queue,,,diagnostic
+rollback the deployment,execution,execution,deployment,,,action
+restart the envoy proxy with the new configuration,execution,execution,reverse_proxy,,,action
+summarize the distributed tracing insights for the api,summarization,summarization,api,,,reporting
+analyze the io error rate on the san,investigate,investigate,,error,,diagnostic
+tell me about the persian empire,out_of_scope,out_of_scope,message_queue,,,reject
+force delete the stuck pod in the production namespace,execution,execution,pod,,,action
+set the pod disruption budget to allow one eviction,execution,execution,pod,,,action
+run the remediation playbook for cpu spike,execution,execution,message_queue,spike,,action
+tell me about the discovery of dna,out_of_scope,out_of_scope,message_queue,,,reject
+how do I ride a bicycle,out_of_scope,out_of_scope,,,,reject
+apply the cluster autoscaler priority expander config,execution,execution,horizontal_pod_autoscaler,,,action
+provide a brief on the data retention compliance status,summarization,summarization,service,,,reporting
+tell me about the aztec civilization,out_of_scope,out_of_scope,message_queue,,,reject
+what caused the index corruption on elasticsearch,investigate,investigate,message_queue,,,diagnostic
+what is paleontology,out_of_scope,out_of_scope,logs,,,reject
+how do I learn how to paint with watercolor,out_of_scope,out_of_scope,,,,reject
+give me a recap of the infrastructure changes this week,summarization,summarization,cost_anomalies,,this_week,reporting
+what is causing packet loss on the network,investigate,investigate,network_policy,,,diagnostic
+clear disk space on server alpha,execution,execution,disk_io,,,action
+provide a brief on the database connection pool stats,summarization,summarization,database,,,reporting
+how do I learn how to whistle,out_of_scope,out_of_scope,,,,reject
+create a snapshot of the production database,execution,execution,database,,,action
+tell me about ancient babylon,out_of_scope,out_of_scope,,,,reject
+apply the security hotfix to the dependency,execution,execution,message_queue,,,action
+tell me about the mongol empire,out_of_scope,out_of_scope,message_queue,,,reject
+show me the root cause of latency issues,investigate,investigate,message_queue,latency_high,,diagnostic
+renew the lets encrypt certificate manually,execution,execution,certificate,,,action
+who is julius caesar,out_of_scope,out_of_scope,kubernetes_node,,,reject
+extend the filesystem after volume resize,execution,execution,volume_snapshot,,,action
+tell me about astronomy,out_of_scope,out_of_scope,,,,reject
+run the vacuum full on the postgres database,execution,execution,database,,,action
+summarize the failure domain isolation test results,summarization,summarization,load_test,failure,,reporting
+add the new host to the monitoring system,execution,execution,message_queue,,,action
+tell me about the stone age,out_of_scope,out_of_scope,message_queue,,,reject
+uncordon the node after patching,execution,execution,kubernetes_node,,,action
+what is the uncertainty principle,out_of_scope,out_of_scope,,,,reject
+why is the ingress controller rejecting requests,investigate,out_of_scope,,,,reject
+give me a rundown of the production issues this week,summarization,summarization,message_queue,,this_week,reporting
+how do I play poker,out_of_scope,out_of_scope,,,,reject
+configure the backup schedule for hourly snapshots,execution,execution,backup,,,action
+summarize the release candidate validation results,summarization,summarization,release_notes,,,reporting
+scale the api service to 5 replicas,execution,execution,api,,,action
+how do I meditate,out_of_scope,out_of_scope,,,,reject
+what is causing the jdbc connection pool saturation,investigate,investigate,database,saturation,,diagnostic
+what is the history of chess,out_of_scope,out_of_scope,,,,reject
+what is a cytoplasm,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I plant a tree,out_of_scope,out_of_scope,,,,reject
+umount the nfs share that is hanging,execution,out_of_scope,,,,reject
+what is design,out_of_scope,out_of_scope,kubernetes_node,,,reject
+how do I make wine at home,out_of_scope,out_of_scope,,,,reject
+summarize the incident classification by severity,summarization,summarization,incident,,,reporting
+investigate the kernel soft lockup warnings,investigate,investigate,message_queue,,,diagnostic
+tell me about the roman gladiators,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the certificate rotation completion status,summarization,summarization,certificate,,,reporting
+configure the jaeger sampling rate,execution,execution,rate_limiting,,,action
+how do I make butter at home,out_of_scope,out_of_scope,,,,reject
+why is the container runtime consuming so much memory,investigate,investigate,container_image,,,diagnostic
+who discovered america,out_of_scope,out_of_scope,,,,reject
+how do I play guitar,out_of_scope,out_of_scope,,,,reject
+provide a recap of the security posture improvement this quarter,summarization,summarization,message_queue,,this_quarter,reporting
+apply network policy,execution,execution,network_policy,,,action
+summarize the findings from the recent security audit,summarization,out_of_scope,,,recent,reject
+give me a summary of the runtime exception trends,summarization,summarization,cost_trends,,,reporting
+tell me about giraffes,out_of_scope,out_of_scope,,,,reject
+why is the io scheduler causing write starvation,investigate,out_of_scope,,,,reject
+analyze the slow query explain plan,investigate,investigate,database,slow,,diagnostic
+configure the metrics server resource requests,execution,execution,metrics_server,,,action
+enable tracing,execution,execution,distributed_tracing,,,action
+annotate the service with the canary weight,execution,execution,service,,,action
+enable the new caching strategy globally,execution,execution,message_queue,,,action
+run the database failover test,execution,execution,database,failure,,action
+tell me about the trojan war,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the blue green deployment outcome,summarization,summarization,deployment,,,reporting
+investigate the flapping health checks,investigate,investigate,health_check,,,diagnostic
+summarize the open actionable items from postmortems,summarization,summarization,message_queue,,,reporting
+update the firewall rules to allow port 8443,execution,execution,message_queue,,,action
+analyze the ingress rule causing traffic leak,investigate,investigate,alerting,leak,,diagnostic
+deploy the hotfix to all production nodes,execution,execution,kubernetes_node,,,action
+how do I make a rope,out_of_scope,out_of_scope,,,,reject
+how do I carve soap,out_of_scope,out_of_scope,,,,reject
+summarize the on-call activity for the past month,summarization,summarization,message_queue,,past_month,reporting
+tell me about the inca empire,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the incident postmortem action items,summarization,summarization,incident,,,reporting
+how do submarines work,out_of_scope,out_of_scope,,,,reject
+investigate the excessive logging causing disk saturation,investigate,investigate,disk_io,saturation,,diagnostic
+enable write-ahead logging on the database,execution,execution,database,,,action
+investigate the dropped packets on the vpn interface,investigate,investigate,message_queue,drop,,diagnostic
+check memory usage on db-server-7,investigate,investigate,database,,,diagnostic
+look into the mutex contention on shared resource,investigate,investigate,resource_quota,,,diagnostic
+why is the replica set not converging,investigate,investigate,kubernetes_node,,,diagnostic
+what is the nitrogen cycle,out_of_scope,out_of_scope,,,,reject
+run the automated rollback on failed deployment,execution,execution,deployment,failure,,action
+what is the food chain,out_of_scope,out_of_scope,,,,reject
+tell me about the olympics history,out_of_scope,out_of_scope,message_queue,,,reject
+how do I become a chef,out_of_scope,out_of_scope,,,,reject
+summarize the configuration drift detections this week,summarization,summarization,message_queue,,this_week,reporting
+how do I make paella,out_of_scope,out_of_scope,,,,reject
+give me a summary of the infrastructure scaling events,summarization,summarization,cost_anomalies,,,reporting
+configure the webhook timeout for the admission controller,execution,execution,message_queue,timeout,,action
+provide a brief on the certificate rotation status,summarization,summarization,certificate,,,reporting
+what is the human genome,out_of_scope,out_of_scope,,,,reject
+why is the proxy returning empty responses,investigate,investigate,reverse_proxy,,,diagnostic
+what is a pulsar,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me an overview of the active feature rollouts,summarization,summarization,message_queue,,,reporting
+who is winston churchill,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me operational summary,summarization,out_of_scope,,,,reject
+investigate the tcp syn flood on the public interface,investigate,investigate,message_queue,,,diagnostic
+tell me about the cold war,out_of_scope,out_of_scope,message_queue,,,reject
+analyze the slow commit log replay after recovery,investigate,investigate,logs,slow,,diagnostic
+how do I plant a vegetable garden,out_of_scope,out_of_scope,,,,reject
+summarize the thread pool utilization trends this week,summarization,summarization,storage,,this_week,reporting
+configure the etcd compaction interval,execution,execution,etcd,,,action
+why is the log shipper dropping records,investigate,investigate,logs,drop,,diagnostic
+what is causing the increased p95 latency,investigate,investigate,,latency_high,,diagnostic
+summarize the transaction rollback rate by service,summarization,summarization,service,,,reporting
+what is jazz music,out_of_scope,out_of_scope,kubernetes_node,,,reject
+tell me about the middle ages,out_of_scope,out_of_scope,message_queue,,,reject
+give me a summary of the automated remediation coverage,summarization,summarization,message_queue,,,reporting
+what is a binary star system,out_of_scope,out_of_scope,kubernetes_node,,,reject
+give me a summary of the observability alert noise ratio,summarization,summarization,observability_stack,,,reporting
+how do I make french press coffee,out_of_scope,out_of_scope,,,,reject
+how do I start a podcast,out_of_scope,out_of_scope,pod,,,reject
+how do I learn to identify birds,out_of_scope,out_of_scope,,,,reject
+who composed the nutcracker,out_of_scope,out_of_scope,message_queue,,,reject
+investigate the file system corruption on node-8,investigate,investigate,kubernetes_node,,,diagnostic
+why is the api response size unexpectedly large,investigate,investigate,api,,,diagnostic
+configure the ocsp stapling on the server,execution,out_of_scope,,,,reject
+who wrote the odyssey,out_of_scope,out_of_scope,message_queue,,,reject
+analyze the retry storm on downstream services,investigate,investigate,service,,,diagnostic
+who invented the light bulb,out_of_scope,out_of_scope,message_queue,,,reject
+enable the branch protection rule on the repo,execution,out_of_scope,,,,reject
+give me a summary of the tenant sla compliance status,summarization,summarization,availability_sla,,,reporting
+summarize the sre toil metrics this quarter,summarization,summarization,metrics,,this_quarter,reporting
+tell me about the pyramids,out_of_scope,out_of_scope,message_queue,,,reject
+resize the logical volume for the data partition,execution,execution,logs,,,action
+what is the fibonacci sequence,out_of_scope,out_of_scope,,,,reject
+give me a summary of the node utilization across zones,summarization,summarization,kubernetes_node,,,reporting
+check the reason for the network interface flapping,investigate,out_of_scope,,,,reject
+how do I whittle wood,out_of_scope,out_of_scope,,,,reject
+tell me about medieval castles,out_of_scope,out_of_scope,,,,reject
+how do I photograph,out_of_scope,out_of_scope,,,,reject
+look into the prometheus scrape failures,investigate,investigate,tls,failure,,diagnostic
+enable the dns query logging for diagnostics,execution,execution,dns,,,action
+who is shakespeare,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the cost per service unit this quarter,summarization,summarization,service,,this_quarter,reporting
+investigate the cross-region latency increase,investigate,investigate,message_queue,latency_high,,diagnostic
+analyze the pattern of disk write errors on the host,investigate,investigate,disk_io,error,,diagnostic
+what is a galaxy,out_of_scope,out_of_scope,kubernetes_node,,,reject
+update the load balancer target group with new instances,execution,execution,load_balancer,,,action
+configure the heap profiler for the java service,execution,execution,service,,,action
+terminate the zombie processes,execution,execution,message_queue,,,action
+summarize the batch processing job completion rates,summarization,summarization,batch_job,,,reporting
+what caused the token bucket to overflow,investigate,investigate,message_queue,overflow,,diagnostic
+analyze the write skew in the distributed transaction,investigate,out_of_scope,,,,reject
+give me a summary of the application profiling results,summarization,summarization,message_queue,,,reporting
+what is causing the repeated node draining events,investigate,investigate,kubernetes_node,,,diagnostic
+what is quantum computing,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the container image scan results,summarization,summarization,container_image,,,reporting
+simulate a node failure in staging,execution,execution,kubernetes_node,failure,,action
+why is the build pipeline timing out,investigate,investigate,ci_cd_pipeline,timeout,,diagnostic
+how do I take better photos,out_of_scope,out_of_scope,,,,reject
+who composed moonlight sonata,out_of_scope,out_of_scope,,,,reject
+rotate the istio root certificate authority,execution,execution,certificate,,,action
+investigate the blocked io thread in the event loop,investigate,out_of_scope,,,,reject
+investigate the race condition in the job scheduler,investigate,investigate,message_queue,,,diagnostic
+why is the connection draining taking too long,investigate,investigate,connection_pool,,,diagnostic
+check the reason for the degraded search ranking,investigate,investigate,,degraded,,diagnostic
+summarize the chaos engineering experiment results,summarization,summarization,message_queue,,,reporting
+what is a black hole,out_of_scope,out_of_scope,kubernetes_node,,,reject
+apply the selinux policy update,execution,execution,network_policy,,,action
+configure the namespace resource quotas,execution,execution,namespace,,,action
+restart the systemd socket service,execution,execution,service,,,action
+analyze the traffic shaping rule mismatch,investigate,investigate,api,,,diagnostic
+provision a new ec2 instance for the web tier,execution,execution,message_queue,,,action
+investigate the network buffer overflow on ingress,investigate,investigate,network_policy,overflow,,diagnostic
+mount the tmpfs for the session data directory,execution,execution,message_queue,,,action
+why is cpu throttling happening,investigate,investigate,kubernetes_node,,,diagnostic
+add the spf record for the new mail relay,execution,execution,message_queue,,,action
+run the load test against staging environment,execution,execution,load_test,,,action
+tell me about the ming dynasty art,out_of_scope,out_of_scope,message_queue,,,reject
+summarize the backup verification test outcomes,summarization,summarization,backup,,,reporting
+configure the circuit breaker thresholds,execution,execution,circuit_breaker,,,action
+summarize the incident response time trends,summarization,summarization,incident,,,reporting
+provide a summary of the connection pool utilization,summarization,summarization,connection_pool,,,reporting
+how do I roller skate,out_of_scope,out_of_scope,,,,reject
+who is rembrandt,out_of_scope,out_of_scope,kubernetes_node,,,reject
+summarize the latency trends for the past sprint,summarization,summarization,message_queue,latency_high,past,reporting
+apply the vault dynamic database credential policy,execution,execution,database,,,action
+who composed swan lake,out_of_scope,out_of_scope,,,,reject
+what is causing the timeout in the payment gateway,investigate,investigate,,timeout,,diagnostic
+give me a summary of the storage utilization trends,summarization,summarization,storage,,,reporting
+who is mahatma gandhi,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is the periodic table,out_of_scope,out_of_scope,,,,reject
+check why the read replicas are out of sync,investigate,investigate,read_replicas,,,diagnostic
+why are requests timing out,investigate,investigate,,timeout,,diagnostic
+summarize the active incidents for the morning standup,summarization,summarization,incident,,,reporting
+run the smart health test on the drive,execution,out_of_scope,,,,reject
+who invented the telephone,out_of_scope,out_of_scope,message_queue,,,reject
+provide an overview of the mean time to recovery metrics,summarization,summarization,metrics,,,reporting
+restart session manager,execution,execution,pod,,,action
+investigate the recurring alert for swap usage,investigate,investigate,alerting,,,diagnostic
+rotate the api keys for third party integrations,execution,execution,api,,,action
+investigate the spike in mutex contention metrics,investigate,investigate,metrics,spike,,diagnostic
+configure the pam authentication settings,execution,execution,message_queue,,,action
+patch the deployment to inject the new environment variable,execution,execution,deployment,,,action
+give me replication summary,summarization,out_of_scope,,,,reject
+why is the worker thread unresponsive,investigate,out_of_scope,,,,reject
+enable the distributed tracing collector,execution,execution,distributed_tracing,,,action
+update the soa record on the authoritative dns,execution,execution,dns,,,action
+give me an overview of the gitops reconciliation status,summarization,summarization,service,,,reporting
+tell me about ancient china,out_of_scope,out_of_scope,,,,reject
+tell me a story,out_of_scope,out_of_scope,,,,reject
+how do I start beekeeping,out_of_scope,out_of_scope,,,,reject
+what is causing the resource cleanup to be slow,investigate,investigate,resource_quota,slow,,diagnostic
+enable audit logging on the api gateway,execution,execution,api_gateway,,,action
+apply the waf rule to block the new attack pattern,execution,out_of_scope,,,,reject
+stop all running containers on host-9,execution,out_of_scope,,,,reject
+start backup job,execution,execution,backup,,,action
+why is the write ahead log growing unbounded,investigate,investigate,logs,,,diagnostic
+give me an overview of the service dependency mapping,summarization,summarization,service,,,reporting
+analyze the certificate pinning failures in mobile clients,investigate,investigate,certificate,failure,,diagnostic
+tell me about the spanish inquisition,out_of_scope,out_of_scope,message_queue,,,reject
+enable the maintenance mode on the microservice,execution,execution,service,,,action
+what is yoga,out_of_scope,out_of_scope,kubernetes_node,,,reject
+what is a sonnet,out_of_scope,out_of_scope,kubernetes_node,,,reject
+configure the load shedding threshold on the api,execution,execution,api,,,action
+run the chaos experiment to test failover,execution,execution,load_test,failure,,action
+how do I learn origami,out_of_scope,out_of_scope,,,,reject
+trigger the spinnaker pipeline for the hotfix,execution,execution,ci_cd_pipeline,,,action
+restart the kafka broker on node-3,execution,execution,kubernetes_node,,,action
+why is cache miss rate high,investigate,investigate,cache,,,diagnostic
+why is the event sourcing replay taking too long,investigate,out_of_scope,,,,reject
+what is the boiling point of water,out_of_scope,out_of_scope,,,,reject
+how do I grow herbs indoors,out_of_scope,out_of_scope,,,,reject
+tell me about the ming dynasty,out_of_scope,out_of_scope,message_queue,,,reject
+how do I train for a marathon,out_of_scope,out_of_scope,,,,reject
+what is existentialism,out_of_scope,out_of_scope,kubernetes_node,,,reject
+analyze why the canary deployment is showing errors,investigate,investigate,deployment,error,,diagnostic
+how do I write a cover letter,out_of_scope,out_of_scope,,,,reject
+remove the decommissioned server from the inventory,execution,out_of_scope,,,,reject
+how do I do a cartwheel,out_of_scope,out_of_scope,,,,reject
+tell me about the amazon rainforest,out_of_scope,out_of_scope,message_queue,,,reject
+check the metrics cardinality explosion in prometheus,investigate,investigate,metrics,,,diagnostic
+compress and archive the old log files,execution,execution,logs,,,action
+investigate error rate spike in production,investigate,investigate,error_budget,error,,diagnostic
+provide security incident summary,summarization,summarization,incident,,,reporting
+what is forensic science,out_of_scope,out_of_scope,kubernetes_node,,,reject
+provide a recap of the server provisioning activities,summarization,summarization,metrics_server,,,reporting
+summarize the horizontal autoscaler trigger patterns,summarization,summarization,horizontal_pod_autoscaler,,,reporting
+flush dns cache,execution,execution,dns,,,action
+investigate the message serialization error in the broker,investigate,investigate,message_queue,error,,diagnostic
+show root cause analysis for outage,investigate,investigate,logs,,,diagnostic
+analyze the traces for the slow checkout flow,investigate,investigate,,slow,,diagnostic
+how do I learn card magic,out_of_scope,out_of_scope,,,,reject
+provide a brief on the change success rate this cycle,summarization,summarization,dns,,,reporting
+tell me about the boer war,out_of_scope,out_of_scope,message_queue,,,reject
+why is the persistent connection being dropped,investigate,investigate,connection_pool,drop,,diagnostic
+summarize the key performance indicators for the quarter,summarization,out_of_scope,,,,reject
+who wrote anna karenina,out_of_scope,out_of_scope,,,,reject
+tell me about elephants,out_of_scope,out_of_scope,,,,reject
+who wrote crime and punishment,out_of_scope,out_of_scope,,,,reject
+investigate the degraded write throughput on the database,investigate,investigate,database,degraded,,diagnostic
+apply the service mesh traffic policy,execution,execution,service_mesh,,,action
+apply backup retention policy,execution,execution,backup,,,action
+update the kubeconfig with the new credentials,execution,execution,message_queue,,,action
+check the reason behind the pod crashloopbackoff,investigate,investigate,pod,crash,,diagnostic
+what is a magnetar,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who discovered penicillin,out_of_scope,out_of_scope,,,,reject
+revoke the expired service certificate,execution,execution,certificate,,,action
+tell me about movies,out_of_scope,out_of_scope,,,,reject
+tell me about the ancient roman baths,out_of_scope,out_of_scope,message_queue,,,reject
+analyze the pattern of recurring memory pressure alerts,investigate,investigate,alerting,,,diagnostic
+why is the kubernetes scheduler failing to place pods,investigate,investigate,pod,failure,,diagnostic
+enable persistent connections on the proxy,execution,execution,reverse_proxy,,,action
+what caused memory leak in app,investigate,investigate,,leak,,diagnostic
+provide an overview of the service health by business domain,summarization,summarization,service,,,reporting
+what are your hobbies,out_of_scope,out_of_scope,,,,reject
+provide a brief on the kubernetes cluster utilization,summarization,summarization,kubernetes_cluster,,,reporting
+execute the rolling restart of all microservices,execution,execution,service,,,action
+enable the opentelemetry collector on the service,execution,execution,service,,,action
+give me an overview of the log ingestion cost trends,summarization,summarization,logs,,,reporting
+give me an overview of the alerting rule changes,summarization,summarization,alerting,,,reporting
+investigate the delayed metric reporting from agent,investigate,out_of_scope,,,,reject
+what is continental drift,out_of_scope,out_of_scope,kubernetes_node,,,reject
+who wrote the iliad,out_of_scope,out_of_scope,message_queue,,,reject
+provide weekly report summary,summarization,out_of_scope,,,,reject
+check what is causing the high cpu wait on nfs,investigate,investigate,health_check,,,diagnostic
+give me a summary of the node group scaling history,summarization,summarization,kubernetes_node,,,reporting
+investigate the spurious wakeups in the thread pool,investigate,out_of_scope,,,,reject
+what is causing the repeated ip address conflict in the cluster,investigate,investigate,kubernetes_cluster,,,diagnostic
+patch the third-party library to the safe version,execution,execution,message_queue,,,action
+who was cleopatra,out_of_scope,out_of_scope,,,,reject
+why is the search indexer falling behind,investigate,out_of_scope,,,,reject
+tell me about the mesopotamian civilization,out_of_scope,out_of_scope,message_queue,,,reject
+summarize database performance,summarization,summarization,database,,,reporting
+provide a brief on the job queue wait time trends,summarization,summarization,message_queue,,,reporting
+how do I cook pasta,out_of_scope,out_of_scope,,,,reject
+what caused the connection storm after failover,investigate,investigate,connection_pool,failure,,diagnostic
+how does sonar work,out_of_scope,out_of_scope,,,,reject
+configure the kernel network parameters via sysctl,execution,execution,network_policy,,,action
+run the terraform plan review before apply,execution,execution,message_queue,,,action
+configure the database read timeout to 10 seconds,execution,execution,database,timeout,,action
+summarize the scheduled maintenance completion report,summarization,summarization,scheduled_downtime,,,reporting
+check what is causing the http keep-alive to be disabled,investigate,investigate,health_check,,,diagnostic
+how do I brew kombucha,out_of_scope,out_of_scope,,,,reject
+apply the rate limit policy to the external api proxy,execution,execution,reverse_proxy,,,action
