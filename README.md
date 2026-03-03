@@ -125,7 +125,7 @@ probs = model(x, constraints)  # constraints participate in forward()
 ```
 
 **Key Components**:
-1. **Dataset**: `level3/data/level3_intents.csv` with allowed/suppressed constraints
+1. **Dataset**: `Others/level3_intents.csv` with allowed/suppressed constraints
 2. **L2.5 Evaluation**: Educational comparison showing post-hoc limits
 3. **L3 PoC**: Minimal implementation comparing L2, L2.5, and L3
 
@@ -181,7 +181,6 @@ nsai_poc/
 │   ├── l2_5_evaluation.ipynb        # L2.5 educational bridge
 │   ├── level3_logic_gating_poc.ipynb # L3 PoC (L2 vs L2.5 vs L3)
 │   └── data/
-│       └── level3_intents.csv       # Constraint dataset
 ├── validation/
 │   ├── README.md                     # Validation documentation
 │   └── validation.ipynb              # Multi-level model comparison
