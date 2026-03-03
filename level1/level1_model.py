@@ -1,5 +1,5 @@
 """
-Level 1C: Symbol-Aligned Neuro-Symbolic Intent Classification (Revised)
+Level 1: Symbol-Aligned Neuro-Symbolic Intent Classification
 
 Architecture:
 Neural Detectors → Symbolization Layer → Pure Symbolic Rule Engine
@@ -141,12 +141,12 @@ def _load_json_if_exists(path: Path) -> Optional[Dict[str, Any]]:
 
 
 # ============================================================
-# Level 1C Classifier
+# Level 1 Classifier
 # ============================================================
 
-class Level1CClassifier:
+class Level1Classifier:
     """
-    Level 1C Symbol-Aligned Neuro-Symbolic Classifier
+    Level 1 Symbol-Aligned Neuro-Symbolic Classifier
     """
 
     def __init__(
@@ -349,10 +349,10 @@ class Level1CClassifier:
                 "rules": self.rules
             }, f, indent=2)
 
-        print(f"✓ Saved Level1C model to {model_dir_path}")
+        print(f"✓ Saved Level1 model to {model_dir_path}")
 
     @classmethod
-    def load(cls, model_dir: str) -> "Level1CClassifier":
+    def load(cls, model_dir: str) -> "Level1Classifier":
         model_dir_path = Path(model_dir)
 
         with open(model_dir_path / "config.json", "r", encoding="utf-8") as f:
@@ -369,5 +369,5 @@ class Level1CClassifier:
             with open(model_dir_path / f"detector_{intent}.pkl", "rb") as f:
                 detectors[intent] = pickle.load(f)
 
-        print(f"✓ Loaded Level1C model from {model_dir_path}")
+        print(f"✓ Loaded Level1 model from {model_dir_path}")
         return cls(detectors=detectors, intents=intents, rules=rules, config=config)

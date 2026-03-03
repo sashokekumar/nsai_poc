@@ -1,566 +1,397 @@
-# Level 1: Neuro-Symbolic Intent Classification
+﻿# Level 1: Symbol-Aligned Neuro-Symbolic Intent Classification
 
 ## Overview
-Level 1 introduces a **2-layer neuro-symbolic architecture** that combines statistical learning with deterministic symbolic rules. This level separates **what the user intends** (predicted_intent) from **what the system decides to do** (decision_state).
 
-**Two Variants:**
-- **Level 1A**: Single multi-class classifier with rule governance
-- **Level 1B**: Multi-detector architecture (one binary classifier per intent)
+Level 1 is a **3-layer neuro-symbolic architecture** that cleanly separates numeric signals from symbolic reasoning. The key design principle is strict isolation: numeric scores never leave the neural layer. A dedicated symbolization layer converts all signals into logical predicates, and the rule engine operates exclusively on those predicates — no numbers, no thresholds, no conditionals inside rules.
+
+This separation makes the system's decisions **auditable, explainable, and easy to modify** without touching model code.
+
+---
 
 ## Architecture
 
-### Layer A: Statistical Model
-- **Algorithm**: TF-IDF + Logistic Regression
-- **Features**: 5000 TF-IDF features with 1-2 grams
-- **Output**: Probability distribution, confidence scores, margins, token evidence
-
-### Layer B: Neuro-Symbolic Decision Layer
-- **Rule-Based Gates**: 4 deterministic rules with strict precedence
-- **Categories**: Quality, Safety, Ambiguity
-- **Decision States**: `accepted`, `needs_clarification`, `blocked`
-- **Priority System**: Explicit non-order-dependent precedence
-
-## Dataset
-- **Source**: `../data/intents_base.csv`
-- **Records**: 614 utterances
-- **Intent Classes**: `investigate`, `execution`, `summarization`, `out_of_scope`
-- **No Timestamps**: Pure text classification
-
-## Configuration Constants
-```python
-CONFIG = {
-    'BASE_MIN_CONF': 0.60,           # Minimum confidence threshold
-    'MIN_MARGIN': 0.10,              # Margin between top-2 predictions
-    'EXECUTION_MIN_CONF': 0.85,      # Higher bar for execution
-    'MIN_TOKENS_OUT_OF_SCOPE': 3,    # Token count gate
-    'RANDOM_STATE': 42,
-    'TEST_SIZE': 0.2
-}
-
-RULE_PRIORITY = ["R1", "R4", "R2", "R3"]  # Explicit precedence
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  Layer 1 – Neural Detectors (numeric, internal only)                │
+│  Four independent TF-IDF + Logistic Regression binary classifiers   │
+│  Outputs: raw float scores per intent (do NOT sum to 1)             │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │  raw scores + token counts
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Layer 2 – Symbolization (thresholds live here and ONLY here)       │
+│  Converts numbers → logical predicates                              │
+│  Example: score(execution) ≥ 0.30  →  CANDIDATE_EXECUTION          │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │  predicate set (pure symbols)
+                               ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│  Layer 3 – Symbolic Rule Engine (no numbers, rules are plain JSON)  │
+│  Reads rules from models/level1/rules.json                          │
+│  Outputs: predicted_intent + decision_state + triggered_rules       │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-## Rule System
-
-### R1: Quality Gate (Priority 100)
-- **Category**: Quality
-- **Condition**: `meaningful_tokens < 3`
-- **Action**: Set `decision_state = 'blocked'`
-- **Reason**: `insufficient_tokens`
-- **Behavior**: Blocks all low-token inputs immediately
-
-### R4: Safety Gate (Priority 90)
-- **Category**: Safety
-- **Condition**: `predicted_intent == 'execution' AND max_confidence < 0.85`
-- **Action**: 
-  - If `confidence >= 0.60` → `decision_state = 'blocked'` (execution_safety_block)
-  - If `confidence < 0.60` → `decision_state = 'needs_clarification'` (execution_low_confidence)
-- **Behavior**: Prevents risky execution commands
-
-### R2: Confidence Gate (Priority 50)
-- **Category**: Ambiguity
-- **Condition**: `max_confidence < 0.60`
-- **Action**: Set `decision_state = 'needs_clarification'`
-- **Reason**: `ambiguous_prediction`
-
-### R3: Margin Gate (Priority 40)
-- **Category**: Ambiguity
-- **Condition**: `margin < 0.10`
-- **Action**: Set `decision_state = 'needs_clarification'`
-- **Reason**: `ambiguous_prediction`
-
-## Key Innovation: Intent vs Decision State
-
-### Previous Approach (Level 0)
-- Single output: predicted intent
-- No distinction between classification and routing
-
-### Level 1 Approach
-```python
-{
-  "predicted_intent": "execution",      # What user wants (from model)
-  "decision_state": "blocked",          # What system decides
-  "decision_reason": "execution_safety_block"
-}
-```
-
-**Intent** = Classification (always from model)  
-**Decision State** = Routing/Action (controlled by rules)
-
-## Output Structure
-```json
-{
-  "utterance": "restart nginx on host123",
-  "predicted_intent": "execution",
-  "signals": {
-    "max_confidence": 0.78,
-    "margin": 0.25,
-    "meaningful_tokens": 5,
-    "probabilities": {
-      "execution": 0.78,
-      "investigate": 0.15,
-      "summarization": 0.05,
-      "out_of_scope": 0.02
-    }
-  },
-  "triggered_rules": [
-    {
-      "rule_id": "R4",
-      "category": "safety",
-      "priority": 90,
-      "condition": "predicted_intent==execution AND max_confidence < 0.85",
-      "value": 0.78
-    }
-  ],
-  "decision_state": "blocked",
-  "decision_reason": "execution_safety_block"
-}
-```
+---
 
 ## Files
 
-### Level 1A (Multi-Class Architecture)
-- `level1_tfidf_classification.ipynb`: Main notebook (11 cells)
-- `level1_model.py`: Shared module with CONFIG, signal extraction, decision rules, voting
-- `artifacts/level1a/`: Output files and visualizations
-
-#### Examples (Level 1A)
-
-These examples contrast model outputs with the symbolic rule decisions.
-
-```json
-{
-  "utterance": "restart nginx on host123",
-  "predicted_intent": "execution",
-  "signals": {"max_confidence": 0.78, "margin": 0.25, "meaningful_tokens": 5},
-  "triggered_rules": ["R4"],
-  "decision_state": "blocked",
-  "decision_reason": "execution_safety_block"
-}
-```
-
-```json
-{
-  "utterance": "hello",
-  "predicted_intent": "out_of_scope",
-  "signals": {"meaningful_tokens": 1},
-  "triggered_rules": ["R1"],
-  "decision_state": "blocked",
-  "decision_reason": "insufficient_tokens"
-}
-```
-
-```json
-{
-  "utterance": "why is server cpu high",
-  "predicted_intent": "investigate",
-  "signals": {"max_confidence": 0.92, "margin": 0.45, "meaningful_tokens": 6},
-  "triggered_rules": [],
-  "decision_state": "accepted",
-  "decision_reason": "model_prediction"
-}
-```
-
-### Level 1B (Multi-Detector Architecture)
-- `level1b_multi_detector_classification.ipynb`: Multi-detector notebook
-- `level1b_model.py`: Multi-detector module with binary classifiers + rule engine
-- `models/level1b/`: Trained detectors (one per intent)
-- `artifacts/level1b/`: Predictions, metrics, rule analysis
-
-#### Examples (Level 1B)
-
-```json
-{
-  "utterance": "restart nginx on host123",
-  "detector_scores": {"execution": 0.65, "investigate": 0.40},
-  "triggered_rules": ["R_EXEC_SAFETY"],
-  "decision_state": "needs_clarification",
-  "decision_reason": "R_EXEC_SAFETY"
-}
-```
-
-```json
-{
-  "utterance": "server issues",
-  "detector_scores": {"investigate": 0.55, "execution": 0.52},
-  "triggered_rules": ["R_AMBIGUOUS"],
-  "decision_state": "needs_clarification",
-  "decision_reason": "ambiguous_detectors"
-}
-```
-
-```json
-{
-  "utterance": "summarize last error logs",
-  "detector_scores": {"summarization": 0.88, "investigate": 0.05},
-  "triggered_rules": ["R_DEFAULT"],
-  "decision_state": "accepted",
-  "decision_reason": "R_DEFAULT"
-}
-```
-
-**Note**: Both notebooks import from their respective modules to avoid code duplication.
-
-## Notebook Structure
-
-### Part 1: Statistical Model Training (Cells 1-9)
-1. Title and architecture description
-2. Import dependencies
-3. Load and validate data
-4. Train/test split (stratified)
-5. Train TF-IDF + LR pipeline
-6. Evaluate performance
-7. Token-level evidence extraction
-8. Sanity checks
-
-### Part 2: NSAI Symbolic Decision Layer (Cells 10-15)
-10. Configuration constants (CONFIG + RULE_PRIORITY)
-11. Signal extraction (probabilities, confidence, margin, tokens)
-12. Decision rules with strict precedence
-13. Transparent voting (for explainability only)
-14. Demo with explainable inference
-
-## Usage
-```bash
-# Navigate to level1 directory
-cd level1
-
-# Open notebook
-jupyter notebook level1_tfidf_classification.ipynb
-
-# Or use VS Code
-code level1_tfidf_classification.ipynb
-```
-
-## Execution Flow
-1. **Extract Signals** (Layer A): Model produces probabilities, confidence, margin, token evidence
-2. **Apply Rules** (Layer B): Rules check conditions in priority order (R1 → R4 → R2 → R3)
-3. **Early Returns**: High-priority rules (R1, R4) override all lower-priority rules
-4. **Transparent Voting**: Computed for explainability only; does NOT control final decision
-5. **Structured Output**: JSON with intent, decision state, reason, triggered rules
-
-## Example Scenarios
-
-### Scenario 1: High-Confidence Execution (Blocked by R4)
-```
-Input: "restart nginx on host123"
-predicted_intent: "execution"
-max_confidence: 0.78
-decision_state: "blocked"
-decision_reason: "execution_safety_block"
-triggered_rules: [R4]
-```
-
-### Scenario 2: Low-Token Input (Blocked by R1)
-```
-Input: "hello"
-predicted_intent: "out_of_scope"
-meaningful_tokens: 1
-decision_state: "blocked"
-decision_reason: "insufficient_tokens"
-triggered_rules: [R1]
-```
-
-### Scenario 3: Ambiguous Prediction (R2 + R3)
-```
-Input: "server issues"
-predicted_intent: "investigate"
-max_confidence: 0.55
-margin: 0.08
-decision_state: "needs_clarification"
-decision_reason: "ambiguous_prediction"
-triggered_rules: [R2, R3]
-```
-
-### Scenario 4: Clean Prediction (No Rules)
-```
-Input: "why is server cpu high"
-predicted_intent: "investigate"
-max_confidence: 0.92
-margin: 0.45
-decision_state: "accepted"
-decision_reason: "model_prediction"
-triggered_rules: []
-```
-
-## Key Features
-1. **Strict Precedence**: R1 > R4 > R2 > R3 (no order-dependent conflicts)
-2. **Explicit Categories**: Quality, Safety, Ambiguity
-3. **Early Returns**: High-priority rules block lower-priority evaluation
-4. **Transparent Voting**: Shows scoring but doesn't control decisions
-5. **Structured JSON**: Full explainability with signals + rules + reasons
-
-## Improvements Over Level 0
-- ✅ Separates intent from decision state
-- ✅ Adds execution safety gates
-- ✅ Implements quality checks (token count)
-- ✅ Detects ambiguity (confidence + margin)
-- ✅ Explicit rule priority (no execution order dependency)
-- ✅ Structured, explainable output
----
-
-## Level 1B: Multi-Detector Architecture
-
-### Key Differences from Level 1A
-
-**Level 1A**: Single multi-class classifier  
-**Level 1B**: One binary detector per intent
-
-### Architecture
-
-#### Multi-Detector Setup
-```python
-# Each intent gets its own binary detector
-detectors = {
-    'investigate': BinaryClassifier,    # "Is this investigate?"
-    'execution': BinaryClassifier,      # "Is this execution?"
-    'summarization': BinaryClassifier,  # "Is this summarization?"
-    'out_of_scope': BinaryClassifier    # "Is this out_of_scope?"
-}
-```
-
-**Critical Properties:**
-- Scores are **independent** (do NOT sum to 1)
-- Each detector answers: "Does this match MY intent?"
-- Multiple detectors can be confident simultaneously
-- Rules (not models) make final decision
-
-### Rule System (6 Rules)
-
-#### R_LOW_TOKEN_COUNT (Priority 100) - Quality
-- **Condition**: `meaningful_tokens < 3`
-- **Action**: `decision_state = 'blocked'`, `predicted_intent = 'out_of_scope'`
-- **Type**: `quality`
-
-#### R_NO_CONFIDENT_DETECTOR (Priority 95) - Quality
-- **Condition**: `all detector_scores < 0.50`
-- **Action**: `decision_state = 'blocked'`, `predicted_intent = 'out_of_scope'`
-- **Type**: `quality`
-- **Semantic Meaning**: No detector is confident enough to be trusted
-
-#### R_EXEC_SAFETY (Priority 90) - Safety
-- **Condition**: `execution_score >= 0.50 AND < 0.85`
-- **Action**: 
-  - If `investigate_score >= 0.50` → `predicted_intent = 'investigate'`, `accepted`
-  - Else → `predicted_intent = 'execution'`, `needs_clarification`
-- **Type**: `safety`
-
-#### R_MULTI_DETECTOR_CONCURRENCE (Priority 60) - Compound Intent
-- **Condition**: `>= 2 detectors with score >= 0.70`
-- **Action**: Log for L2 (reserved, not blocking in L1B)
-- **Type**: `compound_intent`
-- **Example**: investigate=0.72, summarization=0.70
-- **Note**: Reserved for Level 2 orchestration
-
-#### R_AMBIGUOUS (Priority 50) - Ambiguity
-- **Condition**: `>= 2 detectors >= 0.50 AND margin < 0.10`
-- **Action**: `decision_state = 'needs_clarification'`
-- **Type**: `ambiguity`
-
-#### R_DEFAULT (Priority 10) - Default
-- **Condition**: Always
-- **Action**: Select highest scoring detector
-- **Type**: `default`
-
-### Configuration
-```python
-BASE_MIN_SCORE = 0.50          # Minimum confidence threshold
-AMBIGUITY_MARGIN = 0.10        # Margin for ambiguity detection
-EXECUTION_MIN_SCORE = 0.85     # Higher bar for execution
-MIN_TOKENS_OUT_OF_SCOPE = 3    # Token count gate
-CONCURRENCE_THRESHOLD = 0.70   # Multi-detector concurrence
-```
-
-### Output Structure
-```json
-{
-  "predicted_intent": "investigate",
-  "decision_state": "accepted",
-  "decision_reason": "R_DEFAULT",
-  "detector_scores": {
-    "investigate": 0.89,
-    "execution": 0.12,
-    "summarization": 0.05,
-    "out_of_scope": 0.03
-  },
-  "top_detector": "investigate",
-  "score_margin": 0.77,
-  "meaningful_tokens": 6,
-  "triggered_rules": [
-    {
-      "rule_id": "R_DEFAULT",
-      "rule_type": "default",
-      "priority": 10,
-      "condition": "default to highest scoring detector",
-      "value": 0.89
-    }
-  ]
-}
-```
-
-Additional explainability (Level1B):
-- `decision_trace` (returned per-utterance) contains a structured proof of the decision path with fields:
-  - `detectors_fired`: intents with score >= BASE_MIN_SCORE
-  - `hard_rules_failed`: list of hard rule ids that caused rejection/blocking
-  - `soft_rules_passed`: list of non-blocking rules that influenced confidence
-  - `alternatives_eliminated`: mapping of eliminated alternatives to the reason
-
-This enables L3-style path explainability (not just final justification) and supports counterfactual analysis ("why not X?").
-
-### Usage Example
-```python
-from level1b_model import Level1BClassifier
-
-# Load trained model
-classifier = Level1BClassifier.load('models/level1b')
-
-# Predict
-result = classifier.predict("why is server cpu high")
-
-print(f"Intent: {result['predicted_intent']}")
-print(f"Decision: {result['decision_state']}")
-print(f"Reason: {result['decision_reason']}")
-print(f"Detector Scores: {result['detector_scores']}")
-```
-
-### Artifacts Generated
-1. **level1b_predictions.csv** - Full test set results with detector scores
-2. **level1b_predictions.jsonl** - JSONL format for programmatic access
-3. **evaluation_metrics.json** - Accuracy, rule stats, configuration
-4. **rule_activation_stats.csv** - Per-rule trigger analysis
-5. **decision_state_breakdown.csv** - State distribution by intent
-
-### Key Features
-1. **Independent Detector Scores**: Not constrained to sum to 1
-2. **Explicit Rule Types**: quality, safety, ambiguity, compound_intent, default
-3. **Compound Intent Detection**: Reserved for L2 orchestration
-4. **Semantic Rule Separation**: Low tokens ≠ No confident detector
-5. **Full Explainability**: All signals, rules, and decisions tracked
-
-### Why Multi-Detector Architecture?
-
-**Advantages:**
-- Can detect compound/mixed intents (multiple high scores)
-- More explainable (each detector is interpretable)
-- Better handles edge cases (nothing confident vs. low tokens)
-- Prepares for L2 orchestration (multi-intent workflows)
-
-**Trade-offs:**
-- More models to train/maintain (4 binary vs. 1 multi-class)
-- Slightly higher inference cost (4 predictions vs. 1)
-- Requires rule governance (scores don't directly map to decision)
+| File | Description |
+|---|---|
+| `level1_model.py` | `Level1Classifier` — neural, symbolization, and rule-engine layers; `CONFIG` dict (thresholds only) |
+| `level1_symbolic_intent_classification.ipynb` | End-to-end notebook: train → symbolize → evaluate → save |
+| `models/level1/config.json` | Serialized `CONFIG` and intent list |
+| `models/level1/rules.json` | Symbolic rules as plain JSON (human-readable, zero numeric values) |
+| `models/level1/detector_<intent>.pkl` | One binary detector per intent (4 files) |
+| `artifacts/level1/level1_predictions.csv` | Full test-set predictions including symbols and triggered rules |
+| `artifacts/level1/evaluation_metrics.json` | Accuracy, decision-state distribution, rule trigger counts, config snapshot |
 
 ---
 
-## Level 1C: Symbol-Aligned Neuro-Symbolic Classification
+## Dataset
+- **Source**: `data/intents_base.csv` (at repo root)
+- **Records**: 614 utterances
+- **Intent Classes**: `investigate`, `execution`, `summarization`, `out_of_scope`
 
-Level 1C refines Level 1B by introducing a strict three-layer separation: numeric scores never leave the neural layer, a symbolization layer converts all signals into predicates, and the rule engine operates exclusively on those predicates with no numeric comparisons in rules.
+---
 
-### Architecture
+## Configuration
 
+All numeric thresholds live exclusively in `CONFIG` and are consumed only inside `_symbolize()`. The rule engine never reads them.
+
+```python
+CONFIG = {
+    'BASE_MIN_SCORE':        0.30,   # Minimum detector score to become a candidate
+    'HIGH_CONFIDENCE_SCORE': 0.85,   # Score required for autonomous execution approval
+    'AMBIGUITY_MARGIN':      0.10,   # Max gap between top-2 scores before flagging ambiguity
+    'RAW_MIN_TOKENS':        2,      # Minimum raw token count for valid input
+    'UNIQUE_MIN_TOKENS':     2,      # Minimum unique token count
+    'MODEL_MIN_TOKENS':      2,      # Minimum active TF-IDF features
+    'RANDOM_STATE':          42,
+    'TEST_SIZE':             0.2
+}
 ```
-Neural Detectors → Symbolization Layer → Pure Symbolic Rule Engine
-```
 
-#### Neural Layer (numeric, internal only)
-- Four independent binary TF-IDF + Logistic Regression detectors, one per intent
-- Scores are **not** constrained to sum to 1
-- Also computes the number of active TF-IDF features (model token count) for input-quality evidence
+---
 
-#### Symbolization Layer (all thresholds live here)
-Converts numeric signals into symbolic predicates:
+## Symbolization Layer
+
+Converts all numeric signals into logical predicates. No domain keyword lists are used — the detectors handle domain specificity, keeping this layer neutral and purely statistical.
 
 | Predicate | Condition |
 |---|---|
 | `CANDIDATE_<INTENT>` | detector score ≥ `BASE_MIN_SCORE` (0.30) |
 | `HIGH_CONFIDENCE_<INTENT>` | detector score ≥ `HIGH_CONFIDENCE_SCORE` (0.85) |
-| `NOT_HIGH_CONFIDENCE_EXECUTION` | negation, for rule convenience |
+| `NOT_HIGH_CONFIDENCE_EXECUTION` | negation of above, added for rule convenience |
 | `NO_CANDIDATE_INTENT` | no detector reached `BASE_MIN_SCORE` |
 | `AMBIGUOUS` | top-to-second score margin < `AMBIGUITY_MARGIN` (0.10) |
-| `RAW_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | raw token count vs `RAW_MIN_TOKENS` (2) |
-| `UNIQUE_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | unique token count vs `UNIQUE_MIN_TOKENS` (2) |
-| `MODEL_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | active TF-IDF features vs `MODEL_MIN_TOKENS` (2) |
+| `RAW_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | raw token count vs `RAW_MIN_TOKENS` |
+| `UNIQUE_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | unique token count vs `UNIQUE_MIN_TOKENS` |
+| `MODEL_TOKEN_COUNT_SUFFICIENT/INSUFFICIENT` | active TF-IDF features vs `MODEL_MIN_TOKENS` |
 | `VERY_SHORT_UTTERANCE` | raw token count ≤ 1 |
 
-The symbolization layer is **neutral** — it produces only data-derived predicates. No domain keyword lists (e.g. `OOS_KEYWORDS`, `TECH_KEYWORDS`) are used; domain-specific intent biasing is the responsibility of the detectors, not the symbolization layer.
+---
 
-#### Rule Engine (symbolic only, no numeric thresholds)
-Rules are loaded from `models/level1c/rules.json` at runtime and operate purely on the predicate set. Rules are data — they can be inspected, versioned, and modified without changing Python code.
+## Rule Engine
+
+Rules are loaded from `models/level1/rules.json` at runtime. They are pure data — inspectable, versionable, and modifiable without touching Python code.
 
 | Rule | Priority | Condition | Outcome |
 |---|---|---|---|
 | `R_INSUFFICIENT_INPUT` | 100 | ALL three token predicates insufficient | `blocked` → `out_of_scope` |
 | `R_NO_CANDIDATE_INTENT` | 95 | `NO_CANDIDATE_INTENT` | `blocked` → `out_of_scope` |
-| `R_EXECUTION_LOW_CONFIDENCE` | 90 | `CANDIDATE_EXECUTION` + `NOT_HIGH_CONFIDENCE_EXECUTION` | `needs_clarification` → `execution` (or downgrades to `investigate` if `CANDIDATE_INVESTIGATE`) |
+| `R_EXECUTION_LOW_CONFIDENCE` | 90 | `CANDIDATE_EXECUTION` + `NOT_HIGH_CONFIDENCE_EXECUTION` | `needs_clarification` → `execution` (downgrades to `investigate` if `CANDIDATE_INVESTIGATE`) |
 | `R_AMBIGUOUS` | 50 | `AMBIGUOUS` | `needs_clarification` → top intent |
-| `R_DEFAULT` | 0 | always | `accepted` → top intent |
+| `R_DEFAULT` | 0 | always (last resort) | `accepted` → top intent |
 
-### Files
+Rules are evaluated in **strict priority order**. A higher-priority rule that fires stops all lower-priority evaluation immediately (early exit).
 
-- `level1c_model.py` — `Level1CClassifier` with neural, symbolization, and rule-engine layers; `CONFIG` dict (thresholds only)
-- `level1c_symbolic_intent_classification.ipynb` — end-to-end notebook: train, spot-check, evaluate, save
-- `models/level1c/config.json` — serialised `CONFIG` and intents list
-- `models/level1c/rules.json` — symbolic rules as plain JSON (human-readable, no numeric values)
-- `models/level1c/detector_<intent>.pkl` — one binary detector per intent (4 files)
-- `artifacts/level1c/level1c_predictions.csv` — full test-set predictions including symbols and triggered rules
-- `artifacts/level1c/evaluation_metrics.json` — accuracy, decision-state distribution, rule trigger counts, config snapshot
+---
 
-### Output Structure
+## System Flow Diagram
+
+```mermaid
+flowchart TD
+    A([User Utterance]) --> B[Layer 1: Neural Detectors\nTF-IDF + Logistic Regression\nOne binary classifier per intent]
+    B --> C[Raw Scores + Token Counts\nnumeric — never exposed outside this layer]
+    C --> D[Layer 2: Symbolization\nApply CONFIG thresholds\nConvert numbers → predicates]
+    D --> E{Predicate Set}
+
+    E --> F{R_INSUFFICIENT_INPUT\nPriority 100\nALL token predicates insufficient?}
+    F -- Yes --> G[blocked\nout_of_scope]
+
+    F -- No --> H{R_NO_CANDIDATE_INTENT\nPriority 95\nNo detector reached BASE_MIN_SCORE?}
+    H -- Yes --> I[blocked\nout_of_scope]
+
+    H -- No --> J{R_EXECUTION_LOW_CONFIDENCE\nPriority 90\nCANDIDATE_EXECUTION AND\nNOT_HIGH_CONFIDENCE_EXECUTION?}
+    J -- Yes AND CANDIDATE_INVESTIGATE --> K[needs_clarification\ndowngrade to investigate]
+    J -- Yes only --> L[needs_clarification\nexecution]
+
+    J -- No --> M{R_AMBIGUOUS\nPriority 50\nAMBIGUOUS predicate present?}
+    M -- Yes --> N[needs_clarification\ntop intent]
+
+    M -- No --> O{R_DEFAULT\nPriority 0\nalways fires as final fallback}
+    O --> P[accepted\ntop intent]
+
+    G --> Q([Structured JSON Output\nutterance · symbols · predicted_intent\ndecision_state · decision_reason · triggered_rules])
+    I --> Q
+    K --> Q
+    L --> Q
+    N --> Q
+    P --> Q
+```
+
+---
+
+## Why `investigate` Is Treated Differently Than `execution`
+
+This is the core safety reasoning in Level 1. Even when the neural model is not highly confident about an `investigate` prediction, the system accepts it directly via `R_DEFAULT`. The same low confidence on an `execution` prediction triggers `R_EXECUTION_LOW_CONFIDENCE` and blocks autonomous action.
+
+### The Asymmetry Explained
+
+```
+execution   →  mutates state  →  irreversible  →  requires HIGH_CONFIDENCE (0.85)
+investigate →  read-only      →  reversible    →  CANDIDATE (0.30) is sufficient
+```
+
+`R_EXECUTION_LOW_CONFIDENCE` fires when:
+- `CANDIDATE_EXECUTION` is present (score ≥ 0.30), **and**
+- `NOT_HIGH_CONFIDENCE_EXECUTION` is present (score < 0.85)
+
+This rule **does not exist** for `investigate`, `summarization`, or `out_of_scope` — because those actions do not perform irreversible state changes.
+
+### The Guardrail Model
+
+The neuro-symbolic system acts as a safety "guardrail" layered on top of the neural model. Even when the model correctly identifies an execution intent, the symbolic layer can say:
+
+> "I think I know what you want, but I'm not confident enough to do it without asking first."
+
+This separation means the **neural model handles recognition** while the **rule engine handles risk**. The model is not responsible for knowing that data migrations are dangerous — the rule engine is.
+
+Since `investigate` is generally a read-only or diagnostic action (e.g., "check what went wrong"), the system is configured to trust the neural model's "Candidate" status without needing the extra "High Confidence" badge required for dangerous execution tasks.
+
+---
+
+## Worked Inference Examples
+
+### Example 1 — Execution Blocked: `"execute the tenant data migration script"`
+
+#### Step 1 — Symbols Produced (The "Why")
+
+The symbolization layer translated the raw scores into these logical flags:
+
+| Symbol | Meaning |
+|---|---|
+| `CANDIDATE_EXECUTION` | The execution detector score is above the base threshold of $0.30$ |
+| `NOT_HIGH_CONFIDENCE_EXECUTION` | Crucially, the score was below the high-confidence threshold of $0.85$ — the model isn't "sure" enough to act autonomously |
+| `AMBIGUOUS` | The gap (margin) between the top intent (execution) and the runner-up (investigate) was less than $0.10$ — another category was very close in score |
+| `*_TOKEN_COUNT_SUFFICIENT` | The sentence was long enough and contained enough recognizable keywords for a valid classification attempt |
+
+#### Step 2 — Rule Logic (The "Decision")
+
+The rule engine scanned the predicate set in priority order and matched `R_EXECUTION_LOW_CONFIDENCE` (priority 90). This rule fired **before** `R_AMBIGUOUS` (priority 50) was ever evaluated, because higher-priority rules exit early.
+
+**Why this rule?** It is designed to catch any execution request that isn't extremely high-confidence. In code, it has priority 90, so it fires before the more general `R_AMBIGUOUS` rule (priority 50).
+
+**The action:** Instead of setting state to `accepted`, the rule set it to `needs_clarification`.
+
+#### Step 3 — Outcome
+
+| Field | Value | Interpretation |
+|:---|:---|:---|
+| `predicted_intent` | `execution` | ✅ Correct — the model identified what the user wants |
+| `decision_state` | `needs_clarification` | 🛑 Blocked from auto-run — symbolic layer "downgraded" the decision for safety |
+| `decision_reason` | `R_EXECUTION_LOW_CONFIDENCE` | The neural score was above candidate threshold but below the high-confidence bar |
+
+**What this means in a real UI:**
+> "I think you want to execute a data migration. Is that correct? **[Yes]** / **[No]**"
 
 ```json
 {
-  "utterance": "restart nginx on host123",
-  "symbols": ["CANDIDATE_EXECUTION", "NOT_HIGH_CONFIDENCE_EXECUTION", "RAW_TOKEN_COUNT_SUFFICIENT", "UNIQUE_TOKEN_COUNT_SUFFICIENT", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "utterance": "execute the tenant data migration script",
+  "symbols": ["CANDIDATE_EXECUTION", "NOT_HIGH_CONFIDENCE_EXECUTION", "AMBIGUOUS",
+               "RAW_TOKEN_COUNT_SUFFICIENT", "UNIQUE_TOKEN_COUNT_SUFFICIENT", "MODEL_TOKEN_COUNT_SUFFICIENT"],
   "predicted_intent": "execution",
   "decision_state": "needs_clarification",
   "decision_reason": "R_EXECUTION_LOW_CONFIDENCE",
   "triggered_rules": ["R_EXECUTION_LOW_CONFIDENCE"],
-  "detector_scores": {"execution": 0.78, "investigate": 0.15, "summarization": 0.04, "out_of_scope": 0.03}
+  "detector_scores": {"execution": 0.62, "investigate": 0.55, "summarization": 0.04, "out_of_scope": 0.01}
+}
+```
+
+---
+
+### Example 2 — Investigate Accepted: `"check what went wrong"`
+
+#### Step 1 — Symbols Produced
+
+| Symbol | Meaning |
+|---|---|
+| `CANDIDATE_INVESTIGATE` | The neural detector for investigation scored above `BASE_MIN_SCORE` of $0.30$ |
+| `MODEL_TOKEN_COUNT_SUFFICIENT` | The system recognized enough specific keywords (like "check" and "wrong") to make a valid classification |
+| `NOT_HIGH_CONFIDENCE_EXECUTION` | This symbol is present because the execution score was low — it satisfies a prerequisite for the system to **ignore** the execution-specific safety rules |
+
+#### Step 2 — Rule Path (The "Decision")
+
+| Rule | Priority | Fired? | Reason |
+|---|---|---|---|
+| `R_INSUFFICIENT_INPUT` | 100 | ❌ | Tokens are sufficient |
+| `R_NO_CANDIDATE_INTENT` | 95 | ❌ | Investigate is a candidate |
+| `R_EXECUTION_LOW_CONFIDENCE` | 90 | ❌ | No `CANDIDATE_EXECUTION` predicate — rule doesn't apply |
+| `R_AMBIGUOUS` | 50 | ❌ | No `AMBIGUOUS` predicate |
+| `R_DEFAULT` | 0 | ✅ | Fires as last resort — accepts top intent |
+
+**Direct path:** No high-priority restrictive rules matched. The utterance "fell through" the priority list until it hit `R_DEFAULT`, which simply accepts the top neural prediction.
+
+#### Step 3 — Outcome
+
+| Field | Value |
+|:---|:---|
+| `predicted_intent` | `investigate` ✅ |
+| `decision_state` | `accepted` ✅ |
+| `decision_reason` | `R_DEFAULT` |
+
+```json
+{
+  "utterance": "check what went wrong",
+  "symbols": ["CANDIDATE_INVESTIGATE", "NOT_HIGH_CONFIDENCE_EXECUTION", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "predicted_intent": "investigate",
+  "decision_state": "accepted",
+  "decision_reason": "R_DEFAULT",
+  "triggered_rules": ["R_DEFAULT"]
+}
+```
+
+---
+
+### Example 3 — Investigate Accepted: `"analyze the latency spike on node-7"`
+
+Follows the same path as Example 2. Keywords like "analyze" and "latency" provide strong investigate signals.
+
+| Symbol | Meaning |
+|---|---|
+| `CANDIDATE_INVESTIGATE` | "Analyze" is a strong investigate keyword — detector score ≥ 0.30 |
+| `NOT_HIGH_CONFIDENCE_EXECUTION` | Execution score is low — execution safety rules are irrelevant |
+| `MODEL_TOKEN_COUNT_SUFFICIENT` | Multiple recognizable technical keywords present |
+
+`R_DEFAULT` fires → `accepted`.
+
+```json
+{
+  "utterance": "analyze the latency spike on node-7",
+  "symbols": ["CANDIDATE_INVESTIGATE", "NOT_HIGH_CONFIDENCE_EXECUTION", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "predicted_intent": "investigate",
+  "decision_state": "accepted",
+  "decision_reason": "R_DEFAULT",
+  "triggered_rules": ["R_DEFAULT"]
+}
+```
+
+---
+
+### Summary Comparison Table
+
+| Utterance | Key Symbols | Rule Fired | Decision | Why |
+|:---|:---|:---|:---|:---|
+| "execute the tenant data migration script" | `CANDIDATE_EXECUTION` + `NOT_HIGH_CONFIDENCE_EXECUTION` + `AMBIGUOUS` | `R_EXECUTION_LOW_CONFIDENCE` | `needs_clarification` | Execution is high-risk; confidence below $0.85$ requires human confirmation |
+| "check what went wrong" | `CANDIDATE_INVESTIGATE` + `NOT_HIGH_CONFIDENCE_EXECUTION` | `R_DEFAULT` | `accepted` | No conflicting high-priority rules; investigate is a safe read-only default |
+| "analyze the latency spike on node-7" | `CANDIDATE_INVESTIGATE` + `NOT_HIGH_CONFIDENCE_EXECUTION` | `R_DEFAULT` | `accepted` | Same as above — investigation is trusted at the base threshold |
+
+---
+
+### Why the Two Thresholds Exist
+
+$$\text{BASE\_MIN\_SCORE} = 0.30 \quad \text{(candidate threshold — enough to consider the intent)}$$
+
+$$\text{HIGH\_CONFIDENCE\_SCORE} = 0.85 \quad \text{(autonomous execution threshold — required to act without confirmation)}$$
+
+The gap between $0.30$ and $0.85$ defines the **"confirmation zone"** — where the model has recognized intent but the system requires human approval before taking irreversible action. This zone only applies to `execution` because it is the only intent class that mutates system state.
+
+---
+
+## Output Structure
+
+```json
+{
+  "utterance": "restart nginx on host123",
+  "symbols": [
+    "CANDIDATE_EXECUTION",
+    "NOT_HIGH_CONFIDENCE_EXECUTION",
+    "RAW_TOKEN_COUNT_SUFFICIENT",
+    "UNIQUE_TOKEN_COUNT_SUFFICIENT",
+    "MODEL_TOKEN_COUNT_SUFFICIENT"
+  ],
+  "predicted_intent": "execution",
+  "decision_state": "needs_clarification",
+  "decision_reason": "R_EXECUTION_LOW_CONFIDENCE",
+  "triggered_rules": ["R_EXECUTION_LOW_CONFIDENCE"],
+  "detector_scores": {
+    "execution": 0.78,
+    "investigate": 0.15,
+    "summarization": 0.04,
+    "out_of_scope": 0.03
+  }
 }
 ```
 
 ```json
 {
   "utterance": "why is server cpu high",
-  "symbols": ["CANDIDATE_INVESTIGATE", "HIGH_CONFIDENCE_INVESTIGATE", "RAW_TOKEN_COUNT_SUFFICIENT", "UNIQUE_TOKEN_COUNT_SUFFICIENT", "MODEL_TOKEN_COUNT_SUFFICIENT"],
+  "symbols": [
+    "CANDIDATE_INVESTIGATE",
+    "HIGH_CONFIDENCE_INVESTIGATE",
+    "RAW_TOKEN_COUNT_SUFFICIENT",
+    "UNIQUE_TOKEN_COUNT_SUFFICIENT",
+    "MODEL_TOKEN_COUNT_SUFFICIENT"
+  ],
   "predicted_intent": "investigate",
   "decision_state": "accepted",
   "decision_reason": "R_DEFAULT",
   "triggered_rules": ["R_DEFAULT"],
-  "detector_scores": {"investigate": 0.91, "execution": 0.08, "summarization": 0.01, "out_of_scope": 0.00}
+  "detector_scores": {
+    "investigate": 0.91,
+    "execution": 0.08,
+    "summarization": 0.01,
+    "out_of_scope": 0.00
+  }
 }
 ```
 
 ```json
 {
   "utterance": "hello",
-  "symbols": ["RAW_TOKEN_COUNT_INSUFFICIENT", "UNIQUE_TOKEN_COUNT_INSUFFICIENT", "MODEL_TOKEN_COUNT_INSUFFICIENT", "VERY_SHORT_UTTERANCE", "NO_CANDIDATE_INTENT"],
+  "symbols": [
+    "RAW_TOKEN_COUNT_INSUFFICIENT",
+    "UNIQUE_TOKEN_COUNT_INSUFFICIENT",
+    "MODEL_TOKEN_COUNT_INSUFFICIENT",
+    "VERY_SHORT_UTTERANCE",
+    "NO_CANDIDATE_INTENT"
+  ],
   "predicted_intent": "out_of_scope",
   "decision_state": "blocked",
   "decision_reason": "R_INSUFFICIENT_INPUT",
   "triggered_rules": ["R_INSUFFICIENT_INPUT"],
-  "detector_scores": {"investigate": 0.10, "execution": 0.05, "summarization": 0.02, "out_of_scope": 0.20}
+  "detector_scores": {
+    "investigate": 0.10,
+    "execution": 0.05,
+    "summarization": 0.02,
+    "out_of_scope": 0.20
+  }
 }
 ```
 
-### Key Design Decisions
+---
 
-1. **Neutral symbolization layer** — predicate derivation is purely statistical; no domain keyword lists. Detectors handle domain specificity.
-2. **Hybrid input quality evidence** — `R_INSUFFICIENT_INPUT` requires *all three* token signals to be insufficient, preventing false blocks on short but model-known vocabulary.
-3. **Externalized rules** — `rules.json` is plain data; rules can be added or tuned without modifying `level1c_model.py`.
-4. **Strict numeric/symbolic separation** — numeric thresholds appear only in `CONFIG` and only inside `_symbolize()`; the rule engine never sees a number.
+## Key Design Decisions
+
+1. **Strict numeric/symbolic separation** — thresholds appear only in `CONFIG` and only inside `_symbolize()`. The rule engine never sees a number.
+2. **Neutral symbolization layer** — no domain keyword lists. Detectors handle domain specificity; symbolization applies only statistical thresholds.
+3. **Hybrid input quality evidence** — `R_INSUFFICIENT_INPUT` requires *all three* token signals to be insufficient, preventing false blocks on short but model-recognizable vocabulary.
+4. **Externalized rules** — `rules.json` is plain data; rules can be added, re-prioritized, or tuned without modifying `level1_model.py`.
+5. **Asymmetric safety** — only `execution` has a high-confidence gate. All other intents use `R_DEFAULT` because they do not perform irreversible actions.
 
 ---
 
-## Next Level
-→ **Level 2**: TBD (will leverage L1B's compound intent detection)
-
----
-
-**Level 1 Status**: ✅ Complete (1A + 1B + 1C)  
-**Architecture**: 2-Layer Neuro-Symbolic (1A/1B) → 3-Layer Symbol-Aligned (1C)  
-**Approach**: Statistical Learning + Deterministic Symbolic Rules  
-**Key Innovation**: Intent/Decision State Separation  
-**Level 1B Innovation**: Multi-Detector Independence + Explicit Rule Types  
-**Level 1C Innovation**: Strict Numeric/Symbolic Separation, Externalized Rules, Neutral Symbolization Layer  
-→ **Level 2**: TBD (will leverage L1C structured predicate outputs)
+**Level 1 Status**: ✅ Complete  
+**Architecture**: 3-Layer Symbol-Aligned Neuro-Symbolic  
+**Key Innovations**: Strict Numeric/Symbolic Separation · Externalized Rules · Asymmetric Safety Gates
