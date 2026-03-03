@@ -247,10 +247,9 @@ level2/
 ├── clause_extractor.py          # adapter merge + deterministic extraction + feedback override
 ├── normalizer.py                # alias collapsing, ISO-8601 canonicalisation
 ├── validator.py                 # intent rules, policy gates, decision state, feedback
+├── l2_clause_pipeline.ipynb     # end-to-end wiring + iteration loop demo
 └── llm_adapter/
     └── adapter.py               # structured neural stub (AdapterResult, AdapterFeedback)
-notebooks/
-└── l2_clause_pipeline.ipynb     # end-to-end wiring + iteration loop demo
 ```
 
 ---

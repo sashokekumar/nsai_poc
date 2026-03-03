@@ -50,8 +50,9 @@ This separation makes the system's decisions **auditable, explainable, and easy 
 
 ## Dataset
 - **Source**: `data/intents_base.csv` (at repo root)
-- **Records**: 614 utterances
+- **Records**: 1,661 utterances
 - **Intent Classes**: `investigate`, `execution`, `summarization`, `out_of_scope`
+- **Class Distribution**: `out_of_scope` 480 · `execution` 413 · `investigate` 412 · `summarization` 356
 
 ---
 
