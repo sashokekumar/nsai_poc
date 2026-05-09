@@ -1,5 +1,12 @@
 # Level 3.5: Ontology-Grounded Neuro-Symbolic Intent Pipeline
 
+> **Reclassification note (Kautz typology review):**  
+> This folder was originally submitted as **Level 4**. Following review against the Kautz (2022) neuro-symbolic typology, it has been reclassified as **Level 3.5**.  
+>  
+> The reason: symbolic components (EntityMatcher, Domain Guard, Reasoner, Planner, Responder) remain active **at inference time** as post-hoc correctors. In a strict Kautz Type 4 system, symbolic knowledge must be compiled into model weights during training — the model alone should produce correct outputs at inference without any runtime symbolic scaffold.  
+>  
+> The corrected Level 4 implementation is in `level4/`. It uses the same ontology constraints as a **differentiable training-time loss term**, with pure neural inference (no symbolic post-processing at all).
+
 ## Overview
 
 Level 3.5 implements a **4-stage neuro-symbolic pipeline** that extends intent recognition into structured reasoning, planning, and response generation. The key design principle is strict stage separation: the ML model produces an intent label and confidence score, the semantic parser converts utterance text into a typed `IntentFrame` (using ontology-grounded symbolic matchers), and every downstream stage — reasoner, planner, responder — operates exclusively on that structured frame.
