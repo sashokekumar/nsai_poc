@@ -1,0 +1,101 @@
+{
+  "_description": "Ontology-derived symbolic constraints for Level 4 training. Defines which intent/entity_type combinations are valid, which are disallowed, and what violation penalties to apply during training. Grounded in intents_base.csv distribution and SRE domain semantics.",
+
+  "intents": ["investigate", "summarization", "execution", "out_of_scope"],
+
+  "entity_types": ["infrastructure", "service", "metric", "incident", "job", "pipeline", "unknown"],
+
+  "allowed_intent_entity_pairs": {
+    "investigate": ["infrastructure", "service", "metric", "incident", "job", "pipeline", "unknown"],
+    "summarization": ["infrastructure", "service", "metric", "incident", "job", "pipeline", "unknown"],
+    "execution": ["infrastructure", "service", "metric", "job", "pipeline", "unknown"],
+    "out_of_scope": ["unknown"]
+  },
+
+  "disallowed_intent_entity_pairs": [
+    {
+      "intent": "out_of_scope",
+      "entity_type": "infrastructure",
+      "reason": "Infrastructure entities (k8s, networking, storage) are always SRE-domain; predicting out_of_scope when infrastructure is present is a violation",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "out_of_scope",
+      "entity_type": "service",
+      "reason": "Service entities (application, messaging, streaming) are SRE-domain; rejecting them as out_of_scope is a false rejection",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "out_of_scope",
+      "entity_type": "metric",
+      "reason": "Observability/metric entities are core SRE targets; predicting out_of_scope is a false rejection",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "out_of_scope",
+      "entity_type": "incident",
+      "reason": "Incidents are reliability events and always SRE-domain; rejecting them is a false rejection",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "out_of_scope",
+      "entity_type": "job",
+      "reason": "Jobs (cron, batch, pipeline) are SRE-managed; rejecting them is a false rejection",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "out_of_scope",
+      "entity_type": "pipeline",
+      "reason": "CI/CD pipelines and deployments are SRE-domain; rejecting them is a false rejection",
+      "penalty_weight": 1.0
+    },
+    {
+      "intent": "execution",
+      "entity_type": "incident",
+      "reason": "Incidents are reliability events observed/summarized, not directly executed against; execution against an incident is semantically invalid",
+      "penalty_weight": 0.75
+    },
+    {
+      "intent": "summarization",
+      "entity_type": "unknown",
+      "reason": "Summarization requires a reportable object; predicting summarization with no identifiable entity is a weak but notable signal",
+      "penalty_weight": 0.5
+    },
+    {
+      "intent": "investigate",
+      "entity_type": "unknown",
+      "reason": "Investigation without any identifiable entity or symptom context is a weak signal of a false SRE classification",
+      "penalty_weight": 0.5
+    }
+  ],
+
+  "domain_validity_rules": {
+    "description": "Rules for domain_valid label: a prediction is domain-valid if the intent/entity combination is coherent within SRE context",
+    "out_of_scope_must_have": ["unknown"],
+    "sre_intents_require_at_least_one": ["entity_type != unknown", "symptom_present"],
+    "false_execution_definition": "execution predicted when entity_type is metric or incident (observe/report targets, not actionable)",
+    "false_rejection_definition": "out_of_scope predicted when entity_type is not unknown"
+  },
+
+  "violation_taxonomy": {
+    "TYPE_A_FALSE_REJECTION": {
+      "description": "SRE-domain entity present but intent predicted as out_of_scope",
+      "detection": "intent == out_of_scope AND entity_type != unknown",
+      "severity": "high"
+    },
+    "TYPE_B_FALSE_EXECUTION": {
+      "description": "Execution predicted against a non-actionable entity type (metric or incident)",
+      "detection": "intent == execution AND entity_type in [metric, incident]",
+      "severity": "medium"
+    },
+    "TYPE_C_UNGROUNDED_SRE": {
+      "description": "SRE intent predicted with no entity or symptom signal (unknown entity, domain_valid=False)",
+      "detection": "intent != out_of_scope AND entity_type == unknown AND domain_valid == False",
+      "severity": "low"
+    }
+  },
+
+  "lambda_ablation_values": [0.0, 0.1, 0.25, 0.5, 1.0, 2.0],
+
+  "_grounding_note": "Disallowed pairs are derived from: (1) zero-count cells in the intent x entity_type crosstab of intents_base.csv, (2) SRE semantic reasoning about what combinations are operationally invalid, (3) professor feedback on false execution and false rejection as the key violation types to measure."
+}

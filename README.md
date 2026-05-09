@@ -149,11 +149,11 @@ L3: Logic participates in model(x, constraints) → probs DURING computation
 
 ---
 
-### 🔮 Level 4-6: Future Enhancements
+### 🔮 Level 3.5-6: Future Enhancements
 **Status**: Not yet implemented
 
 Planned features:
-- **Level 4**: Temporal reasoning and session state
+- **Level 3.5**: Temporal reasoning and session state
 - **Level 5**: LLM integration with symbolic grounding
 - **Level 6**: Full neuro-symbolic fusion with feedback loops
 
@@ -185,7 +185,7 @@ nsai_poc/
 │   ├── README.md                     # Validation documentation
 │   └── validation.ipynb              # Multi-level model comparison
 ├── level2/                           # (TBD)
-├── level4/                           # (TBD)
+├── level3_5/                           # (TBD)
 ├── level5/                           # (TBD)
 └── level6/                           # (TBD)
 ```
@@ -314,7 +314,7 @@ This is a proof-of-concept demonstration repository. Each level is implemented a
 - ✅ **Level 1**: Complete (2-layer neuro-symbolic)
 - ✅ **Level 2.5**: Complete (post-hoc logic filtering - educational)
 - ✅ **Level 3**: Complete (logic-aware gating PoC)
-- ⏳ **Level 4-6**: Planned
+- ⏳ **Level 3.5-6**: Planned
 
 ---
 

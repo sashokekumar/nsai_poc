@@ -61,7 +61,7 @@ This makes Level 5 decisions **structurally enforced** rather than post-processe
 |---|---|
 | `level5_data_prep.ipynb` | Compiles the level5 dataset; defines `CONSTRAINT_REGISTRY`; runs logical consistency checks and readiness summary |
 | `level5_logic_gating_poc.ipynb` | Trains TF-IDF + Linear classifier; implements and compares 4.5 (post-hoc) vs L5 (pre-softmax) logic gating |
-| `l4_a_evaluation.ipynb` | Level-4.5 evaluation notebook — loads the trained Level-4 `IntentClassifier`, runs it over the Level-5 dataset, applies post-hoc constraints (4.5 path), and measures violation rates before vs after; includes a detailed markdown explanation of what Level-4.5 proves and what it cannot fix |
+| `l4_a_evaluation.ipynb` | Level-3.5.5 evaluation notebook — loads the trained Level-3.5 `IntentClassifier`, runs it over the Level-5 dataset, applies post-hoc constraints (4.5 path), and measures violation rates before vs after; includes a detailed markdown explanation of what Level-3.5.5 proves and what it cannot fix |
 | `data/level5_intents.csv` | Compiled level-5 dataset (utterance + gold_intent + facts + constraints + allowed_intents + suppressed_intents) |
 
 ---
@@ -283,23 +283,23 @@ Main PoC notebook. Trains the classifier and compares 4.5 vs L5 logic gating.
 
 ### `l4_a_evaluation.ipynb`
 
-Level-4.5 evaluation notebook. Runs the trained Level-4 `IntentClassifier` over the Level-5 dataset and applies post-hoc constraint masking (the 4.5 path). This notebook establishes the baseline for understanding what inference-time constraint enforcement can and cannot achieve — motivating the need for embedded logic in Level-5.
+Level-3.5.5 evaluation notebook. Runs the trained Level-3.5 `IntentClassifier` over the Level-5 dataset and applies post-hoc constraint masking (the 4.5 path). This notebook establishes the baseline for understanding what inference-time constraint enforcement can and cannot achieve — motivating the need for embedded logic in Level-5.
 
 | Cell | Purpose |
 |---|---|
-| 1 | Load Level-4 `IntentClassifier` (from `level4/intent_model.joblib`); load Level-5 dataset; normalize shorthand intent names (`execute` → `execution`, `summarize` → `summarization`, `ops` → `out_of_scope`) to match model class names |
-| 2 | Baseline Level-4 inference (unconstrained) — run `predict_proba` over all 614 utterances; store raw probability distributions |
-| 3 | Apply Level-4.5 post-hoc constraints — zero suppressed intents, zero non-allowed intents, renormalize; store constrained predictions |
+| 1 | Load Level-3.5 `IntentClassifier` (from `level3_5/intent_model.joblib`); load Level-5 dataset; normalize shorthand intent names (`execute` → `execution`, `summarize` → `summarization`, `ops` → `out_of_scope`) to match model class names |
+| 2 | Baseline Level-3.5 inference (unconstrained) — run `predict_proba` over all 614 utterances; store raw probability distributions |
+| 3 | Apply Level-3.5.5 post-hoc constraints — zero suppressed intents, zero non-allowed intents, renormalize; store constrained predictions |
 | 4 | Comparative metrics — violation rate before vs after, intent flip rate, mean score delta, intent distribution before vs after |
-| 5 | Concrete example review — list utterances where the Level-4 raw prediction was invalid and Level-4.5 corrected it |
-| 6 | Level-4.5 verdict — print `LEVEL-4.5 SHOWS CLEAR VALUE` or `LIMITED VALUE` based on violation reduction rate |
-| Markdown | Detailed explanation covering: what errors Level-4 makes; hard vs soft constraint violations; how Level-4.5 fixes them without retraining; what Level-4.5 cannot fix; and why these limitations motivate Level-5 |
+| 5 | Concrete example review — list utterances where the Level-3.5 raw prediction was invalid and Level-3.5.5 corrected it |
+| 6 | Level-3.5.5 verdict — print `Level-3.5.5 SHOWS CLEAR VALUE` or `LIMITED VALUE` based on violation reduction rate |
+| Markdown | Detailed explanation covering: what errors Level-3.5 makes; hard vs soft constraint violations; how Level-3.5.5 fixes them without retraining; what Level-3.5.5 cannot fix; and why these limitations motivate Level-5 |
 
 **Quick start:**
 ```bash
 cd level5
 jupyter notebook level5_data_prep.ipynb         # prepare and validate dataset
-jupyter notebook l4_a_evaluation.ipynb           # Level-4.5 post-hoc evaluation
+jupyter notebook l4_a_evaluation.ipynb           # Level-3.5.5 post-hoc evaluation
 jupyter notebook level5_logic_gating_poc.ipynb   # Level-5 pre-softmax gating PoC
 ```
 

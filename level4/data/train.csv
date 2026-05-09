@@ -1,0 +1,1329 @@
+utterance,intent,entity_type,domain_valid
+enable auto-healing,execution,unknown,False
+summarize the network topology changes this sprint,summarization,metric,True
+provide an overview of the service health by business domain,summarization,service,True
+check network connectivity on prod-env,investigate,metric,True
+give me a recap of the key findings from the postmortem review,summarization,unknown,False
+summarize the observability signal quality this quarter,summarization,metric,True
+what is causing the tcp connection reset by peer,investigate,infrastructure,True
+switch traffic to the blue deployment,execution,pipeline,True
+tell me about chameleons,out_of_scope,unknown,False
+check what is triggering the oom killer,investigate,metric,True
+what is causing the high variance in response times,investigate,incident,True
+why are requests timing out,investigate,unknown,True
+apply the blkio throttle policy to the container,execution,unknown,False
+give me a summary of the deployment frequency trends this year,summarization,pipeline,True
+cordon the node before maintenance,execution,infrastructure,True
+run the load test against staging environment,execution,job,True
+how do I build a model train,out_of_scope,unknown,False
+tell me about movies,out_of_scope,unknown,False
+configure the nfs export options for the new client,execution,service,True
+scale data cache,execution,infrastructure,True
+what is a galaxy,out_of_scope,unknown,False
+who is vincent van gogh,out_of_scope,unknown,False
+who won the tour de france recently,out_of_scope,unknown,False
+clear the zfs arc cache to free memory,execution,infrastructure,True
+upgrade the control plane to the new version,execution,service,True
+summarize the request timeout frequency by endpoint,summarization,service,True
+give me an overview of the cache performance metrics,summarization,infrastructure,True
+rebuild the corrupted index on the users table,execution,service,True
+tell me about the mongol empire,out_of_scope,unknown,False
+tell me about the middle ages,out_of_scope,unknown,False
+summarize the toil reduction progress this quarter,summarization,service,True
+configure the connection timeout to 30 seconds,execution,infrastructure,True
+what is cryptocurrency,out_of_scope,unknown,False
+provide a brief on the secrets rotation completion status,summarization,service,True
+investigate the network timeout between microservices,investigate,service,True
+investigate the service endpoint returning wrong data,investigate,service,True
+summarize the cold storage archival progress,summarization,infrastructure,True
+why is the cache invalidation not propagating,investigate,infrastructure,True
+investigate why the service is not reachable,investigate,service,True
+investigate timeout errors,investigate,unknown,True
+why is the config reload triggering connection draining,investigate,infrastructure,True
+tell me about the battle of waterloo,out_of_scope,unknown,False
+scale up the database replica,execution,infrastructure,True
+analyze the certificate pinning failures in mobile clients,investigate,infrastructure,True
+what is sculpture,out_of_scope,unknown,False
+what is the speed of a bullet,out_of_scope,unknown,False
+summarize the cross-team dependency updates,summarization,service,True
+tell me about the polynesian navigation,out_of_scope,unknown,False
+update the soa record on the authoritative dns,execution,infrastructure,True
+what is a supernova,out_of_scope,unknown,False
+analyze the retry storm on downstream services,investigate,service,True
+what is oceanography,out_of_scope,unknown,False
+configure the cosign policy for image verification,execution,pipeline,True
+investigate the recurring alert for swap usage,investigate,metric,True
+summarize troubleshooting steps,summarization,unknown,False
+give me an overview of the fleet patching status,summarization,service,True
+configure the hugepage allocation at boot,execution,service,True
+reset application state,execution,unknown,False
+investigate the page cache thrashing issue,investigate,infrastructure,True
+provide a recap of the operational maturity assessments,summarization,service,True
+run the certificate renewal automation,execution,infrastructure,True
+what is artificial intelligence,out_of_scope,unknown,False
+configure the weighted routing between blue and green,execution,pipeline,True
+what is photosynthesis,out_of_scope,unknown,False
+scale the ingress controller replicas,execution,infrastructure,True
+analyze the io latency breakdown on nvme drives,investigate,metric,True
+provide a recap of the data pipeline job outcomes,summarization,pipeline,True
+apply the helm values override for the hotfix,execution,service,True
+why is the CDN cache invalidation not working,investigate,infrastructure,True
+what is yoga,out_of_scope,unknown,False
+give me a brief on the vendor incident reports,summarization,incident,True
+investigate the cpu pinning misconfiguration on host,investigate,service,True
+configure the load shedding threshold on the api,execution,service,True
+apply the pod security admission config,execution,infrastructure,True
+how do I play guitar,out_of_scope,unknown,False
+what is causing the repeated auth failures,investigate,infrastructure,True
+apply the security hotfix to the dependency,execution,service,True
+analyze the slow query logs for the past hour,investigate,infrastructure,True
+run the ansible playbook for the new server setup,execution,unknown,False
+summarize the etl job success and failure rates,summarization,unknown,True
+investigate the cpu steal time on virtual machines,investigate,service,True
+run the game day scenario for database failover,execution,infrastructure,True
+run the health check script on all instances,execution,metric,True
+how does sonar work,out_of_scope,unknown,False
+apply the signed commit requirement on main branch,execution,service,True
+restart session manager,execution,infrastructure,True
+kill the hanging process,execution,service,True
+summarize the cost per service unit this quarter,summarization,service,True
+summarize the mean time between failures report,summarization,infrastructure,True
+enable debug logging,execution,metric,True
+provide weekly report summary,summarization,unknown,False
+give me an overview of the security scanning results,summarization,service,True
+how do I make soy candles,out_of_scope,unknown,False
+update the kerberos keytab on the server,execution,unknown,False
+give me an overview of the request success rate by service,summarization,service,True
+add the spf record for the new mail relay,execution,service,True
+how do I make turkish coffee,out_of_scope,unknown,False
+apply the terraform plan for infrastructure changes,execution,metric,True
+analyze why the canary deployment is showing errors,investigate,pipeline,True
+how do I take better photos,out_of_scope,unknown,False
+provide a recap of the cloud provider incident impact,summarization,incident,True
+give me a summary of the observability coverage,summarization,metric,True
+what is philosophy,out_of_scope,unknown,False
+summarize the system hardening checklist compliance,summarization,service,True
+investigate the spurious wakeups in the thread pool,investigate,unknown,False
+configure the async io thread pool size,execution,infrastructure,True
+summarize the incident postmortem action items,summarization,incident,True
+enable open file cache on the web server,execution,infrastructure,True
+who composed moonlight sonata,out_of_scope,unknown,False
+patch the third-party library to the safe version,execution,service,True
+give me a summary of the request routing efficiency,summarization,service,True
+tell me about the boer war,out_of_scope,unknown,False
+analyze the rollout pause caused by failed canary metrics,investigate,metric,True
+what is causing the api to return incomplete data,investigate,service,True
+what caused the service failure,investigate,service,True
+what is the milky way galaxy,out_of_scope,unknown,False
+what is the tallest building in the world,out_of_scope,unknown,False
+check the reason for the network interface flapping,investigate,unknown,False
+why did the database go down,investigate,infrastructure,True
+tell me about the stone age,out_of_scope,unknown,False
+how do I fix a leaky faucet,out_of_scope,unknown,False
+deploy the database proxy layer,execution,infrastructure,True
+enable gzip compression on the web server,execution,infrastructure,True
+enable write-ahead logging on the database,execution,infrastructure,True
+tell me about the silk road,out_of_scope,unknown,False
+check what is causing the http keep-alive to be disabled,investigate,metric,True
+apply the storage class changes for the volumes,execution,infrastructure,True
+enable the request coalescing on the cache layer,execution,infrastructure,True
+what is causing the flapping network route,investigate,infrastructure,True
+who wrote a midsummer night dream,out_of_scope,unknown,False
+summarize the api response times over the past month,summarization,service,True
+what is a meteor shower,out_of_scope,unknown,False
+provide a brief on the service catalog update status,summarization,service,True
+what is the distance to the moon,out_of_scope,unknown,False
+restart the gossip protocol seed nodes,execution,infrastructure,True
+configure the jaeger sampling rate,execution,infrastructure,True
+why is the query result cache warming too slowly,investigate,infrastructure,True
+give me a summary of the connection draining patterns,summarization,infrastructure,True
+give me an overview of the kafka consumer lag trends,summarization,service,True
+show me errors from the last deployment,investigate,pipeline,True
+summarize the dependency version drift across microservices,summarization,service,True
+what is meteorology,out_of_scope,unknown,False
+investigate the webhook delivery failures,investigate,infrastructure,True
+provide a brief on the certificate rotation status,summarization,infrastructure,True
+restart the elasticsearch cluster rolling,execution,infrastructure,True
+tell me about the ancient roman baths,out_of_scope,unknown,False
+investigate the spike in 5xx errors after the release,investigate,unknown,True
+who invented the printing press,out_of_scope,unknown,False
+delete the unused container images on all nodes,execution,infrastructure,True
+configure the destination rule circuit breaker,execution,infrastructure,True
+provide a brief on the key metrics from last night,summarization,metric,True
+what is causing the abnormal number of goroutines,investigate,unknown,False
+analyze the slow startup time of the service,investigate,service,True
+how do I make kimchi,out_of_scope,unknown,False
+why is the worker thread unresponsive,investigate,unknown,False
+how do I learn card magic,out_of_scope,unknown,False
+give me an overview of the external dependency health,summarization,service,True
+tell me about books,out_of_scope,unknown,False
+tell me about the solar system,out_of_scope,unknown,False
+reindex the elasticsearch data to the new mapping,execution,service,True
+how do I fly a kite,out_of_scope,unknown,False
+can you sing a song,out_of_scope,unknown,False
+give me a summary of the storage utilization trends,summarization,infrastructure,True
+give me an overview of the deployment pipeline health,summarization,pipeline,True
+investigate the race condition in the job scheduler,investigate,service,True
+check why the health endpoint is returning stale data,investigate,metric,True
+run the kube-bench cis benchmark scan,execution,service,True
+what is the law of thermodynamics,out_of_scope,unknown,False
+investigate the replication stream lag on postgres,investigate,service,True
+summarize the horizontal autoscaler trigger patterns,summarization,infrastructure,True
+clear cache on all nodes,execution,infrastructure,True
+summarize the third party integration health,summarization,service,True
+what is causing the excessive memory paging,investigate,unknown,False
+rotate the api keys for third party integrations,execution,service,True
+restore the etcd snapshot from the backup,execution,infrastructure,True
+vacuum database,execution,infrastructure,True
+summarize the on-call handoff notes,summarization,pipeline,True
+provide a brief on the database query cost distribution,summarization,infrastructure,True
+give me a summary of the infrastructure drift detected,summarization,metric,True
+what is causing the repeated connection draining on alb,investigate,infrastructure,True
+give me a summary of the top services by error volume,summarization,service,True
+provide a recap of the compliance violation findings,summarization,service,True
+why is the redis cluster showing high fragmentation,investigate,infrastructure,True
+investigate the flapping health checks,investigate,metric,True
+update the rbac role bindings for the new team,execution,service,True
+what is the national animal of australia,out_of_scope,unknown,False
+tell me about the tang dynasty,out_of_scope,unknown,False
+apply the waf rule to block the new attack pattern,execution,unknown,False
+configure the log retention policy to 90 days,execution,metric,True
+update the opensearch index template,execution,service,True
+how do birds navigate during migration,out_of_scope,unknown,False
+who wrote pride and prejudice,out_of_scope,unknown,False
+update the health check thresholds on the target group,execution,metric,True
+summarize the health of the multi-region setup,summarization,service,True
+what is the history of tea,out_of_scope,unknown,False
+provide a brief on the database performance this month,summarization,infrastructure,True
+what is a gene,out_of_scope,unknown,False
+provide a recap of the database deadlock frequency,summarization,infrastructure,True
+what is a red giant star,out_of_scope,unknown,False
+run the smoke test suite after the deployment,execution,pipeline,True
+why is throughput degraded,investigate,infrastructure,True
+what is archaeology,out_of_scope,unknown,False
+look into the memory allocation failure in container,investigate,pipeline,True
+enable the secrets manager rotation schedule,execution,infrastructure,True
+summarize the container orchestration metrics,summarization,metric,True
+provide a recap of the resolved alerts from overnight,summarization,metric,True
+test the service-to-service communication path,execution,service,True
+prune the docker volumes on the build agent,execution,service,True
+what is causing the service to consume 100 percent cpu,investigate,service,True
+what is a chromosomal mutation,out_of_scope,unknown,False
+analyze the tombstone accumulation in the database,investigate,infrastructure,True
+summarize the memory leak patterns across services,summarization,service,True
+tell me about travel,out_of_scope,unknown,False
+apply the coredns custom forwarding rule,execution,infrastructure,True
+why is the container runtime consuming so much memory,investigate,pipeline,True
+who wrote gulliver travels,out_of_scope,unknown,False
+how do I learn to identify birds,out_of_scope,unknown,False
+scale down the stateful set to zero replicas,execution,infrastructure,True
+provide a brief on the change success rate this cycle,summarization,infrastructure,True
+investigate the failure in the distributed snapshot,investigate,infrastructure,True
+apply the egress network policy,execution,infrastructure,True
+summarize the storage tier migration progress,summarization,infrastructure,True
+run the chaos engineering test on staging,execution,job,True
+what is cellular respiration,out_of_scope,unknown,False
+what is causing the high p99 latency,investigate,unknown,True
+tell me about sports,out_of_scope,unknown,False
+configure the alertmanager routing rules,execution,service,True
+who is frida kahlo,out_of_scope,unknown,False
+why is the circuit breaker in open state,investigate,infrastructure,True
+summarize the release impact on key user flows,summarization,metric,True
+run the dependency update bot on the repository,execution,service,True
+who is winston churchill,out_of_scope,unknown,False
+how do I learn to draw,out_of_scope,unknown,False
+who composed the four seasons,out_of_scope,unknown,False
+why is the load balancer session persistence broken,investigate,infrastructure,True
+check why the message acknowledgment is not being sent,investigate,service,True
+who wrote moby dick,out_of_scope,unknown,False
+why are there checksum mismatches in the storage layer,investigate,infrastructure,True
+summarize the service level objective performance,summarization,service,True
+check if the api latency is correlated to gc pauses,investigate,service,True
+terminate a random pod to test resilience,execution,infrastructure,True
+give me an overview of the active feature rollouts,summarization,service,True
+enable request tracing across all services,execution,service,True
+analyze the inconsistency in the distributed counter,investigate,unknown,False
+why is the persistent connection being dropped,investigate,infrastructure,True
+why is the garbage collector pausing for 500ms,investigate,unknown,False
+tell me about the golden age of islam,out_of_scope,unknown,False
+what are the best hiking trails in europe,out_of_scope,unknown,False
+why is the connection draining taking too long,investigate,infrastructure,True
+what caused the breach of the sla threshold,investigate,metric,True
+apply the cpu and memory limits to all pods,execution,infrastructure,True
+tell me about the french revolution,out_of_scope,unknown,False
+what is a haiku,out_of_scope,unknown,False
+summarize the transaction rollback rate by service,summarization,service,True
+what is the deepest lake in the world,out_of_scope,unknown,False
+how do I make cheese at home,out_of_scope,unknown,False
+rebalance the kafka topic partitions,execution,service,True
+investigate the shard imbalance in the search cluster,investigate,infrastructure,True
+how do I brew kombucha,out_of_scope,unknown,False
+hello how are you,out_of_scope,unknown,False
+taint the node to prevent general scheduling,execution,infrastructure,True
+give me a summary of the cost allocation by team,summarization,metric,True
+provide a brief on the data retention compliance status,summarization,service,True
+what is a black hole,out_of_scope,unknown,False
+investigate the stalled compaction job on rocksdb,investigate,infrastructure,True
+apply network policy,execution,infrastructure,True
+what is magnetism,out_of_scope,unknown,False
+why is the cgroup memory limit being exceeded,investigate,service,True
+what is dark matter,out_of_scope,unknown,False
+how do I bake a cake,out_of_scope,unknown,False
+run the tls delegation certificate signing request,execution,infrastructure,True
+investigate the token validation failures on the api,investigate,service,True
+configure the topology spread constraints,execution,metric,True
+summarize the thread pool utilization trends this week,summarization,infrastructure,True
+enable persistent connections on the proxy,execution,infrastructure,True
+how do I meditate,out_of_scope,unknown,False
+summarize alert trends,summarization,metric,True
+add the new disk to the lvm volume group,execution,metric,True
+who is the author of harry potter,out_of_scope,unknown,False
+look into the systemd service restart loop,investigate,service,True
+configure the vault policy for the new service,execution,service,True
+tell me about whales,out_of_scope,unknown,False
+why is there no response from the upstream service,investigate,service,True
+summarize the inter-service call failure rates,summarization,service,True
+configure the webhook timeout for the admission controller,execution,service,True
+why is replication lagging,investigate,infrastructure,True
+repair the xfs filesystem after unclean shutdown,execution,service,True
+how do I make pizza dough,out_of_scope,unknown,False
+what is antimatter,out_of_scope,unknown,False
+who composed the nutcracker,out_of_scope,unknown,False
+why is cpu throttling happening,investigate,infrastructure,True
+resize the persistent volume to 500gb,execution,infrastructure,True
+force delete the stuck pod in the production namespace,execution,infrastructure,True
+delete the datadog monitors that are no longer valid,execution,service,True
+summarize the security audit findings,summarization,infrastructure,True
+who is shakespeare,out_of_scope,unknown,False
+provide a brief on the message delivery success rate,summarization,service,True
+how do I learn to swim,out_of_scope,unknown,False
+why is the log shipper dropping records,investigate,metric,True
+give me a summary of the api error taxonomy this sprint,summarization,service,True
+give me an overview of the observability stack capacity,summarization,metric,True
+give me a summary of the disk growth trends by volume,summarization,metric,True
+tell me about the crusades,out_of_scope,unknown,False
+how do I build a birdfeeder,out_of_scope,unknown,False
+summarize the service deprecation and migration status,summarization,service,True
+what is a nebula,out_of_scope,unknown,False
+investigate the memory pressure alerts on worker nodes,investigate,infrastructure,True
+check what is causing the increased tail latency,investigate,metric,True
+give me a recap of the storage utilization trends,summarization,infrastructure,True
+analyze the numa imbalance on the multi-socket server,investigate,unknown,False
+what caused the index corruption on elasticsearch,investigate,service,True
+summarize the recent alerts and their resolution status,summarization,metric,True
+summarize the edge cache performance by region,summarization,infrastructure,True
+what is a magnetar,out_of_scope,unknown,False
+deploy the sidecar proxy to all pods,execution,infrastructure,True
+tell me about the life cycle of a butterfly,out_of_scope,unknown,False
+investigate the disk write latency on ssd array,investigate,metric,True
+what is a sonnet,out_of_scope,unknown,False
+why is the dns lookup causing increased latency,investigate,infrastructure,True
+investigate the delayed metric reporting from agent,investigate,unknown,False
+tell me about furniture,out_of_scope,unknown,False
+create a configmap from the updated settings file,execution,service,True
+what is radioactivity,out_of_scope,unknown,False
+apply security patch on db-server-7,execution,infrastructure,True
+give me an overview of the error budget consumption,summarization,metric,True
+investigate the sudden increase in 5xx errors,investigate,service,True
+give me a summary of the automated remediation coverage,summarization,service,True
+investigate the network partition between zones,investigate,infrastructure,True
+check what is causing the container image pull failure,investigate,pipeline,True
+tell me about astronomy,out_of_scope,unknown,False
+give me an overview of the service dependency mapping,summarization,service,True
+what is a comet,out_of_scope,unknown,False
+how do I ferment vegetables,out_of_scope,unknown,False
+configure the metrics server resource requests,execution,infrastructure,True
+close the inactive elasticsearch indices,execution,service,True
+what caused the rollback to fail midway,investigate,service,True
+tell me about the renaissance,out_of_scope,unknown,False
+how do I roller skate,out_of_scope,unknown,False
+bounce the application pool in iis,execution,infrastructure,True
+configure the md raid rebuild priority,execution,service,True
+what is causing the database connection timeout,investigate,infrastructure,True
+apply the log parsing rule update to the pipeline,execution,pipeline,True
+how do I build a go-kart,out_of_scope,unknown,False
+trigger the ci cd pipeline for the release branch,execution,pipeline,True
+what is machine learning,out_of_scope,unknown,False
+who is albert einstein,out_of_scope,unknown,False
+what is existentialism,out_of_scope,unknown,False
+investigate the TLS handshake failures,investigate,infrastructure,True
+provide a recap of the service-level objectives this period,summarization,service,True
+why is the etcd cluster showing leader election issues,investigate,infrastructure,True
+analyze the segment fault in the native library,investigate,service,True
+why is the background sync job being preempted,investigate,service,True
+enable the dast scan in the staging pipeline,execution,pipeline,True
+provide a recap of the slow transaction breakdown,summarization,service,True
+investigate the frequent oom kills in the sidecar,investigate,service,True
+check the connection refused errors on port 5432,investigate,infrastructure,True
+how do I make mead,out_of_scope,unknown,False
+what is mitosis,out_of_scope,unknown,False
+investigate what is causing the memory balloon in vm,investigate,unknown,False
+run the memory bandwidth benchmark on the server,execution,unknown,False
+run the trivy vulnerability scan on the image,execution,unknown,False
+scale message queue,execution,service,True
+export and import the zfs pool after migration,execution,infrastructure,True
+summarize what actions were taken,summarization,unknown,False
+tell me about the han dynasty,out_of_scope,unknown,False
+analyze the correlation between load and response times,investigate,incident,True
+update the firewall rules to allow port 8443,execution,service,True
+umount the nfs share that is hanging,execution,unknown,False
+provide a brief on the kafka topic partition distribution,summarization,service,True
+restart the kafka broker on node-3,execution,infrastructure,True
+what is literature,out_of_scope,unknown,False
+investigate error rate spike in production,investigate,metric,True
+force the kustomize overlay apply,execution,service,True
+summarize the service mesh telemetry for the past week,summarization,infrastructure,True
+configure the remote backend for terraform,execution,service,True
+why is the build pipeline timing out,investigate,pipeline,True
+give me cost summary,summarization,metric,True
+investigate deadlock in database,investigate,infrastructure,True
+provide a summary of the connection pool utilization,summarization,infrastructure,True
+why is the service mesh sidecar consuming too much cpu,investigate,infrastructure,True
+provide a recap of the compliance checks this quarter,summarization,metric,True
+provide a brief on the kubernetes cluster utilization,summarization,infrastructure,True
+provide a recap of the infrastructure cost anomalies,summarization,metric,True
+investigate the spike in mutex contention metrics,investigate,metric,True
+give me a summary of the event-driven architecture reliability,summarization,service,True
+how do I make a quilt,out_of_scope,unknown,False
+check what is causing the recurring storage disconnection,investigate,infrastructure,True
+provide a brief on the database connection pool stats,summarization,infrastructure,True
+give me an overview of the endpoint latency distribution,summarization,service,True
+give me a summary of the infrastructure scaling events,summarization,metric,True
+who is thomas edison,out_of_scope,unknown,False
+give me an overview of the pod scheduling efficiency,summarization,infrastructure,True
+summarize cluster health,summarization,infrastructure,True
+run the compliance scan on all servers,execution,service,True
+how do I make risotto,out_of_scope,unknown,False
+reconfigure the reverse proxy routing rules,execution,infrastructure,True
+look into the http connection pool timeout,investigate,infrastructure,True
+provide a recap of the capacity forecast model output,summarization,job,True
+summarize the api gateway performance for the past sprint,summarization,infrastructure,True
+run the network policy connectivity test,execution,infrastructure,True
+apply the service mesh traffic policy,execution,infrastructure,True
+summarize the access control audit results,summarization,infrastructure,True
+what is blockchain,out_of_scope,unknown,False
+configure the log shipping to the siem,execution,metric,True
+how do I play poker,out_of_scope,unknown,False
+reset network interface,execution,infrastructure,True
+how do I skateboard,out_of_scope,unknown,False
+enable the continuous profiling on the service,execution,service,True
+enable the maintenance mode on the microservice,execution,service,True
+provide performance summary,summarization,job,True
+flush the iptables nat rules,execution,service,True
+drain connections gracefully,execution,unknown,False
+what is the theory of relativity,out_of_scope,unknown,False
+how do I make homemade bread,out_of_scope,unknown,False
+who invented the telephone,out_of_scope,unknown,False
+run the automated rollback on failed deployment,execution,pipeline,True
+check why jobs are failing silently in the queue,investigate,service,True
+what is causing the jitter in the rpc response times,investigate,unknown,True
+what caused the database query plan regression,investigate,infrastructure,True
+what is genetics,out_of_scope,unknown,False
+summarize the sla compliance for the past month,summarization,metric,True
+provide a recap of the release frequency this quarter,summarization,pipeline,True
+provide a recap of the change management decisions,summarization,infrastructure,True
+how do I knit a sweater,out_of_scope,unknown,False
+update the ip allowlist on the security group,execution,unknown,False
+apply the virtual service retry policy,execution,service,True
+who won the world cup,out_of_scope,unknown,False
+investigate the tcp syn flood on the public interface,investigate,service,True
+enable the branch protection rule on the repo,execution,unknown,False
+apply the salt state to the target nodes,execution,infrastructure,True
+rotate the ssh host keys on the new server,execution,unknown,False
+give me a summary of the network policy audit findings,summarization,infrastructure,True
+apply the selinux policy update,execution,infrastructure,True
+what is the ozone layer,out_of_scope,unknown,False
+what time is it,out_of_scope,unknown,False
+what is a catalyst,out_of_scope,unknown,False
+what is the history of coffee,out_of_scope,unknown,False
+summarize the deployment frequency by team,summarization,pipeline,True
+how do I make a dreamcatcher,out_of_scope,unknown,False
+what triggered the alert,investigate,metric,True
+what caused memory leak in app,investigate,unknown,True
+force a manual dns propagation check,execution,infrastructure,True
+investigate the request being routed to a terminating pod,investigate,infrastructure,True
+apply configuration changes,execution,unknown,False
+reset the admin password on the management console,execution,service,True
+how do I play the violin,out_of_scope,unknown,False
+tell me about the persian empire,out_of_scope,unknown,False
+configure the container registry garbage collection,execution,pipeline,True
+block the suspicious ip range at the firewall,execution,service,True
+provide a recap of the release deployment lead time,summarization,pipeline,True
+give me compliance summary,summarization,unknown,False
+what is paleontology,out_of_scope,unknown,False
+redeploy the microservice with the fix,execution,service,True
+configure the jenkins pipeline webhook trigger,execution,pipeline,True
+analyze what changed before the performance degraded,investigate,unknown,True
+check why the liveness probe keeps failing,investigate,metric,True
+what is inflation,out_of_scope,unknown,False
+summarize the number of open vulnerabilities by severity,summarization,unknown,False
+investigate the grpc deadline exceeded errors,investigate,service,True
+configure the tcp keepalive settings on the host,execution,service,True
+summarize the cluster health over the past 30 days,summarization,infrastructure,True
+investigate the namespace collision in kubernetes,investigate,infrastructure,True
+summarize the change-failure rate for the current quarter,summarization,unknown,True
+restart the load balancer,execution,infrastructure,True
+apply the pod security policy changes,execution,infrastructure,True
+why is the health status endpoint returning wrong version,investigate,service,True
+tell me about the renaissance art,out_of_scope,unknown,False
+why is the distributed transaction not committing,investigate,metric,True
+why is the consumer group rebalancing frequently,investigate,service,True
+force garbage collection,execution,unknown,False
+restart container,execution,pipeline,True
+investigate the 502 bad gateway errors on frontend,investigate,infrastructure,True
+provide a recap of the operational load by team this month,summarization,job,True
+provide an overview of the mean time to recovery metrics,summarization,metric,True
+why is the api gateway returning 503,investigate,infrastructure,True
+give me a high-level overview of what happened today,summarization,unknown,False
+what is astrophysics,out_of_scope,unknown,False
+summarize the service dependency changes this sprint,summarization,service,True
+tell me about the great wall of china,out_of_scope,unknown,False
+give me an overview of the read write ratio by service,summarization,service,True
+trigger the argocd sync for the production environment,execution,unknown,False
+flush the redis cache completely,execution,infrastructure,True
+what is pharmacology,out_of_scope,unknown,False
+create the ingress rule for the new subdomain,execution,unknown,False
+analyze the impact of schema change on query performance,investigate,infrastructure,True
+annotate the service with the canary weight,execution,service,True
+why is the bloom filter returning false positives,investigate,unknown,False
+why are there too many open file descriptors,investigate,unknown,False
+tell me about the viking age,out_of_scope,unknown,False
+why is the dns resolution returning stale results,investigate,infrastructure,True
+enable the sticky session on the load balancer,execution,infrastructure,True
+who is socrates,out_of_scope,unknown,False
+give me a summary of the compute reservation coverage,summarization,service,True
+how do I dance,out_of_scope,unknown,False
+give me a summary of the latency percentile trends,summarization,metric,True
+configure the pgbouncer pool size,execution,infrastructure,True
+investigate the file descriptor leak,investigate,service,True
+scale job scheduler,execution,job,True
+tell me about the age of exploration,out_of_scope,unknown,False
+analyze the traffic shaping rule mismatch,investigate,service,True
+configure the adaptive concurrency limit,execution,service,True
+who is dante alighieri,out_of_scope,unknown,False
+check why the alerting rule is not firing,investigate,metric,True
+investigate the repeated pod scheduling failures,investigate,infrastructure,True
+give me an overview of the alerting rule changes,summarization,metric,True
+give me an overview of the system resource allocation,summarization,infrastructure,True
+analyze the heap dump for memory leak,investigate,service,True
+investigate the http pipelining issue on the proxy,investigate,infrastructure,True
+analyze the io error rate on the san,investigate,unknown,True
+apply the cpu frequency scaling governor change,execution,infrastructure,True
+enable the connection rate limiting on haproxy,execution,infrastructure,True
+provide maintenance summary,summarization,unknown,False
+investigate the hot partition in the event stream,investigate,service,True
+give me an overview of the error distribution across services,summarization,service,True
+analyze the traces for the slow checkout flow,investigate,unknown,True
+clean up the stale branches from the remote,execution,service,True
+tell me about the great depression,out_of_scope,unknown,False
+what is causing the frequent index rebuilds,investigate,unknown,False
+how do I draw,out_of_scope,unknown,False
+summarize capacity report,summarization,unknown,False
+what is quantum entanglement,out_of_scope,unknown,False
+analyze the cpu soft irq time spikes,investigate,service,True
+why is the ingress controller rejecting requests,investigate,unknown,False
+analyze the latency spikes during peak hours,investigate,service,True
+configure the database read timeout to 10 seconds,execution,infrastructure,True
+tell me about the sahara desert,out_of_scope,unknown,False
+provide a recap of the tracing coverage expansion,summarization,metric,True
+enable the kubernetes event exporter,execution,infrastructure,True
+why did the kubernetes job fail,investigate,infrastructure,True
+how do I build a small pond,out_of_scope,unknown,False
+summarize the release rollback frequency and causes,summarization,pipeline,True
+silence the alert during the planned maintenance,execution,unknown,False
+summarize the access request audit for the past month,summarization,unknown,False
+check why the replica is not accepting writes,investigate,infrastructure,True
+what is causing the write amplification on the database,investigate,infrastructure,True
+check why the kubernetes node is not ready,investigate,infrastructure,True
+give me a summary of failed jobs in the last 24 hours,summarization,job,True
+tell me about the silk road trade route,out_of_scope,unknown,False
+why is service discovery returning stale endpoints,investigate,service,True
+investigate the unexpected data loss after failover,investigate,service,True
+who is confucius,out_of_scope,unknown,False
+decommission the old server from the cluster,execution,infrastructure,True
+why is the secret rotation breaking dependent services,investigate,service,True
+give me a summary of the tenant sla compliance status,summarization,metric,True
+tell me about art,out_of_scope,unknown,False
+investigate the cpu steal time on the vm host,investigate,service,True
+investigate the unexpected pod termination,investigate,infrastructure,True
+provide availability summary,summarization,metric,True
+what is causing service degradation,investigate,service,True
+simulate a node failure in staging,execution,infrastructure,True
+enable the opa policy enforcement,execution,infrastructure,True
+configure the circuit breaker thresholds,execution,infrastructure,True
+tell me about the golden gate bridge,out_of_scope,unknown,False
+what is the stock market,out_of_scope,unknown,False
+start backup job,execution,infrastructure,True
+summarize the on-call activity for the past month,summarization,service,True
+why are database transactions taking so long,investigate,infrastructure,True
+provide a recap of the cost optimization initiatives,summarization,metric,True
+how do I play chess,out_of_scope,unknown,False
+investigate high error rate,investigate,metric,True
+update the load balancer target group with new instances,execution,infrastructure,True
+deploy the latest build to staging,execution,service,True
+enable the vpa recommendation mode on the namespace,execution,infrastructure,True
+add the new host to the monitoring system,execution,service,True
+what is painting,out_of_scope,unknown,False
+why is the read cache not warming up as expected,investigate,infrastructure,True
+who invented the internet,out_of_scope,unknown,False
+tell me about the great barrier reef,out_of_scope,unknown,False
+give me an overview of the data consistency check results,summarization,metric,True
+tell me about the amazon river,out_of_scope,unknown,False
+run the certificate expiry check across all services,execution,infrastructure,True
+what is the uncertainty principle,out_of_scope,unknown,False
+investigate the segfault in the native module,investigate,service,True
+why does the query return inconsistent results,investigate,infrastructure,True
+investigate the repeated auth token expiry in logs,investigate,metric,True
+provide a recap of the multi-tenancy isolation audit,summarization,infrastructure,True
+give me a summary of the platform capacity model output,summarization,incident,True
+tell me about butterflies,out_of_scope,unknown,False
+analyze the ingress rule causing traffic leak,investigate,metric,True
+how do I grow tomatoes at home,out_of_scope,unknown,False
+who was the first person to climb everest,out_of_scope,unknown,False
+provide a recap of the server provisioning activities,summarization,infrastructure,True
+provide a brief on the security incident response timeline,summarization,incident,True
+investigate the slow recovery after leader failover,investigate,service,True
+how do I do push ups,out_of_scope,unknown,False
+apply the seccomp profile to the container,execution,unknown,False
+configure the session affinity timeout,execution,service,True
+summarize user impact,summarization,unknown,False
+why is the api response size unexpectedly large,investigate,service,True
+how do I learn morse code,out_of_scope,unknown,False
+enable the volume snapshot class for backup,execution,infrastructure,True
+summarize the vulnerability scan findings,summarization,service,True
+what is causing the jdbc connection pool saturation,investigate,infrastructure,True
+give me a summary of the patch management status,summarization,service,True
+enable the geo-restriction policy on the cdn,execution,unknown,False
+analyze the log rotation failure on app-server-12,investigate,metric,True
+how do I make hard candy,out_of_scope,unknown,False
+how do I carve soap,out_of_scope,unknown,False
+why is the WAL replay taking hours on postgres,investigate,unknown,False
+run the dependency vulnerability scan,execution,service,True
+why did health check fail,investigate,metric,True
+analyze network latency issues,investigate,infrastructure,True
+investigate the high iowait on storage server,investigate,infrastructure,True
+summarize the message queue throughput metrics,summarization,service,True
+remove the decommissioned server from the inventory,execution,unknown,False
+provide a brief on the backup restore test outcomes,summarization,infrastructure,True
+what caused the connection pool to drain,investigate,infrastructure,True
+how do I meditate properly,out_of_scope,unknown,False
+how do I make bread,out_of_scope,unknown,False
+summarize the configuration drift detections this week,summarization,service,True
+investigate the cold start latency in serverless functions,investigate,service,True
+investigate the high read amplification factor on lsm,investigate,infrastructure,True
+tell me about the aztec calendar,out_of_scope,unknown,False
+why is the replication factor not being maintained,investigate,service,True
+what is causing the spike in connection establishment time,investigate,infrastructure,True
+update the tls cipher suite configuration,execution,infrastructure,True
+why is the storage volume mounting as read-only,investigate,infrastructure,True
+how do I cook pasta,out_of_scope,unknown,False
+apply the priority class to the critical workloads,execution,unknown,False
+how do I make origami cranes,out_of_scope,unknown,False
+give me a summary of the recent platform incidents by tier,summarization,incident,True
+enable the fault injection policy in the service mesh,execution,infrastructure,True
+how do I make wine at home,out_of_scope,unknown,False
+enable the new caching strategy globally,execution,service,True
+tell me about thunderstorms,out_of_scope,unknown,False
+capture a packet trace on the pod interface,execution,infrastructure,True
+enable audit logging on the api gateway,execution,infrastructure,True
+what caused the surge in rejected requests,investigate,service,True
+why is the reverse proxy adding unexpected headers,investigate,infrastructure,True
+apply security rules,execution,unknown,False
+tell me about the maya calendar,out_of_scope,unknown,False
+analyze the socket backlog on the listener,investigate,metric,True
+what is design,out_of_scope,unknown,False
+how do I plant a vegetable garden,out_of_scope,unknown,False
+give me an overview of the dependency health status,summarization,service,True
+how do I make sushi,out_of_scope,unknown,False
+investigate the sudden increase in 404 errors,investigate,service,True
+summarize the uptime trend for payment services,summarization,service,True
+what is continental drift,out_of_scope,unknown,False
+how do I learn to surf beginner tips,out_of_scope,unknown,False
+how do I mountain climb,out_of_scope,unknown,False
+analyze the pattern of disk write errors on the host,investigate,metric,True
+investigate failed authentication attempts,investigate,unknown,True
+give me replication summary,summarization,unknown,False
+investigate the network buffer overflow on ingress,investigate,infrastructure,True
+provide a brief on the container security scan coverage,summarization,pipeline,True
+give me a brief on the service health dashboard metrics,summarization,service,True
+enable ssl termination on the load balancer,execution,infrastructure,True
+give me an overview of the platform reliability metrics,summarization,metric,True
+enable the distributed tracing collector,execution,metric,True
+how do I make pesto from scratch,out_of_scope,unknown,False
+give me an overview of the graceful degradation events,summarization,service,True
+how do I build a birdhouse,out_of_scope,unknown,False
+why is the search indexer falling behind,investigate,unknown,False
+what is a parallax,out_of_scope,unknown,False
+give me an overview of the telemetry pipeline health,summarization,pipeline,True
+investigate the cross-region latency increase,investigate,service,True
+terminate the zombie processes,execution,service,True
+what is the most spoken language in the world,out_of_scope,unknown,False
+investigate the stale configmap being used after rollout,investigate,unknown,False
+tell me about stonehenge,out_of_scope,unknown,False
+enable the audit log policy on the api server,execution,service,True
+provide a brief on the observability coverage by service,summarization,service,True
+run the data migration script for the new schema,execution,service,True
+increase the max connections on the postgres primary,execution,service,True
+disable the debug endpoint on the production service,execution,service,True
+delete the orphaned persistent volume claim,execution,infrastructure,True
+update the oauth client credentials,execution,service,True
+what caused the message ordering to break,investigate,service,True
+run the node affinity migration for gpu pods,execution,infrastructure,True
+provide a brief on the idle resource cost across workloads,summarization,metric,True
+who wrote don quixote,out_of_scope,unknown,False
+how do I grow succulents,out_of_scope,unknown,False
+how do I make limoncello,out_of_scope,unknown,False
+tell me about the inca empire,out_of_scope,unknown,False
+analyze the slow shutdown of the worker process,investigate,unknown,True
+what is relativity theory,out_of_scope,unknown,False
+how do I make soap,out_of_scope,unknown,False
+summarize the latency trends for the past sprint,summarization,service,True
+summarize the resource quota consumption by namespace,summarization,infrastructure,True
+how do I learn calligraphy,out_of_scope,unknown,False
+increase the connection pool size to 200,execution,infrastructure,True
+why is the write throughput lower than expected,investigate,unknown,False
+give me a summary of the pod scheduling efficiency,summarization,infrastructure,True
+run the flamegraph capture on the cpu hotspot,execution,service,True
+apply the updated service account iam bindings,execution,service,True
+investigate the http 429 rate limit errors from upstream,investigate,infrastructure,True
+tell me about the phoenician alphabet,out_of_scope,unknown,False
+tell me about the trojan war,out_of_scope,unknown,False
+configure the kernel network parameters via sysctl,execution,infrastructure,True
+who composed swan lake,out_of_scope,unknown,False
+set up the upstream health checks on nginx,execution,metric,True
+who composed la traviata,out_of_scope,unknown,False
+provide a recap of the api contract violations,summarization,service,True
+enable binary logging on the mysql primary,execution,metric,True
+apply the ingress rate limit rules,execution,infrastructure,True
+enable the preemptive cache warming job,execution,infrastructure,True
+tell me about the hundred years war,out_of_scope,unknown,False
+how do I knit a scarf,out_of_scope,unknown,False
+tell me about penguins,out_of_scope,unknown,False
+how do I tie dye a shirt,out_of_scope,unknown,False
+run the performance benchmark suite,execution,unknown,False
+give me a summary of the top database tables by row count,summarization,infrastructure,True
+investigate the file system corruption on node-8,investigate,infrastructure,True
+restart the envoy proxy with the new configuration,execution,infrastructure,True
+how do I surf,out_of_scope,unknown,False
+give me rollback summary,summarization,unknown,False
+who wrote les miserables,out_of_scope,unknown,False
+increase the file descriptor limit to 65535,execution,service,True
+what is causing the session timeout in the middleware,investigate,unknown,True
+investigate the degraded write throughput on the database,investigate,infrastructure,True
+how do I make french press coffee,out_of_scope,unknown,False
+give me uptime summary,summarization,unknown,False
+tell me about the gold rush,out_of_scope,unknown,False
+tell me about the ottoman empire,out_of_scope,unknown,False
+investigate disk I/O bottleneck,investigate,metric,True
+what is causing the node disk pressure warning,investigate,infrastructure,True
+who is stephen hawking,out_of_scope,unknown,False
+why is the snapshot restore taking longer than expected,investigate,infrastructure,True
+what is causing the tls certificate mismatch errors,investigate,infrastructure,True
+give me a summary of the runtime exception trends,summarization,metric,True
+tell me about ancient egypt,out_of_scope,unknown,False
+check why the ephemeral storage is filling up quickly,investigate,infrastructure,True
+check what is causing the high cpu wait on nfs,investigate,metric,True
+tell me a joke,out_of_scope,unknown,False
+what is geology,out_of_scope,unknown,False
+restart log aggregator,execution,metric,True
+what is the history of the olympic games,out_of_scope,unknown,False
+run the sast scan on the new code change,execution,unknown,False
+who discovered electricity,out_of_scope,unknown,False
+purge the cdn cache for the updated assets,execution,infrastructure,True
+who is nikola tesla,out_of_scope,unknown,False
+summarize the slo violation events this month,summarization,service,True
+enable the opentelemetry collector on the service,execution,service,True
+what is causing packet loss on the network,investigate,infrastructure,True
+check why the reverse proxy is dropping headers,investigate,infrastructure,True
+who is marie curie,out_of_scope,unknown,False
+configure the namespace resource quotas,execution,infrastructure,True
+what caused the thundering herd on cache expiry,investigate,infrastructure,True
+why is application responding slowly,investigate,infrastructure,True
+summarize the memory usage trends across the fleet,summarization,unknown,False
+how do I do a cartwheel,out_of_scope,unknown,False
+analyze the failed health probes in the cluster,investigate,infrastructure,True
+why is the etl pipeline producing duplicate records,investigate,pipeline,True
+tell me about dolphins,out_of_scope,unknown,False
+restart service mesh,execution,infrastructure,True
+who is virginia woolf,out_of_scope,unknown,False
+what is a wormhole,out_of_scope,unknown,False
+why are the kubernetes events showing back-off restart,investigate,infrastructure,True
+show root cause analysis for outage,investigate,metric,True
+provide an overview of the deployment activity this sprint,summarization,pipeline,True
+what is the theory of evolution,out_of_scope,unknown,False
+give me a summary of the node utilization across zones,summarization,infrastructure,True
+summarize the blue green deployment outcome,summarization,pipeline,True
+why is the grpc stream being terminated early,investigate,service,True
+analyze the jvm thread contention issue,investigate,service,True
+look into the nfs mount hanging issue,investigate,service,True
+check the metrics cardinality explosion in prometheus,investigate,metric,True
+how do submarines work,out_of_scope,unknown,False
+label the nodes for the gpu workload,execution,infrastructure,True
+provide a brief on the api deprecation timeline,summarization,service,True
+examine the kernel panic logs on host-42,investigate,metric,True
+why is the replica set not converging,investigate,infrastructure,True
+uncordon the node after patching,execution,infrastructure,True
+what is the greenhouse gas,out_of_scope,unknown,False
+tell me about the ice age,out_of_scope,unknown,False
+tell me about the machu picchu history,out_of_scope,unknown,False
+give me incident summary,summarization,incident,True
+what caused the raft consensus timeout,investigate,service,True
+create a snapshot of the production database,execution,infrastructure,True
+run the chaos experiment to test failover,execution,job,True
+what is molecular biology,out_of_scope,unknown,False
+remove the stale cname record,execution,service,True
+why is the message broker not consuming messages,investigate,service,True
+who is mahatma gandhi,out_of_scope,unknown,False
+run the remediation playbook for cpu spike,execution,service,True
+who is the president,out_of_scope,unknown,False
+clear disk space on server alpha,execution,metric,True
+tell me about the seven wonders of the world,out_of_scope,unknown,False
+how do I train a dog basic commands,out_of_scope,unknown,False
+give me a summary of the certificate status across services,summarization,infrastructure,True
+tell me about the aztec civilization,out_of_scope,unknown,False
+why is the application not reading the updated configmap,investigate,unknown,False
+how do I play tennis,out_of_scope,unknown,False
+tell me about ancient china,out_of_scope,unknown,False
+what is the law of conservation of mass,out_of_scope,unknown,False
+investigate the large object heap pressure in dotnet,investigate,infrastructure,True
+set the resource limits on the logging sidecar,execution,metric,True
+who is napoleon,out_of_scope,unknown,False
+who is copernicus,out_of_scope,unknown,False
+run the database failover test,execution,infrastructure,True
+how do I grow a bonsai tree,out_of_scope,unknown,False
+provide a summary of the api versioning status,summarization,service,True
+how do I ride a bicycle,out_of_scope,unknown,False
+what is the largest country by area,out_of_scope,unknown,False
+give me a summary of the log ingestion volume trends,summarization,metric,True
+check why the multi-region failover is taking too long,investigate,metric,True
+who is wassily kandinsky,out_of_scope,unknown,False
+provide a brief on the node termination event summary,summarization,infrastructure,True
+how do I clean a cast iron pan,out_of_scope,unknown,False
+provide a brief on the infrastructure costs this quarter,summarization,metric,True
+apply the kernel security update and reboot,execution,service,True
+what is forensic science,out_of_scope,unknown,False
+tell me about pandas,out_of_scope,unknown,False
+enable http2 on the reverse proxy,execution,infrastructure,True
+how do I grow herbs indoors,out_of_scope,unknown,False
+apply the horizontal pod autoscaler policy,execution,infrastructure,True
+how do I make beef jerky,out_of_scope,unknown,False
+how do tides work,out_of_scope,unknown,False
+what is the standard model in physics,out_of_scope,unknown,False
+provide a brief on the release deployment frequency,summarization,pipeline,True
+investigate the database slowdown,investigate,infrastructure,True
+analyze the packet fragmentation on the uplink,investigate,service,True
+summarize the release candidate validation results,summarization,pipeline,True
+analyze the high rate of cache evictions,investigate,infrastructure,True
+summarize the impact of last week outage,summarization,service,True
+tell me about the pyramids,out_of_scope,unknown,False
+apply the datadog apm sampling configuration,execution,service,True
+tell me about architecture,out_of_scope,unknown,False
+restart application server,execution,infrastructure,True
+investigate the evicted pods in the production namespace,investigate,infrastructure,True
+investigate the corrupted data in the cache layer,investigate,infrastructure,True
+configure the grpc timeout on the proxy layer,execution,infrastructure,True
+check what is causing the spike in error rate,investigate,unknown,True
+what is causing the worker pool to deadlock,investigate,infrastructure,True
+why is cache miss rate high,investigate,infrastructure,True
+start the canary deployment for version 4.1,execution,pipeline,True
+how do I learn ballet,out_of_scope,unknown,False
+what caused the alert flood at midnight,investigate,metric,True
+what is a cytoplasm,out_of_scope,unknown,False
+give me a summary of the runtime crash trends,summarization,metric,True
+check the dead letter queue accumulation,investigate,service,True
+summarize the backup verification test outcomes,summarization,infrastructure,True
+what are your hobbies,out_of_scope,unknown,False
+analyze the query optimizer choosing a bad plan,investigate,infrastructure,True
+summarize the workload autoscaling behavior this week,summarization,service,True
+configure the codeowners file for the new team,execution,service,True
+summarize the certificate rotation completion status,summarization,infrastructure,True
+why is the config sync lagging behind the control plane,investigate,unknown,False
+analyze the pod restart loop on the payment service,investigate,infrastructure,True
+summarize deployment timeline,summarization,pipeline,True
+investigate the mismatch in reported vs actual disk usage,investigate,metric,True
+give me a summary of the node group scaling history,summarization,infrastructure,True
+why is the ssl offloader causing increased latency,investigate,unknown,True
+how can I learn spanish,out_of_scope,unknown,False
+restart monitoring agent,execution,infrastructure,True
+configure the nginx worker processes,execution,service,True
+rotate the service account credentials,execution,service,True
+enable the graceful shutdown sequence on the workers,execution,service,True
+investigate the asymmetric network routing issue,investigate,infrastructure,True
+check why the helm release is stuck in pending upgrade,investigate,metric,True
+who discovered penicillin,out_of_scope,unknown,False
+enable tracing,execution,metric,True
+what caused the service to skip the retry logic,investigate,service,True
+what is the periodic table,out_of_scope,unknown,False
+how do I make a terrarium,out_of_scope,unknown,False
+push the puppet manifest changes to production,execution,service,True
+what is your favorite color,out_of_scope,unknown,False
+provide a recap of the service discovery health checks,summarization,service,True
+give me a recap of the infrastructure as code changes,summarization,metric,True
+how do I learn how to whistle,out_of_scope,unknown,False
+summarize the data pipeline execution summary,summarization,pipeline,True
+what is causing the recurring service crash,investigate,service,True
+summarize the failure domain isolation test results,summarization,job,True
+backup the etcd snapshot to object storage,execution,infrastructure,True
+tell me about space exploration,out_of_scope,unknown,False
+provide node status summary,summarization,infrastructure,True
+apply backup retention policy,execution,infrastructure,True
+disable the feature flag for dark mode,execution,service,True
+give me an overview of the container runtime health,summarization,pipeline,True
+start the log streaming pipeline,execution,pipeline,True
+replace the failed disk in the raid array,execution,metric,True
+how do I make butter at home,out_of_scope,unknown,False
+why is the service container starting but not ready,investigate,service,True
+check memory usage on db-server-7,investigate,infrastructure,True
+summarize the service mesh traffic routing changes,summarization,infrastructure,True
+analyze the thread dump from app server,investigate,infrastructure,True
+apply the backpressure policy to the queue consumer,execution,service,True
+check why the circuit breaker keeps tripping,investigate,infrastructure,True
+provide an overview of the deployment lead time trends,summarization,pipeline,True
+what is an isotope,out_of_scope,unknown,False
+investigate the broken pipe errors in application logs,investigate,metric,True
+summarize the monitoring coverage by service tier,summarization,service,True
+compress and archive the old log files,execution,metric,True
+run the backup verification on the latest snapshot,execution,infrastructure,True
+summarize the chaos engineering experiment results,summarization,service,True
+upgrade the worker node pool to the target version,execution,infrastructure,True
+provide a recap of the weekly change freeze exceptions,summarization,infrastructure,True
+why is the queue depth continuously growing,investigate,service,True
+how do I start a podcast,out_of_scope,unknown,False
+summarize the user impact analysis from the last incident,summarization,incident,True
+investigate the concurrent write conflicts in the db,investigate,infrastructure,True
+run the storage filesystem consistency check,execution,infrastructure,True
+why is the database vacuum process not completing,investigate,infrastructure,True
+enroll the new host in the certificate authority,execution,infrastructure,True
+provide a brief on the jvm memory pool utilization,summarization,infrastructure,True
+check why the api gateway is caching stale tokens,investigate,infrastructure,True
+provide a recap of the rate limiting effectiveness,summarization,infrastructure,True
+give me a brief on the auto-scaling behavior this week,summarization,service,True
+how do I make chocolate chip cookies,out_of_scope,unknown,False
+what is the tallest mountain,out_of_scope,unknown,False
+give me a summary of the top 10 high-memory services,summarization,service,True
+why is load balancer unhealthy,investigate,infrastructure,True
+who wrote the great gatsby,out_of_scope,unknown,False
+give me a summary of the chaos experiment outcomes,summarization,service,True
+provide a brief on the backup storage growth rate,summarization,infrastructure,True
+set up the pagerduty escalation policy,execution,infrastructure,True
+why is the pod failing the security context check,investigate,infrastructure,True
+tell me about rainforests,out_of_scope,unknown,False
+provide a recap of the cost trends by environment,summarization,metric,True
+how do I make my own perfume,out_of_scope,unknown,False
+tell me about the amazon rainforest,out_of_scope,unknown,False
+why are there duplicate messages in the event stream,investigate,service,True
+who is galileo,out_of_scope,unknown,False
+why is the compaction process stalling on cassandra,investigate,unknown,False
+investigate the intermittent connection resets,investigate,infrastructure,True
+tell me about wolves,out_of_scope,unknown,False
+provide a summary of the ci cd pipeline performance,summarization,pipeline,True
+what is the longest river,out_of_scope,unknown,False
+what is the food chain,out_of_scope,unknown,False
+analyze why response time increased,investigate,incident,True
+clear log files,execution,metric,True
+who wrote war and peace,out_of_scope,unknown,False
+who is marco polo,out_of_scope,unknown,False
+give me a brief on the kubernetes cluster upgrade status,summarization,infrastructure,True
+rotate the vault root token,execution,service,True
+how do I make ramen from scratch,out_of_scope,unknown,False
+what is photon,out_of_scope,unknown,False
+provide a summary of the data replication lag trends,summarization,metric,True
+why is the distributed join causing cross-node traffic,investigate,infrastructure,True
+restart cluster coordinator,execution,infrastructure,True
+give me an overview of the pipeline execution times,summarization,pipeline,True
+how do I make perfect scrambled eggs,out_of_scope,unknown,False
+what is causing the high swap usage on node-5,investigate,infrastructure,True
+why does the pod take too long to enter running state,investigate,infrastructure,True
+what caused the pod evictions in kubernetes,investigate,infrastructure,True
+summarize the network policy audit results,summarization,infrastructure,True
+how do volcanoes form,out_of_scope,unknown,False
+summarize queue depth,summarization,service,True
+look into the prometheus scrape failures,investigate,infrastructure,True
+check what is slowing down the ci build pipeline,investigate,pipeline,True
+summarize the change management board decisions,summarization,infrastructure,True
+rollback the deployment,execution,pipeline,True
+what is causing the oauth token refresh failures,investigate,infrastructure,True
+who discovered gravity,out_of_scope,unknown,False
+configure the health check interval to 30 seconds,execution,metric,True
+who is harriet tubman,out_of_scope,unknown,False
+what is buoyancy,out_of_scope,unknown,False
+scale the kafka cluster to add two more brokers,execution,infrastructure,True
+give me a summary of the observability alert noise ratio,summarization,metric,True
+enable the transparent hugepages for the database,execution,infrastructure,True
+give me a summary of alerts for last week,summarization,metric,True
+deploy the new gateway api version,execution,service,True
+who is thomas jefferson,out_of_scope,unknown,False
+configure the ocsp stapling on the server,execution,unknown,False
+restart health check,execution,metric,True
+why is the persistent volume not being bound,investigate,service,True
+give me an overview of the deployment environment parity,summarization,pipeline,True
+what is the higgs boson,out_of_scope,unknown,False
+investigate the async callback queue overflow,investigate,service,True
+what is biology,out_of_scope,unknown,False
+configure the node local dns cache,execution,infrastructure,True
+provide a recap of the database migration results,summarization,infrastructure,True
+stop the runaway query,execution,infrastructure,True
+flush dns cache,execution,infrastructure,True
+tell me about the league of nations,out_of_scope,unknown,False
+who was cleopatra,out_of_scope,unknown,False
+tell me about ancient rome,out_of_scope,unknown,False
+how do I brew beer at home,out_of_scope,unknown,False
+investigate the data corruption in table orders,investigate,service,True
+what is osmosis,out_of_scope,unknown,False
+summarize monthly trends,summarization,metric,True
+update the helm chart values and upgrade release,execution,pipeline,True
+provide a recap of the production readiness review results,summarization,service,True
+summarize scaling events,summarization,unknown,False
+provision additional read replicas for the database,execution,infrastructure,True
+analyze the cause of the high cardinality in logs,investigate,metric,True
+how do I make a smoothie,out_of_scope,unknown,False
+provide cache hit summary,summarization,infrastructure,True
+analyze the traffic imbalance across availability zones,investigate,service,True
+look into the certificate chain validation error,investigate,infrastructure,True
+check why prometheus is showing no data,investigate,metric,True
+what is the history of the piano,out_of_scope,unknown,False
+tell me about the discovery of dna,out_of_scope,unknown,False
+what is string theory,out_of_scope,unknown,False
+give me event summary,summarization,unknown,False
+what is renewable energy,out_of_scope,unknown,False
+run the data integrity check script,execution,metric,True
+configure the max in-flight requests for the service,execution,service,True
+why is the dns ttl causing stale lookups,investigate,infrastructure,True
+what is the coldest place on earth,out_of_scope,unknown,False
+what is causing the timeout in the payment gateway,investigate,unknown,True
+give me a summary of the resource consumption by service,summarization,service,True
+what is robotics,out_of_scope,unknown,False
+why is the queue consumer lagging behind producer,investigate,service,True
+investigate the anomalously high network egress cost,investigate,metric,True
+analyze the failed readiness probes in staging,investigate,service,True
+why is the ssl certificate expired on prod,investigate,infrastructure,True
+tell me about machu picchu,out_of_scope,unknown,False
+sync the parameter store values to the pods,execution,infrastructure,True
+provide a brief on the job queue wait time trends,summarization,service,True
+check what is causing the repeated pod preemptions,investigate,infrastructure,True
+what caused the lease expiration on the distributed lock,investigate,unknown,False
+investigate the config map update causing service restart,investigate,service,True
+restart the prometheus and grafana stack,execution,service,True
+analyze the failed deployment,investigate,pipeline,True
+check what's causing the bottleneck,investigate,metric,True
+look into the mutex contention on shared resource,investigate,infrastructure,True
+provide a recap of the patch compliance status,summarization,service,True
+give me a summary of the api consumer adoption trends,summarization,service,True
+check what caused the crash,investigate,metric,True
+enable the maintenance page on the cdn,execution,service,True
+summarize the distributed cache hit rate by region,summarization,infrastructure,True
+check why the aggregation job is producing empty output,investigate,job,True
+give me a summary of the top recurring failure modes,summarization,infrastructure,True
+summarize the canary deployment observations,summarization,pipeline,True
+how do I become a chef,out_of_scope,unknown,False
+tell me about the mesopotamian civilization,out_of_scope,unknown,False
+who invented the airplane,out_of_scope,unknown,False
+who is plato,out_of_scope,unknown,False
+revoke the expired service certificate,execution,infrastructure,True
+tell me about the olympics history,out_of_scope,unknown,False
+run the chef recipe on the fleet,execution,service,True
+why is the background job worker deadlocking,investigate,unknown,False
+check why cron jobs are failing,investigate,job,True
+summarize the write path latency breakdown by layer,summarization,unknown,True
+what is dna,out_of_scope,unknown,False
+check why the read replicas are out of sync,investigate,infrastructure,True
+give me an overview of the log ingestion cost trends,summarization,metric,True
+provide an overview of the monitoring coverage gaps,summarization,service,True
+who built the eiffel tower,out_of_scope,unknown,False
+check what is causing the cache stampede,investigate,infrastructure,True
+tell me about the northern lights,out_of_scope,unknown,False
+summarize the api deprecation timeline and impact,summarization,service,True
+how do I make candles,out_of_scope,unknown,False
+provide a recap of the network changes this quarter,summarization,infrastructure,True
+import the existing resource into the terraform state,execution,unknown,False
+give me a summary of the application profiling results,summarization,service,True
+disable the auto-scaling for the maintenance window,execution,unknown,False
+apply the updated retention policy to the log bucket,execution,metric,True
+investigate the slow kafka consumer group commit,investigate,service,True
+what is the fastest animal on earth,out_of_scope,unknown,False
+who is charles darwin,out_of_scope,unknown,False
+resize the logical volume for the data partition,execution,metric,True
+what is the boiling point of water,out_of_scope,unknown,False
+provide a brief on the endpoint deprecation usage,summarization,service,True
+what is ecology,out_of_scope,unknown,False
+what is a pulsar,out_of_scope,unknown,False
+configure the retry policy with exponential backoff,execution,infrastructure,True
+what caused the routing table mismatch between zones,investigate,service,True
+enable the numa-aware memory allocation,execution,service,True
+summarize the uptime report for all critical services,summarization,service,True
+investigate the dropped packets on the vpn interface,investigate,service,True
+check the correlation between cpu spike and deployments,investigate,pipeline,True
+stop all running containers on host-9,execution,unknown,False
+configure the auto-scaling policy for peak hours,execution,infrastructure,True
+summarize the load test results from yesterday,summarization,job,True
+provide a brief on the retry rate trends,summarization,infrastructure,True
+enable the mutual tls between all services,execution,infrastructure,True
+investigate the missing index causing full table scans,investigate,service,True
+provide a brief on the long-running query trends,summarization,infrastructure,True
+what is a binary star system,out_of_scope,unknown,False
+provide a brief on today's outages,summarization,unknown,False
+summarize resource usage,summarization,infrastructure,True
+analyze the slow commit log replay after recovery,investigate,metric,True
+set up the vpn tunnel to the partner network,execution,unknown,False
+summarize the batch processing job completion rates,summarization,job,True
+enable the kernel huge pages for the database host,execution,infrastructure,True
+what is plate tectonics,out_of_scope,unknown,False
+give me an overview of the release notes for version 5.0,summarization,pipeline,True
+run the smart health test on the drive,execution,unknown,False
+summarize the weekly change failure rate,summarization,infrastructure,True
+why is the deployment rollout stuck,investigate,pipeline,True
+how do I make ice cream,out_of_scope,unknown,False
+summarize the dependency freshness across repositories,summarization,service,True
+give me an overview of the service catalog coverage gaps,summarization,service,True
+why is the api client receiving truncated responses,investigate,service,True
+reset error counters,execution,metric,True
+restart the cron scheduler service,execution,service,True
+enable the ddos protection on the edge layer,execution,service,True
+provide a brief of the runbook updates this month,summarization,service,True
+give me an overview of the application security posture,summarization,service,True
+why is the service mesh reporting timeout for internal calls,investigate,infrastructure,True
+trigger failover,execution,unknown,True
+what is causing the connection reset errors,investigate,infrastructure,True
+how do I write a novel,out_of_scope,unknown,False
+apply the external secrets operator configuration,execution,service,True
+summarize the distributed tracing insights for the api,summarization,service,True
+tell me about mount everest,out_of_scope,unknown,False
+give me a summary of the cluster upgrade progress,summarization,infrastructure,True
+run the cluster upgrade preflight checks,execution,infrastructure,True
+why did backup job fail,investigate,infrastructure,True
+who wrote the aeneid,out_of_scope,unknown,False
+enable the vault audit logging,execution,metric,True
+who is julius caesar,out_of_scope,unknown,False
+enable the database connection pooling proxy,execution,infrastructure,True
+summarize throughput metrics,summarization,metric,True
+configure the proxy buffer size for large responses,execution,infrastructure,True
+start the disaster recovery failover procedure,execution,service,True
+apply the upstream load balancing weight change,execution,infrastructure,True
+how do I make candles at home,out_of_scope,unknown,False
+how do I whittle wood,out_of_scope,unknown,False
+set the pod disruption budget to allow one eviction,execution,infrastructure,True
+restart api gateway,execution,infrastructure,True
+why is the object storage throughput degraded,investigate,infrastructure,True
+provide a brief on the continuous delivery pipeline metrics,summarization,pipeline,True
+give me an overview of the api usage patterns,summarization,service,True
+set up the bulkhead pattern for the downstream service,execution,service,True
+provide a brief on the change management board decisions,summarization,infrastructure,True
+tell me about hummingbirds,out_of_scope,unknown,False
+how do I write poetry,out_of_scope,unknown,False
+configure the heap profiler for the java service,execution,service,True
+why are the pod logs showing oom killed errors,investigate,infrastructure,True
+summarize the observability stack health,summarization,metric,True
+why are requests queued,investigate,service,True
+investigate the message serialization error in the broker,investigate,service,True
+who invented calculus,out_of_scope,unknown,False
+why is the kubernetes cronjob missing executions,investigate,infrastructure,True
+how do I plant a tree,out_of_scope,unknown,False
+push the signed container image to the registry,execution,pipeline,True
+how do I do origami,out_of_scope,unknown,False
+who is sigmund freud,out_of_scope,unknown,False
+how do I learn to cook,out_of_scope,unknown,False
+summarize the active incidents for the morning standup,summarization,incident,True
+what is causing the increased p95 latency,investigate,unknown,True
+what caused the data skew in the partitioned table,investigate,service,True
+flush all active user sessions from the cache,execution,infrastructure,True
+provide a brief on the network bandwidth usage,summarization,infrastructure,True
+reset the alert suppression window,execution,metric,True
+tell me about owls,out_of_scope,unknown,False
+what caused the split brain in the cluster,investigate,infrastructure,True
+what triggered the auto-scaling event,investigate,service,True
+how do I skip stones,out_of_scope,unknown,False
+check why the distributed lock is not being released,investigate,service,True
+why is the io scheduler causing write starvation,investigate,unknown,False
+summarize the error logs,summarization,metric,True
+apply database migration,execution,infrastructure,True
+summarize the scheduled downtime impact on availability sla,summarization,metric,True
+what caused the outage last night,investigate,service,True
+what is climate change,out_of_scope,unknown,False
+provide an overview of the resource quota usage by namespace,summarization,infrastructure,True
+how do I make pottery,out_of_scope,unknown,False
+investigate the cross-region replication delay,investigate,service,True
+restart the systemd socket service,execution,service,True
+who is rembrandt,out_of_scope,unknown,False
+create the read replica in the secondary region,execution,unknown,False
+how do I juggle,out_of_scope,unknown,False
+how do I make mozzarella,out_of_scope,unknown,False
+investigate the transaction deadlock pattern in the db,investigate,infrastructure,True
+restart the message queue consumers,execution,service,True
+investigate the certificate revocation check failure,investigate,infrastructure,True
+scale the worker pool to 20 instances,execution,infrastructure,True
+what is the greenhouse effect,out_of_scope,unknown,False
+what is psychology,out_of_scope,unknown,False
+give me a summary of the failed deployments this month,summarization,pipeline,True
+what is the population of brazil,out_of_scope,unknown,False
+apply the network acl changes to the subnet,execution,unknown,False
+why is the batch job consuming all available memory,investigate,job,True
+what is jazz music,out_of_scope,unknown,False
+how do I make coffee,out_of_scope,unknown,False
+enable the dns query logging for diagnostics,execution,infrastructure,True
+unlock the terraform state after failed apply,execution,service,True
+what is astronomy,out_of_scope,unknown,False
+enable the cross-zone load balancing,execution,job,True
+what is the population of the earth,out_of_scope,unknown,False
+what is ecological succession,out_of_scope,unknown,False
+summarize configuration changes,summarization,unknown,False
+tell me about the ming emperors,out_of_scope,unknown,False
+restart background worker,execution,infrastructure,True
+how do I whistle,out_of_scope,unknown,False
+summarize the key performance indicators for the quarter,summarization,unknown,False
+who wrote crime and punishment,out_of_scope,unknown,False
+tell me about tigers,out_of_scope,unknown,False
+apply rate limiting,execution,infrastructure,True
+what is the largest mammal in the ocean,out_of_scope,unknown,False
+tell me about the ming dynasty art,out_of_scope,unknown,False
+summarize the data pipeline reliability metrics,summarization,pipeline,True
+why is server host123 cpu high,investigate,infrastructure,True
+tell me about volcanoes,out_of_scope,unknown,False
+analyze the kernel scheduler latency spikes,investigate,service,True
+summarize the ssl certificate expiry status across services,summarization,infrastructure,True
+what is the capital of france,out_of_scope,unknown,False
+provide ecosystem summary,summarization,unknown,False
+give me a summary of the scaling decisions this week,summarization,service,True
+provide a brief recap of the service ownership audit,summarization,service,True
+configure the flux reconciliation interval,execution,infrastructure,True
+what caused the connection storm after failover,investigate,infrastructure,True
+configure the ipvs load balancing mode on the node,execution,infrastructure,True
+flush the varnish cache for the stale content,execution,infrastructure,True
+give me error rate summary,summarization,metric,True
+give me an overview of the capacity headroom by service,summarization,service,True
+what caused the token bucket to overflow,investigate,service,True
+restore the selinux context on the data directory,execution,service,True
+summarize the performance optimization results,summarization,unknown,False
+what is the fibonacci sequence,out_of_scope,unknown,False
+rotate the iam role credentials for the batch job,execution,job,True
+look into the storage IOPS issue,investigate,infrastructure,True
+restart the coredns deployment after config change,execution,infrastructure,True
+investigate the message fanout causing consumer lag,investigate,service,True
+summarize the incident from yesterday,summarization,incident,True
+update the exports file and refresh nfsd,execution,service,True
+tell me about history,out_of_scope,unknown,False
+configure the retry budget on the service,execution,service,True
+apply the resource quota to the namespace,execution,infrastructure,True
+apply the vault dynamic database credential policy,execution,infrastructure,True
+what is the capital of japan,out_of_scope,unknown,False
+summarize the on-call escalation patterns this quarter,summarization,service,True
+apply the jit compiler optimization flags,execution,service,True
+give me a summary of the distributed tracing insights,summarization,metric,True
+summarize the distributed lock acquisition patterns,summarization,metric,True
+set the timeout policy for the external api call,execution,service,True
+investigate the clock skew between nodes,investigate,infrastructure,True
+summarize the changes made during the maintenance window,summarization,unknown,False
+update the container image to the patched version,execution,pipeline,True
+scale the api service to 5 replicas,execution,service,True
+configure the sonarqube quality gate policy,execution,infrastructure,True
+how do I learn how to type faster,out_of_scope,unknown,False
+tell me about the ming dynasty,out_of_scope,unknown,False
+what is the meaning of life,out_of_scope,unknown,False
+initialize the new replica set member,execution,service,True
+provide a brief on the alerting rule coverage gaps,summarization,metric,True
+why is the rpc client timing out during service restart,investigate,service,True
+give me operational summary,summarization,unknown,False
+tell me about the french impressionism,out_of_scope,unknown,False
+investigate the missing pod metrics from the scraper,investigate,infrastructure,True
+summarize the api gateway error breakdown for the week,summarization,infrastructure,True
+summarize the real user monitoring metrics for this week,summarization,metric,True
+patch the deployment to inject the new environment variable,execution,pipeline,True
+how do I make sourdough bread,out_of_scope,unknown,False
+drain and replace the node for os upgrade,execution,infrastructure,True
+what is an electron shell,out_of_scope,unknown,False
+what is the pythagorean theorem,out_of_scope,unknown,False
+update the dns records for the new ip,execution,infrastructure,True
+apply the io scheduler change to deadline,execution,infrastructure,True
+investigate the service crash after config reload,investigate,service,True
+why are the job workers being starved of resources,investigate,unknown,False
+configure the cgroup memory limit for the container,execution,unknown,False
+run the cluster health verification script,execution,infrastructure,True
+how do I photograph,out_of_scope,unknown,False
+give me an overview of the application profiling insights,summarization,service,True
+why did the scheduled task miss its window,investigate,infrastructure,True
+what caused the job to exceed its resource quota,investigate,infrastructure,True
+investigate the abnormal memory growth after restart,investigate,service,True
+mount the nfs share on the batch server,execution,unknown,False
+check the reason behind the pod crashloopbackoff,investigate,infrastructure,True
+how does the aurora borealis form,out_of_scope,unknown,False
+how do I make natural dye,out_of_scope,unknown,False
+how is silk produced,out_of_scope,unknown,False
+who is hypatia,out_of_scope,unknown,False
+why is the kubernetes scheduler failing to place pods,investigate,infrastructure,True
+analyze cpu consumption trends,investigate,infrastructure,True
+run the disk defragmentation on the storage volume,execution,infrastructure,True
+what is quantum computing,out_of_scope,unknown,False
+summarize the load test performance baseline results,summarization,job,True
+investigate the multicast routing failure on the switch,investigate,unknown,True
+how do I make paella,out_of_scope,unknown,False
+who painted the sistine chapel,out_of_scope,unknown,False
+why is disk usage at 90 percent,investigate,metric,True
+what is the water cycle,out_of_scope,unknown,False
+tell me about the roman gladiators,out_of_scope,unknown,False
+check the anomaly in the request rate pattern,investigate,unknown,False
+look into the inode exhaustion on the log partition,investigate,infrastructure,True
+restart the varnish cache after config change,execution,infrastructure,True
+summarize the network egress cost by region,summarization,metric,True
+analyze the cpu throttling events in the cgroup,investigate,service,True
+investigate the service port conflict after update,investigate,service,True
+write a poem about servers,out_of_scope,unknown,False
+why is the user session being invalidated unexpectedly,investigate,service,True
+summarize the monthly infrastructure cost report,summarization,metric,True
+enable maintenance mode on the website,execution,service,True
+check what went wrong with deployment,investigate,pipeline,True
+tell me about the sumerian civilization,out_of_scope,unknown,False
+tell me about the byzantine empire,out_of_scope,unknown,False
+what is the speed of light,out_of_scope,unknown,False
+give me an overview of the synthetic monitor pass rates,summarization,service,True
+summarize the service restart count by host,summarization,service,True
+tell me about eagles,out_of_scope,unknown,False
+summarize the feature flag rollout status,summarization,service,True
+configure the sssd daemon for the new domain,execution,service,True
+how do I learn origami,out_of_scope,unknown,False
+sync the configuration from the control plane,execution,service,True
+trigger the failback to the primary region,execution,service,True
+tell me about elephants,out_of_scope,unknown,False
+how do I start composting,out_of_scope,unknown,False
+what is dark energy,out_of_scope,unknown,False
+summarize the horizontal pod autoscaler activity,summarization,infrastructure,True
+summarize the incident response time trends,summarization,incident,True
+who wrote hamlet,out_of_scope,unknown,False
+provide a recap of the cross-region failover tests,summarization,service,True
+how do I stay healthy,out_of_scope,unknown,False
+give me a recap of the infrastructure changes this week,summarization,metric,True
+disable the noisy alerting rule temporarily,execution,metric,True
+tell me about the moon landing,out_of_scope,unknown,False
+what is a tectonic plate,out_of_scope,unknown,False
+summarize the multi-region deployment status,summarization,pipeline,True
+enable the tcp fast open on the server,execution,unknown,False
+why are containers crashing,investigate,unknown,True
+provide a brief on the ml model serving latency trends,summarization,metric,True
+investigate memory fragmentation,investigate,unknown,False
+who is aristotle and his philosophy,out_of_scope,unknown,False
+what is causing high memory on app-01,investigate,infrastructure,True
+check for anomalies in metrics,investigate,metric,True
+what is chemistry,out_of_scope,unknown,False
+revoke the compromised api token,execution,service,True
+who wrote the divine comedy,out_of_scope,unknown,False
+provide a recap of the automated remediation actions,summarization,service,True
+what is the largest desert in the world,out_of_scope,unknown,False
+evict stale entries from the distributed cache,execution,infrastructure,True
+who painted the mona lisa,out_of_scope,unknown,False
+investigate the flaky test failures in ci environment,investigate,unknown,True
+what is causing the repeated node draining events,investigate,infrastructure,True
+what is quantum physics,out_of_scope,unknown,False
+provide a recap of the secrets rotation audit,summarization,infrastructure,True
+tell me about the black plague,out_of_scope,unknown,False
+how do I play soccer,out_of_scope,unknown,False
+configure the slack webhook for incident notifications,execution,incident,True
+who is joan of arc,out_of_scope,unknown,False
+who is claude monet,out_of_scope,unknown,False
+give me an overview of the tenant usage statistics,summarization,service,True
+enable the new rate limit policy globally,execution,infrastructure,True
+run the ansible playbook for server hardening,execution,infrastructure,True
+provide a recap of the endpoint coverage by synthetic monitors,summarization,service,True
+what caused the memory oom on worker-node-4,investigate,infrastructure,True
+update the known hosts file after host migration,execution,service,True
+how do I fold a paper airplane,out_of_scope,unknown,False
+tell me about ancient babylon,out_of_scope,unknown,False
+why is the storage iops quota being exceeded,investigate,infrastructure,True
+how do I train for a marathon,out_of_scope,unknown,False

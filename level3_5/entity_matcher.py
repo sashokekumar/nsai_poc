@@ -2,7 +2,7 @@ from typing import Optional, List, Tuple
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from level4.ontology import ENTITIES, ENTITY_ALIASES
+from level3_5.ontology import ENTITIES, ENTITY_ALIASES
 
 
 class EntityMatcher:

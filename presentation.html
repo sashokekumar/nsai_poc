@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NSAI POC — Neuro-Symbolic AI for Intent Classification</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e3a5f;
+    --accent: #3b82f6;
+    --accent2: #8b5cf6;
+    --accent3: #06b6d4;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --text-dim: #94a3b8;
+    --text-dimmer: #475569;
+    --glow: rgba(59,130,246,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ─── Deck Container ─── */
+  #deck {
+    width: 100%; height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ─── Slides ─── */
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 64px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    pointer-events: none;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+  .slide.exit {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* ─── Background canvas decoration ─── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.35;
+  }
+
+  /* ─── Nav bar ─── */
+  #navbar {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(17,24,39,0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 40px;
+    padding: 8px 20px;
+    z-index: 100;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-dimmer);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.4); }
+  #slide-counter {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: 8px;
+    min-width: 40px;
+    text-align: center;
+  }
+
+  /* ─── Arrow buttons ─── */
+  .nav-btn {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(17,24,39,0.75);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--text-dim);
+    transition: all 0.2s;
+    z-index: 100;
+  }
+  .nav-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+  #btn-prev { left: 16px; }
+  #btn-next { right: 16px; }
+
+  /* ─── Typography ─── */
+  .slide-title {
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .slide-subtitle {
+    font-size: clamp(14px, 1.6vw, 20px);
+    color: var(--text-dim);
+    text-align: center;
+    margin-bottom: 36px;
+    max-width: 820px;
+  }
+  .gradient-text {
+    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-align: center;
+  }
+
+  /* ─── Cards & Grid ─── */
+  .grid { display: grid; gap: 16px; width: 100%; max-width: 1100px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .card.green::before { background: linear-gradient(90deg, var(--green), var(--accent3)); }
+  .card.yellow::before { background: linear-gradient(90deg, var(--yellow), #f97316); }
+  .card.purple::before { background: linear-gradient(90deg, var(--accent2), #ec4899); }
+  .card.cyan::before { background: linear-gradient(90deg, var(--accent3), var(--accent)); }
+  .card.red::before { background: var(--red); }
+
+  .card-icon { font-size: 28px; margin-bottom: 10px; display: block; }
+  .card-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+  .card-body { font-size: 12.5px; color: var(--text-dim); line-height: 1.6; }
+
+  /* ─── Pipeline diagram ─── */
+  .pipeline {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 860px;
+  }
+  .pipe-stage {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+  }
+  .pipe-stage::after {
+    content: '▼';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    color: var(--text-dimmer);
+    z-index: 1;
+  }
+  .pipe-stage:last-child::after { display: none; }
+  .pipe-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .pipe-content { flex: 1; }
+  .pipe-name { font-size: 13px; font-weight: 700; color: var(--text); }
+  .pipe-desc { font-size: 11.5px; color: var(--text-dim); margin-top: 2px; }
+  .pipe-tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .tag-neural { background: rgba(59,130,246,0.2); color: var(--accent); }
+  .tag-symbol { background: rgba(139,92,246,0.2); color: var(--accent2); }
+  .tag-rule { background: rgba(16,185,129,0.2); color: var(--green); }
+  .tag-data { background: rgba(245,158,11,0.2); color: var(--yellow); }
+
+  /* ─── Evolution timeline ─── */
+  .timeline {
+    display: flex;
+    width: 100%;
+    max-width: 1080px;
+    gap: 0;
+    align-items: stretch;
+  }
+  .tl-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  .tl-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 30px;
+    left: calc(50% + 24px);
+    right: calc(-50% + 24px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    opacity: 0.4;
+  }
+  .tl-badge {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--surface2);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .tl-label { font-size: 11px; font-weight: 700; color: var(--text-dim); text-align: center; margin-bottom: 8px; }
+  .tl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    width: 90%;
+    flex: 1;
+  }
+  .tl-card-title { font-size: 12px; font-weight: 700; margin-bottom: 4px; color: var(--accent3); }
+  .tl-card-body { font-size: 11px; color: var(--text-dim); line-height: 1.55; }
+
+  /* ─── Comparison table ─── */
+  table.compare {
+    width: 100%;
+    max-width: 1000px;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 12.5px;
+  }
+  table.compare th {
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 11px 16px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  table.compare td {
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  table.compare tr:hover td { background: rgba(30,58,95,0.25); }
+  .pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 20px;
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+  .pill-blue { background: rgba(59,130,246,0.2); color: var(--accent); }
+  .pill-purple { background: rgba(139,92,246,0.2); color: var(--accent2); }
+  .pill-green { background: rgba(16,185,129,0.2); color: var(--green); }
+  .pill-yellow { background: rgba(245,158,11,0.2); color: var(--yellow); }
+  .pill-cyan { background: rgba(6,182,212,0.2); color: var(--accent3); }
+
+  /* ─── Code block ─── */
+  pre.code-block {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 11.5px;
+    color: #a5d6ff;
+    line-height: 1.7;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 820px;
+    text-align: left;
+  }
+  pre.code-block .kw { color: #ff7b72; }
+  pre.code-block .fn { color: #d2a8ff; }
+  pre.code-block .st { color: #a5d6ff; }
+  pre.code-block .cm { color: #8b949e; font-style: italic; }
+  pre.code-block .num { color: #79c0ff; }
+
+  /* ─── Big stat ─── */
+  .big-stat {
+    font-size: clamp(40px, 5vw, 72px);
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-label { font-size: 13px; color: var(--text-dim); margin-top: 4px; }
+
+  /* ─── Divider ─── */
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    margin: 0 auto 24px;
+  }
+
+  /* ─── Annotation arrow ─── */
+  .annotation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11.5px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .annotation::before {
+    content: '→';
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* ─── Slide 1: Hero ─── */
+  #s1 .hero-tag {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.4);
+    border-radius: 24px;
+    padding: 5px 18px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  #s1 .hero-title {
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  #s1 .hero-sub {
+    font-size: clamp(14px, 1.8vw, 20px);
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 700px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .level-pills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .level-pill {
+    padding: 8px 20px;
+    border-radius: 30px;
+    border: 1px solid;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .lp0 { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,0.1); }
+  .lp1 { border-color: #8b5cf6; color: #8b5cf6; background: rgba(139,92,246,0.1); }
+  .lp2 { border-color: #06b6d4; color: #06b6d4; background: rgba(6,182,212,0.1); }
+  .lp3 { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.1); }
+  .lp35 { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
+
+  /* ─── Highlight box ─── */
+  .highlight-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 12px;
+    padding: 16px 22px;
+    max-width: 860px;
+    width: 100%;
+  }
+  .highlight-box.purple { background: rgba(139,92,246,0.08); border-color: rgba(139,92,246,0.3); }
+  .highlight-box.green { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.3); }
+  .highlight-box.yellow { background: rgba(245,158,11,0.08); border-color: rgba(245,158,11,0.3); }
+
+  /* ─── Two col layout ─── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1080px;
+    align-items: start;
+  }
+
+  /* ─── Bullet list ─── */
+  ul.bullet { list-style: none; padding: 0; }
+  ul.bullet li {
+    padding: 5px 0 5px 20px;
+    position: relative;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  ul.bullet li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 11px;
+    top: 7px;
+  }
+  ul.bullet.green li::before { color: var(--green); }
+  ul.bullet.purple li::before { color: var(--accent2); }
+  ul.bullet.yellow li::before { color: var(--yellow); }
+
+  /* ─── Progress bar ─── */
+  #progress {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    z-index: 200;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .slide { padding: 32px 24px; }
+    .g3, .g4 { grid-template-columns: 1fr 1fr; }
+    .timeline { flex-wrap: wrap; }
+    .tl-item { min-width: 45%; }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="progress"></div>
+
+<button class="nav-btn" id="btn-prev">‹</button>
+<button class="nav-btn" id="btn-next">›</button>
+
+<div id="deck">
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 1 — HERO
+  ══════════════════════════════════════════ -->
+  <section class="slide active" id="s1">
+    <div class="hero-tag">POC Deep Dive</div>
+    <h1 class="hero-title">
+      <span class="gradient-text">Neuro-Symbolic AI</span><br>
+      for Intent Classification
+    </h1>
+    <p class="hero-sub">
+      How a pure statistical model evolves into a fully auditable, 
+      ontology-grounded reasoning pipeline — from Level 0 through Level 3.5
+    </p>
+    <div class="level-pills">
+      <span class="level-pill lp0">Level 0 — Statistical</span>
+      <span class="level-pill lp1">Level 1 — Symbolic Rules</span>
+      <span class="level-pill lp2">Level 2 — Clause Validation</span>
+      <span class="level-pill lp3">Level 3 — Neural + Symbol</span>
+      <span class="level-pill lp35">Level 3.5 — Ontology + Reasoning</span>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 2 — THE CORE PROBLEM
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s2">
+    <div class="section-label">The Problem Space</div>
+    <h2 class="slide-title">Why Not Just Use a <span class="gradient-text">Statistical Model?</span></h2>
+    <div class="divider"></div>
+    <div class="grid g3" style="max-width:960px">
+      <div class="card red">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">No Safety Guarantees</div>
+        <div class="card-body">A model predicting <strong>execute</strong> with 60% confidence on a destructive command will still act. There's no structural gate to block it.</div>
+      </div>
+      <div class="card yellow">
+        <span class="card-icon">🔮</span>
+        <div class="card-title">Black Box Decisions</div>
+        <div class="card-body">Softmax probabilities explain nothing. You can't audit <em>why</em> an intent was chosen, or show which rule triggered a block.</div>
+      </div>
+      <div class="card purple">
+        <span class="card-icon">🔄</span>
+        <div class="card-title">No Compositional Reasoning</div>
+        <div class="card-body">Pure models can't extract structured parameters (entity, operation, time window) from an utterance and validate them against policies.</div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:28px;">
+      <div style="font-size:13px; font-weight:700; margin-bottom:6px; color:var(--accent)">The NSAI Answer</div>
+      <div style="font-size:13px; color:var(--text-dim); line-height:1.6">
+        Keep the model for what it's good at — pattern recognition from text. Add a <strong style="color:var(--text)">strict symbolic boundary</strong> so that numbers never drive decisions. Rules, predicates, and ontologies handle the rest — deterministically, auditably, safely.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 3 — DATASET
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s3">
+    <div class="section-label">Shared Foundation</div>
+    <h2 class="slide-title">The <span class="gradient-text">Dataset</span> — Shared Across All Levels</h2>
+    <div class="divider"></div>
+    <div class="two-col" style="align-items:center">
+      <div>
+        <div class="grid" style="gap:12px">
+          <div class="card green">
+            <div class="card-title" style="color:var(--green)">investigate · 149–412 utterances</div>
+            <div class="card-body">"Check CPU usage on app-server-1 over the last hour"</div>
+          </div>
+          <div class="card">
+            <div class="card-title" style="color:var(--accent)">execution · 150–413 utterances</div>
+            <div class="card-body">"Restart the nginx service on web-prod-3"</div>
+          </div>
+          <div class="card cyan">
+            <div class="card-title" style="color:var(--accent3)">summarization · 146–356 utterances</div>
+            <div class="card-body">"Summarize the incidents from last week"</div>
+          </div>
+          <div class="card yellow">
+            <div class="card-title" style="color:var(--yellow)">out_of_scope · 169–480 utterances</div>
+            <div class="card-body">"What's the weather in London today?"</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:20px; align-items:center">
+        <div style="text-align:center">
+          <div class="big-stat">1,661</div>
+          <div class="stat-label">total labeled utterances</div>
+        </div>
+        <div style="text-align:center">
+          <div class="big-stat" style="font-size:clamp(28px,3.5vw,48px)">4</div>
+          <div class="stat-label">intent classes</div>
+        </div>
+        <div class="highlight-box green" style="max-width:400px">
+          <div style="font-size:12px; color:var(--green); font-weight:700; margin-bottom:4px">Domain: SRE / DevOps NLU</div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            Utterances simulate real operator commands — intentionally boundary-crossing between classes to stress-test the symbolic boundary.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 4 — NSAI PRINCIPLES
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s4">
+    <div class="section-label">Core Architecture Principle</div>
+    <h2 class="slide-title">The <span class="gradient-text">Symbolic Boundary</span> — The One Rule That Never Breaks</h2>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div>
+        <div style="margin-bottom:16px">
+          <div style="font-size:13px; font-weight:700; color:var(--accent); margin-bottom:8px">NEURAL ZONE (below the line)</div>
+          <ul class="bullet" style="font-size:13px">
+            <li>Float scores, logits, probabilities</li>
+            <li>TF-IDF weights, embedding activations</li>
+            <li>Confidence values (0.0–1.0)</li>
+            <li>Raw classifier outputs</li>
+          </ul>
+        </div>
+        <div style="border-top:2px dashed var(--accent); padding-top:16px; margin-top:4px">
+          <div style="font-size:13px; font-weight:700; color:var(--accent2); margin-bottom:8px">SYMBOLIC ZONE (above the line)</div>
+          <ul class="bullet purple">
+            <li>Predicates: <code style="font-size:11px; color:var(--text)">CANDIDATE_EXECUTION</code></li>
+            <li>Symbols: <code style="font-size:11px; color:var(--text)">IntentSymbol("execution")</code></li>
+            <li>Frames: <code style="font-size:11px; color:var(--text)">IntentFrame(intent, entity, ...)</code></li>
+            <li>Rules, dispatch tables, plan steps</li>
+          </ul>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="highlight-box purple">
+          <div style="font-size:12px; font-weight:700; color:var(--accent2); margin-bottom:6px">🔒 The Golden Rule</div>
+          <div style="font-size:13px; color:var(--text); line-height:1.6">
+            <strong>Numbers never cross the symbolic boundary.</strong> The rule engine, reasoner, planner, and responder never read a float. They operate on predicates and symbols only.
+          </div>
+        </div>
+        <div class="highlight-box green">
+          <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:6px">✓ What this buys us</div>
+          <ul class="bullet green" style="font-size:12.5px">
+            <li>Rules are human-readable JSON — no Python touch required</li>
+            <li>Swap neural backbone without changing symbolic layer</li>
+            <li>Every decision is auditable with a decision trace</li>
+            <li>Structural safety gates — not post-hoc filtering</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 5 — LEVEL 0
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s5">
+    <div class="section-label">Level 0</div>
+    <h2 class="slide-title"><span style="color:#3b82f6">Level 0</span> — Baseline Statistical Classifier</h2>
+    <p class="slide-subtitle">Pure ML. No rules. No symbolic layer. The benchmark everything else is measured against.</p>
+    <div class="two-col">
+      <div>
+        <div class="pipeline">
+          <div class="pipe-stage">
+            <div class="pipe-num">①</div>
+            <div class="pipe-content">
+              <div class="pipe-name">TF-IDF Vectorizer</div>
+              <div class="pipe-desc">5,000 features · unigrams + bigrams · stop-words stripped</div>
+            </div>
+            <span class="pipe-tag tag-neural">Neural</span>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-num">②</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Logistic Regression (multiclass)</div>
+              <div class="pipe-desc">Outputs probability distribution over 4 intents via softmax</div>
+            </div>
+            <span class="pipe-tag tag-neural">Neural</span>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-num">③</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Confidence Threshold (0.7)</div>
+              <div class="pipe-desc">Below threshold → <strong>abstain</strong>. Above → accept top intent.</div>
+            </div>
+            <span class="pipe-tag tag-data">Heuristic</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px">
+        <div class="card">
+          <div class="card-title">Output</div>
+          <pre class="code-block" style="margin-top:8px; font-size:11px">{
+  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"confidence"</span>: <span class="num">0.92</span>,
+  <span class="st">"evidence_tokens"</span>: [
+    {<span class="st">"token"</span>: <span class="st">"restart"</span>, <span class="st">"weight"</span>: <span class="num">1.23</span>}
+  ]
+}</pre>
+        </div>
+        <div class="grid g2" style="gap:10px">
+          <div class="card green" style="padding:14px">
+            <div style="font-size:22px; font-weight:800; color:var(--green)">~91%</div>
+            <div style="font-size:11px; color:var(--text-dim)">Test Accuracy</div>
+          </div>
+          <div class="card red" style="padding:14px">
+            <div style="font-size:22px; font-weight:800; color:var(--red)">0</div>
+            <div style="font-size:11px; color:var(--text-dim)">Safety Gates</div>
+          </div>
+        </div>
+        <div class="highlight-box" style="padding:12px 16px">
+          <div style="font-size:11.5px; color:var(--text-dim)"><strong style="color:var(--red)">Limitation:</strong> Will predict <em>execution</em> even on destructive commands with no gate to block it. Threshold is hardcoded — no symbolic interpretation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L0 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s5out">
+    <div class="section-label">Level 0 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#3b82f6">L0</span> — What You Actually Get</h2>
+    <div style="background:rgba(59,130,246,0.1); border:1px solid rgba(59,130,246,0.35); border-radius:10px; padding:10px 22px; margin-bottom:18px; text-align:center; max-width:860px; width:100%">
+      <span style="font-size:11px; color:var(--accent); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
+    </div>
+    <div class="two-col" style="max-width:900px">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Inside the model</div>
+        <div class="card" style="padding:14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:2">
+            TF-IDF features activated:<br>
+            <code style="color:var(--green)">restart</code> +1.23 &nbsp; <code style="color:var(--green)">nginx</code> +0.87 &nbsp; <code style="color:var(--green)">service</code> +0.64<br><br>
+            Softmax over 4 intents:<br>
+            <span style="color:var(--green); font-weight:700">execution &nbsp; 0.92</span> ← argmax winner<br>
+            <span style="color:var(--text-dimmer)">investigate 0.05 · summarization 0.02 · oos 0.01</span><br><br>
+            0.92 ≥ 0.70 threshold → <span style="color:var(--green); font-weight:700">accept</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--red)">3 fields</span></div>
+        <pre class="code-block">{
+  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"confidence"</span>: <span class="num">0.92</span>,
+  <span class="st">"evidence_tokens"</span>: [
+    {<span class="st">"token"</span>: <span class="st">"restart"</span>, <span class="st">"weight"</span>: <span class="num">1.23</span>},
+    {<span class="st">"token"</span>: <span class="st">"nginx"</span>,   <span class="st">"weight"</span>: <span class="num">0.87</span>},
+    {<span class="st">"token"</span>: <span class="st">"service"</span>, <span class="st">"weight"</span>: <span class="num">0.64</span>}
+  ]
+}</pre>
+        <div style="margin-top:12px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:var(--red)">What's missing:</strong> No safety check, no decision reason, no audit trail. A destructive <em>prod restart</em> executes immediately on confidence alone.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 6 — LEVEL 1: ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s6">
+    <div class="section-label">Level 1 — 3-Layer Architecture</div>
+    <h2 class="slide-title"><span style="color:#8b5cf6">Level 1</span> — Neuro-Symbolic Decision Layer</h2>
+    <p class="slide-subtitle">Separates <em>what the user wants</em> (intent) from <em>what the system does</em> (decision state). Numbers stop at symbolization.</p>
+    <div class="pipeline" style="flex-direction:row; gap:0; align-items:stretch; max-width:1050px">
+      <div style="flex:1; display:flex; flex-direction:column; gap:8px; margin-right:0">
+        <div class="card" style="flex:1; border-color:#3b82f6">
+          <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--accent); margin-bottom:8px">LAYER 1 — NEURAL DETECTORS</div>
+          <div class="card-body">
+            <strong>4 binary TF-IDF + LR classifiers</strong><br>
+            One per intent (one-vs-rest)<br>
+            Output: raw float scores (stay internal)<br>
+            <code style="font-size:10.5px; color:var(--text-dim)">score(execution) = 0.73</code>
+          </div>
+          <div style="margin-top:8px"><span class="pill pill-blue">Neural</span></div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; padding:0 10px; color:var(--text-dimmer); font-size:20px">→</div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:8px">
+        <div class="card purple" style="flex:1; border-color:#8b5cf6">
+          <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:8px">LAYER 2 — SYMBOLIZATION</div>
+          <div class="card-body">
+            <strong>Thresholds live here and ONLY here</strong><br>
+            score ≥ 0.30 → <code style="font-size:10.5px">CANDIDATE_EXECUTION</code><br>
+            score ≥ 0.85 → <code style="font-size:10.5px">HIGH_CONFIDENCE_EXECUTION</code><br>
+            gap &lt; 0.10 → <code style="font-size:10.5px">AMBIGUOUS</code>
+          </div>
+          <div style="margin-top:8px"><span class="pill pill-purple">Symbolic</span></div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; padding:0 10px; color:var(--text-dimmer); font-size:20px">→</div>
+      <div style="flex:1; display:flex; flex-direction:column; gap:8px">
+        <div class="card green" style="flex:1; border-color:#10b981">
+          <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--green); margin-bottom:8px">LAYER 3 — RULE ENGINE</div>
+          <div class="card-body">
+            <strong>Reads predicates only — no numbers</strong><br>
+            Rules loaded from <code style="font-size:10.5px">rules.json</code><br>
+            R1 (P100): quality gate<br>
+            R4 (P90): safety block<br>
+            R2 (P50): ambiguity flag
+          </div>
+          <div style="margin-top:8px"><span class="pill pill-green">Rules</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="grid g3" style="max-width:1050px; margin-top:16px; gap:12px">
+      <div class="card" style="padding:12px 16px">
+        <div class="card-title">Decision States</div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:6px">
+          <span class="pill pill-green">accepted</span>
+          <span class="pill pill-yellow">needs_clarification</span>
+          <span class="pill" style="background:rgba(239,68,68,0.15); color:#f87171">blocked</span>
+        </div>
+      </div>
+      <div class="card" style="padding:12px 16px">
+        <div class="card-title">Rules are plain JSON</div>
+        <div class="card-body">Human-readable, versionable, zero numeric values — modify without touching Python</div>
+      </div>
+      <div class="card" style="padding:12px 16px">
+        <div class="card-title">Decision Trace</div>
+        <div class="card-body"><code style="font-size:10.5px">detectors_fired · hard_rules_failed · soft_rules_passed · alternatives_eliminated</code></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 7 — LEVEL 1: TRAINING vs INFERENCE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s7">
+    <div class="section-label">Level 1 — Training & Inference Deep Dive</div>
+    <h2 class="slide-title">Level 1 — <span class="gradient-text">Training vs Inference</span> Layer</h2>
+    <div class="divider"></div>
+    <div class="two-col">
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; gap:8px"><span style="font-size:18px">🏋️</span> Training Layer</div>
+        <ul class="bullet">
+          <li><strong>L0 → L1 shift:</strong> 1 multiclass model → 4 independent binary models (one-vs-rest per intent)</li>
+          <li>Each binary detector trained on same corpus, tuned to fire only for its own intent</li>
+          <li>Scores are independent floats — they do <em>not</em> sum to 1</li>
+          <li>Thresholds (<code>BASE_MIN_SCORE=0.30</code>, <code>HIGH_CONFIDENCE=0.85</code>) tuned during training but stored in <code>CONFIG</code>, not in model weights</li>
+          <li>Rules (<code>rules.json</code>) are authored by domain experts, not learned — zero training dependency</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:13px; font-weight:700; color:var(--accent2); margin-bottom:12px; display:flex; align-items:center; gap:8px"><span style="font-size:18px">⚡</span> Inference Layer</div>
+        <ul class="bullet purple">
+          <li>4 detectors run in parallel → 4 raw scores emitted</li>
+          <li>Symbolization converts every score to predicates: threshold logic fires once, here, and nowhere else</li>
+          <li>Rule engine processes predicate set via priority queue (R1→R4→R2→R3)</li>
+          <li>First matching rule determines <code>decision_state</code> + <code>decision_reason</code></li>
+          <li>Full <code>decision_trace</code> attached to every output for auditability</li>
+        </ul>
+        <div class="highlight-box" style="margin-top:14px; padding:12px 16px">
+          <pre class="code-block" style="font-size:10.5px">{
+  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"decision_state"</span>: <span class="st">"blocked"</span>,
+  <span class="st">"triggered_rules"</span>: [{<span class="st">"rule_id"</span>: <span class="st">"R4"</span>, <span class="st">"category"</span>: <span class="st">"safety"</span>}]
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L1 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s7out">
+    <div class="section-label">Level 1 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#8b5cf6">L1</span> — Same Utterance, Now Blocked</h2>
+    <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:860px; width:100%">
+      <span style="font-size:11px; color:var(--accent2); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
+    </div>
+    <div class="two-col" style="max-width:960px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="card" style="padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">① Detector scores (internal, not shared)</div>
+          <div style="font-size:12px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            execution:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong style="color:var(--green)">0.73</strong> (highest)<br>
+            investigate:&nbsp;&nbsp;0.12<br>
+            summarization: 0.05<br>
+            out_of_scope:&nbsp; 0.08
+          </div>
+        </div>
+        <div class="card purple" style="padding:12px 14px; border-color:#8b5cf6">
+          <div style="font-size:11px; font-weight:700; color:var(--accent2); margin-bottom:6px">② Predicates emitted (symbolization layer)</div>
+          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            CANDIDATE_EXECUTION ✓<br>
+            NOT_HIGH_CONFIDENCE_EXECUTION ✓ <span style="color:var(--text-dimmer)">(0.73 &lt; 0.85)</span><br>
+            RAW_TOKEN_COUNT_SUFFICIENT ✓<br>
+            AMBIGUOUS ✗ <span style="color:var(--text-dimmer)">(gap=0.61, fine)</span>
+          </div>
+        </div>
+        <div class="card green" style="padding:12px 14px; border-color:#10b981">
+          <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:6px">③ Rule engine (reads predicates only)</div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
+            R1 quality P100 → PASS<br>
+            <strong style="color:var(--red)">R4 safety P90 → FIRED</strong><br>
+            CANDIDATE_EXECUTION ∧ NOT_HIGH_CONFIDENCE_EXECUTION → blocked
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--accent2)">7 fields + full trace</span></div>
+        <pre class="code-block" style="font-size:10.5px">{
+  <span class="st">"predicted_intent"</span>:  <span class="st">"execution"</span>,
+  <span class="st">"decision_state"</span>:    <span class="st">"blocked"</span>,
+  <span class="st">"decision_reason"</span>:   <span class="st">"execution_safety_block"</span>,
+  <span class="st">"triggered_rules"</span>: [{
+    <span class="st">"rule_id"</span>:   <span class="st">"R4"</span>,
+    <span class="st">"category"</span>: <span class="st">"safety"</span>,
+    <span class="st">"priority"</span>: <span class="num">90</span>
+  }],
+  <span class="st">"decision_trace"</span>: {
+    <span class="st">"detectors_fired"</span>:        [<span class="st">"execution"</span>],
+    <span class="st">"hard_rules_failed"</span>:      [<span class="st">"R4"</span>],
+    <span class="st">"soft_rules_passed"</span>:      [],
+    <span class="st">"alternatives_eliminated"</span>: []
+  }
+}</pre>
+        <div style="margin-top:10px; background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:var(--accent2)">vs L0:</strong> Same intent detected — but now the system <em>blocks</em> it with a named reason, priority-ordered rule trace, and full audit log. The rule is JSON — no code change to tighten it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 8 — LEVEL 2
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s8">
+    <div class="section-label">Level 2</div>
+    <h2 class="slide-title"><span style="color:#06b6d4">Level 2</span> — Clause Extraction &amp; Symbolic Validation</h2>
+    <p class="slide-subtitle">Intent is known (from Level 1). Now: extract <em>structured parameters</em>, validate them against policy, iterate if needed.</p>
+    <div class="pipeline" style="max-width:860px">
+      <div class="pipe-stage">
+        <div class="pipe-num" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">①</div>
+        <div class="pipe-content">
+          <div class="pipe-name">Neural Adapter (adapter.py)</div>
+          <div class="pipe-desc">Structured clause candidates + per-clause confidence. Accepts <code>AdapterFeedback</code> for iterative refinement</div>
+        </div>
+        <span class="pipe-tag tag-neural">Neural</span>
+      </div>
+      <div class="pipe-stage">
+        <div class="pipe-num" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">②</div>
+        <div class="pipe-content">
+          <div class="pipe-name">Clause Extractor (clause_extractor.py)</div>
+          <div class="pipe-desc">Merges adapter + deterministic regex/keyword detectors. Feedback collapse on 2nd pass. Extracts: entity · operation · metric · time_window · environment · condition · constraint</div>
+        </div>
+        <span class="pipe-tag tag-symbol">Hybrid</span>
+      </div>
+      <div class="pipe-stage">
+        <div class="pipe-num" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">③</div>
+        <div class="pipe-content">
+          <div class="pipe-name">Normalizer (normalizer.py)</div>
+          <div class="pipe-desc">Alias collapsing (<code>reboot→restart</code>), ISO-8601 canonicalization (<code>pt30m→PT30M</code>)</div>
+        </div>
+        <span class="pipe-tag tag-symbol">Symbolic</span>
+      </div>
+      <div class="pipe-stage">
+        <div class="pipe-num" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">④</div>
+        <div class="pipe-content">
+          <div class="pipe-name">Validator (validator.py) + Iteration Loop</div>
+          <div class="pipe-desc">Intent-specific hard rules + policy gates + soft rules → <code>decision_state</code>. If <code>needs_clarification</code>: feedback → back to adapter (max iterations)</div>
+        </div>
+        <span class="pipe-tag tag-rule">Rules</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L2 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s8out">
+    <div class="section-label">Level 2 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#06b6d4">L2</span> — Clauses Extracted &amp; Validated</h2>
+    <div style="background:rgba(6,182,212,0.1); border:1px solid rgba(6,182,212,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:940px; width:100%">
+      <span style="font-size:11px; color:var(--accent3); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Restart nginx on web-prod-3, needs approval"</span>
+      <span style="font-size:11px; color:var(--text-dimmer); margin-left:10px">(intent=execution from L1)</span>
+    </div>
+    <div class="two-col" style="max-width:980px">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Clauses extracted + validated</div>
+        <table style="width:100%; border-collapse:collapse; font-size:12px">
+          <tr style="background:var(--surface2)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700; border-bottom:1px solid var(--border)">Clause</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">Value</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">Source</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">Status</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700">entity</td>
+            <td style="padding:7px 10px;"><code style="font-size:11px">web-prod-3</code></td>
+            <td style="padding:7px 10px;"><span class="pill pill-blue" style="font-size:9.5px">regex</span></td>
+            <td style="padding:7px 10px; color:var(--green)">✓</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700">operation</td>
+            <td style="padding:7px 10px;"><code style="font-size:11px">restart</code></td>
+            <td style="padding:7px 10px;"><span class="pill pill-green" style="font-size:9.5px">keyword</span></td>
+            <td style="padding:7px 10px; color:var(--green)">✓</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700">environment</td>
+            <td style="padding:7px 10px;"><code style="font-size:11px">prod</code></td>
+            <td style="padding:7px 10px;"><span class="pill pill-purple" style="font-size:9.5px">alias</span></td>
+            <td style="padding:7px 10px; color:var(--green)">✓</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700">constraint</td>
+            <td style="padding:7px 10px;"><code style="font-size:11px">requires_approval</code></td>
+            <td style="padding:7px 10px;"><span class="pill pill-yellow" style="font-size:9.5px">keyword</span></td>
+            <td style="padding:7px 10px; color:var(--yellow)">gate</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700">time_window</td>
+            <td style="padding:7px 10px; color:var(--text-dimmer)">—</td>
+            <td style="padding:7px 10px; color:var(--text-dimmer)">none</td>
+            <td style="padding:7px 10px; color:var(--text-dimmer)">optional</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--accent3)">structured decision + feedback</span></div>
+        <pre class="code-block" style="font-size:10.5px">{
+  <span class="st">"decision_state"</span>: <span class="st">"blocked"</span>,
+  <span class="st">"clauses"</span>: {
+    <span class="st">"entity"</span>:      [<span class="st">"web-prod-3"</span>],
+    <span class="st">"operation"</span>:   [<span class="st">"restart"</span>],
+    <span class="st">"environment"</span>: [<span class="st">"prod"</span>],
+    <span class="st">"constraint"</span>:  [<span class="st">"requires_approval"</span>]
+  },
+  <span class="st">"violations"</span>: [
+    <span class="st">"prod_execution_requires_approval"</span>
+  ],
+  <span class="st">"ambiguous_clauses"</span>: [],
+  <span class="st">"feedback"</span>: <span class="st">"Approval token missing for prod execution"</span>
+}</pre>
+        <div style="margin-top:10px; background:rgba(6,182,212,0.08); border:1px solid rgba(6,182,212,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:var(--accent3)">vs L1:</strong> Intent alone wasn't enough. Now we have <em>what</em> to restart, <em>where</em>, and <em>why</em> it's blocked — with structured feedback the caller can act on, and an iteration loop to resolve it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9 — LEVEL 3
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s9">
+    <div class="section-label">Level 3</div>
+    <h2 class="slide-title"><span style="color:#10b981">Level 3</span> — Neural Embedding + Symbol Emitter</h2>
+    <p class="slide-subtitle">Replaces TF-IDF with a <em>learned embedding model</em>. The symbolic boundary is now enforced by a typed dataclass — the class index never escapes Stage 1.</p>
+    <div class="two-col">
+      <div class="pipeline">
+        <div class="pipe-stage">
+          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">①</div>
+          <div class="pipe-content">
+            <div class="pipe-name">NeuralIntentModel (PyTorch)</div>
+            <div class="pipe-desc"><code>nn.Embedding(vocab) → mean-pool → Linear → argmax → class_index (int)</code><br>Embed dim: 16 · Max len: 12 · 40 epochs</div>
+          </div>
+          <span class="pipe-tag tag-neural">Neural</span>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">②</div>
+          <div class="pipe-content">
+            <div class="pipe-name">Symbol Emitter</div>
+            <div class="pipe-desc"><code>class_index (int) → IntentSymbol(intent: str)</code><br>Validated dataclass — no logits cross this boundary</div>
+          </div>
+          <span class="pipe-tag tag-symbol">Symbolic</span>
+        </div>
+        <div class="pipe-stage">
+          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">③</div>
+          <div class="pipe-content">
+            <div class="pipe-name">Rule Engine (pure dispatch)</div>
+            <div class="pipe-desc"><code>IntentSymbol → {action, requires_approval}</code><br>No numerics — operates on intent strings only</div>
+          </div>
+          <span class="pipe-tag tag-rule">Rules</span>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:14px">
+        <div class="highlight-box green">
+          <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:6px">Training Shift from L1 → L3</div>
+          <ul class="bullet green" style="font-size:12px">
+            <li>TF-IDF → learned word embeddings (PyTorch nn.Embedding)</li>
+            <li>Multiclass logistic regression → Linear layer + argmax</li>
+            <li>Token count heuristics → implicit sequence length padding</li>
+            <li>Rules still authored separately — training never touches them</li>
+          </ul>
+        </div>
+        <div class="card" style="padding:14px 16px">
+          <div class="card-title">Output</div>
+          <pre class="code-block" style="font-size:10.5px; margin-top:6px">{
+  <span class="st">"symbol"</span>: <span class="st">"execution"</span>,
+  <span class="st">"decision"</span>: {
+    <span class="st">"action"</span>: <span class="st">"execute_with_approval"</span>,
+    <span class="st">"requires_approval"</span>: <span class="kw">true</span>
+  }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L3 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s9out">
+    <div class="section-label">Level 3 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#10b981">L3</span> — Typed Symbol, Typed Decision</h2>
+    <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:860px; width:100%">
+      <span style="font-size:11px; color:var(--green); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
+    </div>
+    <div class="two-col" style="max-width:960px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="card" style="padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">① Neural Model (PyTorch Embedding)</div>
+          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:2">
+            tokens &nbsp;→ [restart, nginx, service, web-prod-3]<br>
+            ids &nbsp;&nbsp;&nbsp;&nbsp;→ [42, 17, 88, 203, 0, 0, 0, 0] (pad→12)<br>
+            embed &nbsp;&nbsp;→ 16-dim vectors per token<br>
+            pool &nbsp;&nbsp;&nbsp;→ mean across sequence → 1×16<br>
+            linear &nbsp;→ [−0.3, <strong style="color:var(--green)">2.1</strong>, 0.4, −1.2] (logits)<br>
+            argmax &nbsp;→ <strong style="color:var(--green)">1</strong> &nbsp;← stays internal
+          </div>
+        </div>
+        <div class="card green" style="padding:12px 14px; border-color:#10b981">
+          <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:6px">② Symbol Emitter → ③ Rule Dispatch</div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.9">
+            <code>1 → IntentSymbol("execution")</code><br>
+            dispatch["execution"] →<br>
+            &nbsp;&nbsp;action = "execute_with_approval"<br>
+            &nbsp;&nbsp;requires_approval = <span style="color:var(--yellow)">true</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--green)">typed symbol + action</span></div>
+        <pre class="code-block">{
+  <span class="st">"symbol"</span>: <span class="st">"execution"</span>,
+  <span class="st">"decision"</span>: {
+    <span class="st">"action"</span>:            <span class="st">"execute_with_approval"</span>,
+    <span class="st">"requires_approval"</span>: <span class="kw">true</span>
+  }
+}</pre>
+        <div style="margin-top:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:var(--green)">vs L1:</strong> Same symbolic boundary principle — but the neural backbone is now learned word embeddings, not TF-IDF. The class index never escapes Stage 1, mirroring L1's numeric gate.<br><br>
+            <strong style="color:var(--green)">vs L0:</strong> <code>requires_approval</code> is now a structured, typed field — not a missing absence.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 10 — LEVEL 3.5
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s10">
+    <div class="section-label">Level 3.5</div>
+    <h2 class="slide-title"><span style="color:#f59e0b">Level 3.5</span> — Ontology-Grounded 4-Stage Pipeline</h2>
+    <p class="slide-subtitle">Intent is one signal. Level 3.5 builds a full <em>IntentFrame</em> — entity, symptom, time — then reasons, plans, and responds deterministically.</p>
+    <div class="pipeline" style="flex-direction:row; gap:0; max-width:1080px; align-items:stretch">
+      <div style="flex:1; display:flex; flex-direction:column">
+        <div class="card yellow" style="flex:1; border-color:#f59e0b">
+          <div style="font-size:9.5px; font-weight:800; letter-spacing:2px; color:var(--yellow); margin-bottom:8px">STAGE 1 — SEMANTIC PARSER</div>
+          <div class="card-body" style="font-size:11px">
+            TF-IDF+LR intent classifier<br>
+            EntityMatcher (alias → TF-IDF fallback)<br>
+            Symptom extractor<br>
+            Time context extractor<br>
+            Domain guard
+          </div>
+          <div style="margin-top:8px; font-size:10px; color:var(--yellow)">→ IntentFrame</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; color:var(--text-dimmer); font-size:20px; padding:0 6px">→</div>
+      <div style="flex:1; display:flex; flex-direction:column">
+        <div class="card purple" style="flex:1; border-color:#8b5cf6">
+          <div style="font-size:9.5px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:8px">STAGE 2 — REASONER</div>
+          <div class="card-body" style="font-size:11px">
+            Reads IntentFrame symbols only<br>
+            Deterministic mode selection:<br>
+            investigate → diagnostic<br>
+            execution → action<br>
+            summarization → reporting<br>
+            out_of_scope → reject
+          </div>
+          <div style="margin-top:8px; font-size:10px; color:var(--accent2)">→ reasoning dict</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; color:var(--text-dimmer); font-size:20px; padding:0 6px">→</div>
+      <div style="flex:1; display:flex; flex-direction:column">
+        <div class="card cyan" style="flex:1; border-color:#06b6d4">
+          <div style="font-size:9.5px; font-weight:800; letter-spacing:2px; color:var(--accent3); margin-bottom:8px">STAGE 3 — PLANNER</div>
+          <div class="card-body" style="font-size:11px">
+            Maps reasoning mode<br>→ ordered list of plan steps<br><br>
+            diagnostic:<br>
+            [check metrics, identify anomalies, correlate events]
+          </div>
+          <div style="margin-top:8px; font-size:10px; color:var(--accent3)">→ plan steps</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; color:var(--text-dimmer); font-size:20px; padding:0 6px">→</div>
+      <div style="flex:1; display:flex; flex-direction:column">
+        <div class="card green" style="flex:1; border-color:#10b981">
+          <div style="font-size:9.5px; font-weight:800; letter-spacing:2px; color:var(--green); margin-bottom:8px">STAGE 4 — RESPONDER</div>
+          <div class="card-body" style="font-size:11px">
+            frame + reasoning + plan<br>
+            → user-facing response string<br><br>
+            Deterministic — no model call,<br>no hallucination risk
+          </div>
+          <div style="margin-top:8px; font-size:10px; color:var(--green)">→ response</div>
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box yellow" style="margin-top:16px; padding:12px 18px">
+      <div style="font-size:12px; font-weight:700; color:var(--yellow); margin-bottom:4px">Key Innovation at L3.5</div>
+      <div style="font-size:12.5px; color:var(--text-dim)">All domain knowledge lives in <strong style="color:var(--text)">ontology.py</strong> — INTENTS, ENTITIES, ENTITY_ALIASES, SYMPTOM_ALIASES, TIME_CONTEXT_PATTERNS. Pipeline stages are domain-agnostic. Swap ontology → new domain, zero code changes.</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L3.5 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s10out">
+    <div class="section-label">Level 3.5 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#f59e0b">L3.5</span> — Full Reasoning Chain</h2>
+    <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.35); border-radius:10px; padding:10px 22px; margin-bottom:12px; text-align:center; max-width:980px; width:100%">
+      <span style="font-size:11px; color:var(--yellow); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Check CPU spike on app-server-1 over the last 30 minutes"</span>
+    </div>
+    <div class="two-col" style="max-width:1020px">
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div class="card yellow" style="padding:11px 14px; border-color:#f59e0b">
+          <div style="font-size:10.5px; font-weight:700; color:var(--yellow); margin-bottom:5px">Stage 1 — IntentFrame (parser output)</div>
+          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            intent:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"investigate" &nbsp;conf: 0.91<br>
+            entity:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"app-server-1"  (alias match)<br>
+            symptom:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"cpu_spike"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(keyword)<br>
+            time_context: "PT30M"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(pattern)
+          </div>
+        </div>
+        <div class="card purple" style="padding:11px 14px; border-color:#8b5cf6">
+          <div style="font-size:10.5px; font-weight:700; color:var(--accent2); margin-bottom:5px">Stage 2 — Reasoning (pure symbols, no floats)</div>
+          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            mode:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"diagnostic"<br>
+            target:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"app-server-1"<br>
+            entity_type:&nbsp;&nbsp;"server"<br>
+            symptom_focus: "cpu_spike"
+          </div>
+        </div>
+        <div class="card cyan" style="padding:11px 14px; border-color:#06b6d4">
+          <div style="font-size:10.5px; font-weight:700; color:var(--accent3); margin-bottom:5px">Stage 3 — Plan steps</div>
+          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            1. fetch_metrics(app-server-1, cpu, PT30M)<br>
+            2. identify_anomalies(cpu_spike)<br>
+            3. correlate_events(PT30M)<br>
+            4. generate_report()
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="card green" style="padding:13px 14px; border-color:#10b981">
+          <div style="font-size:10.5px; font-weight:700; color:var(--green); margin-bottom:8px">Stage 4 — Response (deterministic, zero LLM)</div>
+          <div style="font-size:13px; color:var(--text); line-height:1.7; font-style:italic">
+            "Investigating CPU spike on app-server-1 over the last 30 minutes. Diagnostic plan: fetching CPU metrics → identifying anomalies → correlating events → generating report."
+          </div>
+        </div>
+        <div class="card" style="padding:11px 14px">
+          <div style="font-size:10.5px; font-weight:700; color:var(--text-dim); margin-bottom:8px">Output dimensions — <span style="color:var(--yellow)">4 structured layers</span></div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:2.1">
+            <span class="pill pill-yellow" style="font-size:9.5px">frame</span>&nbsp; intent · entity · symptom · time · confidence<br>
+            <span class="pill pill-purple" style="font-size:9.5px">reasoning</span>&nbsp; mode · target · entity_type · symptom_focus<br>
+            <span class="pill pill-cyan" style="font-size:9.5px">plan</span>&nbsp; ordered typed action steps<br>
+            <span class="pill pill-green" style="font-size:9.5px">response</span>&nbsp; human string — no hallucination risk
+          </div>
+        </div>
+        <div style="background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:var(--yellow)">vs L3:</strong> Not just "what intent" — now <em>who, what symptom, when</em>, with a full reasoning chain and a human response. All deterministic. No hallucination.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 11 — TRAINING EVOLUTION TABLE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s11">
+    <div class="section-label">Training Layer</div>
+    <h2 class="slide-title">How <span class="gradient-text">Training</span> Evolved</h2>
+    <div class="divider"></div>
+    <div style="width:100%; max-width:1080px; overflow-x:auto">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Model Architecture</th>
+          <th>Training Objective</th>
+          <th>What's Learned</th>
+          <th>What's Authored</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-blue">L0</span></td>
+          <td>1× TF-IDF + Logistic Regression (4-class)</td>
+          <td>Cross-entropy over 4 intents</td>
+          <td>TF-IDF weights + LR coefficients</td>
+          <td>Confidence threshold (0.7)</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">L1</span></td>
+          <td>4× binary TF-IDF + LR (one-vs-rest per intent)</td>
+          <td>Binary cross-entropy × 4</td>
+          <td>4 independent detector weights</td>
+          <td>Thresholds in CONFIG · rules.json</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-cyan">L2</span></td>
+          <td>Neural adapter stub + regex/keyword detectors</td>
+          <td>No end-to-end training (heuristic detectors)</td>
+          <td>TF-IDF entity similarity (cosine)</td>
+          <td>Regex patterns · keyword lists · validator rules</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-green">L3</span></td>
+          <td>PyTorch nn.Embedding → mean-pool → Linear</td>
+          <td>Cross-entropy, 40 epochs, Adam 1e-3</td>
+          <td>Word embeddings (16-dim) + classification weights</td>
+          <td>Rule dispatch table (pure Python dict)</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-yellow">L3.5</span></td>
+          <td>TF-IDF+LR intent + TF-IDF entity matcher</td>
+          <td>Intent: cross-entropy · Entity: cosine similarity</td>
+          <td>Intent representations + entity alias proximity</td>
+          <td>ontology.py (all domain knowledge)</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="highlight-box" style="margin-top:18px; padding:12px 18px">
+      <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
+        <strong style="color:var(--text)">Pattern:</strong> Training scope stays narrow (predict intent from text). Complexity migrates <em>out</em> of training into symbolic components — rules, ontologies, validators — that are authored, not learned.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 12 — INFERENCE EVOLUTION TABLE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s12">
+    <div class="section-label">Inference Layer</div>
+    <h2 class="slide-title">How <span class="gradient-text">Inference</span> Evolved</h2>
+    <div class="divider"></div>
+    <div style="width:100%; max-width:1080px; overflow-x:auto">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Input</th>
+          <th>Decision Mechanism</th>
+          <th>Output</th>
+          <th>Safety</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pill pill-blue">L0</span></td>
+          <td>Raw utterance</td>
+          <td>argmax(softmax) + threshold check</td>
+          <td>intent + confidence + token weights</td>
+          <td style="color:var(--red)">None</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-purple">L1</span></td>
+          <td>Raw utterance</td>
+          <td>4 scores → predicates → priority rule chain</td>
+          <td>intent + decision_state + triggered_rules + trace</td>
+          <td style="color:var(--yellow)">R4 safety block</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-cyan">L2</span></td>
+          <td>Utterance + intent from L1</td>
+          <td>Extract clauses → normalize → validate → iterate</td>
+          <td>decision_state + clause dict + feedback</td>
+          <td style="color:var(--green)">Policy gates on clauses</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-green">L3</span></td>
+          <td>Tokenized utterance (int ids)</td>
+          <td>embedding → argmax → IntentSymbol → dispatch table</td>
+          <td>symbol + action + requires_approval</td>
+          <td style="color:var(--green)">requires_approval flag</td>
+        </tr>
+        <tr>
+          <td><span class="pill pill-yellow">L3.5</span></td>
+          <td>Raw utterance</td>
+          <td>Parse → IntentFrame → reason → plan → respond</td>
+          <td>frame + reasoning + plan + response string</td>
+          <td style="color:var(--green)">Domain guard + mode reject</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="highlight-box purple" style="margin-top:18px; padding:12px 18px">
+      <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
+        <strong style="color:var(--text)">Pattern:</strong> Each level adds more symbolic structure between model output and user-facing decision. By L3.5, the model is one of four extractors — the reasoning, planning, and response are fully deterministic.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 13 — FULL EVOLUTION TIMELINE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s13">
+    <div class="section-label">The Full Arc</div>
+    <h2 class="slide-title"><span class="gradient-text">Evolution</span> at a Glance</h2>
+    <div class="divider"></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#3b82f6; color:#3b82f6">L0</div>
+        <div class="tl-label">Statistical</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#3b82f6">1 model, no rules</div>
+          <div class="tl-card-body">TF-IDF + LR multiclass. Confidence threshold. Output: intent + score. No auditability, no safety.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#8b5cf6; color:#8b5cf6">L1</div>
+        <div class="tl-label">Neuro-Symbolic</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#8b5cf6">4 detectors + symbolic rules</div>
+          <div class="tl-card-body">Scores → predicates → rule chain. decision_state. decision_trace. Safety R4 gate. Rules in JSON.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#06b6d4; color:#06b6d4">L2</div>
+        <div class="tl-label">Clause Validation</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#06b6d4">Structure extraction + iterate</div>
+          <div class="tl-card-body">Neural adapter + deterministic clause extractors. Normalizer. Validator with feedback loop. Policy gates.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#10b981; color:#10b981">L3</div>
+        <div class="tl-label">Neural Symbols</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#10b981">Embeddings + typed symbols</div>
+          <div class="tl-card-body">PyTorch embeddings → class_idx → IntentSymbol → dispatch. Strict typed boundary. No logits cross stage.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#f59e0b; color:#f59e0b">L3.5</div>
+        <div class="tl-label">Ontology + Reasoning</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#f59e0b">4-stage pipeline</div>
+          <div class="tl-card-body">Parse → IntentFrame → Reason → Plan → Respond. Ontology-grounded. Domain-swappable. Zero hallucination in decision path.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 14 — KEY TAKEAWAYS
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s14">
+    <div class="section-label">Summary</div>
+    <h2 class="slide-title">Core <span class="gradient-text">NSAI Insights</span></h2>
+    <div class="divider"></div>
+    <div class="grid g2" style="max-width:960px; gap:16px">
+      <div class="card">
+        <span class="card-icon">🔢→🔤</span>
+        <div class="card-title">Numbers → Symbols, Once</div>
+        <div class="card-body">Threshold logic fires exactly once, in the symbolization layer. Rules, reasoners, planners never read a float. This is the single most important structural decision.</div>
+      </div>
+      <div class="card purple">
+        <span class="card-icon">📋</span>
+        <div class="card-title">Rules are Data, Not Code</div>
+        <div class="card-body">From L1 onward, decision logic lives in JSON files and dispatch dicts — inspectable, versionable, modifiable by domain experts without touching Python.</div>
+      </div>
+      <div class="card green">
+        <span class="card-icon">🔌</span>
+        <div class="card-title">Swappable Neural Backbone</div>
+        <div class="card-body">The symbolic layer is entirely decoupled from the model. Swap TF-IDF for a transformer — the rule engine, reasoner, and planner don't change at all.</div>
+      </div>
+      <div class="card yellow">
+        <span class="card-icon">🛡️</span>
+        <div class="card-title">Structural Safety vs Post-hoc Masking</div>
+        <div class="card-body">L1 blocks at the rule level. L3.5 rejects at the reasoner level. Neither can be defeated by model overconfidence — the symbolic gate is always in the path.</div>
+      </div>
+      <div class="card cyan">
+        <span class="card-icon">🔍</span>
+        <div class="card-title">Full Auditability at Every Level</div>
+        <div class="card-body">Every prediction carries a trace: which detectors fired, which rules triggered, which predicates were active. No black-box decisions from L1 onward.</div>
+      </div>
+      <div class="card" style="border-color:#f59e0b">
+        <span class="card-icon">🧩</span>
+        <div class="card-title">Ontology = Domain Knowledge Hub</div>
+        <div class="card-body">By L3.5, all domain knowledge (entities, aliases, symptoms, time patterns) is centralized in ontology.py. Pipeline stages are domain-agnostic — point at a new ontology and done.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /#deck -->
+
+<!-- ─── Progress dots ─── -->
+<div id="navbar">
+  <div class="dot active" data-idx="0"></div>
+  <div class="dot" data-idx="1"></div>
+  <div class="dot" data-idx="2"></div>
+  <div class="dot" data-idx="3"></div>
+  <div class="dot" data-idx="4"></div>
+  <div class="dot" data-idx="5"></div>
+  <div class="dot" data-idx="6"></div>
+  <div class="dot" data-idx="7"></div>
+  <div class="dot" data-idx="8"></div>
+  <div class="dot" data-idx="9"></div>
+  <div class="dot" data-idx="10"></div>
+  <div class="dot" data-idx="11"></div>
+  <div class="dot" data-idx="12"></div>
+  <div class="dot" data-idx="13"></div>
+  <div class="dot" data-idx="14"></div>
+  <div class="dot" data-idx="15"></div>
+  <div class="dot" data-idx="16"></div>
+  <div class="dot" data-idx="17"></div>
+  <div class="dot" data-idx="18"></div>
+  <span id="slide-counter">1 / 19</span>
+</div>
+
+<script>
+  // ─── Background particle canvas ───
+  (function() {
+    const c = document.getElementById('bg-canvas');
+    const ctx = c.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = c.width = window.innerWidth;
+      H = c.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    for (let i = 0; i < 80; i++) {
+      particles.push({
+        x: Math.random() * 1920,
+        y: Math.random() * 1080,
+        r: Math.random() * 1.5 + 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        a: Math.random() * 0.6 + 0.1
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+
+      // Grid lines
+      ctx.strokeStyle = 'rgba(59,130,246,0.06)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < W; x += 80) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+      }
+      for (let y = 0; y < H; y += 80) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+      }
+
+      // Particles
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(139,92,246,${p.a})`;
+        ctx.fill();
+      });
+
+      // Connections
+      particles.forEach((a, i) => {
+        particles.slice(i + 1).forEach(b => {
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < 120) {
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(59,130,246,${0.12 * (1 - d / 120)})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        });
+      });
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  // ─── Slide deck logic ───
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const dots   = Array.from(document.querySelectorAll('.dot'));
+  const counter = document.getElementById('slide-counter');
+  const progress = document.getElementById('progress');
+  let current = 0;
+  let isAnimating = false;
+
+  function goTo(idx) {
+    if (idx === current || isAnimating) return;
+    isAnimating = true;
+
+    const from = slides[current];
+    const to   = slides[idx];
+
+    from.classList.add('exit');
+    from.classList.remove('active');
+
+    // small delay so exit animation runs before active applied
+    requestAnimationFrame(() => {
+      to.classList.add('active');
+      dots[current].classList.remove('active');
+      dots[idx].classList.add('active');
+      current = idx;
+      counter.textContent = `${idx + 1} / ${slides.length}`;
+      progress.style.transform = `scaleX(${(idx + 1) / slides.length})`;
+
+      setTimeout(() => {
+        from.classList.remove('exit');
+        isAnimating = false;
+      }, 500);
+    });
+  }
+
+  document.getElementById('btn-next').addEventListener('click', () => goTo(Math.min(current + 1, slides.length - 1)));
+  document.getElementById('btn-prev').addEventListener('click', () => goTo(Math.max(current - 1, 0)));
+
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      goTo(Math.min(current + 1, slides.length - 1));
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(Math.max(current - 1, 0));
+    }
+    if (e.key === 'Home') goTo(0);
+    if (e.key === 'End') goTo(slides.length - 1);
+  });
+
+  // Touch swipe
+  let touchStartX = 0;
+  document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 50) dx < 0
+      ? goTo(Math.min(current + 1, slides.length - 1))
+      : goTo(Math.max(current - 1, 0));
+  }, { passive: true });
+
+  // Set initial progress
+  progress.style.transform = `scaleX(${1 / slides.length})`;
+</script>
+</body>
+</html>

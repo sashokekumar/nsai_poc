@@ -1,8 +1,8 @@
-# Level 4: Ontology-Grounded Neuro-Symbolic Intent Pipeline
+# Level 3.5: Ontology-Grounded Neuro-Symbolic Intent Pipeline
 
 ## Overview
 
-Level 4 implements a **4-stage neuro-symbolic pipeline** that extends intent recognition into structured reasoning, planning, and response generation. The key design principle is strict stage separation: the ML model produces an intent label and confidence score, the semantic parser converts utterance text into a typed `IntentFrame` (using ontology-grounded symbolic matchers), and every downstream stage — reasoner, planner, responder — operates exclusively on that structured frame.
+Level 3.5 implements a **4-stage neuro-symbolic pipeline** that extends intent recognition into structured reasoning, planning, and response generation. The key design principle is strict stage separation: the ML model produces an intent label and confidence score, the semantic parser converts utterance text into a typed `IntentFrame` (using ontology-grounded symbolic matchers), and every downstream stage — reasoner, planner, responder — operates exclusively on that structured frame.
 
 No raw ML probabilities cross the symbolic boundary. The reasoner never reads a confidence score; it reads symbolic mode labels. This makes every decision **auditable, deterministic, and modifiable** without retraining the model.
 
@@ -62,8 +62,8 @@ No raw ML probabilities cross the symbolic boundary. The reasoner never reads a 
 | `planner.py` | Maps reasoning mode → ordered list of plan steps |
 | `responder.py` | Generates user-facing response string from frame + reasoning + plan |
 | `pipeline.py` | `run_pipeline(utterance)` — chains all four stages |
-| `level4_ns_intent.ipynb` | End-to-end notebook: train model → run pipeline → evaluate → save output |
-| `data/level4_structured_output.csv` | Full dataset output: intent, entity, symptom, time_context, reasoning mode per row |
+| `level3_5_ns_intent.ipynb` | End-to-end notebook: train model → run pipeline → evaluate → save output |
+| `data/level3_5_structured_output.csv` | Full dataset output: intent, entity, symptom, time_context, reasoning mode per row |
 
 ---
 
@@ -222,7 +222,7 @@ return (
 
 ## Notebook
 
-### `level4_ns_intent.ipynb`
+### `level3_5_ns_intent.ipynb`
 
 End-to-end training, evaluation, and inference notebook. Run all cells top-to-bottom to go from raw CSV to a working inference pipeline.
 
@@ -230,23 +230,23 @@ End-to-end training, evaluation, and inference notebook. Run all cells top-to-bo
 |---|---|
 | 1 | Imports — pandas, os, sys |
 | 2 | Repo root detection — adds root to `sys.path` |
-| 3 | Force-reload level4 modules — purges stale `sys.modules` entries, then re-imports all `level4.*` modules |
+| 3 | Force-reload level3_5 modules — purges stale `sys.modules` entries, then re-imports all `level3_5.*` modules |
 | 4 | Load dataset from `data/intents_base.csv` |
 | Train | Train `IntentClassifier` on dataset; saves to `intent_model.joblib` |
 | 5 | Dataset validation — check required columns and print intent distribution |
 | 6 | Run single example through `run_pipeline()` — print frame, reasoning, plan, response |
-| 7 | Run full dataset through pipeline — produces `level4_df` with parsed intent, entity, symptom, time_context, reasoning mode per row |
+| 7 | Run full dataset through pipeline — produces `level3_5_df` with parsed intent, entity, symptom, time_context, reasoning mode per row |
 | 8 | Intent alignment check — compare `parsed_intent` vs `gold_intent`; print match rate |
 | 9 | Entity coverage diagnostics — `value_counts` of matched entities |
 | 10 | Reasoning mode distribution — `value_counts` of mode per row |
 | 11 | Demonstration on four labelled test inputs (in-scope + out-of-scope) |
-| 12 | Save `level4_df` to `data/level4_structured_output.csv` |
+| 12 | Save `level3_5_df` to `data/level3_5_structured_output.csv` |
 | Last | Inference on 13 paraphrased / unseen statements across all intents |
 
 **Quick start:**
 ```bash
-cd level4
-jupyter notebook level4_ns_intent.ipynb
+cd level3_5
+jupyter notebook level3_5_ns_intent.ipynb
 ```
 
 ---
@@ -470,13 +470,13 @@ Planned Steps: ['collect_metrics', 'collect_logs', 'check_recent_changes', 'anal
 
 ---
 
-**Level 4 Status**: ✅ Complete  
+**Level 3.5 Status**: ✅ Complete  
 **Architecture**: 4-Stage Ontology-Grounded Neuro-Symbolic Pipeline  
 **Key Innovations**: Ontology-Driven Extraction · Domain Guard · Mode-Tagged Symbolic Reasoning · Step-by-Step Planning · Auditable Structured Output
 
 ## Overview
 
-Level 4 implements a **modular neuro-symbolic pipeline** for intent understanding, reasoning, and response generation in SRE/DevOps domains. The system combines ML-based intent prediction, ontology-driven symbolic parsing, deterministic reasoning, and stepwise planning. All vocabularies and mappings are centralized in an ontology, and every stage is auditable and extensible.
+Level 3.5 implements a **modular neuro-symbolic pipeline** for intent understanding, reasoning, and response generation in SRE/DevOps domains. The system combines ML-based intent prediction, ontology-driven symbolic parsing, deterministic reasoning, and stepwise planning. All vocabularies and mappings are centralized in an ontology, and every stage is auditable and extensible.
 
 ---
 
@@ -531,7 +531,7 @@ Level 4 implements a **modular neuro-symbolic pipeline** for intent understandin
 | `planner.py` | Converts reasoning into stepwise plans |
 | `responder.py` | Generates user-facing responses |
 | `pipeline.py` | Chains all above modules for a single utterance |
-| `level4_ns_intent.ipynb` | End-to-end notebook: demo, diagnostics, and evaluation |
+| `level3_5_ns_intent.ipynb` | End-to-end notebook: demo, diagnostics, and evaluation |
 
 ---
 
@@ -661,6 +661,6 @@ Sample output:
 
 ---
 
-**Level 4 Status**: ✅ Complete
+**Level 3.5 Status**: ✅ Complete
 **Architecture**: Ontology-Grounded Neuro-Symbolic Pipeline
 **Key Innovations**: Ontology-Driven Extraction · Modular Reasoning · Auditable Stepwise Output

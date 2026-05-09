@@ -1,8 +1,8 @@
 from typing import Optional
-from level4.frame import IntentFrame
-from level4.intent_model import IntentClassifier
-from level4.entity_matcher import EntityMatcher
-from level4.ontology import SYMPTOM_ALIASES, TIME_CONTEXT_PATTERNS, INTENTS
+from level3_5.frame import IntentFrame
+from level3_5.intent_model import IntentClassifier
+from level3_5.entity_matcher import EntityMatcher
+from level3_5.ontology import SYMPTOM_ALIASES, TIME_CONTEXT_PATTERNS, INTENTS
 
 # Singletons
 _intent_model = IntentClassifier()
