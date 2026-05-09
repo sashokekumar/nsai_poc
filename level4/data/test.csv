@@ -15,7 +15,7 @@ check what is causing the event loop blocking,investigate,metric,True
 what is the doppler effect,out_of_scope,unknown,False
 check the firewall rules blocking traffic,investigate,metric,True
 tell me about the industrial revolution,out_of_scope,unknown,False
-check the tcp retransmission rate on the interface,investigate,unknown,False
+check the tcp retransmission rate on the interface,investigate,unknown,True
 set the swappiness to zero on database hosts,execution,infrastructure,True
 create the service account with least privilege,execution,service,True
 investigate the ssl renegotiation overhead,investigate,service,True
@@ -43,7 +43,7 @@ analyze the fan-in bottleneck in the aggregation layer,investigate,metric,True
 tell me about the phoenicians,out_of_scope,unknown,False
 rotate the istio root certificate authority,execution,infrastructure,True
 summarize the open actionable items from postmortems,summarization,service,True
-scale down resources,execution,unknown,False
+scale down resources,execution,unknown,True
 migrate the database schema to version 3.2,execution,infrastructure,True
 tell me about octopuses,out_of_scope,unknown,False
 set the socket receive buffer size for throughput,execution,service,True
@@ -64,18 +64,18 @@ analyze the rate of retries on downstream calls,investigate,infrastructure,True
 provide an overview of the technical debt remediation,summarization,service,True
 who wrote the odyssey,out_of_scope,unknown,False
 summarize the integration test results from latest build,summarization,job,True
-flush the connection state on the stateful firewall,execution,unknown,False
+flush the connection state on the stateful firewall,execution,unknown,True
 give me a brief on the edge cache performance,summarization,infrastructure,True
 summarize the load distribution by availability zone,summarization,metric,True
 summarize dependency status,summarization,service,True
 configure the cifs share with the new permissions,execution,service,True
-why are there conflicting iptables rules,investigate,unknown,False
+why are there conflicting iptables rules,investigate,unknown,True
 why are retries increasing the backend load,investigate,job,True
 provide a summary of the dns query patterns,summarization,infrastructure,True
-configure the sudoers file with the new rule,execution,unknown,False
+configure the sudoers file with the new rule,execution,unknown,True
 set up the cross-region replication,execution,service,True
 delete the unused cluster role bindings,execution,infrastructure,True
-apply hotfix,execution,unknown,False
+apply hotfix,execution,unknown,True
 why is the service not draining connections before termination,investigate,service,True
 examine the audit logs for suspicious activity,investigate,metric,True
 configure the keepalive connections on haproxy,execution,infrastructure,True
@@ -112,7 +112,7 @@ provide a recap of the planned maintenance windows,summarization,service,True
 tell me about the iron age,out_of_scope,unknown,False
 how do I make a rope,out_of_scope,unknown,False
 why is the thread pool saturated,investigate,infrastructure,True
-summarize the infrastructure readiness for the launch,summarization,unknown,False
+summarize the infrastructure readiness for the launch,summarization,unknown,True
 why is the tracing collector losing spans,investigate,metric,True
 approve the manual gate in the release pipeline,execution,pipeline,True
 check what is causing the connection saturation on api,investigate,service,True
@@ -135,15 +135,15 @@ enable cross-origin resource sharing headers,execution,infrastructure,True
 tell me about medieval castles,out_of_scope,unknown,False
 what is a light year,out_of_scope,unknown,False
 how do I solve a rubiks cube,out_of_scope,unknown,False
-enable request throttling,execution,unknown,False
+enable request throttling,execution,unknown,True
 who invented the light bulb,out_of_scope,unknown,False
 how do I make my own hot sauce,out_of_scope,unknown,False
 how do I start a business,out_of_scope,unknown,False
-apply the terraform changes to the dev environment,execution,unknown,False
+apply the terraform changes to the dev environment,execution,unknown,True
 who is beethoven,out_of_scope,unknown,False
 what is the speed of sound,out_of_scope,unknown,False
 execute the rolling restart of all microservices,execution,service,True
-why is the cpu user time unexpectedly high,investigate,unknown,False
+why is the cpu user time unexpectedly high,investigate,unknown,True
 trigger the zfs scrub on the storage pool,execution,infrastructure,True
 check what triggered the node eviction,investigate,infrastructure,True
 apply the password complexity policy update,execution,infrastructure,True
@@ -178,7 +178,7 @@ tell me about fashion,out_of_scope,unknown,False
 what is nanotechnology,out_of_scope,unknown,False
 configure the pam authentication settings,execution,service,True
 analyze the impact of the dns change on traffic,investigate,infrastructure,True
-investigate the hot spot in the key-value store,investigate,unknown,False
+investigate the hot spot in the key-value store,investigate,unknown,True
 update the kubeconfig with the new credentials,execution,service,True
 check why the health check endpoint is slow,investigate,metric,True
 who is pablo picasso,out_of_scope,unknown,False
@@ -186,8 +186,8 @@ switch the routing policy to latency-based,execution,infrastructure,True
 provide a brief on the rollback rate trends,summarization,infrastructure,True
 who composed requiem,out_of_scope,unknown,False
 summarize the cross-team dependency resolution status,summarization,service,True
-summarize the findings from the recent security audit,summarization,unknown,False
-why is the zookeeper session expiring frequently,investigate,unknown,False
+summarize the findings from the recent security audit,summarization,unknown,True
+why is the zookeeper session expiring frequently,investigate,unknown,True
 tell me about the maya civilization,out_of_scope,unknown,False
 summarize the synthetic monitoring test results,summarization,job,True
 provide health check summary,summarization,metric,True
@@ -195,8 +195,8 @@ summarize the error budget status for all services,summarization,service,True
 give me an overview of the infrastructure tagging compliance,summarization,metric,True
 provide a brief on the availability by region,summarization,metric,True
 run the vacuum full on the postgres database,execution,infrastructure,True
-investigate the blocked io thread in the event loop,investigate,unknown,False
-enable the response caching on the graphql layer,execution,unknown,False
+investigate the blocked io thread in the event loop,investigate,unknown,True
+enable the response caching on the graphql layer,execution,unknown,True
 investigate the certificate authority chain trust failure,investigate,infrastructure,True
 what is the deepest ocean,out_of_scope,unknown,False
 check what caused sync failure,investigate,metric,True
@@ -226,7 +226,7 @@ how do I change a tire,out_of_scope,unknown,False
 how do I write a cover letter,out_of_scope,unknown,False
 what is anthropology,out_of_scope,unknown,False
 who discovered america,out_of_scope,unknown,False
-analyze the write skew in the distributed transaction,investigate,unknown,False
+analyze the write skew in the distributed transaction,investigate,unknown,True
 tell me about ancient greece,out_of_scope,unknown,False
 give me an overview of the user-facing error rate trends,summarization,metric,True
 summarize the alert fatigue metrics for the team,summarization,metric,True
@@ -241,7 +241,7 @@ tell me a story,out_of_scope,unknown,False
 execute the database cleanup stored procedure,execution,infrastructure,True
 what is entropy,out_of_scope,unknown,False
 rotate the database master password,execution,infrastructure,True
-rebuild index on table,execution,unknown,False
+rebuild index on table,execution,unknown,True
 summarize the scheduled maintenance completion report,summarization,incident,True
 configure the secret zero bootstrap for the service,execution,service,True
 what caused the spike in garbage collection time,investigate,service,True
@@ -270,9 +270,9 @@ investigate the connection leak in the service,investigate,service,True
 provide a recap of the kubernetes event anomalies,summarization,metric,True
 investigate the metadata server latency spike,investigate,infrastructure,True
 check why the batch processing job is stuck,investigate,job,True
-check the semaphore deadlock in the process pool,investigate,unknown,False
+check the semaphore deadlock in the process pool,investigate,unknown,True
 summarize the compliance remediation progress,summarization,service,True
-give me a summary of the audit findings by control area,summarization,unknown,False
+give me a summary of the audit findings by control area,summarization,unknown,True
 configure the dead letter queue for failed messages,execution,service,True
 renew the lets encrypt certificate manually,execution,infrastructure,True
 what is economics,out_of_scope,unknown,False
@@ -281,7 +281,7 @@ summarize the operational readiness review findings,summarization,service,True
 summarize backup status,summarization,infrastructure,True
 investigate why websocket connections are dropping,investigate,unknown,True
 set up the monitoring alerts for the new service,execution,service,True
-why is the event sourcing replay taking too long,investigate,unknown,False
+why is the event sourcing replay taking too long,investigate,unknown,True
 tell me about koalas,out_of_scope,unknown,False
 why is the graphql resolver timing out,investigate,unknown,True
 why is the load test showing degraded throughput,investigate,job,True
@@ -310,7 +310,7 @@ why is the pod eviction disrupting the stateful workload,investigate,infrastruct
 summarize the open incidents and their current state,summarization,incident,True
 check the reason for the slowdown in the api fanout,investigate,service,True
 what is a black dwarf star,out_of_scope,unknown,False
-apply the cors policy update on the gateway,execution,unknown,False
+apply the cors policy update on the gateway,execution,unknown,True
 summarize network traffic,summarization,infrastructure,True
 what caused the deployment to break backward compatibility,investigate,pipeline,True
 summarize the observability maturity assessment results,summarization,metric,True
@@ -318,9 +318,9 @@ provide a recap of the runbook effectiveness metrics,summarization,metric,True
 provision a new ec2 instance for the web tier,execution,service,True
 archive the old build artifacts from the registry,execution,service,True
 how do I learn how to juggle,out_of_scope,unknown,False
-what caused the connection refused on the rpc port,investigate,unknown,False
+what caused the connection refused on the rpc port,investigate,unknown,True
 who painted starry night,out_of_scope,unknown,False
-enable the cpu quota enforcement on the tenant,execution,unknown,False
+enable the cpu quota enforcement on the tenant,execution,unknown,True
 check why the rate limiter is not enforcing limits,investigate,infrastructure,True
 analyze the pattern of recurring memory pressure alerts,investigate,metric,True
 who won the latest academy awards,out_of_scope,unknown,False
