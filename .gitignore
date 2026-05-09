@@ -98,6 +98,10 @@ ipython_config.py
 **/artifacts/
 **/models/
 
+# PyTorch checkpoints — large binary weights, not suitable for git
+*.pt
+*.pth
+
 # Temporary tools and scripts (not for version control)
 tools/
 

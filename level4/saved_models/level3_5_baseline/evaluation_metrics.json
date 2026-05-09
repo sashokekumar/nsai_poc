@@ -1,0 +1,12 @@
+{
+  "run_name": "level3_5_baseline",
+  "lam": "runtime",
+  "intent_acc": 0.9309,
+  "entity_acc": 0.3724,
+  "domain_acc": 0.2883,
+  "type_a_false_rejection": 0.0,
+  "type_b_false_execution": 0.0,
+  "type_c_ungrounded_sre": 0.6426,
+  "overall_violation_rate": 0.6426,
+  "n": 333
+}

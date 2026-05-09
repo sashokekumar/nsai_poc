@@ -1,0 +1,32 @@
+{
+  "run_name": "lam1_0",
+  "lam": 1.0,
+  "checkpoint": "C:\\git\\nsai_poc\\level4\\saved_models\\lam1_0\\best_model.pt",
+  "n": 333,
+  "intent_acc": 0.967,
+  "entity_acc": 0.6817,
+  "domain_acc": 0.994,
+  "intent_acc_per_class": {
+    "execution": 0.9639,
+    "out_of_scope": 0.9792,
+    "summarization": 0.9718,
+    "investigate": 0.9518
+  },
+  "total_violations": 12,
+  "overall_violation_rate": 0.036,
+  "type_a_false_rejection": 0.0,
+  "type_b_false_execution": 0.0,
+  "type_c_ungrounded_sre": 0.0661,
+  "per_pair_violations": {
+    "out_of_scope+infrastructure": 0,
+    "out_of_scope+service": 0,
+    "out_of_scope+metric": 0,
+    "out_of_scope+incident": 0,
+    "out_of_scope+job": 0,
+    "out_of_scope+pipeline": 0,
+    "execution+incident": 0,
+    "execution+metric": 0,
+    "summarization+unknown": 4,
+    "investigate+unknown": 8
+  }
+}
