@@ -1,17 +1,23 @@
-> **Note — Work in progress**: This README is being rewritten.  
-> The earlier runtime pipeline (EntityMatcher, Domain Guard, Reasoner, Planner, Responder) that
-> was originally named Level 4 has been **reclassified as Level 3.5** and moved to `level3_5/`.  
-> It was reclassified because symbolic components remain active at inference time rather than
-> being encoded into model weights — which places it below the neuro-symbolic integration
-> threshold for a true Type-4 system (Kautz typology).
->
-> The **current Level 4 implementation** is being rebuilt from scratch as a
-> **symbolically supervised neural model**: ontology-derived constraint rules are compiled into
-> an auxiliary loss term at training time, and inference is performed by the neural network
-> alone with zero symbolic post-processing.
+# Level 4: Symbolically Supervised Neural Model
+
+> **Note — Work in progress (reclassification in effect):**  
+> This folder is being rebuilt as a strict **Kautz Type 4** implementation.  
+> The earlier runtime neuro-symbolic pipeline (TF-IDF + EntityMatcher + Domain Guard + Reasoner + Planner + Responder) has been **reclassified as Level 3.5** and moved to `level3_5/` — it was reclassified because symbolic components remain active at inference time, which is below the Type-4 threshold.  
+>  
+> **In this corrected Level 4:**  
+> - Symbolic ontology constraints are compiled into a differentiable loss term **at training time only**  
+> - **At inference, the neural model runs alone** — no symbolic guards, reasoners, planners, or post-processing  
+> - Success is measured by whether training-time symbolic supervision reduces constraint violation rates **without any runtime correction**
 
 ---
 
-# Level 4 — Symbolically Supervised Neural Intent Classifier
+> **`domain_valid` semantics note:**  
+> In this dataset, `domain_valid=True` means the utterance is SRE-relevant and routable.  
+> `domain_valid=False` maps exactly to `out_of_scope` intent — it does **not** mean "ontology grounding failed."  
+> SRE-intent utterances with `entity_type=unknown` are `domain_valid=True` but weakly grounded.  
+> The constraint loss (TYPE_C penalty) handles grounding quality separately from domain validity.
 
-*(Full README to follow once experiments are complete.)*
+---
+
+*(Full architecture description, experiment design, and results to be written after experiments complete.)*
+
