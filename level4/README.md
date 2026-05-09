@@ -93,7 +93,7 @@ Abbreviations: FR = false rejection, FE = false execution, US = ungrounded SRE.
 
 ### Key findings
 
-1. **Level 3.5 runtime symbolic pipeline fails to generalise** — 64.3% TYPE_C violation rate, entity accuracy 37%. The EntityMatcher/Domain Guard grounding logic does not cover the test distribution.
+1. **Level 3.5 is included as a structural comparison, but its runtime ontology/entity extraction scheme was not optimized for the Level 4 entity/domain evaluation schema** — 64.3% TYPE_C violation rate, entity accuracy 37% reflect schema mismatch rather than a failure of the symbolic approach itself.
 
 2. **Baseline neural (λ=0) already far better** — 97.0% intent accuracy, 5.1% violation rate. The frozen encoder provides strong semantic features without any symbolic signal.
 
