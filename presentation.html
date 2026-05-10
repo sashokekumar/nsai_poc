@@ -1604,7 +1604,7 @@ index_to_intent = {
        SLIDE: LEVEL 4.5 ARCHITECTURE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s_l45">
-    <div class="section-label">Level 4.5</div>
+    <div class="section-label">Level 4.5 — Experimental Extension</div>
     <h2 class="slide-title"><span style="color:#f97316">Level 4.5</span> — Runtime Logic-Gated Classification</h2>
     <div class="two-col" style="max-width:1020px; gap:18px">
       <div style="display:flex; flex-direction:column; gap:11px">
@@ -1657,7 +1657,7 @@ index_to_intent = {
           <div style="font-size:10.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
             raw_logits → mask suppressed → <strong style="color:var(--red)">−∞</strong><br>
             → softmax over valid intents only<br>
-            → <strong style="color:var(--green)">final_probs</strong>  ← gradients flow through
+            → <strong style="color:var(--green)">final_probs</strong>  ← gradients flow through valid logits only
           </div>
           <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:5px; line-height:1.5">Gate enters the forward pass — model <em>cannot</em> produce a suppressed intent. Violation rate: <strong style="color:var(--green)">0 by construction</strong>. Not yet L5: mask is a per-utterance external filter, not a compiled learned rule module.</div>
         </div>
@@ -1731,7 +1731,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
     </div>
     <div style="margin-top:12px; background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.3); border-radius:10px; padding:10px 16px; max-width:1060px; width:100%">
       <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:#f97316">vs L4:</strong> L4 bakes constraints into weights via training loss — no runtime gate needed. L4.5 keeps the same simple TF-IDF+Linear model but adds a runtime filter. The pre-softmax path moves the gate <em>inside</em> the forward pass (gradients flow through constrained outputs), but the mask logic is still an external per-utterance filter — not a learned rule module compiled into the architecture. That distinction is what separates L4.5 from strict Level 5.
+        <strong style="color:#f97316">vs L4:</strong> L4 bakes constraints into weights via training loss — no runtime gate needed. L4.5 keeps the same simple TF-IDF+Linear model but adds a runtime filter. The pre-softmax path moves the gate <em>inside</em> the forward pass (gradients flow through the valid logits; suppressed logits are structurally excluded from the softmax), but the mask logic is still an external per-utterance filter — not a learned rule module compiled into the architecture. That distinction is what separates L4.5 from strict Level 5.
       </div>
     </div>
   </section>
@@ -1740,7 +1740,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
        SLIDE: LEVEL 5 ARCHITECTURE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s_l5">
-    <div class="section-label">Level 5</div>
+    <div class="section-label">Level 5 — Research Prototype</div>
     <h2 class="slide-title"><span style="color:#ef4444">Level 5</span> — Rule-Compiled Network (Kautz Architecture)</h2>
     <div class="two-col" style="max-width:1060px; gap:18px">
       <div style="display:flex; flex-direction:column; gap:10px">
@@ -2302,7 +2302,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">No runtime symbolic gate. Rules baked into weights via λ penalty during backprop.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid rgba(232,121,249,0.15);border-radius:8px;padding:7px 9px">
-        <div style="font-size:11px;color:var(--text);line-height:1.5">Runtime symbolic gates add latency and can be bypassed. If the model learns constraint compliance during training, no gate is needed at inference — the constraint is already in the weights.</div>
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Runtime symbolic gates add latency and remain external to the model. If the model learns constraint compliance during training, no symbolic dependency is needed at inference — the constraint behavior is reflected in the weights.</div>
       </div>
 
       <!-- ── L4.5 ── -->
@@ -2410,21 +2410,21 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <span class="card-icon" style="margin:0">⚡</span>
           <div class="card-title" style="color:#e879f9; margin:0">L4 — Symbolic Constraints Baked Into Training</div>
         </div>
-        <div class="card-body">L1–L3.5 applied symbolic structure <em>around or after</em> the model. L4 inverts this: constraints enter the training objective via a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> that penalises disallowed (intent, entity_type) pairs during backprop — the weights themselves learn to avoid violations. No symbolic gate at inference. λ=1.0 → <strong style="color:#e879f9">96.1% accuracy · 2.1% violation rate</strong> · TYPE-B violations eliminated.</div>
+        <div class="card-body">L1–L3.5 applied symbolic structure <em>around or after</em> the model. L4 inverts this: constraints enter the training objective via a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> that penalises disallowed (intent, entity_type) pairs during backprop — the weights themselves learn to avoid violations. No runtime symbolic dependency at inference. λ=1.0 → <strong style="color:#e879f9">96.7% accuracy · 3.6% violation rate</strong> · TYPE-B violations eliminated.</div>
       </div>
       <div class="card" style="border-color:#f97316; padding:14px 18px">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
           <span class="card-icon" style="margin:0">🚦</span>
-          <div class="card-title" style="color:#f97316; margin:0">L4.5 — Runtime Logic Gating: Post-hoc vs Pre-softmax</div>
+          <div class="card-title" style="color:#f97316; margin:0">L4.5 — Runtime Logic Gating: Post-hoc vs Pre-softmax <span style="font-size:10px; font-weight:500; color:var(--text-dimmer); letter-spacing:0">[Experimental Extension]</span></div>
         </div>
         <div class="card-body">Enriches training data with per-utterance symbolic signals (facts → constraints → allowed/suppressed intents). Two runtime paths: <strong style="color:var(--text)">post-hoc masking</strong> corrects the output after softmax; <strong style="color:var(--text)">pre-softmax gating</strong> sets suppressed logits to −∞ before softmax — <strong style="color:#f97316">violation rate = 0 by construction</strong>. Gate is still an external per-utterance filter, which is what separates L4.5 from L5.</div>
       </div>
       <div class="card" style="border-color:#ef4444; padding:14px 18px">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
           <span class="card-icon" style="margin:0">🧬</span>
-          <div class="card-title" style="color:#ef4444; margin:0">L5 — Symbolic Rules Compiled Into the Architecture</div>
+          <div class="card-title" style="color:#ef4444; margin:0">L5 — Symbolic Rules Compiled Into the Architecture <span style="font-size:10px; font-weight:500; color:var(--text-dimmer); letter-spacing:0">[Research Prototype]</span></div>
         </div>
-        <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> and blend weight <strong style="color:var(--text)">α</strong> are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
+        <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> and blend weight <strong style="color:var(--text)">α</strong> are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy (+2.1 pp vs L4 λ=1.0) · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
       </div>
     </div>
   </section>
@@ -2455,7 +2455,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <tr>
             <td style="text-align:center"><span class="lp0">L0</span></td>
             <td>Establishes the statistical floor — proves what pure ML achieves before any symbolic structure. Without this baseline there's nothing to compare against.</td>
-            <td><code>~77% intent accuracy</code> · 0% auditability · no safety gate · 0 rules</td>
+            <td><code>~91% intent accuracy</code> · 0% auditability · no safety gate · 0 rules</td>
           </tr>
           <tr>
             <td style="text-align:center"><span class="lp1">L1</span></td>
@@ -2479,8 +2479,8 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           </tr>
           <tr>
             <td style="text-align:center"><span class="lp4">L4</span></td>
-            <td>Constraint compliance moves from runtime enforcement to <em>learned behaviour</em>. No symbolic gate at inference = lower latency and no gate-bypass risk. A 20× reduction in violation rate vs L3.5 baseline.</td>
-            <td><strong style="color:#e879f9">96.1% accuracy · 2.1% violation rate</strong> (vs 64.3% at L3.5 baseline) · TYPE-B violations eliminated · no runtime symbolic dependency</td>
+            <td>Constraint compliance moves from runtime enforcement to <em>learned behaviour</em>. No runtime symbolic dependency at inference — lower complexity, but violations are reduced statistically rather than made impossible. An ~18× reduction in violation rate vs L3.5 baseline.</td>
+            <td><strong style="color:#e879f9">96.7% accuracy · 3.6% violation rate</strong> (vs 64.3% at L3.5 baseline) · TYPE-B violations eliminated · no runtime symbolic dependency</td>
           </tr>
           <tr>
             <td style="text-align:center"><span class="lp45">L4.5</span></td>
@@ -2490,7 +2490,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <tr>
             <td style="text-align:center"><span class="lp5">L5</span></td>
             <td>The symbolic layer <em>is</em> the model — rules are differentiable, strengths are learned, and every prediction carries a full interpretability trace (11 predicate scores + 4 rule activations). Best accuracy of any level.</td>
-            <td><strong style="color:#ef4444">98.8% accuracy</strong> (+2.7 pp vs L4) · <strong style="color:#ef4444">0 TYPE-A/B violations</strong> · 6.0% overall viol (Exp B) · 72.1% rule fidelity (Exp C) · full trace at every inference call</td>
+            <td><strong style="color:#ef4444">98.8% accuracy</strong> (+2.1 pp vs L4 λ=1.0) · <strong style="color:#ef4444">0 TYPE-A/B violations</strong> · 6.0% overall viol (Exp B) · 72.1% rule fidelity (Exp C) · full trace at every inference call</td>
           </tr>
         </tbody>
       </table>
