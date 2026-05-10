@@ -197,24 +197,31 @@ class RuleCompiler(nn.Module):
         Aggregate rule activations into per-intent scores.
         Multiple rules for the same intent take the max activation.
 
+        Fully differentiable — avoids in-place ops by using a mask matmul
+        followed by a max over the rules dimension.
+
         Args:
             rule_activations : [B, n_rules]
         Returns:
             intent_rule_scores : [B, n_intents]
         """
-        B = rule_activations.shape[0]
-        intent_scores = torch.zeros(
-            B, self.n_intents,
+        # Build rule→intent one-hot mask: [n_rules, n_intents]
+        # mask[r, i] = 1 if rule r fires for intent i, else 0
+        mask = torch.zeros(
+            self.n_rules, self.n_intents,
             device=rule_activations.device,
             dtype=rule_activations.dtype,
         )
-        # Scatter max per intent
-        for r_idx, intent_idx in enumerate(self.rule_to_intent.tolist()):
-            intent_scores[:, intent_idx] = torch.max(
-                intent_scores[:, intent_idx],
-                rule_activations[:, r_idx],
-            )
-        return intent_scores  # [B, n_intents]
+        for r, i in enumerate(self.rule_to_intent.tolist()):
+            mask[r, i] = 1.0
+
+        # [B, n_rules, 1] * [1, n_rules, n_intents] → [B, n_rules, n_intents]
+        # For positions where mask=0, contribution is 0 (rule doesn't apply).
+        per_rule_intent = rule_activations.unsqueeze(-1) * mask.unsqueeze(0)
+
+        # Max over rules dimension → [B, n_intents]
+        intent_scores, _ = per_rule_intent.max(dim=1)
+        return intent_scores
 
     def rule_strength_dict(self) -> dict:
         """Return current learned rule strengths as a plain dict (for logging)."""

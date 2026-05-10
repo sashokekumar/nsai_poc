@@ -429,6 +429,7 @@
   .lp3 { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.1); }
   .lp35 { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
   .lp4  { border-color: #e879f9; color: #e879f9; background: rgba(232,121,249,0.1); }
+  .lp45 { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
 
   /* ─── Highlight box ─── */
   .highlight-box {
@@ -517,7 +518,7 @@
     </h1>
     <p class="hero-sub">
       How a pure statistical model evolves into a fully auditable, 
-      ontology-grounded reasoning pipeline — from Level 0 through Level 4
+      ontology-grounded reasoning pipeline — from Level 0 through Level 4.5
     </p>
     <div class="level-pills">
       <span class="level-pill lp0">Level 0 — Statistical</span>
@@ -526,6 +527,7 @@
       <span class="level-pill lp3">Level 3 — Neural + Symbol</span>
       <span class="level-pill lp35">Level 3.5 — Ontology + Reasoning</span>
       <span class="level-pill lp4">Level 4 — Symbolic Training</span>
+      <span class="level-pill lp45">Level 4.5 — Logic Gating</span>
     </div>
   </section>
 
@@ -1593,6 +1595,142 @@ index_to_intent = {
   </section>
 
   <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 4.5 ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l45">
+    <div class="section-label">Level 4.5</div>
+    <h2 class="slide-title"><span style="color:#f97316">Level 4.5</span> — Runtime Logic-Gated Classification</h2>
+    <div class="two-col" style="max-width:1020px; gap:18px">
+      <div style="display:flex; flex-direction:column; gap:11px">
+        <div style="background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.35); border-radius:10px; padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:#f97316; margin-bottom:6px">What changes at L4.5 — Enriched Dataset (6 columns)</div>
+          <div style="font-size:10px; font-family:monospace; color:var(--text-dim); line-height:1.8">
+            <span style="color:#f97316">utterance</span> · <span style="color:#f97316">gold_intent</span> · <span style="color:var(--text)">facts</span> · <span style="color:var(--text)">constraints</span> · <span style="color:var(--green)">allowed_intents</span> · <span style="color:var(--red)">suppressed_intents</span>
+          </div>
+          <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:6px; line-height:1.5">3 boolean facts derived from text → 2 logical constraints → per-utterance allowed + suppressed intent lists baked into the training signal. 614 utterances; 29% have <code>execute</code> suppressed (question phrasing).</div>
+        </div>
+        <div class="pipeline" style="gap:6px">
+          <div class="pipe-stage" style="border-color:rgba(249,115,22,0.3)">
+            <div class="pipe-num" style="background:#f97316">1</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Facts Extraction</div>
+              <div class="pipe-desc">is_question · has_imperative · has_temporal_ref — 3 boolean signals derived deterministically from utterance text</div>
+              <span class="pipe-tag tag-rule">Deterministic</span>
+            </div>
+          </div>
+          <div class="pipe-stage" style="border-color:rgba(249,115,22,0.3)">
+            <div class="pipe-num" style="background:#f97316">2</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Constraint Derivation</div>
+              <div class="pipe-desc">question_blocks_execute (HARD) · prefer_investigate_when_uncertain (soft) → allowed_intents + suppressed_intents per row</div>
+              <span class="pipe-tag tag-symbol">Symbolic</span>
+            </div>
+          </div>
+          <div class="pipe-stage" style="border-color:rgba(249,115,22,0.3)">
+            <div class="pipe-num" style="background:#f97316">3</div>
+            <div class="pipe-content">
+              <div class="pipe-name">TF-IDF → Linear Classifier</div>
+              <div class="pipe-desc">Utterance → feature vector → raw logits, one per intent: investigate · execute · summarize · ops</div>
+              <span class="pipe-tag tag-neural">Neural</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:11px">
+        <div class="card" style="padding:12px 14px; border-color:#f97316">
+          <div style="font-size:11px; font-weight:700; color:#f97316; margin-bottom:6px">④ Path A — 4.5 Post-hoc Masking</div>
+          <div style="font-size:10.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            raw_logits → softmax → raw_probs<br>
+            → zero suppressed + non-allowed intents<br>
+            → renormalize → <strong style="color:var(--green)">final_probs</strong>
+          </div>
+          <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:5px; line-height:1.5">Logic is external and non-differentiable. The model internally still assigns full probability to suppressed intents — only the output is corrected.</div>
+        </div>
+        <div class="card" style="padding:12px 14px; background:rgba(249,115,22,0.05); border-color:rgba(249,115,22,0.5)">
+          <div style="font-size:11px; font-weight:700; color:#f97316; margin-bottom:6px">④ Path B — Pre-softmax Gate (toward L5)</div>
+          <div style="font-size:10.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            raw_logits → mask suppressed → <strong style="color:var(--red)">−∞</strong><br>
+            → softmax over valid intents only<br>
+            → <strong style="color:var(--green)">final_probs</strong>  ← gradients flow through
+          </div>
+          <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:5px; line-height:1.5">Gate enters the forward pass — model <em>cannot</em> produce a suppressed intent. Violation rate: <strong style="color:var(--green)">0 by construction</strong>. Not yet L5: mask is a per-utterance external filter, not a compiled learned rule module.</div>
+        </div>
+        <div style="background:rgba(249,115,22,0.06); border:1px solid rgba(249,115,22,0.2); border-radius:8px; padding:8px 12px">
+          <div style="font-size:10px; font-weight:700; color:#f97316; margin-bottom:7px">Constraint Registry</div>
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:4px 10px; font-size:9.5px">
+            <span style="color:var(--red); font-weight:700">HARD</span><span style="color:var(--text-dim)">block_execute — suppress execute whenever question phrasing detected (cannot be overridden by model confidence)</span>
+            <span style="color:var(--yellow); font-weight:700">SOFT</span><span style="color:var(--text-dim)">prefer_investigate — bias toward investigation when uncertainty markers present</span>
+            <span style="color:var(--yellow); font-weight:700">SOFT</span><span style="color:var(--text-dim)">allow_execute — permit execute when imperative language detected</span>
+            <span style="color:var(--red); font-weight:700">HARD</span><span style="color:var(--text-dim)">require_diagnostic_investigate — force investigation for system-state questions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 4.5 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l45out">
+    <div class="section-label">Level 4.5 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#f97316">L4.5</span> — Same Model, Constraint Gate Decides</h2>
+    <div class="two-col" style="max-width:1060px; gap:18px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.3); border-radius:8px; padding:8px 14px; text-align:center">
+          <span style="font-size:10px; color:#f97316; font-weight:700; letter-spacing:2px; margin-right:6px">INPUT A — Imperative (no suppression)</span><br>
+          <span style="font-size:15px; color:var(--text); font-weight:600">"check memory on db-server-7"</span>
+        </div>
+        <pre class="code-block" style="font-size:10px">facts = {
+  <span class="st">"is_question"</span>:     <span class="kw">false</span>,
+  <span class="st">"has_imperative"</span>:  <span class="kw">true</span>,
+  <span class="st">"has_temporal_ref"</span>: <span class="kw">false</span>
+}
+constraints = {
+  <span class="st">"question_blocks_execute"</span>:         <span class="kw">false</span>,
+  <span class="st">"prefer_investigate_when_uncertain"</span>: <span class="kw">false</span>
+}
+allowed_intents    = [<span class="st">"investigate"</span>, <span class="st">"execute"</span>, <span class="st">"ops"</span>, <span class="st">"summarize"</span>]
+suppressed_intents = []          <span class="cm">// no suppression</span>
+
+raw softmax: investigate=0.31, <strong>execute=0.52</strong>, ops=0.11, summarize=0.06
+
+<span class="cm">// 4.5 path: no intents suppressed → renorm = raw</span>
+predicted = <span class="st">"execute"</span>  ✓</pre>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.3); border-radius:8px; padding:8px 14px; text-align:center">
+          <span style="font-size:10px; color:#f97316; font-weight:700; letter-spacing:2px; margin-right:6px">INPUT B — Question (execute suppressed)</span><br>
+          <span style="font-size:15px; color:var(--text); font-weight:600">"why is cpu high on host123?"</span>
+        </div>
+        <pre class="code-block" style="font-size:10px">facts = {
+  <span class="st">"is_question"</span>:     <span class="kw">true</span>,   <span class="cm">// ← triggers HARD gate</span>
+  <span class="st">"has_imperative"</span>:  <span class="kw">false</span>,
+  <span class="st">"has_temporal_ref"</span>: <span class="kw">false</span>
+}
+constraints = {
+  <span class="st">"question_blocks_execute"</span>:         <span class="kw">true</span>,  <span class="cm">// HARD</span>
+  <span class="st">"prefer_investigate_when_uncertain"</span>: <span class="kw">true</span>
+}
+allowed_intents    = [<span class="st">"investigate"</span>, <span class="st">"ops"</span>, <span class="st">"summarize"</span>]
+suppressed_intents = [<span class="st">"execute"</span>]    <span class="cm">// HARD block</span>
+
+raw softmax: investigate=0.29, <span style="color:var(--red)">execute=0.63</span>, ops=0.06, summarize=0.02
+
+<span class="cm">// 4.5 post-hoc: zero execute → renorm over remaining</span>
+predicted = <span class="st">"investigate"</span>  ✓  (model was wrong; gate corrected it)
+
+<span class="cm">// pre-softmax gate: logit[execute] → −∞ before softmax</span>
+predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by design)</pre>
+      </div>
+    </div>
+    <div style="margin-top:12px; background:rgba(249,115,22,0.08); border:1px solid rgba(249,115,22,0.3); border-radius:10px; padding:10px 16px; max-width:1060px; width:100%">
+      <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
+        <strong style="color:#f97316">vs L4:</strong> L4 bakes constraints into weights via training loss — no runtime gate needed. L4.5 keeps the same simple TF-IDF+Linear model but adds a runtime filter. The pre-softmax path moves the gate <em>inside</em> the forward pass (gradients flow through constrained outputs), but the mask logic is still an external per-utterance filter — not a learned rule module compiled into the architecture. That distinction is what separates L4.5 from strict Level 5.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        SLIDE 11 — TRAINING EVOLUTION TABLE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s11">
@@ -1653,12 +1791,19 @@ index_to_intent = {
           <td>Trunk weights + 3 head weights (101,644 params) — <em>constraint-aware representations</em></td>
           <td>constraint_rules.json (10 disallowed pairs) · λ hyperparameter</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(249,115,22,0.2);color:#f97316">L4.5</span></td>
+          <td>TF-IDF + Linear Classifier (same simple arch as L0/L3.5)</td>
+          <td>Cross-entropy on enriched 6-column dataset (facts + constraints + allowed/suppressed per utterance)</td>
+          <td>TF-IDF weights + classifier coefficients (as before)</td>
+          <td>Constraint Registry · per-utterance facts derivation · allowed/suppressed intent lists baked into training data</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern inflection at L4:</strong> Symbolic knowledge no longer lives <em>beside</em> the model — it enters the training objective. The model itself internalises the constraints. Inference becomes purely neural.
+        <strong style="color:var(--text)">Pattern inflection at L4.5:</strong> Unlike L4 which bakes rules into the weights, L4.5 enriches the data signal with per-utterance constraint logic. The insight lives in the gating — not the model. The pre-softmax gate eliminates all violations by construction, pointing toward L5 (compiled rule modules). The model itself internalises the constraints. Inference becomes purely neural.
       </div>
     </div>
   </section>
@@ -1724,12 +1869,19 @@ index_to_intent = {
           <td>intent + entity_type + domain_valid (3 typed outputs)</td>
           <td style="color:#e879f9">Internalised — no runtime guard</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(249,115,22,0.2);color:#f97316">L4.5</span></td>
+          <td>Utterance → facts extraction → constraint derivation → allowed / suppressed lists</td>
+          <td>TF-IDF → logits → [post-hoc mask or pre-softmax gate] → argmax</td>
+          <td>predicted_intent (structurally valid by constraint)</td>
+          <td style="color:#f97316">Runtime gate: post-hoc (corrects output) or pre-softmax (viol = 0 by construction)</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box purple" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern inflection at L4:</strong> L0–L3.5 add symbolic structure <em>around</em> the model. L4 inverts this — symbolic rules shape the model during training, then disappear at inference. The boundary moves from runtime to gradient.
+        <strong style="color:var(--text)">Pattern inflection at L4.5:</strong> L4 removes the runtime gate by baking constraints into weights. L4.5 reintroduces a runtime gate — but moves it <em>inside</em> the forward pass (pre-softmax), so gradients flow through constrained outputs. This is the bridge from trained constraints to architecturally compiled rules (L5). L4 inverts this — symbolic rules shape the model during training, then disappear at inference. The boundary moves from runtime to gradient.
       </div>
     </div>
   </section>
@@ -1788,6 +1940,14 @@ index_to_intent = {
         <div class="tl-card">
           <div class="tl-card-title" style="color:#e879f9">Constraint loss in gradient</div>
           <div class="tl-card-body">Frozen MiniLM + 3 heads + differentiable constraint loss (λ). Rules shape weights — no symbolic layer at inference. λ=1.0: 96.7% acc, 3.6% viol.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#f97316; color:#f97316">L4.5</div>
+        <div class="tl-label">Logic Gating</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#f97316">Runtime constraint filters</div>
+          <div class="tl-card-body">Per-utterance facts → constraint derivation → allowed/suppressed intents. Two paths: post-hoc masking (corrects output) and pre-softmax gate (viol=0 by construction). Constraints still external to architecture.</div>
         </div>
       </div>
     </div>
@@ -1967,6 +2127,30 @@ index_to_intent = {
         <div style="font-size:11px;color:var(--text);line-height:1.5">Runtime symbolic gates add latency and can be bypassed. If the model learns constraint compliance during training, no gate is needed at inference — the constraint is already in the weights.</div>
       </div>
 
+      <!-- ── L4.5 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#f97316;line-height:1">L4.5</div>
+        <div style="font-size:9px;color:#f97316;margin-top:3px;opacity:0.85">Logic Gating</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + per-utterance symbolic signals</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">6-column dataset: facts + constraints + allowed + suppressed intents baked in per row. 614 utterances; 29% have execute suppressed.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF + Linear Classifier</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Back to simple architecture. The insight lives in the runtime gate — not the model itself.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(249,115,22,0.35);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(249,115,22,0.15);color:#f97316;border:1px solid rgba(249,115,22,0.4)">RUNTIME</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Logic gate — external to network</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Post-hoc masking (non-differentiable) OR pre-softmax gate (gradients flow, but filter is external). Hard constraints physically block suppressed intents.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(249,115,22,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Prove symbolic constraints can be enforced at inference without retraining. Pre-softmax path eliminates all violations by construction, posing the question: can we compile the gate into the architecture itself? (→ Level 5)</div>
+      </div>
+
     </div>
   </section>
 
@@ -2013,6 +2197,11 @@ index_to_intent = {
         <div class="card-title" style="color:#e879f9">L4 — Symbolic Constraints Baked Into Training</div>
         <div class="card-body">L1–L3.5 applied symbolic structure <em>around or after</em> the model. L4 inverts this: symbolic constraints enter the training objective itself via a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> that penalises disallowed (intent, entity_type) pairs during backprop — so the weights themselves learn to avoid violations. At inference there is no symbolic gate; the constraint is already encoded in the parameters. λ=1.0 achieves 96.7% intent accuracy with only 3.6% constraint violations — TYPE_B violations eliminated entirely.</div>
       </div>
+      <div class="card" style="border-color:#f97316; grid-column: 1 / -1">
+        <span class="card-icon">🚦</span>
+        <div class="card-title" style="color:#f97316">L4.5 — Runtime Logic Gating: Post-hoc vs Pre-softmax</div>
+        <div class="card-body">L4.5 enriches the training signal with per-utterance symbolic data (facts → constraints → allowed/suppressed intents) and then applies logic at inference. Two distinct approaches are compared: <strong style="color:var(--text)">post-hoc masking</strong> zeros suppressed intents after softmax (non-differentiable, corrects output); <strong style="color:var(--text)">pre-softmax gating</strong> masks suppressed logits to −∞ <em>before</em> softmax so gradients only flow through valid intents — violation rate is exactly 0 by construction. The gate is still a per-utterance external filter (not a learned rule module), which is the distinction that separates L4.5 from strict Level 5.</div>
+      </div>
     </div>
   </section>
 
@@ -2044,7 +2233,9 @@ index_to_intent = {
   <div class="dot" data-idx="21"></div>
   <div class="dot" data-idx="22"></div>
   <div class="dot" data-idx="23"></div>
-  <span id="slide-counter">1 / 24</span>
+  <div class="dot" data-idx="24"></div>
+  <div class="dot" data-idx="25"></div>
+  <span id="slide-counter">1 / 26</span>
 </div>
 
 <script>
