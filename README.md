@@ -185,8 +185,10 @@ nsai_poc/
 │   ├── README.md                     # Validation documentation
 │   └── validation.ipynb              # Multi-level model comparison
 ├── level2/                           # (TBD)
-├── level3_5/                           # (TBD)
-├── level5/                           # (TBD)
+├── level3_5/                         # Ontology-grounded neuro-symbolic pipeline (symbolic inference-time reasoning)
+├── level4/                           # Symbolically supervised neural model (differentiable constraint loss)
+├── level4_5_logic_gating/            # Runtime logic-gating experiment (transition between L4 and L5; reclassified from Level 5)
+├── level5/                           # (TBD) Symbolic rules compiled into differentiable neural architecture
 └── level6/                           # (TBD)
 ```
 

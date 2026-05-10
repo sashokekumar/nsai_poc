@@ -1,13 +1,22 @@
-# Level 5: Logic-Gated Neuro-Symbolic Intent Classification
+# Level 4.5: Logic-Gated Neuro-Symbolic Intent Classification
+
+> **Reclassification note (Kautz typology review):**
+> This folder was originally submitted as **Level 5**. Following review against the Kautz (2022) neuro-symbolic typology, it has been reclassified as **Level 4.5**.
+>
+> The reason: both implementations here — post-hoc masking and pre-softmax logit gating — apply symbolic rules **as runtime filters external to the neural architecture**. In the post-hoc path the constraint is non-differentiable; in the pre-softmax path gradients flow through the softmax operation, but the masking logic itself is a per-utterance external filter, not a compiled differentiable rule structure inside the model.
+>
+> In a strict Kautz Type 5 system, symbolic rules must be **compiled into the neural architecture as differentiable rule units** that participate in the forward pass as learned components. The corrected Level 5 implementation is in `level5/`.
+>
+> This folder is retained as a transition experiment between Level 4 and strict Level 5. It is useful evidence in the Level 4 → 4.5 → 5 comparison table.
 
 ## Overview
 
-Level 5 introduces **constraint-aware training**: the training data itself carries per-utterance logical signals — facts, constraints, allowed intents, and suppressed intents — that are consumed directly by the model. This is a fundamental shift from every previous level, where the dataset contained only `utterance → intent` pairs and all symbolic logic was applied separately from the data.
+Level 4.5 is a **runtime logic-gating experiment** that demonstrates two ways of applying symbolic constraints to a neural classifier's outputs. The training data carries per-utterance logical signals — facts, constraints, allowed intents, and suppressed intents — that drive the gating logic. This is a step beyond Level 4's training-time symbolic loss, but it does not yet reach strict Level 5 because the symbolic rules remain external to the network architecture.
 
-In Level 5, logic is no longer just an inference-time layer applied on top of the model's output. The goal is to embed it **inside the model's forward pass**, before the softmax activation. The PoC compares two implementations side-by-side:
+The PoC compares two implementations side-by-side:
 
 - **4.5 (post-hoc masking)**: The model predicts raw probabilities first; then a logic gate zeroes suppressed intents and renormalizes. Logic is external and non-differentiable.
-- **L5 (pre-softmax gate)**: The logic gate masks suppressed intent logits with large negative values before softmax. Logic participates in the forward pass — gradients flow through constrained outputs, and the model learns representations that are explicitly constraint-aware.
+- **Pre-softmax gate (toward L5)**: The logic gate masks suppressed intent logits with large negative values before softmax. Logic participates in the forward pass — gradients flow through constrained outputs — but the mask is still an external per-utterance filter, not a learned rule module.
 
 This makes Level 5 decisions **structurally enforced** rather than post-processed, meaning the model cannot produce a suppressed intent even with extreme confidence.
 
@@ -59,18 +68,18 @@ This makes Level 5 decisions **structurally enforced** rather than post-processe
 
 | File | Description |
 |---|---|
-| `level5_data_prep.ipynb` | Compiles the level5 dataset; defines `CONSTRAINT_REGISTRY`; runs logical consistency checks and readiness summary |
-| `level5_logic_gating_poc.ipynb` | Trains TF-IDF + Linear classifier; implements and compares 4.5 (post-hoc) vs L5 (pre-softmax) logic gating |
-| `l4_a_evaluation.ipynb` | Level-3.5.5 evaluation notebook — loads the trained Level-3.5 `IntentClassifier`, runs it over the Level-5 dataset, applies post-hoc constraints (4.5 path), and measures violation rates before vs after; includes a detailed markdown explanation of what Level-3.5.5 proves and what it cannot fix |
-| `data/level5_intents.csv` | Compiled level-5 dataset (utterance + gold_intent + facts + constraints + allowed_intents + suppressed_intents) |
+| `level5_data_prep.ipynb` | Compiles the dataset; defines `CONSTRAINT_REGISTRY`; runs logical consistency checks and readiness summary |
+| `level5_logic_gating_poc.ipynb` | Trains TF-IDF + Linear classifier; implements and compares 4.5 (post-hoc) vs pre-softmax logic gating |
+| `l4_a_evaluation.ipynb` | Level-3.5.5 evaluation notebook — loads the trained Level-3.5 `IntentClassifier`, runs it over this dataset, applies post-hoc constraints (4.5 path), and measures violation rates before vs after; includes a detailed markdown explanation of what Level-3.5.5 proves and what it cannot fix |
+| `data/level5_intents.csv` | Compiled dataset (utterance + gold_intent + facts + constraints + allowed_intents + suppressed_intents) |
 
 ---
 
-## Dataset — What Is Different in Level 5
+## Dataset — What Is Different in Level 4.5
 
 Every previous level uses a dataset with two columns per row: `utterance` and `intent`. The model only sees the text; all symbolic logic is encoded separately in thresholds, rules, or an ontology.
 
-**Level 5 changes this.** The dataset has six columns per row:
+**Level 4.5 changes this.** The dataset has six columns per row:
 
 | Column | Type | Content |
 |---|---|---|
@@ -81,7 +90,7 @@ Every previous level uses a dataset with two columns per row: `utterance` and `i
 | `allowed_intents` | list | Intents the model is permitted to predict for this utterance |
 | `suppressed_intents` | list | Intents that must be structurally blocked for this utterance |
 
-This means **the constraint logic is baked into the training data**. The model is not just told what to predict — it is told, for each training example, which outputs are logically valid and which must be suppressed.
+This means **the constraint logic is baked into the training data**. The model is not just told what to predict — it is told, for each training example, which outputs are logically valid and which must be suppressed. Note: this is a step toward Type 5, but the constraint logic is still an external per-utterance filter — not symbolic rules compiled into the neural architecture.
 
 ### Facts (per utterance)
 
@@ -136,7 +145,7 @@ constraints = {'question_blocks_execute': False, 'prefer_investigate_when_uncert
 
 ### Dataset Statistics
 
-- **Source**: `data/intents_level5.csv` (repo root); compiled into `level5/data/level5_intents.csv`
+- **Source**: `data/intents_level5.csv` (repo root); compiled into `level4_5_logic_gating/data/level5_intents.csv`
 - **Records**: 614 utterances
 - **Intent Classes**: `out_of_scope` 169 · `execution` 150 · `investigate` 149 · `summarization` 146
 - **Model canonical intents**: `['investigate', 'execute', 'summarize', 'ops']`
@@ -171,7 +180,7 @@ Defined declaratively in `level5_data_prep.ipynb`. Importable and computation-fr
 
 ---
 
-## What Makes L5 Structurally Different from 4.5
+## What Makes Pre-Softmax Gating Different from Post-Hoc Masking
 
 ### Timing of Logic Application
 
@@ -260,7 +269,7 @@ Prepares and validates the Level 5 dataset. Run all cells to compile and check t
 | Cell | Purpose |
 |---|---|
 | 1 | Imports — pandas, numpy |
-| 2 | Locate repo root; load `level5_intents.csv`; compile and save to `level5/data/` |
+| 2 | Locate repo root; load `level5_intents.csv`; compile and save to `level4_5_logic_gating/data/` |
 | 3 | Define `CONSTRAINT_REGISTRY` — all five constraint keys with type, description, and rationale |
 | 4 | Dataset sanity checks — load compiled CSV, parse list-like columns (`allowed_intents`, `suppressed_intents`), validate types |
 | 5 | Diagnostics — check for missing values, malformed rows, and constraint/intent consistency |
@@ -273,13 +282,13 @@ Main PoC notebook. Trains the classifier and compares 4.5 vs L5 logic gating.
 | Cell | Purpose |
 |---|---|
 | 1 | Imports — numpy, pandas, sklearn, INTENTS definition |
-| 2 | Load dataset from `level5/data/`; parse `allowed_intents` and `suppressed_intents` |
+| 2 | Load dataset from `level4_5_logic_gating/data/`; parse `allowed_intents` and `suppressed_intents` |
 | 3 | TF-IDF vectorize utterances; train/test split |
 | 4 | Train base LogReg classifier (no logic gating); evaluate baseline accuracy |
 | 5 | **4.5 post-hoc masking** — `apply_l45_masking(probs, allowed, suppressed)`: zero suppressed intents, zero non-allowed, renormalize; compute 4.5 accuracy |
 | 6 | **L5 pre-softmax gate** — mask suppressed logits with large negative before softmax; compute L5 accuracy and violation rate |
 | 7 | Side-by-side comparison — baseline vs 4.5 vs L5 accuracy and violation counts |
-| 8 | Save results to `level5/data/` |
+| 8 | Save results to `level4_5_logic_gating/data/` |
 
 ### `l4_a_evaluation.ipynb`
 
@@ -297,10 +306,10 @@ Level-3.5.5 evaluation notebook. Runs the trained Level-3.5 `IntentClassifier` o
 
 **Quick start:**
 ```bash
-cd level5
+cd level4_5_logic_gating
 jupyter notebook level5_data_prep.ipynb         # prepare and validate dataset
 jupyter notebook l4_a_evaluation.ipynb           # Level-3.5.5 post-hoc evaluation
-jupyter notebook level5_logic_gating_poc.ipynb   # Level-5 pre-softmax gating PoC
+jupyter notebook level5_logic_gating_poc.ipynb   # Level-4.5 pre-softmax gating PoC
 ```
 
 ---
@@ -404,12 +413,13 @@ Any utterance where the model's top intent after gating maps to a class not in `
 | 2 | None | Clause extractor + validator + feedback | Inference-time (post-model) | Hard rules block |
 | 3 | None | Symbol emitter + rule dispatch | Inference-time (post-model) | `requires_approval` flag |
 | 4 | None | Ontology + domain guard + reasoner | Inference-time (post-model) | Domain guard blocks |
-| **5** | **facts · constraints · allowed_intents · suppressed_intents per row** | **Logic gate (pre-softmax in L5; post-hoc in 4.5)** | **Inside forward pass (L5)** | **Zero violations by construction (L5)** |
+| **4.5** | **facts · constraints · allowed_intents · suppressed_intents per row** | **Logic gate (pre-softmax or post-hoc)** | **Inside forward pass (pre-softmax) or post-model (post-hoc)** | **Zero violations by construction (pre-softmax path)** |
 
-The key progression: in Levels 1–4, the training data is constraint-free and all symbolic logic is applied after training. In Level 5, the constraints travel with the data — the model is trained with explicit knowledge of which outputs are valid for each utterance.
+The key progression: in Levels 1–4, the training data is constraint-free and all symbolic logic is applied after training. In Level 4.5, the constraints travel with the data — the model is trained with explicit knowledge of which outputs are valid for each utterance. However, the constraint logic remains an external per-utterance filter, not a differentiable rule module compiled into the architecture. That is the distinction that motivates strict Level 5.
 
 ---
 
-**Level 5 Status**: ✅ PoC Complete  
+**Level 4.5 Status**: ✅ PoC Complete (reclassified from Level 5)  
 **Architecture**: Logic-Gated Neuro-Symbolic Classifier  
-**Key Innovations**: Constraint-Enriched Training Data · Pre-Softmax Logic Gate · Zero Violation Guarantee (L5) · Dataset-Level Constraint Encoding
+**Key Innovations**: Constraint-Enriched Training Data · Pre-Softmax Logic Gate · Zero Violation Guarantee (pre-softmax path) · Dataset-Level Constraint Encoding  
+**Role in progression**: Transition experiment between Level 4 (training-time symbolic loss) and Level 5 (symbolic rules compiled into differentiable neural architecture). Retained as comparison evidence.

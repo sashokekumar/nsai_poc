@@ -1,0 +1,16 @@
+{
+  "test_size": 123,
+  "n_with_constraints": 38,
+  "baseline": {
+    "accuracy": 0.9756,
+    "violations": 0
+  },
+  "l45_posthoc": {
+    "accuracy": 0.9756,
+    "violations": 0
+  },
+  "l5_presoftmax": {
+    "accuracy": 0.9756,
+    "violations": 0
+  }
+}
