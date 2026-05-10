@@ -1798,151 +1798,173 @@ index_to_intent = {
   ══════════════════════════════════════════ -->
   <section class="slide" id="s13b">
     <div class="section-label">Architecture Summary</div>
-    <h2 class="slide-title">What Each Level <span class="gradient-text">Reuses vs Changes</span></h2>
-    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; align-items:center">
-      <span style="font-size:10px; color:var(--text-dimmer); font-weight:700; margin-right:2px">Legend:</span>
-      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.4)">NEW</span><span style="font-size:10px; color:var(--text-dimmer)"> first appearance</span>
-      <span style="font-size:10px; color:var(--border)">·</span>
-      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(100,116,139,0.15); color:#94a3b8; border:1px solid rgba(100,116,139,0.3)">SAME</span><span style="font-size:10px; color:var(--text-dimmer)"> unchanged</span>
-      <span style="font-size:10px; color:var(--border)">·</span>
-      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.35)">EVOLVED</span><span style="font-size:10px; color:var(--text-dimmer)"> enhanced / extended</span>
-      <span style="font-size:10px; color:var(--border)">·</span>
-      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.35)">REPLACED</span><span style="font-size:10px; color:var(--text-dimmer)"> different approach, same role</span>
-      <span style="font-size:10px; color:var(--border)">·</span>
-      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(232,121,249,0.15); color:#e879f9; border:1px solid rgba(232,121,249,0.35)">ABSORBED</span><span style="font-size:10px; color:var(--text-dimmer)"> concept folded into training phase</span>
+    <h2 class="slide-title">What Each Level <span class="gradient-text">Reuses vs Changes</span> — and Why</h2>
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin-bottom:10px">
+      <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center">
+        <span style="font-size:10px; color:var(--text-dimmer); font-weight:700; margin-right:2px">Legend:</span>
+        <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.4)">NEW</span><span style="font-size:10px; color:var(--text-dimmer)"> first appearance</span>
+        <span style="font-size:10px; color:var(--border)">·</span>
+        <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(100,116,139,0.15); color:#94a3b8; border:1px solid rgba(100,116,139,0.3)">SAME</span><span style="font-size:10px; color:var(--text-dimmer)"> unchanged</span>
+        <span style="font-size:10px; color:var(--border)">·</span>
+        <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.35)">EVOLVED</span><span style="font-size:10px; color:var(--text-dimmer)"> enhanced</span>
+        <span style="font-size:10px; color:var(--border)">·</span>
+        <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.35)">REPLACED</span><span style="font-size:10px; color:var(--text-dimmer)"> different approach</span>
+        <span style="font-size:10px; color:var(--border)">·</span>
+        <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(232,121,249,0.15); color:#e879f9; border:1px solid rgba(232,121,249,0.35)">ABSORBED</span><span style="font-size:10px; color:var(--text-dimmer)"> folded into training</span>
+      </div>
     </div>
-    <div style="display:grid; grid-template-columns:110px 1fr 1fr 1fr; gap:3px; max-width:1100px; width:100%">
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1.55fr; gap:3px; max-width:1160px; width:100%">
 
       <!-- ── Column headers ── -->
       <div></div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">📊 DATA</div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">🧠 NEURAL LAYER</div>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">⚙️ SYMBOLIC LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">📊 DATA</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">🧠 NEURAL LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">⚙️ SYMBOLIC LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">🎯 WHY THIS LEVEL</div>
+
 
       <!-- ── L0 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
         <div style="font-size:20px;font-weight:800;color:#3b82f6;line-height:1">L0</div>
         <div style="font-size:9px;color:#3b82f6;margin-top:3px;opacity:0.85">Statistical</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">1,661 utterances · 4 intents</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">1,661 utterances · 4 intents</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">SRE domain corpus. Intent labels only.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF (5k) + LR · single multiclass</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF (5k) + LR · single multiclass</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Sparse bag-of-words. Fixed weights. 0.7 threshold.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(71,85,105,0.25);border-radius:8px;padding:7px 10px;opacity:0.5">
+      <div style="background:var(--surface2);border:1px solid rgba(71,85,105,0.25);border-radius:8px;padding:7px 9px;opacity:0.5">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(71,85,105,0.2);color:#64748b;border:1px solid rgba(71,85,105,0.3)">NONE</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">No symbolic layer</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">No symbolic layer</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Confidence threshold only. No rules or predicates.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.12);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Establish the statistical floor — quantify what pure ML achieves before any symbolic structure is added.</div>
       </div>
 
       <!-- ── L1 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
         <div style="font-size:20px;font-weight:800;color:#8b5cf6;line-height:1">L1</div>
         <div style="font-size:9px;color:#8b5cf6;margin-top:3px;opacity:0.85">Neuro-Symbolic</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Re-used as binary pos/neg per detector. No new data.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4 binary TF-IDF+LR detectors</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4 binary TF-IDF+LR detectors</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Same algorithm. One-vs-rest instead of single multiclass.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Scores → predicates → JSON rule chain</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Scores → predicates → JSON rule chain</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Symbolization layer + R1–R4 rules. decision_trace added.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(139,92,246,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Add auditable safety gates without retraining. Decision logic lives in JSON — domain experts can change rules without touching Python.</div>
       </div>
 
       <!-- ── L2 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25)">
         <div style="font-size:20px;font-weight:800;color:#06b6d4;line-height:1">L2</div>
         <div style="font-size:9px;color:#06b6d4;margin-top:3px;opacity:0.85">Clause Pipeline</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Utterance parsed for structured clauses at runtime only.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">REUSED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">L1 detectors wrapped by adapter</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">L1 detectors wrapped by adapter</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">No new model training. Adapter surfaces L1 output as AdapterResult.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Clause extractor + normalizer + validator</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Clause extractor + normalizer + validator</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Predicate+rules swapped for 4-stage clause pipeline with feedback loop.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(6,182,212,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Intent alone can't enforce policies. Clause extraction surfaces entity, environment, and time so symbolic validators can check them against policy gates.</div>
       </div>
 
       <!-- ── L3 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25)">
         <div style="font-size:20px;font-weight:800;color:#10b981;line-height:1">L3</div>
         <div style="font-size:9px;color:#10b981;margin-top:3px;opacity:0.85">Neural Symbols</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Tokenized as integer IDs (not TF-IDF) at inference time.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">PyTorch nn.Embedding(16) + Linear</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">PyTorch nn.Embedding(16) + Linear</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">TF-IDF gone. Dense learned vectors. Gradients flow through word representations.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Typed IntentSymbol dataclass + dispatch dict</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Typed IntentSymbol dataclass + dispatch dict</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Clause pipeline replaced by strict single-integer boundary. Simpler, harder to misuse.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">TF-IDF can't learn that "restart" ≈ "reboot". Learned embeddings let semantically similar words converge. Typed boundary removes the last float from the symbolic layer.</div>
       </div>
 
       <!-- ── L3.5 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25)">
         <div style="font-size:20px;font-weight:800;color:#f59e0b;line-height:1">L3.5</div>
         <div style="font-size:9px;color:#f59e0b;margin-top:3px;opacity:0.85">Ontology + Reason</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + ontology knowledge base</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + ontology knowledge base</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Entity aliases, symptom keywords, time patterns in ontology.py.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF+LR intent + EntityMatcher overlay</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF+LR intent + EntityMatcher overlay</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Back to TF-IDF for intent; EntityMatcher adds ontology-grounded entity extraction.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4-stage pipeline: Parse→Frame→Reason→Plan→Respond</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4-stage pipeline: Parse→Frame→Reason→Plan→Respond</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Dispatch dict replaced by full reasoning pipeline. IntentFrame carries entity + symptom + time.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">A single intent label is impoverished for real SRE decisions. IntentFrame adds entity + symptom + time, enabling deterministic multi-step reasoning with zero hallucination in the decision path.</div>
       </div>
 
       <!-- ── L4 ── -->
-      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(232,121,249,0.08);border:1px solid rgba(232,121,249,0.25)">
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(232,121,249,0.08);border:1px solid rgba(232,121,249,0.25)">
         <div style="font-size:20px;font-weight:800;color:#e879f9;line-height:1">L4</div>
         <div style="font-size:9px;color:#e879f9;margin-top:3px;opacity:0.85">Symbolic Training</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + entity_type + domain labels</div>
-        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">New label columns added to enable multi-head training and constraint loss.</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + entity_type + domain labels</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">New label columns enable multi-head training and constraint loss.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Frozen MiniLM-L6 (384-dim) + 3 task heads</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Frozen MiniLM-L6 (384-dim) + 3 task heads</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Pre-trained encoder. Multi-task: intent + entity_type + domain.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(232,121,249,0.35);border-radius:8px;padding:7px 10px">
+      <div style="background:var(--surface2);border:1px solid rgba(232,121,249,0.35);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(232,121,249,0.15);color:#e879f9;border:1px solid rgba(232,121,249,0.35)">ABSORBED</span>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">SymbolicConstraintLoss(λ) — training only</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">SymbolicConstraintLoss(λ) — training only</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">No runtime symbolic gate. Rules baked into weights via λ penalty during backprop.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(232,121,249,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Runtime symbolic gates add latency and can be bypassed. If the model learns constraint compliance during training, no gate is needed at inference — the constraint is already in the weights.</div>
       </div>
 
     </div>

@@ -1,0 +1,71 @@
+{
+  "_description": "Symbolic rule base for Level 5. Each rule defines antecedent predicates (binary columns from level5_labeled.csv) and a consequent intent. rule_strength_init is the starting value for the learnable rule_strength parameter (sigmoid-bounded). Rules are compiled into the differentiable rule layer — they are structural, not a post-hoc correction.",
+
+  "_predicate_columns": [
+    "is_infrastructure", "is_service", "is_metric",
+    "is_incident", "is_job", "is_pipeline", "is_unknown",
+    "is_sre_domain", "has_runbook", "is_known_incident", "is_metric_query"
+  ],
+
+  "_intent_labels": ["investigate", "summarization", "execution", "out_of_scope"],
+
+  "rules": [
+    {
+      "name": "R1_metric_investigate",
+      "description": "Metric or incident queries with SRE domain context are investigation requests",
+      "antecedents": {
+        "logic": "OR",
+        "operands": [
+          {"predicate": "is_metric_query"},
+          {"predicate": "is_known_incident"}
+        ]
+      },
+      "consequent_intent": "investigate",
+      "rule_strength_init": 0.7,
+      "_rationale": "is_metric_query -> 55% investigate; is_known_incident -> 50% investigate. OR gives broad coverage."
+    },
+    {
+      "name": "R2_runbook_execution",
+      "description": "Utterances involving runbook/procedural actions are execution requests",
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {"predicate": "has_runbook"},
+          {"predicate": "is_sre_domain"}
+        ]
+      },
+      "consequent_intent": "execution",
+      "rule_strength_init": 0.9,
+      "_rationale": "has_runbook -> 95% execution. AND with is_sre_domain avoids false triggers on out-of-domain action words."
+    },
+    {
+      "name": "R3_incident_summarization",
+      "description": "Known incident entities in SRE domain lean toward summarization",
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {"predicate": "is_known_incident"},
+          {"predicate": "is_sre_domain"},
+          {"predicate": "NOT", "operand": {"predicate": "has_runbook"}}
+        ]
+      },
+      "consequent_intent": "summarization",
+      "rule_strength_init": 0.6,
+      "_rationale": "is_known_incident -> 39% summarization when no runbook action. NOT has_runbook guards against R2 overlap."
+    },
+    {
+      "name": "R4_unknown_out_of_scope",
+      "description": "Unknown entity type outside SRE domain implies out_of_scope",
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {"predicate": "is_unknown"},
+          {"predicate": "NOT", "operand": {"predicate": "is_sre_domain"}}
+        ]
+      },
+      "consequent_intent": "out_of_scope",
+      "rule_strength_init": 0.8,
+      "_rationale": "is_unknown + not sre_domain -> cleanest out_of_scope signal. Mirrors Level 4 TYPE_C constraint logic."
+    }
+  ]
+}
