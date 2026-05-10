@@ -1,0 +1,815 @@
+{
+  "args": {
+    "run_name": "exp_a_rules_disabled",
+    "epochs": 20,
+    "batch_size": 32,
+    "lr": 0.0003,
+    "dropout": 0.2,
+    "pred_weight": 0.0,
+    "rule_weight_init": 0.5,
+    "freeze_rules": true,
+    "rule_strength_init": null
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 1.3645,
+      "train_intent_loss": 1.3645,
+      "train_pred_loss": 0.6856,
+      "train_intent_acc": 0.2552,
+      "train_pred_acc": 0.6733,
+      "val_loss": 1.3336,
+      "val_intent_loss": 1.3336,
+      "val_pred_loss": 0.6835,
+      "val_intent_acc": 0.3534,
+      "val_pred_acc": 0.6932,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.6907,
+        "is_service": 0.6517,
+        "is_metric": 0.0931,
+        "is_incident": 0.5045,
+        "is_job": 0.5796,
+        "is_pipeline": 0.958,
+        "is_unknown": 0.8649,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.7508,
+        "is_known_incident": 0.955,
+        "is_metric_query": 0.9309
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.5135,
+        "R2_runbook_execution": 0.2248,
+        "R3_incident_summarization": 0.0736,
+        "R4_unknown_out_of_scope": 0.1976
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 5.4
+    },
+    {
+      "epoch": 2,
+      "train_loss": 1.2805,
+      "train_intent_loss": 1.2805,
+      "train_pred_loss": 0.6787,
+      "train_intent_acc": 0.6287,
+      "train_pred_acc": 0.6856,
+      "val_loss": 1.2066,
+      "val_intent_loss": 1.2066,
+      "val_pred_loss": 0.6716,
+      "val_intent_acc": 0.8951,
+      "val_pred_acc": 0.6627,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7297,
+        "is_service": 0.4985,
+        "is_metric": 0.2913,
+        "is_incident": 0.5255,
+        "is_job": 0.4174,
+        "is_pipeline": 0.958,
+        "is_unknown": 0.8739,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8438,
+        "is_known_incident": 0.6817,
+        "is_metric_query": 0.8228
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.5095,
+        "R2_runbook_execution": 0.2231,
+        "R3_incident_summarization": 0.0763,
+        "R4_unknown_out_of_scope": 0.1929
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 3,
+      "train_loss": 1.1101,
+      "train_intent_loss": 1.1101,
+      "train_pred_loss": 0.6628,
+      "train_intent_acc": 0.9368,
+      "train_pred_acc": 0.662,
+      "val_loss": 0.9899,
+      "val_intent_loss": 0.9899,
+      "val_pred_loss": 0.649,
+      "val_intent_acc": 0.9773,
+      "val_pred_acc": 0.6654,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7568,
+        "is_service": 0.4264,
+        "is_metric": 0.5165,
+        "is_incident": 0.5526,
+        "is_job": 0.3634,
+        "is_pipeline": 0.958,
+        "is_unknown": 0.8829,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8679,
+        "is_known_incident": 0.5676,
+        "is_metric_query": 0.7688
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.4967,
+        "R2_runbook_execution": 0.2217,
+        "R3_incident_summarization": 0.085,
+        "R4_unknown_out_of_scope": 0.1867
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.8763,
+      "train_intent_loss": 0.8763,
+      "train_pred_loss": 0.6407,
+      "train_intent_acc": 0.9628,
+      "train_pred_acc": 0.6633,
+      "val_loss": 0.7497,
+      "val_intent_loss": 0.7497,
+      "val_pred_loss": 0.6267,
+      "val_intent_acc": 0.9716,
+      "val_pred_acc": 0.6662,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3934,
+        "is_metric": 0.5646,
+        "is_incident": 0.5766,
+        "is_job": 0.3483,
+        "is_pipeline": 0.9489,
+        "is_unknown": 0.8799,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8498,
+        "is_known_incident": 0.5766,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.4654,
+        "R2_runbook_execution": 0.2297,
+        "R3_incident_summarization": 0.0967,
+        "R4_unknown_out_of_scope": 0.1917
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.6536,
+      "train_intent_loss": 0.6536,
+      "train_pred_loss": 0.6258,
+      "train_intent_acc": 0.9606,
+      "train_pred_acc": 0.6647,
+      "val_loss": 0.5524,
+      "val_intent_loss": 0.5524,
+      "val_pred_loss": 0.6171,
+      "val_intent_acc": 0.9801,
+      "val_pred_acc": 0.6662,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3874,
+        "is_metric": 0.5916,
+        "is_incident": 0.5796,
+        "is_job": 0.3483,
+        "is_pipeline": 0.9309,
+        "is_unknown": 0.8709,
+        "is_sre_domain": 0.6126,
+        "has_runbook": 0.8438,
+        "is_known_incident": 0.5796,
+        "is_metric_query": 0.7898
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.4305,
+        "R2_runbook_execution": 0.2475,
+        "R3_incident_summarization": 0.1107,
+        "R4_unknown_out_of_scope": 0.2004
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.4838,
+      "train_intent_loss": 0.4838,
+      "train_pred_loss": 0.6234,
+      "train_intent_acc": 0.9688,
+      "train_pred_acc": 0.6626,
+      "val_loss": 0.4133,
+      "val_intent_loss": 0.4133,
+      "val_pred_loss": 0.6169,
+      "val_intent_acc": 0.9858,
+      "val_pred_acc": 0.6634,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6006,
+        "is_incident": 0.5796,
+        "is_job": 0.3423,
+        "is_pipeline": 0.9159,
+        "is_unknown": 0.8649,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8348,
+        "is_known_incident": 0.5826,
+        "is_metric_query": 0.7898
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3998,
+        "R2_runbook_execution": 0.262,
+        "R3_incident_summarization": 0.1244,
+        "R4_unknown_out_of_scope": 0.2075
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.6
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.366,
+      "train_intent_loss": 0.366,
+      "train_pred_loss": 0.6251,
+      "train_intent_acc": 0.9695,
+      "train_pred_acc": 0.6611,
+      "val_loss": 0.3201,
+      "val_intent_loss": 0.3201,
+      "val_pred_loss": 0.6212,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6625,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3874,
+        "is_metric": 0.6156,
+        "is_incident": 0.5766,
+        "is_job": 0.3423,
+        "is_pipeline": 0.8949,
+        "is_unknown": 0.8649,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8318,
+        "is_known_incident": 0.5856,
+        "is_metric_query": 0.7898
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3766,
+        "R2_runbook_execution": 0.2701,
+        "R3_incident_summarization": 0.1349,
+        "R4_unknown_out_of_scope": 0.2129
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.2888,
+      "train_intent_loss": 0.2888,
+      "train_pred_loss": 0.6343,
+      "train_intent_acc": 0.974,
+      "train_pred_acc": 0.6669,
+      "val_loss": 0.257,
+      "val_intent_loss": 0.257,
+      "val_pred_loss": 0.6277,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6615,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6216,
+        "is_incident": 0.5826,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8859,
+        "is_unknown": 0.8679,
+        "is_sre_domain": 0.6126,
+        "has_runbook": 0.8288,
+        "is_known_incident": 0.5856,
+        "is_metric_query": 0.7838
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.362,
+        "R2_runbook_execution": 0.2736,
+        "R3_incident_summarization": 0.1445,
+        "R4_unknown_out_of_scope": 0.216
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.2346,
+      "train_intent_loss": 0.2346,
+      "train_pred_loss": 0.6395,
+      "train_intent_acc": 0.9777,
+      "train_pred_acc": 0.6606,
+      "val_loss": 0.2131,
+      "val_intent_loss": 0.2131,
+      "val_pred_loss": 0.6333,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6617,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6276,
+        "is_incident": 0.5886,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8829,
+        "is_unknown": 0.8589,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8228,
+        "is_known_incident": 0.5916,
+        "is_metric_query": 0.7838
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3503,
+        "R2_runbook_execution": 0.2741,
+        "R3_incident_summarization": 0.1513,
+        "R4_unknown_out_of_scope": 0.2194
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.1986,
+      "train_intent_loss": 0.1986,
+      "train_pred_loss": 0.6443,
+      "train_intent_acc": 0.9769,
+      "train_pred_acc": 0.6614,
+      "val_loss": 0.1805,
+      "val_intent_loss": 0.1805,
+      "val_pred_loss": 0.6403,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6625,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6336,
+        "is_incident": 0.5856,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8769,
+        "is_unknown": 0.8589,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8348,
+        "is_known_incident": 0.5916,
+        "is_metric_query": 0.7838
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3458,
+        "R2_runbook_execution": 0.2702,
+        "R3_incident_summarization": 0.1593,
+        "R4_unknown_out_of_scope": 0.2222
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 11,
+      "train_loss": 0.1698,
+      "train_intent_loss": 0.1698,
+      "train_pred_loss": 0.6533,
+      "train_intent_acc": 0.9792,
+      "train_pred_acc": 0.6614,
+      "val_loss": 0.1566,
+      "val_intent_loss": 0.1566,
+      "val_pred_loss": 0.6448,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6625,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3814,
+        "is_metric": 0.6396,
+        "is_incident": 0.5886,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8769,
+        "is_unknown": 0.8589,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8258,
+        "is_known_incident": 0.5946,
+        "is_metric_query": 0.7838
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3384,
+        "R2_runbook_execution": 0.2696,
+        "R3_incident_summarization": 0.1629,
+        "R4_unknown_out_of_scope": 0.2238
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 12,
+      "train_loss": 0.1471,
+      "train_intent_loss": 0.1471,
+      "train_pred_loss": 0.6563,
+      "train_intent_acc": 0.9807,
+      "train_pred_acc": 0.6608,
+      "val_loss": 0.1383,
+      "val_intent_loss": 0.1383,
+      "val_pred_loss": 0.6491,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6634,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3814,
+        "is_metric": 0.6426,
+        "is_incident": 0.5886,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8679,
+        "is_unknown": 0.8619,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8258,
+        "is_known_incident": 0.6066,
+        "is_metric_query": 0.7838
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3332,
+        "R2_runbook_execution": 0.2687,
+        "R3_incident_summarization": 0.1653,
+        "R4_unknown_out_of_scope": 0.2251
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 13,
+      "train_loss": 0.13,
+      "train_intent_loss": 0.13,
+      "train_pred_loss": 0.6625,
+      "train_intent_acc": 0.9821,
+      "train_pred_acc": 0.657,
+      "val_loss": 0.1236,
+      "val_intent_loss": 0.1236,
+      "val_pred_loss": 0.6543,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.664,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3814,
+        "is_metric": 0.6517,
+        "is_incident": 0.5856,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8649,
+        "is_unknown": 0.8649,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8258,
+        "is_known_incident": 0.6066,
+        "is_metric_query": 0.7778
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3312,
+        "R2_runbook_execution": 0.2655,
+        "R3_incident_summarization": 0.1696,
+        "R4_unknown_out_of_scope": 0.2259
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 14,
+      "train_loss": 0.1176,
+      "train_intent_loss": 0.1176,
+      "train_pred_loss": 0.6648,
+      "train_intent_acc": 0.9821,
+      "train_pred_acc": 0.66,
+      "val_loss": 0.1122,
+      "val_intent_loss": 0.1122,
+      "val_pred_loss": 0.6586,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6647,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3814,
+        "is_metric": 0.6486,
+        "is_incident": 0.5916,
+        "is_job": 0.3393,
+        "is_pipeline": 0.8619,
+        "is_unknown": 0.8679,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8228,
+        "is_known_incident": 0.6066,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3281,
+        "R2_runbook_execution": 0.2642,
+        "R3_incident_summarization": 0.1724,
+        "R4_unknown_out_of_scope": 0.2265
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 15,
+      "train_loss": 0.1047,
+      "train_intent_loss": 0.1047,
+      "train_pred_loss": 0.6697,
+      "train_intent_acc": 0.9851,
+      "train_pred_acc": 0.6597,
+      "val_loss": 0.1031,
+      "val_intent_loss": 0.1031,
+      "val_pred_loss": 0.6625,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6641,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6517,
+        "is_incident": 0.5886,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8589,
+        "is_unknown": 0.8679,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8168,
+        "is_known_incident": 0.6096,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3252,
+        "R2_runbook_execution": 0.2646,
+        "R3_incident_summarization": 0.1726,
+        "R4_unknown_out_of_scope": 0.2272
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 16,
+      "train_loss": 0.0964,
+      "train_intent_loss": 0.0964,
+      "train_pred_loss": 0.6739,
+      "train_intent_acc": 0.9866,
+      "train_pred_acc": 0.6636,
+      "val_loss": 0.0947,
+      "val_intent_loss": 0.0947,
+      "val_pred_loss": 0.6676,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6641,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3844,
+        "is_metric": 0.6517,
+        "is_incident": 0.5856,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8559,
+        "is_unknown": 0.8709,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8138,
+        "is_known_incident": 0.6156,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.325,
+        "R2_runbook_execution": 0.2632,
+        "R3_incident_summarization": 0.1747,
+        "R4_unknown_out_of_scope": 0.2277
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 17,
+      "train_loss": 0.0887,
+      "train_intent_loss": 0.0887,
+      "train_pred_loss": 0.6808,
+      "train_intent_acc": 0.9881,
+      "train_pred_acc": 0.6574,
+      "val_loss": 0.0882,
+      "val_intent_loss": 0.0882,
+      "val_pred_loss": 0.6726,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6641,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3814,
+        "is_metric": 0.6517,
+        "is_incident": 0.5856,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8498,
+        "is_unknown": 0.8769,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8108,
+        "is_known_incident": 0.6216,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.323,
+        "R2_runbook_execution": 0.2636,
+        "R3_incident_summarization": 0.1759,
+        "R4_unknown_out_of_scope": 0.2267
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    },
+    {
+      "epoch": 18,
+      "train_loss": 0.0791,
+      "train_intent_loss": 0.0791,
+      "train_pred_loss": 0.6853,
+      "train_intent_acc": 0.9903,
+      "train_pred_acc": 0.6552,
+      "val_loss": 0.083,
+      "val_intent_loss": 0.083,
+      "val_pred_loss": 0.6732,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6635,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3784,
+        "is_metric": 0.6547,
+        "is_incident": 0.5886,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8468,
+        "is_unknown": 0.8739,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8078,
+        "is_known_incident": 0.6246,
+        "is_metric_query": 0.7808
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3196,
+        "R2_runbook_execution": 0.2632,
+        "R3_incident_summarization": 0.1742,
+        "R4_unknown_out_of_scope": 0.2279
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.8
+    },
+    {
+      "epoch": 19,
+      "train_loss": 0.0716,
+      "train_intent_loss": 0.0716,
+      "train_pred_loss": 0.6831,
+      "train_intent_acc": 0.9911,
+      "train_pred_acc": 0.6592,
+      "val_loss": 0.0772,
+      "val_intent_loss": 0.0772,
+      "val_pred_loss": 0.6761,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6626,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3754,
+        "is_metric": 0.6547,
+        "is_incident": 0.5976,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8408,
+        "is_unknown": 0.8739,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8078,
+        "is_known_incident": 0.6246,
+        "is_metric_query": 0.7748
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.32,
+        "R2_runbook_execution": 0.2584,
+        "R3_incident_summarization": 0.1762,
+        "R4_unknown_out_of_scope": 0.2289
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.9
+    },
+    {
+      "epoch": 20,
+      "train_loss": 0.0684,
+      "train_intent_loss": 0.0684,
+      "train_pred_loss": 0.6886,
+      "train_intent_acc": 0.9888,
+      "train_pred_acc": 0.6572,
+      "val_loss": 0.0731,
+      "val_intent_loss": 0.0731,
+      "val_pred_loss": 0.6794,
+      "val_intent_acc": 0.9886,
+      "val_pred_acc": 0.6613,
+      "val_pred_per_head": {
+        "is_infrastructure": 0.7598,
+        "is_service": 0.3694,
+        "is_metric": 0.6547,
+        "is_incident": 0.5946,
+        "is_job": 0.3363,
+        "is_pipeline": 0.8378,
+        "is_unknown": 0.8769,
+        "is_sre_domain": 0.6156,
+        "has_runbook": 0.8078,
+        "is_known_incident": 0.6246,
+        "is_metric_query": 0.7778
+      },
+      "mean_rule_activations": {
+        "R1_metric_investigate": 0.3196,
+        "R2_runbook_execution": 0.2565,
+        "R3_incident_summarization": 0.1774,
+        "R4_unknown_out_of_scope": 0.2293
+      },
+      "rule_strengths": {
+        "R1_metric_investigate": 0.7,
+        "R2_runbook_execution": 0.9,
+        "R3_incident_summarization": 0.6,
+        "R4_unknown_out_of_scope": 0.8
+      },
+      "blend_weight": 0.5,
+      "elapsed_sec": 4.7
+    }
+  ]
+}
