@@ -428,6 +428,7 @@
   .lp2 { border-color: #06b6d4; color: #06b6d4; background: rgba(6,182,212,0.1); }
   .lp3 { border-color: #10b981; color: #10b981; background: rgba(16,185,129,0.1); }
   .lp35 { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
+  .lp4  { border-color: #e879f9; color: #e879f9; background: rgba(232,121,249,0.1); }
 
   /* ─── Highlight box ─── */
   .highlight-box {
@@ -516,7 +517,7 @@
     </h1>
     <p class="hero-sub">
       How a pure statistical model evolves into a fully auditable, 
-      ontology-grounded reasoning pipeline — from Level 0 through Level 3.5
+      ontology-grounded reasoning pipeline — from Level 0 through Level 4
     </p>
     <div class="level-pills">
       <span class="level-pill lp0">Level 0 — Statistical</span>
@@ -524,6 +525,7 @@
       <span class="level-pill lp2">Level 2 — Clause Validation</span>
       <span class="level-pill lp3">Level 3 — Neural + Symbol</span>
       <span class="level-pill lp35">Level 3.5 — Ontology + Reasoning</span>
+      <span class="level-pill lp4">Level 4 — Symbolic Training</span>
     </div>
   </section>
 
@@ -1056,59 +1058,191 @@
   </section>
 
   <!-- ══════════════════════════════════════════
-       SLIDE 9 — LEVEL 3
+       SLIDE 9 — LEVEL 3: OVERVIEW
   ══════════════════════════════════════════ -->
   <section class="slide" id="s9">
-    <div class="section-label">Level 3</div>
-    <h2 class="slide-title"><span style="color:#10b981">Level 3</span> — Neural Embedding + Symbol Emitter</h2>
-    <p class="slide-subtitle">Replaces TF-IDF with a <em>learned embedding model</em>. The symbolic boundary is now enforced by a typed dataclass — the class index never escapes Stage 1.</p>
-    <div class="two-col">
-      <div class="pipeline">
-        <div class="pipe-stage">
-          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">①</div>
-          <div class="pipe-content">
-            <div class="pipe-name">NeuralIntentModel (PyTorch)</div>
-            <div class="pipe-desc"><code>nn.Embedding(vocab) → mean-pool → Linear → argmax → class_index (int)</code><br>Embed dim: 16 · Max len: 12 · 40 epochs</div>
-          </div>
-          <span class="pipe-tag tag-neural">Neural</span>
+    <div class="section-label">Level 3 — Overview</div>
+    <h2 class="slide-title"><span style="color:#10b981">Level 3</span> — From TF-IDF to Learned Embeddings</h2>
+    <p class="slide-subtitle">Same 3-layer NSAI pattern as L1. One change: the neural backbone swaps from a statistical count model to a <em>trained embedding network</em>. The symbolic boundary gets <em>stronger</em> — enforced by a typed dataclass, not just a threshold.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; max-width:1060px; width:100%">
+      <div class="card" style="border-color:#3b82f6">
+        <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--accent); margin-bottom:10px">STAGE 1 — NEURAL (private zone)</div>
+        <div style="font-size:12.5px; color:var(--text); font-weight:700; margin-bottom:6px">NeuralIntentModel</div>
+        <div class="card-body">
+          word → integer ID<br>
+          ID → 16-dim embedding vector (learned)<br>
+          4 vectors → mean-pool → 1×16<br>
+          Linear(16→4) → logits<br>
+          argmax → <strong style="color:var(--accent)">class_index (int)</strong>
         </div>
-        <div class="pipe-stage">
-          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">②</div>
-          <div class="pipe-content">
-            <div class="pipe-name">Symbol Emitter</div>
-            <div class="pipe-desc"><code>class_index (int) → IntentSymbol(intent: str)</code><br>Validated dataclass — no logits cross this boundary</div>
-          </div>
-          <span class="pipe-tag tag-symbol">Symbolic</span>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dimmer)">Logits, probabilities, embeddings — <strong style="color:var(--red)">never leave this stage</strong></div>
+        <div style="margin-top:8px"><span class="pill pill-blue">Neural · Trained</span></div>
+      </div>
+      <div class="card purple" style="border-color:#10b981">
+        <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--green); margin-bottom:10px">STAGE 2 — SYMBOLIC BOUNDARY</div>
+        <div style="font-size:12.5px; color:var(--text); font-weight:700; margin-bottom:6px">Symbol Emitter</div>
+        <div class="card-body">
+          <code style="font-size:11px">class_index (int)</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;↓ validated<br>
+          <code style="font-size:11px">IntentSymbol("execution")</code><br><br>
+          This is the <strong style="color:var(--green)">contract</strong>:<br>
+          one int in → one typed symbol out<br>
+          Invalid index → ValueError raised here
         </div>
-        <div class="pipe-stage">
-          <div class="pipe-num" style="background:linear-gradient(135deg,#10b981,#06b6d4)">③</div>
-          <div class="pipe-content">
-            <div class="pipe-name">Rule Engine (pure dispatch)</div>
-            <div class="pipe-desc"><code>IntentSymbol → {action, requires_approval}</code><br>No numerics — operates on intent strings only</div>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dimmer)">The <em>only</em> value that crosses the neural→symbolic line is the integer</div>
+        <div style="margin-top:8px"><span class="pill pill-green">Typed · Validated</span></div>
+      </div>
+      <div class="card green" style="border-color:#8b5cf6">
+        <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:10px">STAGE 3 — SYMBOLIC DISPATCH</div>
+        <div style="font-size:12.5px; color:var(--text); font-weight:700; margin-bottom:6px">Rule Engine</div>
+        <div class="card-body">
+          Pure Python dict lookup:<br><br>
+          <code style="font-size:11px">dispatch[symbol.intent]</code><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+          <code style="font-size:11px">{action, requires_approval}</code><br><br>
+          No if/elif, no numbers, no thresholds — just a table of symbol → action
+        </div>
+        <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dimmer)">Swap neural backbone: this stage does not change at all</div>
+        <div style="margin-top:8px"><span class="pill pill-purple">Deterministic · Authored</span></div>
+      </div>
+    </div>
+    <div class="highlight-box green" style="margin-top:16px; padding:11px 18px; max-width:1060px">
+      <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
+        <strong style="color:var(--green)">What changed vs L1:</strong> L1's neural layer was TF-IDF + Logistic Regression — a <em>counting model</em>. L3 replaces it with a <em>learning model</em>: the word representations are trained from scratch alongside the classifier. The symbolic layer (stages 2 &amp; 3) is untouched. Rules are still pure data.
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9b — L3: TF-IDF vs EMBEDDINGS
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s9b">
+    <div class="section-label">Level 3 — Data Transformation</div>
+    <h2 class="slide-title">TF-IDF vs Learned Embeddings — <span class="gradient-text">What Actually Changes</span></h2>
+    <div class="divider"></div>
+    <div class="two-col" style="max-width:1060px; align-items:start">
+      <div>
+        <div style="font-size:12px; font-weight:800; color:var(--accent); letter-spacing:1px; margin-bottom:12px; display:flex; align-items:center; gap:8px"><span style="font-size:18px">📊</span> L0 / L1 — TF-IDF (counting model)</div>
+        <div class="card" style="padding:14px; margin-bottom:10px">
+          <div class="card-title" style="margin-bottom:8px">How TF-IDF represents a word</div>
+          <div class="card-body" style="font-size:12px; line-height:1.9">
+            Build a fixed vocabulary of <strong style="color:var(--text)">5,000 words</strong> from the corpus<br>
+            Each word gets a <strong style="color:var(--text)">column index</strong> in a 5,000-wide vector<br>
+            Each utterance → sparse vector: <strong>most entries = 0</strong><br><br>
+            <code style="font-size:11px; color:var(--text)">"restart nginx"</code><br>
+            → <code style="font-size:10.5px; color:var(--text-dim)">[0, 0, …, <strong style="color:var(--green)">1.23</strong>, 0, …, <strong style="color:var(--green)">0.87</strong>, …, 0]</code><br>
+            <span style="font-size:11px; color:var(--text-dimmer)">&nbsp;&nbsp;&nbsp;5,000 dims · 2 non-zero values</span>
           </div>
-          <span class="pipe-tag tag-rule">Rules</span>
+        </div>
+        <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:12px 14px">
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.8">
+            <strong style="color:var(--red)">Fixed forever:</strong> "restart" always gets the same weight regardless of what surrounds it<br>
+            <strong style="color:var(--red)">No semantic link:</strong> "restart" and "reboot" are two completely separate columns — zero relationship<br>
+            <strong style="color:var(--red)">No word order:</strong> "nginx restart" = "restart nginx" (bag of words)<br>
+            <strong style="color:var(--red)">Sparse:</strong> 5,000 columns, mostly zero — wasted capacity
+          </div>
         </div>
       </div>
-      <div style="display:flex; flex-direction:column; gap:14px">
-        <div class="highlight-box green">
-          <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:6px">Training Shift from L1 → L3</div>
-          <ul class="bullet green" style="font-size:12px">
-            <li>TF-IDF → learned word embeddings (PyTorch nn.Embedding)</li>
-            <li>Multiclass logistic regression → Linear layer + argmax</li>
-            <li>Token count heuristics → implicit sequence length padding</li>
-            <li>Rules still authored separately — training never touches them</li>
-          </ul>
+      <div>
+        <div style="font-size:12px; font-weight:800; color:var(--green); letter-spacing:1px; margin-bottom:12px; display:flex; align-items:center; gap:8px"><span style="font-size:18px">🧠</span> L3 — Learned Embeddings (learning model)</div>
+        <div class="card green" style="padding:14px; margin-bottom:10px; border-color:#10b981">
+          <div class="card-title" style="margin-bottom:8px">How embeddings represent a word</div>
+          <div class="card-body" style="font-size:12px; line-height:1.9">
+            Build vocab → assign each word an <strong style="color:var(--text)">integer ID</strong><br>
+            <code style="font-size:11.5px">nn.Embedding(vocab_size, 16)</code> → a learnable <strong style="color:var(--text)">matrix</strong> initialized random<br><br>
+            <code style="font-size:11px; color:var(--text)">"restart" → ID 42 → row 42 of matrix</code><br>
+            → <code style="font-size:10.5px; color:var(--green)">[0.31, −0.12, 0.84, 0.02, 0.67, …]</code> <span style="color:var(--text-dimmer)">(16 values)</span><br><br>
+            <code style="font-size:11px; color:var(--text)">"reboot" → ID 17 → row 17 of matrix</code><br>
+            → <code style="font-size:10.5px; color:var(--green)">[0.29, −0.11, 0.81, 0.03, 0.65, …]</code> <span style="color:var(--text-dimmer)">similar! learned</span>
+          </div>
         </div>
-        <div class="card" style="padding:14px 16px">
-          <div class="card-title">Output</div>
-          <pre class="code-block" style="font-size:10.5px; margin-top:6px">{
-  <span class="st">"symbol"</span>: <span class="st">"execution"</span>,
-  <span class="st">"decision"</span>: {
-    <span class="st">"action"</span>: <span class="st">"execute_with_approval"</span>,
+        <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px 14px">
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.8">
+            <strong style="color:var(--green)">Sequence → single vector:</strong> 4 word vectors → mean-pool → one 16-dim vector per utterance<br>
+            <strong style="color:var(--green)">Semantic proximity:</strong> words used in similar contexts drift together during training<br>
+            <strong style="color:var(--green)">Gradients flow all the way back:</strong> Linear → pool → Embedding. The <em>word representations themselves</em> update each epoch<br>
+            <strong style="color:var(--green)">Dense:</strong> 16 dims, all meaningful — no wasted capacity
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 9c — L3: THE SYMBOLIC BOUNDARY
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s9c">
+    <div class="section-label">Level 3 — Symbolic Boundary</div>
+    <h2 class="slide-title">The <span class="gradient-text">IntentSymbol Contract</span> — How the Boundary Is Enforced</h2>
+    <p class="slide-subtitle">L1 enforced the boundary with thresholds in <code>_symbolize()</code>. L3 enforces it with a <strong>typed dataclass</strong> — the integer that comes out of argmax is the one and only thing that crosses the line.</p>
+    <div style="display:grid; grid-template-columns:1fr 1.1fr 1fr; gap:14px; max-width:1080px; width:100%">
+      <div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--accent); margin-bottom:10px">INSIDE STAGE 1 (neural, private)</div>
+        <div class="card" style="padding:14px">
+          <div class="card-body" style="font-size:12px; line-height:2">
+            Logits: <code style="color:var(--text-dim)">[−0.3, 2.1, 0.4, −1.2]</code><br>
+            Probabilities: <em>never computed here</em><br>
+            argmax → <strong style="color:var(--accent)">1</strong> (integer, stops here)<br><br>
+            Everything above this line<br>
+            <strong style="color:var(--red)">never leaves Stage 1</strong>
+          </div>
+        </div>
+        <div style="margin-top:10px; font-size:11px; color:var(--text-dimmer); text-align:center">
+          No softmax · No probability · No confidence score
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--green); margin-bottom:10px">THE BOUNDARY — Symbol Emitter</div>
+        <div class="card green" style="padding:14px; border-color:#10b981">
+          <pre class="code-block" style="font-size:10.5px; background:transparent; border:none; padding:0"><span class="cm"># Only thing that crosses:</span>
+<span class="cm"># class_index: int</span>
+
+index_to_intent = {
+    <span class="num">0</span>: <span class="st">"summarization"</span>,
+    <span class="num">1</span>: <span class="st">"execution"</span>,
+    <span class="num">2</span>: <span class="st">"investigate"</span>,
+    <span class="num">3</span>: <span class="st">"out_of_scope"</span>
+}
+
+<span class="cm"># Validated dataclass:</span>
+<span class="kw">if</span> index <span class="kw">not in</span> index_to_intent:
+    <span class="kw">raise</span> <span class="fn">ValueError</span>(index)
+
+<span class="kw">return</span> <span class="fn">IntentSymbol</span>(
+    intent=index_to_intent[index]
+)</pre>
+        </div>
+        <div style="margin-top:10px; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:8px; padding:9px 12px; font-size:11.5px; color:var(--text-dim)">
+          Invalid index → <strong style="color:var(--red)">exception at the boundary</strong>, not a silent bad prediction
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:10px">INSIDE STAGE 3 (symbolic, public)</div>
+        <div class="card purple" style="padding:14px; border-color:#8b5cf6">
+          <div class="card-title" style="margin-bottom:8px; color:var(--accent2)">Dispatch table — pure dict</div>
+          <pre class="code-block" style="font-size:10.5px; background:transparent; border:none; padding:0">DISPATCH = {
+  <span class="st">"execution"</span>: {
+    <span class="st">"action"</span>: <span class="st">"execute_w_approval"</span>,
     <span class="st">"requires_approval"</span>: <span class="kw">true</span>
+  },
+  <span class="st">"investigate"</span>: {
+    <span class="st">"action"</span>: <span class="st">"run_query"</span>,
+    <span class="st">"requires_approval"</span>: <span class="kw">false</span>
+  },
+  <span class="st">"summarization"</span>: {
+    <span class="st">"action"</span>: <span class="st">"generate_report"</span>,
+    <span class="st">"requires_approval"</span>: <span class="kw">false</span>
   }
 }</pre>
         </div>
+        <div style="margin-top:10px; font-size:11px; color:var(--text-dimmer); text-align:center">
+          No if/elif · No numbers · No thresholds<br>Swap neural model → this dict unchanged
+        </div>
+      </div>
+    </div>
+    <div class="highlight-box" style="margin-top:14px; padding:11px 18px; max-width:1080px">
+      <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
+        <strong style="color:var(--text)">Why this matters:</strong> L1's symbolization layer converted <em>4 float scores</em> into predicates — numbers still existed inside the boundary. L3 goes further: only a <em>single integer</em> crosses. The typed dataclass makes illegal states unrepresentable — you cannot accidentally pass a raw logit into the rule engine.
       </div>
     </div>
   </section>
@@ -1118,36 +1252,45 @@
   ══════════════════════════════════════════ -->
   <section class="slide" id="s9out">
     <div class="section-label">Level 3 — Live Example</div>
-    <h2 class="slide-title"><span style="color:#10b981">L3</span> — Typed Symbol, Typed Decision</h2>
-    <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:860px; width:100%">
+    <h2 class="slide-title"><span style="color:#10b981">L3</span> — Full Data Flow, Step by Step</h2>
+    <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.35); border-radius:10px; padding:10px 22px; margin-bottom:12px; text-align:center; max-width:900px; width:100%">
       <span style="font-size:11px; color:var(--green); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
       <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
     </div>
-    <div class="two-col" style="max-width:960px">
-      <div style="display:flex; flex-direction:column; gap:10px">
-        <div class="card" style="padding:12px 14px">
-          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">① Neural Model (PyTorch Embedding)</div>
-          <div style="font-size:11px; color:var(--text-dim); font-family:monospace; line-height:2">
-            tokens &nbsp;→ [restart, nginx, service, web-prod-3]<br>
-            ids &nbsp;&nbsp;&nbsp;&nbsp;→ [42, 17, 88, 203, 0, 0, 0, 0] (pad→12)<br>
-            embed &nbsp;&nbsp;→ 16-dim vectors per token<br>
-            pool &nbsp;&nbsp;&nbsp;→ mean across sequence → 1×16<br>
-            linear &nbsp;→ [−0.3, <strong style="color:var(--green)">2.1</strong>, 0.4, −1.2] (logits)<br>
-            argmax &nbsp;→ <strong style="color:var(--green)">1</strong> &nbsp;← stays internal
+    <div style="display:grid; grid-template-columns:1.15fr 1fr; gap:16px; max-width:1060px; width:100%; align-items:start">
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div class="card" style="padding:11px 14px">
+          <div style="font-size:10.5px; font-weight:800; color:var(--accent); letter-spacing:1.5px; margin-bottom:8px">① TOKENIZE + EMBED (Stage 1 — neural, private)</div>
+          <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:2">
+            words:&nbsp;&nbsp; [restart, nginx, service, web-prod-3]<br>
+            ids:&nbsp;&nbsp;&nbsp;&nbsp; [<span style="color:var(--accent)">42</span>, <span style="color:var(--accent)">17</span>, <span style="color:var(--accent)">88</span>, <span style="color:var(--accent)">203</span>, 0, 0, 0, 0]&nbsp; <span style="color:var(--text-dimmer)">(pad to 12)</span><br>
+            embed:&nbsp;&nbsp; row 42 of E → [<span style="color:var(--green)">0.31,−0.12, 0.84,…</span>] 16-dim<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; row 17 of E → [<span style="color:var(--green)">0.14, 0.92,−0.03,…</span>] 16-dim<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; … (4 active rows, 8 zero-pad rows)<br>
+            pool:&nbsp;&nbsp;&nbsp; mean(12 rows) → [<span style="color:var(--green)">0.18, 0.41, 0.22,…</span>] 1×16<br>
+            linear:&nbsp; W·x+b → [<span style="color:var(--text-dim)">−0.3</span>, <strong style="color:var(--green)">2.1</strong>, <span style="color:var(--text-dim)">0.4</span>, <span style="color:var(--text-dim)">−1.2</span>] (4 logits)<br>
+            argmax:&nbsp; index <strong style="color:var(--green)">1</strong> wins&nbsp;&nbsp;<span style="color:var(--red); font-size:10.5px">← stays here, does not leave Stage 1</span>
           </div>
         </div>
-        <div class="card green" style="padding:12px 14px; border-color:#10b981">
-          <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:6px">② Symbol Emitter → ③ Rule Dispatch</div>
-          <div style="font-size:12px; color:var(--text-dim); line-height:1.9">
-            <code>1 → IntentSymbol("execution")</code><br>
-            dispatch["execution"] →<br>
-            &nbsp;&nbsp;action = "execute_with_approval"<br>
-            &nbsp;&nbsp;requires_approval = <span style="color:var(--yellow)">true</span>
+        <div class="card green" style="padding:11px 14px; border-color:#10b981">
+          <div style="font-size:10.5px; font-weight:800; color:var(--green); letter-spacing:1.5px; margin-bottom:8px">② SYMBOL EMITTER — the boundary</div>
+          <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            receives: <span style="color:var(--green); font-weight:700">1</span>&nbsp; (one integer — nothing else)<br>
+            validates: 1 ∈ {0,1,2,3} → ✓<br>
+            wraps: <strong style="color:var(--green)">IntentSymbol(intent="execution")</strong>
+          </div>
+        </div>
+        <div class="card purple" style="padding:11px 14px; border-color:#8b5cf6">
+          <div style="font-size:10.5px; font-weight:800; color:var(--accent2); letter-spacing:1.5px; margin-bottom:8px">③ DISPATCH TABLE — pure symbols</div>
+          <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            key: <strong style="color:var(--accent2)">"execution"</strong><br>
+            → action = "execute_with_approval"<br>
+            → requires_approval = <span style="color:var(--yellow)">true</span>
           </div>
         </div>
       </div>
       <div>
-        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--green)">typed symbol + action</span></div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — typed symbol + decision</div>
         <pre class="code-block">{
   <span class="st">"symbol"</span>: <span class="st">"execution"</span>,
   <span class="st">"decision"</span>: {
@@ -1155,10 +1298,15 @@
     <span class="st">"requires_approval"</span>: <span class="kw">true</span>
   }
 }</pre>
-        <div style="margin-top:12px; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:10px 14px">
-          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
-            <strong style="color:var(--green)">vs L1:</strong> Same symbolic boundary principle — but the neural backbone is now learned word embeddings, not TF-IDF. The class index never escapes Stage 1, mirroring L1's numeric gate.<br><br>
-            <strong style="color:var(--green)">vs L0:</strong> <code>requires_approval</code> is now a structured, typed field — not a missing absence.
+        <div style="margin-top:12px; display:flex; flex-direction:column; gap:8px">
+          <div style="background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.25); border-radius:10px; padding:10px 12px">
+            <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--accent)">vs L0:</strong> L0 output was a float confidence + token weights — a number you had to interpret. Here the output is a <em>typed intent symbol</em> + a <em>typed action</em>. No interpretation needed.</div>
+          </div>
+          <div style="background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25); border-radius:10px; padding:10px 12px">
+            <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--accent2)">vs L1:</strong> L1 had 4 float scores → predicates → rule chain. L3 collapses that to 1 integer → 1 typed symbol → 1 dict lookup. More direct, harder to misuse — no numeric value ever reaches Stage 3.</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:10px; padding:10px 12px">
+            <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--green)">Training note:</strong> On each training epoch, the <em>word vectors in the embedding matrix itself</em> are updated. "restart" and "reboot" gradually move closer in the 16-dim space. This is the key thing TF-IDF could never do.</div>
           </div>
         </div>
       </div>
@@ -1298,6 +1446,159 @@
   </section>
 
   <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 4 ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l4">
+    <div class="section-label">Level 4</div>
+    <h2 class="slide-title"><span style="color:#e879f9">Level 4</span> — Symbolically Supervised Neural Model</h2>
+    <p class="slide-subtitle">The <em>symbolic rules move inside training</em>. Ontology constraints are a differentiable loss term — at inference, no symbolic layer exists at all.</p>
+    <div class="two-col" style="max-width:1060px; align-items:start">
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Architecture</div>
+        <div class="pipeline" style="gap:10px">
+          <div class="pipe-stage">
+            <div class="pipe-num" style="background:linear-gradient(135deg,#e879f9,#8b5cf6)">①</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Frozen Encoder — all-MiniLM-L6-v2</div>
+              <div class="pipe-desc">384-dim sentence embeddings · frozen throughout training · no fine-tuning</div>
+            </div>
+            <span class="pipe-tag tag-neural">Neural</span>
+          </div>
+          <div class="pipe-stage">
+            <div class="pipe-num" style="background:linear-gradient(135deg,#e879f9,#8b5cf6)">②</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Shared Trunk — Linear(384→256) + ReLU + Dropout</div>
+              <div class="pipe-desc">101,644 trainable params · shared representation for all three heads</div>
+            </div>
+            <span class="pipe-tag tag-neural">Neural</span>
+          </div>
+          <div class="pipe-stage" style="background:var(--surface2); border-color:rgba(232,121,249,0.4)">
+            <div class="pipe-num" style="background:linear-gradient(135deg,#e879f9,#8b5cf6)">③</div>
+            <div class="pipe-content">
+              <div class="pipe-name">3 Heads: intent (→4) · entity_type (→7) · domain (→1)</div>
+              <div class="pipe-desc">CrossEntropy + CrossEntropy + BCEWithLogits &nbsp;<strong>+</strong>&nbsp; <span style="color:#e879f9">SymbolicConstraintLoss(λ)</span></div>
+            </div>
+            <span class="pipe-tag" style="background:rgba(232,121,249,0.2); color:#e879f9">Symbolic×</span>
+          </div>
+        </div>
+        <div style="background:rgba(232,121,249,0.08); border:1px solid rgba(232,121,249,0.3); border-radius:10px; padding:12px 14px; margin-top:12px">
+          <div style="font-size:11.5px; font-weight:700; color:#e879f9; margin-bottom:6px">The Constraint Loss (differentiable)</div>
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.8">
+            10 disallowed <code>(intent, entity_type)</code> pairs from <code>constraint_rules.json</code><br>
+            <strong style="color:var(--text)">TYPE_A</strong> (×6, w=1.0): out_of_scope + any SRE entity → false rejection<br>
+            <strong style="color:var(--text)">TYPE_B</strong> (×2, w=0.75): execution + incident/metric → false execution<br>
+            <strong style="color:var(--text)">TYPE_C</strong> (×2, w=0.5): investigate/summarization + unknown → ungrounded<br><br>
+            <code style="font-size:11px">L_total = L_intent + α·L_entity + β·L_domain + λ·L_constraint</code>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">λ Ablation Results (test set n=333)</div>
+        <table style="width:100%; border-collapse:collapse; font-size:11.5px">
+          <tr style="background:var(--surface2)">
+            <td style="padding:7px 10px; color:var(--text-dim); font-weight:700; border-bottom:1px solid var(--border)">Run</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">Intent Acc</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">Viol Rate</td>
+            <td style="padding:7px 10px; border-bottom:1px solid var(--border)">TYPE_B</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim)">L3.5 runtime</td>
+            <td style="padding:7px 10px">0.931</td>
+            <td style="padding:7px 10px; color:var(--red)">0.643</td>
+            <td style="padding:7px 10px; color:var(--green)">0.000</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim)">L4 λ=0.0</td>
+            <td style="padding:7px 10px">0.970</td>
+            <td style="padding:7px 10px; color:var(--yellow)">0.051</td>
+            <td style="padding:7px 10px; color:var(--yellow)">0.003</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border)">
+            <td style="padding:7px 10px; color:var(--text-dim)">L4 λ=0.1</td>
+            <td style="padding:7px 10px">0.970</td>
+            <td style="padding:7px 10px">0.045</td>
+            <td style="padding:7px 10px; color:var(--green)">0.000</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border); background:rgba(232,121,249,0.06)">
+            <td style="padding:7px 10px; color:#e879f9; font-weight:700">L4 λ=1.0 ✓</td>
+            <td style="padding:7px 10px; color:var(--green); font-weight:700">0.967</td>
+            <td style="padding:7px 10px; color:var(--green); font-weight:700">0.036</td>
+            <td style="padding:7px 10px; color:var(--green)">0.000</td>
+          </tr>
+          <tr>
+            <td style="padding:7px 10px; color:var(--text-dim)">L4 λ=2.0</td>
+            <td style="padding:7px 10px">0.961</td>
+            <td style="padding:7px 10px; color:var(--green)">0.021</td>
+            <td style="padding:7px 10px; color:var(--green)">0.000</td>
+          </tr>
+        </table>
+        <div style="margin-top:12px; background:rgba(232,121,249,0.08); border:1px solid rgba(232,121,249,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
+            <strong style="color:#e879f9">Key insight:</strong> TYPE_B false executions eliminated at λ≥0.1. λ=1.0 sweet spot: −30% violations vs baseline, zero accuracy cost. At inference: <em>no symbolic component at all</em> — the model learned the constraints.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: L4 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l4out">
+    <div class="section-label">Level 4 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#e879f9">L4</span> — Constraint Baked In, No Guards at Runtime</h2>
+    <div style="background:rgba(232,121,249,0.1); border:1px solid rgba(232,121,249,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:960px; width:100%">
+      <span style="font-size:11px; color:#e879f9; font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
+      <span style="font-size:11px; color:var(--text-dimmer); margin-left:10px">(same utterance throughout)</span>
+    </div>
+    <div class="two-col" style="max-width:980px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="card" style="padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">① Encoder → Trunk (frozen + trained)</div>
+          <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
+            utterance → all-MiniLM-L6-v2 → 384-dim<br>
+            → Linear(384→256) + ReLU + Dropout
+          </div>
+        </div>
+        <div class="card" style="padding:12px 14px; border-color:#e879f9">
+          <div style="font-size:11px; font-weight:700; color:#e879f9; margin-bottom:6px">② 3 Heads fire simultaneously</div>
+          <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:2">
+            intent_head → argmax → <strong style="color:var(--green)">"execution"</strong><br>
+            entity_head → argmax → <strong style="color:var(--green)">"service"</strong><br>
+            domain_head → sigmoid → <strong style="color:var(--green)">0.97</strong> (in-domain)
+          </div>
+        </div>
+        <div class="card" style="padding:12px 14px; background:rgba(232,121,249,0.06); border-color:#e879f9">
+          <div style="font-size:11px; font-weight:700; color:#e879f9; margin-bottom:6px">③ Constraint check (offline eval only — not in inference path)</div>
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.7">
+            (execution, service) ∈ allowed_pairs → <span style="color:var(--green)">✓ no violation</span><br>
+            TYPE_B pairs <em>not</em> predicted — model learned the penalty
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:#e879f9">3 typed predictions, no runtime guard</span></div>
+        <pre class="code-block" style="font-size:10.5px">{
+  <span class="st">"intent"</span>:       <span class="st">"execution"</span>,
+  <span class="st">"entity_type"</span>:  <span class="st">"service"</span>,
+  <span class="st">"domain_valid"</span>: <span class="kw">true</span>,
+
+  <span class="cm">// violation check — evaluation only, never modifies output</span>
+  <span class="st">"constraint_violations"</span>: [],
+  <span class="st">"violation_rate"</span>: <span class="num">0.036</span>  <span class="cm">// λ=1.0, test set</span>
+}</pre>
+        <div style="margin-top:12px; background:rgba(232,121,249,0.08); border:1px solid rgba(232,121,249,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
+            <strong style="color:#e879f9">vs L3.5:</strong> L3.5 uses runtime symbolic guards to enforce rules — they can correct the model but don't update weights. L4's model <em>learned</em> the constraints; no guard needed at inference.<br><br>
+            <strong style="color:#e879f9">The tradeoff:</strong> You gain inference speed and no symbolic dependency. You lose the ability to instantly patch a rule without retraining.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        SLIDE 11 — TRAINING EVOLUTION TABLE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s11">
@@ -1351,12 +1652,19 @@
           <td>Intent representations + entity alias proximity</td>
           <td>ontology.py (all domain knowledge)</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(232,121,249,0.2);color:#e879f9">L4</span></td>
+          <td>Frozen MiniLM-L6-v2 + Linear trunk + 3 heads</td>
+          <td>CrossEntropy (intent+entity) + BCE (domain) + <strong style="color:#e879f9">λ·ConstraintLoss</strong></td>
+          <td>Trunk weights + 3 head weights (101,644 params) — <em>constraint-aware representations</em></td>
+          <td>constraint_rules.json (10 disallowed pairs) · λ hyperparameter</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern:</strong> Training scope stays narrow (predict intent from text). Complexity migrates <em>out</em> of training into symbolic components — rules, ontologies, validators — that are authored, not learned.
+        <strong style="color:var(--text)">Pattern inflection at L4:</strong> Symbolic knowledge no longer lives <em>beside</em> the model — it enters the training objective. The model itself internalises the constraints. Inference becomes purely neural.
       </div>
     </div>
   </section>
@@ -1415,12 +1723,19 @@
           <td>frame + reasoning + plan + response string</td>
           <td style="color:var(--green)">Domain guard + mode reject</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(232,121,249,0.2);color:#e879f9">L4</span></td>
+          <td>Raw utterance</td>
+          <td>encoder → trunk → 3 heads → argmax / sigmoid</td>
+          <td>intent + entity_type + domain_valid (3 typed outputs)</td>
+          <td style="color:#e879f9">Internalised — no runtime guard</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box purple" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern:</strong> Each level adds more symbolic structure between model output and user-facing decision. By L3.5, the model is one of four extractors — the reasoning, planning, and response are fully deterministic.
+        <strong style="color:var(--text)">Pattern inflection at L4:</strong> L0–L3.5 add symbolic structure <em>around</em> the model. L4 inverts this — symbolic rules shape the model during training, then disappear at inference. The boundary moves from runtime to gradient.
       </div>
     </div>
   </section>
@@ -1473,6 +1788,169 @@
           <div class="tl-card-body">Parse → IntentFrame → Reason → Plan → Respond. Ontology-grounded. Domain-swappable. Zero hallucination in decision path.</div>
         </div>
       </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#e879f9; color:#e879f9">L4</div>
+        <div class="tl-label">Symbolic Training</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#e879f9">Constraint loss in gradient</div>
+          <div class="tl-card-body">Frozen MiniLM + 3 heads + differentiable constraint loss (λ). Rules shape weights — no symbolic layer at inference. λ=1.0: 96.7% acc, 3.6% viol.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 13b — REUSE vs CHANGE MATRIX
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s13b">
+    <div class="section-label">Architecture Summary</div>
+    <h2 class="slide-title">What Each Level <span class="gradient-text">Reuses vs Changes</span></h2>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; align-items:center">
+      <span style="font-size:10px; color:var(--text-dimmer); font-weight:700; margin-right:2px">Legend:</span>
+      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(16,185,129,0.15); color:#10b981; border:1px solid rgba(16,185,129,0.4)">NEW</span><span style="font-size:10px; color:var(--text-dimmer)"> first appearance</span>
+      <span style="font-size:10px; color:var(--border)">·</span>
+      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(100,116,139,0.15); color:#94a3b8; border:1px solid rgba(100,116,139,0.3)">SAME</span><span style="font-size:10px; color:var(--text-dimmer)"> unchanged</span>
+      <span style="font-size:10px; color:var(--border)">·</span>
+      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.35)">EVOLVED</span><span style="font-size:10px; color:var(--text-dimmer)"> enhanced / extended</span>
+      <span style="font-size:10px; color:var(--border)">·</span>
+      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(245,158,11,0.15); color:#fbbf24; border:1px solid rgba(245,158,11,0.35)">REPLACED</span><span style="font-size:10px; color:var(--text-dimmer)"> different approach, same role</span>
+      <span style="font-size:10px; color:var(--border)">·</span>
+      <span style="font-size:9.5px; font-weight:800; padding:2px 7px; border-radius:4px; background:rgba(232,121,249,0.15); color:#e879f9; border:1px solid rgba(232,121,249,0.35)">ABSORBED</span><span style="font-size:10px; color:var(--text-dimmer)"> concept folded into training phase</span>
+    </div>
+    <div style="display:grid; grid-template-columns:110px 1fr 1fr 1fr; gap:3px; max-width:1100px; width:100%">
+
+      <!-- ── Column headers ── -->
+      <div></div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">📊 DATA</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">🧠 NEURAL LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 10px; text-align:center; font-size:10.5px; font-weight:800; color:var(--text); letter-spacing:1.5px">⚙️ SYMBOLIC LAYER</div>
+
+      <!-- ── L0 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#3b82f6;line-height:1">L0</div>
+        <div style="font-size:9px;color:#3b82f6;margin-top:3px;opacity:0.85">Statistical</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">1,661 utterances · 4 intents</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">SRE domain corpus. Intent labels only.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF (5k) + LR · single multiclass</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Sparse bag-of-words. Fixed weights. 0.7 threshold.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(71,85,105,0.25);border-radius:8px;padding:7px 10px;opacity:0.5">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(71,85,105,0.2);color:#64748b;border:1px solid rgba(71,85,105,0.3)">NONE</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">No symbolic layer</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Confidence threshold only. No rules or predicates.</div>
+      </div>
+
+      <!-- ── L1 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#8b5cf6;line-height:1">L1</div>
+        <div style="font-size:9px;color:#8b5cf6;margin-top:3px;opacity:0.85">Neuro-Symbolic</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Re-used as binary pos/neg per detector. No new data.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4 binary TF-IDF+LR detectors</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Same algorithm. One-vs-rest instead of single multiclass.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.4)">NEW</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Scores → predicates → JSON rule chain</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Symbolization layer + R1–R4 rules. decision_trace added.</div>
+      </div>
+
+      <!-- ── L2 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#06b6d4;line-height:1">L2</div>
+        <div style="font-size:9px;color:#06b6d4;margin-top:3px;opacity:0.85">Clause Pipeline</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Utterance parsed for structured clauses at runtime only.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">REUSED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">L1 detectors wrapped by adapter</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">No new model training. Adapter surfaces L1 output as AdapterResult.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Clause extractor + normalizer + validator</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Predicate+rules swapped for 4-stage clause pipeline with feedback loop.</div>
+      </div>
+
+      <!-- ── L3 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#10b981;line-height:1">L3</div>
+        <div style="font-size:9px;color:#10b981;margin-top:3px;opacity:0.85">Neural Symbols</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus · same labels</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Tokenized as integer IDs (not TF-IDF) at inference time.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">PyTorch nn.Embedding(16) + Linear</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">TF-IDF gone. Dense learned vectors. Gradients flow through word representations.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Typed IntentSymbol dataclass + dispatch dict</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Clause pipeline replaced by strict single-integer boundary. Simpler, harder to misuse.</div>
+      </div>
+
+      <!-- ── L3.5 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#f59e0b;line-height:1">L3.5</div>
+        <div style="font-size:9px;color:#f59e0b;margin-top:3px;opacity:0.85">Ontology + Reason</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + ontology knowledge base</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Entity aliases, symptom keywords, time patterns in ontology.py.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF+LR intent + EntityMatcher overlay</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Back to TF-IDF for intent; EntityMatcher adds ontology-grounded entity extraction.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4-stage pipeline: Parse→Frame→Reason→Plan→Respond</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Dispatch dict replaced by full reasoning pipeline. IntentFrame carries entity + symptom + time.</div>
+      </div>
+
+      <!-- ── L4 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 12px;border-radius:8px;background:rgba(232,121,249,0.08);border:1px solid rgba(232,121,249,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#e879f9;line-height:1">L4</div>
+        <div style="font-size:9px;color:#e879f9;margin-top:3px;opacity:0.85">Symbolic Training</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + entity_type + domain labels</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">New label columns added to enable multi-head training and constraint loss.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Frozen MiniLM-L6 (384-dim) + 3 task heads</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Pre-trained encoder. Multi-task: intent + entity_type + domain.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(232,121,249,0.35);border-radius:8px;padding:7px 10px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(232,121,249,0.15);color:#e879f9;border:1px solid rgba(232,121,249,0.35)">ABSORBED</span>
+        <div style="font-size:11px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">SymbolicConstraintLoss(λ) — training only</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">No runtime symbolic gate. Rules baked into weights via λ penalty during backprop.</div>
+      </div>
+
     </div>
   </section>
 
@@ -1514,6 +1992,11 @@
         <div class="card-title">Ontology = Domain Knowledge Hub</div>
         <div class="card-body">By L3.5, all domain knowledge (entities, aliases, symptoms, time patterns) is centralized in ontology.py. Pipeline stages are domain-agnostic — point at a new ontology and done.</div>
       </div>
+      <div class="card" style="border-color:#e879f9; grid-column: 1 / -1">
+        <span class="card-icon">⚡</span>
+        <div class="card-title" style="color:#e879f9">L4 — Symbolic Constraints Baked Into Training</div>
+        <div class="card-body">L0–L3.5 applied symbolic rules <em>after</em> the model. L4 inverts this: a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> penalises disallowed (intent, entity_type) pairs during backprop — so the weights themselves learn to avoid violations. At inference there is no symbolic gate; the constraint is already encoded in the parameters. λ=1.0 achieves 96.7% intent accuracy with only 3.6% constraint violations — TYPE_B violations eliminated entirely.</div>
+      </div>
     </div>
   </section>
 
@@ -1540,7 +2023,12 @@
   <div class="dot" data-idx="16"></div>
   <div class="dot" data-idx="17"></div>
   <div class="dot" data-idx="18"></div>
-  <span id="slide-counter">1 / 19</span>
+  <div class="dot" data-idx="19"></div>
+  <div class="dot" data-idx="20"></div>
+  <div class="dot" data-idx="21"></div>
+  <div class="dot" data-idx="22"></div>
+  <div class="dot" data-idx="23"></div>
+  <span id="slide-counter">1 / 24</span>
 </div>
 
 <script>
