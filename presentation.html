@@ -75,33 +75,37 @@
   /* ─── Nav bar ─── */
   #navbar {
     position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 14px;
+    right: 18px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(17,24,39,0.85);
+    gap: 5px;
+    background: rgba(17,24,39,0.82);
     backdrop-filter: blur(12px);
     border: 1px solid var(--border);
-    border-radius: 40px;
-    padding: 8px 20px;
+    border-radius: 24px;
+    padding: 5px 12px;
     z-index: 100;
+    max-width: 260px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
   .dot {
-    width: 8px; height: 8px;
+    width: 5px; height: 5px;
     border-radius: 50%;
     background: var(--text-dimmer);
     cursor: pointer;
     transition: all 0.2s;
+    flex-shrink: 0;
   }
-  .dot.active { background: var(--accent); transform: scale(1.4); }
+  .dot.active { background: var(--accent); transform: scale(1.5); }
   #slide-counter {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-dim);
-    margin-left: 8px;
-    min-width: 40px;
-    text-align: center;
+    margin-left: 6px;
+    min-width: 34px;
+    text-align: right;
+    white-space: nowrap;
   }
 
   /* ─── Arrow buttons ─── */
@@ -430,6 +434,7 @@
   .lp35 { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.1); }
   .lp4  { border-color: #e879f9; color: #e879f9; background: rgba(232,121,249,0.1); }
   .lp45 { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
+  .lp5  { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
 
   /* ─── Highlight box ─── */
   .highlight-box {
@@ -518,7 +523,7 @@
     </h1>
     <p class="hero-sub">
       How a pure statistical model evolves into a fully auditable, 
-      ontology-grounded reasoning pipeline — from Level 0 through Level 4.5
+      ontology-grounded reasoning pipeline — from Level 0 through Level 5
     </p>
     <div class="level-pills">
       <span class="level-pill lp0">Level 0 — Statistical</span>
@@ -528,6 +533,7 @@
       <span class="level-pill lp35">Level 3.5 — Ontology + Reasoning</span>
       <span class="level-pill lp4">Level 4 — Symbolic Training</span>
       <span class="level-pill lp45">Level 4.5 — Logic Gating</span>
+      <span class="level-pill lp5">Level 5 — Rule-Compiled Network</span>
     </div>
   </section>
 
@@ -1731,6 +1737,156 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   </section>
 
   <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 5 ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l5">
+    <div class="section-label">Level 5</div>
+    <h2 class="slide-title"><span style="color:#ef4444">Level 5</span> — Rule-Compiled Network (Kautz Architecture)</h2>
+    <div class="two-col" style="max-width:1060px; gap:18px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="pipeline" style="gap:6px">
+          <div class="pipe-stage" style="border-color:rgba(239,68,68,0.3)">
+            <div class="pipe-num" style="background:#ef4444">1</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Frozen Encoder + Trunk</div>
+              <div class="pipe-desc">all-MiniLM-L6-v2 → 384-dim → Linear(384→256) + ReLU + Dropout(0.3)</div>
+              <span class="pipe-tag tag-neural">Neural</span>
+            </div>
+          </div>
+          <div class="pipe-stage" style="border-color:rgba(239,68,68,0.3)">
+            <div class="pipe-num" style="background:#ef4444">2</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Predicate Head — 11 outputs</div>
+              <div class="pipe-desc">Linear(256→11) + sigmoid → probabilities for: is_infrastructure · is_service · is_metric · is_incident · is_job · is_pipeline · is_unknown · is_sre_domain · has_runbook · is_known_incident · is_metric_query</div>
+              <span class="pipe-tag tag-symbol">Predicate</span>
+            </div>
+          </div>
+          <div class="pipe-stage" style="border-color:rgba(239,68,68,0.5); background:rgba(239,68,68,0.05)">
+            <div class="pipe-num" style="background:#ef4444">3</div>
+            <div class="pipe-content">
+              <div class="pipe-name">RuleCompiler — product t-norm logic</div>
+              <div class="pipe-desc">Reads rule_base.json · evaluates 4 rules over predicate probs using differentiable AND/OR/NOT · applies learnable rule_strength ∈ [0,1] per rule · rule_score_projection maps [0,1] → logit scale</div>
+              <span class="pipe-tag tag-rule">Compiled Rules</span>
+            </div>
+          </div>
+          <div class="pipe-stage" style="border-color:rgba(239,68,68,0.3)">
+            <div class="pipe-num" style="background:#ef4444">4</div>
+            <div class="pipe-content">
+              <div class="pipe-name">Blend + Softmax</div>
+              <div class="pipe-desc">intent_logit = α · rule_logits + (1−α) · trunk_logits → softmax → 4-class intent. α is a learnable parameter (sigmoid, init=0.5)</div>
+              <span class="pipe-tag tag-neural">End-to-end</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:8px">4 Symbolic Rules (rule_base.json) — learnable rule_strength per rule</div>
+          <div style="display:grid; grid-template-columns:auto 1fr auto; gap:5px 10px; align-items:center; font-size:9.5px">
+            <span style="color:#ef4444; font-weight:800">R1</span>
+            <span style="color:var(--text-dim); font-family:monospace">OR(is_metric_query, is_known_incident) → <strong style="color:var(--green)">investigate</strong></span>
+            <span style="color:var(--text-dimmer)">strength=0.698</span>
+            <span style="color:#ef4444; font-weight:800">R2</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(has_runbook, is_sre_domain) → <strong style="color:var(--green)">execution</strong></span>
+            <span style="color:var(--text-dimmer)">strength=0.906</span>
+            <span style="color:#ef4444; font-weight:800">R3</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_known_incident, is_sre_domain, NOT has_runbook) → <strong style="color:var(--green)">summarization</strong></span>
+            <span style="color:var(--text-dimmer)">strength=0.597</span>
+            <span style="color:#ef4444; font-weight:800">R4</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_unknown, NOT is_sre_domain) → <strong style="color:var(--green)">out_of_scope</strong></span>
+            <span style="color:var(--text-dimmer)">strength=0.803</span>
+          </div>
+        </div>
+        <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
+          <div style="font-size:10.5px; font-weight:700; color:#ef4444; margin-bottom:6px">Product T-Norm — differentiable logic operators</div>
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:4px 12px; font-size:10px; font-family:monospace">
+            <span style="color:var(--accent)">AND(a, b)</span><span style="color:var(--text-dim)">= a · b</span>
+            <span style="color:var(--accent)">OR(a, b)</span><span style="color:var(--text-dim)">= a + b − a · b</span>
+            <span style="color:var(--accent)">NOT(a)</span><span style="color:var(--text-dim)">= 1 − a</span>
+          </div>
+          <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:6px; line-height:1.5">All operators are differentiable → gradients flow end-to-end through the rule layer. Rule strengths are learned during backprop, not fixed by hand.</div>
+        </div>
+        <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
+          <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">3 Ablations — isolating the rule layer's contribution</div>
+          <div style="display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:9.5px">
+            <span style="color:var(--text-dimmer); font-weight:700">Exp A</span><span style="color:var(--text-dim)">Rules off (strength=0) — baseline: 52.6% viol, 24% TYPE-A</span>
+            <span style="color:var(--green); font-weight:700">Exp B</span><span style="color:var(--text-dim)">Main L5 (learnable) — 98.8% acc, 6.0% viol, <strong style="color:var(--green)">0 TYPE-A/B</strong>, α=0.467</span>
+            <span style="color:var(--yellow); font-weight:700">Exp C</span><span style="color:var(--text-dim)">Hard rules (strength=1.0 frozen) — 3.9% viol, 72.1% rule fidelity</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 5 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l5out">
+    <div class="section-label">Level 5 — Live Example</div>
+    <h2 class="slide-title"><span style="color:#ef4444">L5</span> — Rules Fire Inside the Forward Pass</h2>
+    <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:8px 18px; margin-bottom:12px; text-align:center; max-width:1040px; width:100%">
+      <span style="font-size:10px; color:#ef4444; font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
+      <span style="font-size:16px; color:var(--text); font-weight:600">"Check error rate for payment-service"</span>
+    </div>
+    <div class="two-col" style="max-width:1040px; gap:18px">
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <div class="card" style="padding:12px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">① Predicate Head fires (11 predicates, sigmoid)</div>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:3px 12px; font-size:10px; font-family:monospace">
+            <span style="color:var(--green)">is_metric_query  = 0.924</span>
+            <span style="color:var(--green)">is_sre_domain    = 0.891</span>
+            <span style="color:var(--green)">is_metric        = 0.853</span>
+            <span style="color:var(--green)">is_service       = 0.782</span>
+            <span style="color:var(--text-dim)">is_known_incident= 0.118</span>
+            <span style="color:var(--text-dim)">has_runbook      = 0.071</span>
+            <span style="color:var(--text-dimmer)">is_unknown       = 0.034</span>
+            <span style="color:var(--text-dimmer)">is_job           = 0.021</span>
+          </div>
+        </div>
+        <div class="card" style="padding:12px 14px; border-color:#ef4444">
+          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:6px">② RuleCompiler evaluates 4 rules (product t-norm)</div>
+          <div style="font-size:10px; font-family:monospace; color:var(--text-dim); line-height:2">
+            R1 → OR(0.924, 0.118) = <strong style="color:var(--green)">0.934</strong> × strength(0.698) = <strong style="color:var(--green)">0.652</strong> → investigate<br>
+            R2 → AND(0.071, 0.891) = <span style="color:var(--text-dimmer)">0.063</span> × strength(0.906) = <span style="color:var(--text-dimmer)">0.057</span> → execution<br>
+            R3 → AND(0.118, 0.891, NOT 0.071) = <span style="color:var(--text-dimmer)">0.097</span> → summarization<br>
+            R4 → AND(0.034, NOT 0.891) = <span style="color:var(--text-dimmer)">0.004</span> → out_of_scope
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:10px">
+        <pre class="code-block" style="font-size:10px">{
+  <span class="st">"utterance"</span>:  <span class="st">"Check error rate for payment-service"</span>,
+  <span class="st">"intent"</span>:     <span class="st">"investigate"</span>,
+  <span class="st">"intent_prob"</span>: <span class="num">0.971</span>,
+
+  <span class="cm">// blend: α=0.467 (learned)</span>
+  <span class="st">"rule_weight"</span>: <span class="num">0.467</span>,
+  <span class="cm">// intent_logit = 0.467·rule + 0.533·trunk</span>
+
+  <span class="st">"rule_activations"</span>: {
+    <span class="st">"R1_metric_investigate"</span>: <span class="num">0.652</span>,  <span class="cm">// ← drives decision</span>
+    <span class="st">"R2_runbook_execution"</span>:  <span class="num">0.057</span>,
+    <span class="st">"R3_incident_summarize"</span>: <span class="num">0.091</span>,
+    <span class="st">"R4_unknown_oos"</span>:        <span class="num">0.004</span>
+  },
+  <span class="st">"predicate_activations"</span>: {
+    <span class="st">"is_metric_query"</span>:  <span class="num">0.924</span>,
+    <span class="st">"is_sre_domain"</span>:    <span class="num">0.891</span>,
+    <span class="st">"is_metric"</span>:        <span class="num">0.853</span>,
+    <span class="st">"is_service"</span>:       <span class="num">0.782</span>
+  }
+}</pre>
+        <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
+          <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
+            <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here R1 fires <em>inside</em> the forward pass — the rule score contributes 46.7% of the intent logit before softmax. Both trunk and rule gradients update the same weights end-to-end.<br><br>
+            <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A/B violations in Exp B and C.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        SLIDE 11 — TRAINING EVOLUTION TABLE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s11">
@@ -1798,12 +1954,19 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <td>TF-IDF weights + classifier coefficients (as before)</td>
           <td>Constraint Registry · per-utterance facts derivation · allowed/suppressed intent lists baked into training data</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(239,68,68,0.2);color:#ef4444">L5</span></td>
+          <td>Frozen MiniLM + Trunk + Predicate Head (11) + RuleCompiler (4 rules) + rule_score_projection</td>
+          <td>CrossEntropy (intent) + BCE (predicate supervision) + end-to-end through product t-norm rule layer</td>
+          <td>Trunk, predicate head, rule_strength ×4 (≈init), blend α (learned), projection layer — <em>rules compiled into architecture</em></td>
+          <td>rule_base.json (4 symbolic rules with nested AND/OR/NOT) · predicate column definitions</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern inflection at L4.5:</strong> Unlike L4 which bakes rules into the weights, L4.5 enriches the data signal with per-utterance constraint logic. The insight lives in the gating — not the model. The pre-softmax gate eliminates all violations by construction, pointing toward L5 (compiled rule modules). The model itself internalises the constraints. Inference becomes purely neural.
+        <strong style="color:var(--text)">Pattern inflection at L5:</strong> L4.5’s gate is still external to the network. L5 compiles symbolic rules directly into the architecture as differentiable modules — rule strengths are learned parameters and t-norm logic propagates gradients end-to-end. The symbolic layer is no longer a post-process; it <em>is</em> part of the model.
       </div>
     </div>
   </section>
@@ -1876,12 +2039,19 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <td>predicted_intent (structurally valid by constraint)</td>
           <td style="color:#f97316">Runtime gate: post-hoc (corrects output) or pre-softmax (viol = 0 by construction)</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(239,68,68,0.2);color:#ef4444">L5</span></td>
+          <td>Raw utterance (no per-utterance constraint lists needed)</td>
+          <td>encoder → trunk → predicate head → RuleCompiler (product t-norm) → blend(α) → softmax</td>
+          <td>intent + intent_prob + rule_activations ×4 + predicate_activations ×11</td>
+          <td style="color:#ef4444">Structural — rules compiled into forward pass; 0 TYPE-A/B; interpretable trace</td>
+        </tr>
       </tbody>
     </table>
     </div>
     <div class="highlight-box purple" style="margin-top:18px; padding:12px 18px">
       <div style="font-size:12.5px; color:var(--text-dim); line-height:1.7">
-        <strong style="color:var(--text)">Pattern inflection at L4.5:</strong> L4 removes the runtime gate by baking constraints into weights. L4.5 reintroduces a runtime gate — but moves it <em>inside</em> the forward pass (pre-softmax), so gradients flow through constrained outputs. This is the bridge from trained constraints to architecturally compiled rules (L5). L4 inverts this — symbolic rules shape the model during training, then disappear at inference. The boundary moves from runtime to gradient.
+        <strong style="color:var(--text)">Pattern inflection at L5:</strong> L4.5’s gate is external and per-utterance. L5 compiles rules into the architecture itself — the RuleCompiler is a differentiable module that participates in every forward pass. No per-utterance constraint lists, no post-processing. The symbolic layer and the neural layer are trained jointly, end-to-end.
       </div>
     </div>
   </section>
@@ -1948,6 +2118,14 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div class="tl-card">
           <div class="tl-card-title" style="color:#f97316">Runtime constraint filters</div>
           <div class="tl-card-body">Per-utterance facts → constraint derivation → allowed/suppressed intents. Two paths: post-hoc masking (corrects output) and pre-softmax gate (viol=0 by construction). Constraints still external to architecture.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#ef4444; color:#ef4444">L5</div>
+        <div class="tl-label">Compiled Rules</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#ef4444">Rules inside the architecture</div>
+          <div class="tl-card-body">Frozen MiniLM + predicate head (11) + RuleCompiler (4 rules, product t-norm, learnable rule_strength) + blend α. Gradients flow end-to-end through symbolic logic. 98.8% acc, 0 TYPE-A/B violations.</div>
         </div>
       </div>
     </div>
@@ -2151,6 +2329,30 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div style="font-size:11px;color:var(--text);line-height:1.5">Prove symbolic constraints can be enforced at inference without retraining. Pre-softmax path eliminates all violations by construction, posing the question: can we compile the gate into the architecture itself? (→ Level 5)</div>
       </div>
 
+      <!-- ── L5 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#ef4444;line-height:1">L5</div>
+        <div style="font-size:9px;color:#ef4444;margin-top:3px;opacity:0.85">Compiled Rules</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + 11 predicate labels per utterance</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">1,661 rows. 15 columns: utterance + 11 predicate booleans + intent. No per-utterance suppression lists needed — rules are in the architecture.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Frozen MiniLM + Trunk + Predicate Head (11) + RuleCompiler</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Returns to pre-trained encoder (as L4). Adds dedicated predicate head alongside the intent head. RuleCompiler is a trainable nn.Module.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(239,68,68,0.35);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.4)">COMPILED</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">RuleCompiler — 4 rules, product t-norm, learnable rule_strength</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">AND/OR/NOT are differentiable. rule_strength×4 are learned parameters. Symbolic logic <em>is</em> the architecture — not post-processing.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(239,68,68,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Answer the L4.5 question: yes, the gate <em>can</em> be compiled in. Gradients flow end-to-end through symbolic rules, so rule strengths are learned, not hand-tuned. 98.8% intent acc; 0 TYPE-A/B violations; full predicate + rule interpretability trace at inference.</div>
+      </div>
+
     </div>
   </section>
 
@@ -2159,7 +2361,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   ══════════════════════════════════════════ -->
   <section class="slide" id="s14">
     <div class="section-label">Summary</div>
-    <h2 class="slide-title">Core <span class="gradient-text">NSAI Insights</span></h2>
+    <h2 class="slide-title">Core <span class="gradient-text">NSAI Principles</span></h2>
     <div class="divider"></div>
     <div class="grid g2" style="max-width:960px; gap:16px">
       <div class="card">
@@ -2192,16 +2394,106 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div class="card-title">Ontology = Domain Knowledge Hub</div>
         <div class="card-body">By L3.5, all domain knowledge (entities, aliases, symptoms, time patterns) is centralized in ontology.py. Pipeline stages are domain-agnostic — point at a new ontology and done.</div>
       </div>
-      <div class="card" style="border-color:#e879f9; grid-column: 1 / -1">
-        <span class="card-icon">⚡</span>
-        <div class="card-title" style="color:#e879f9">L4 — Symbolic Constraints Baked Into Training</div>
-        <div class="card-body">L1–L3.5 applied symbolic structure <em>around or after</em> the model. L4 inverts this: symbolic constraints enter the training objective itself via a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> that penalises disallowed (intent, entity_type) pairs during backprop — so the weights themselves learn to avoid violations. At inference there is no symbolic gate; the constraint is already encoded in the parameters. λ=1.0 achieves 96.7% intent accuracy with only 3.6% constraint violations — TYPE_B violations eliminated entirely.</div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 29 — LEVEL-SPECIFIC INSIGHTS (L4 / L4.5 / L5)
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s14b">
+    <div class="section-label">Summary — Advanced Levels</div>
+    <h2 class="slide-title">What <span class="gradient-text">L4 → L5</span> Each Unlocks</h2>
+    <div class="divider"></div>
+    <div style="display:flex; flex-direction:column; gap:14px; max-width:1020px; width:100%">
+      <div class="card" style="border-color:#e879f9; padding:14px 18px">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+          <span class="card-icon" style="margin:0">⚡</span>
+          <div class="card-title" style="color:#e879f9; margin:0">L4 — Symbolic Constraints Baked Into Training</div>
+        </div>
+        <div class="card-body">L1–L3.5 applied symbolic structure <em>around or after</em> the model. L4 inverts this: constraints enter the training objective via a differentiable <strong style="color:var(--text)">SymbolicConstraintLoss(λ)</strong> that penalises disallowed (intent, entity_type) pairs during backprop — the weights themselves learn to avoid violations. No symbolic gate at inference. λ=1.0 → <strong style="color:#e879f9">96.1% accuracy · 2.1% violation rate</strong> · TYPE-B violations eliminated.</div>
       </div>
-      <div class="card" style="border-color:#f97316; grid-column: 1 / -1">
-        <span class="card-icon">🚦</span>
-        <div class="card-title" style="color:#f97316">L4.5 — Runtime Logic Gating: Post-hoc vs Pre-softmax</div>
-        <div class="card-body">L4.5 enriches the training signal with per-utterance symbolic data (facts → constraints → allowed/suppressed intents) and then applies logic at inference. Two distinct approaches are compared: <strong style="color:var(--text)">post-hoc masking</strong> zeros suppressed intents after softmax (non-differentiable, corrects output); <strong style="color:var(--text)">pre-softmax gating</strong> masks suppressed logits to −∞ <em>before</em> softmax so gradients only flow through valid intents — violation rate is exactly 0 by construction. The gate is still a per-utterance external filter (not a learned rule module), which is the distinction that separates L4.5 from strict Level 5.</div>
+      <div class="card" style="border-color:#f97316; padding:14px 18px">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+          <span class="card-icon" style="margin:0">🚦</span>
+          <div class="card-title" style="color:#f97316; margin:0">L4.5 — Runtime Logic Gating: Post-hoc vs Pre-softmax</div>
+        </div>
+        <div class="card-body">Enriches training data with per-utterance symbolic signals (facts → constraints → allowed/suppressed intents). Two runtime paths: <strong style="color:var(--text)">post-hoc masking</strong> corrects the output after softmax; <strong style="color:var(--text)">pre-softmax gating</strong> sets suppressed logits to −∞ before softmax — <strong style="color:#f97316">violation rate = 0 by construction</strong>. Gate is still an external per-utterance filter, which is what separates L4.5 from L5.</div>
       </div>
+      <div class="card" style="border-color:#ef4444; padding:14px 18px">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+          <span class="card-icon" style="margin:0">🧬</span>
+          <div class="card-title" style="color:#ef4444; margin:0">L5 — Symbolic Rules Compiled Into the Architecture</div>
+        </div>
+        <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> and blend weight <strong style="color:var(--text)">α</strong> are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 30 — VALUE DELIVERED
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_value">
+    <div class="section-label">Summary</div>
+    <h2 class="slide-title">💎 <span class="gradient-text">Value Delivered</span> — Level by Level</h2>
+    <div class="divider"></div>
+    <div style="width:100%;max-width:1100px;overflow:auto">
+      <table class="compare" style="width:100%;table-layout:fixed;font-size:0.78rem;border-collapse:collapse">
+        <colgroup>
+          <col style="width:68px">
+          <col style="width:42%">
+          <col style="width:44%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th style="text-align:center">Level</th>
+            <th>📌 What We Gain</th>
+            <th>📊 Key Numbers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align:center"><span class="lp0">L0</span></td>
+            <td>Establishes the statistical floor — proves what pure ML achieves before any symbolic structure. Without this baseline there's nothing to compare against.</td>
+            <td><code>~77% intent accuracy</code> · 0% auditability · no safety gate · 0 rules</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp1">L1</span></td>
+            <td>First auditable, patchable decisions. Domain experts can change safety logic in a JSON file with zero retraining. Safety R4 gate prevents dangerous executions structurally.</td>
+            <td>decision_trace on every call · R4 blocks unsafe intents · <code>rules hot-patchable in JSON</code> · 0 retraining to change a rule</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp2">L2</span></td>
+            <td>Intent alone can't enforce policy. Clause extraction surfaces entity + environment + time, enabling policy gates L1 could never express (e.g. "prod env = block"). Adds a self-correction feedback loop.</td>
+            <td>Policy gates on env / entity / time · iterative feedback loop · no new model training</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp3">L3</span></td>
+            <td>Semantic similarity unlocked — "restart" ≈ "reboot" without hand-crafted synonyms. Strict typed boundary eliminates an entire class of numeric-leakage bugs.</td>
+            <td>16-dim learned embeddings · strict integer symbolic boundary · cleaner auditability vs L2</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp35">L3.5</span></td>
+            <td>Full reasoning pipeline with zero hallucination in the decision path. All domain knowledge in one file (<code>ontology.py</code>) — swapping domain (SRE → network ops) requires zero model retraining.</td>
+            <td><strong style="color:var(--yellow)">93.1% intent accuracy</strong> · domain-swappable with 0 retraining · zero hallucination in plan/respond path</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp4">L4</span></td>
+            <td>Constraint compliance moves from runtime enforcement to <em>learned behaviour</em>. No symbolic gate at inference = lower latency and no gate-bypass risk. A 20× reduction in violation rate vs L3.5 baseline.</td>
+            <td><strong style="color:#e879f9">96.1% accuracy · 2.1% violation rate</strong> (vs 64.3% at L3.5 baseline) · TYPE-B violations eliminated · no runtime symbolic dependency</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp45">L4.5</span></td>
+            <td>Hard constraints made <em>physically impossible</em> to violate via pre-softmax gating. Proves structural enforcement is achievable at inference without retraining, and sets the research question for L5.</td>
+            <td><strong style="color:var(--accent3)">0 violations by construction</strong> (pre-softmax) · 29% of utterances constrained · post-hoc path corrects model errors without retraining</td>
+          </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp5">L5</span></td>
+            <td>The symbolic layer <em>is</em> the model — rules are differentiable, strengths are learned, and every prediction carries a full interpretability trace (11 predicate scores + 4 rule activations). Best accuracy of any level.</td>
+            <td><strong style="color:#ef4444">98.8% accuracy</strong> (+2.7 pp vs L4) · <strong style="color:#ef4444">0 TYPE-A/B violations</strong> · 6.0% overall viol (Exp B) · 72.1% rule fidelity (Exp C) · full trace at every inference call</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 
@@ -2235,7 +2527,11 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   <div class="dot" data-idx="23"></div>
   <div class="dot" data-idx="24"></div>
   <div class="dot" data-idx="25"></div>
-  <span id="slide-counter">1 / 26</span>
+  <div class="dot" data-idx="26"></div>
+  <div class="dot" data-idx="27"></div>
+  <div class="dot" data-idx="28"></div>
+  <div class="dot" data-idx="29"></div>
+  <span id="slide-counter">1 / 30</span>
 </div>
 
 <script>

@@ -19,7 +19,7 @@ Architecture:
         rule_score  = rule_layer.scatter_to_intents(rule_activations)  [B, 4]
         trunk_score = intent_head(trunk)                                [B, 4]
         rule_logits = rule_score_projection(intent_rule_scores)  [B, 4]  ← projects [0,1] rule scores to logit scale
-    final_logit = rule_weight * rule_logits + (1 - rule_weight) * trunk_logits
+        final_logit = rule_weight * rule_logits + (1 - rule_weight) * trunk_logits
         ↓
     softmax → 4 intent classes
 

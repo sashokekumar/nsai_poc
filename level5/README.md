@@ -80,9 +80,15 @@ Defined in `level5/data/rule_base.json`. Four rules derived from SRE domain know
   "rules": [
     {
       "name": "R1_metric_investigate",
-      "logic": {"op": "OR", "args": ["is_metric_query", "is_known_incident"]},
-      "consequent": "investigate",
-      "strength_init": 0.7
+      "antecedents": {
+        "logic": "OR",
+        "operands": [
+          {"predicate": "is_metric_query"},
+          {"predicate": "is_known_incident"}
+        ]
+      },
+      "consequent_intent": "investigate",
+      "rule_strength_init": 0.7
     }
   ]
 }
@@ -143,6 +149,8 @@ python -m level5.infer --checkpoint saved_models/exp_b_l5_main/best_model.pt \
 | L5-C (hard rules) | 0.9880 | 0.8834 | 0.7207 | 0.0390 | 0.0 | 0.0 | 0.0631 | [1.000, 1.000, 1.000, 1.000] | 0.500 |
 
 ### Key Findings
+
+> **Ablation caveat**: All three L5 variants reach the same 98.8% intent accuracy, so accuracy alone does not demonstrate what the rule layer adds. The stronger evidence is the ablation: with rules off (Exp A), accuracy stays at 98.8% but the violation rate spikes to 52.6%. With rules on (Exp B/C), violations drop to 3.9–6.0%. The rule layer contributes **symbolic validity**, not just accuracy.
 
 - **All L5 variants reach 98.8% intent accuracy** — +2.7 pp over L4 λ=2.0 (96.1%)
 - **Exp A (rules truly off)** confirms the rule layer is essential: without rules, violation rate rises to 52.6% with high TYPE-A (24%) and TYPE-C (53%) — pure trunk provides no symbolic grounding
