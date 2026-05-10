@@ -3,8 +3,8 @@
 Training script for Level 5 rule-compiled neural model.
 
 Usage:
-    # Experiment A — rules disabled (rule_strength frozen at 0, pred_weight=0)
-    python -m level5.train --run-name exp_a_rules_disabled --freeze-rules --pred-weight 0.0
+    # Experiment A — rules disabled (rule_strength frozen at 0.0, pred_weight=0)
+    python -m level5.train --run-name exp_a_rules_disabled --freeze-rules --rule-strength-init 0.0 --pred-weight 0.0
 
     # Experiment B — main Level 5 run (rules learnable, predicates supervised)
     python -m level5.train --run-name exp_b_l5_main

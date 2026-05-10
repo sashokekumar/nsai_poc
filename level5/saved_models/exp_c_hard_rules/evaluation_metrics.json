@@ -8,27 +8,27 @@
     "execution": 0.988,
     "out_of_scope": 1.0
   },
-  "predicate_acc_overall": 0.8813,
+  "predicate_acc_overall": 0.8834,
   "predicate_acc_per_head": {
-    "is_infrastructure": 0.7598,
+    "is_infrastructure": 0.7327,
     "is_service": 0.7868,
     "is_metric": 0.9069,
     "is_incident": 0.985,
     "is_job": 0.991,
     "is_pipeline": 0.958,
-    "is_unknown": 0.8949,
-    "is_sre_domain": 0.6306,
-    "has_runbook": 0.9159,
+    "is_unknown": 0.9069,
+    "is_sre_domain": 0.7027,
+    "has_runbook": 0.8619,
     "is_known_incident": 0.955,
-    "is_metric_query": 0.9099
+    "is_metric_query": 0.9309
   },
-  "rule_fidelity": 0.7628,
+  "rule_fidelity": 0.7207,
   "fidelity_eligible_rows": 333,
   "mean_rule_activations": {
-    "R1_metric_investigate": 0.228,
-    "R2_runbook_execution": 0.1479,
-    "R3_incident_summarization": 0.0358,
-    "R4_unknown_out_of_scope": 0.2885
+    "R1_metric_investigate": 0.1061,
+    "R2_runbook_execution": 0.0829,
+    "R3_incident_summarization": 0.0126,
+    "R4_unknown_out_of_scope": 0.3091
   },
   "rule_strengths": {
     "R1_metric_investigate": 0.9999,
@@ -37,11 +37,11 @@
     "R4_unknown_out_of_scope": 0.9999
   },
   "blend_weight": 0.5,
-  "total_violations": 8,
-  "overall_violation_rate": 0.024,
+  "total_violations": 13,
+  "overall_violation_rate": 0.039,
   "type_a_false_rejection": 0.0,
   "type_b_false_execution": 0.0,
-  "type_c_ungrounded_sre": 0.0841,
+  "type_c_ungrounded_sre": 0.0631,
   "per_pair_violations": {
     "out_of_scope+infrastructure": 0,
     "out_of_scope+service": 0,
@@ -51,7 +51,7 @@
     "out_of_scope+pipeline": 0,
     "execution+incident": 0,
     "execution+metric": 0,
-    "summarization+unknown": 6,
-    "investigate+unknown": 2
+    "summarization+unknown": 7,
+    "investigate+unknown": 6
   }
 }

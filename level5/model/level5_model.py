@@ -18,7 +18,8 @@ Architecture:
     Intent logit blend
         rule_score  = rule_layer.scatter_to_intents(rule_activations)  [B, 4]
         trunk_score = intent_head(trunk)                                [B, 4]
-        final_logit = rule_weight * rule_score + (1 - rule_weight) * trunk_score
+        rule_logits = rule_score_projection(intent_rule_scores)  [B, 4]  ← projects [0,1] rule scores to logit scale
+    final_logit = rule_weight * rule_logits + (1 - rule_weight) * trunk_logits
         ↓
     softmax → 4 intent classes
 
@@ -116,11 +117,19 @@ class Level5IntentModel(nn.Module):
         self.intent_head = nn.Linear(HIDDEN_DIM, NUM_INTENTS)
 
         # ------------------------------------------------------------------
+        # Rule score projection — maps rule scores from [0,1] to logit scale
+        # so they are on the same scale as trunk_logits before blending.
+        # Initialized as identity-like (no bias) so early training is stable.
+        # ------------------------------------------------------------------
+        self.rule_score_projection = nn.Linear(NUM_INTENTS, NUM_INTENTS, bias=True)
+
+        # ------------------------------------------------------------------
         # Blend weight: fraction of final logit from rule layer
         # Stored as a logit so sigmoid keeps it in [0, 1] during training
         # ------------------------------------------------------------------
         import math
-        rw_logit = math.log(rule_weight / (1.0 - max(min(rule_weight, 0.9999), 0.0001)))
+        p = max(min(rule_weight, 0.9999), 0.0001)
+        rw_logit = math.log(p / (1.0 - p))
         if rule_weight_learnable:
             self.rule_weight_logit = nn.Parameter(torch.tensor(rw_logit))
         else:
@@ -154,7 +163,8 @@ class Level5IntentModel(nn.Module):
             intent_logits     : [B, 4]  — final blended intent logits
             predicate_probs   : [B, 11] — sigmoid predicate activations
             rule_activations  : [B, n_rules] — per-rule weighted activation scores
-            intent_rule_scores: [B, 4]  — rule layer's contribution to intent logits
+            intent_rule_scores: [B, 4]  — raw rule activations scattered to intent dims
+            rule_logits       : [B, 4]  — rule scores projected to logit scale
             trunk_logits      : [B, 4]  — residual trunk-only intent logits
             rule_weight       : scalar  — current blend weight (sigmoid)
         """
@@ -171,10 +181,12 @@ class Level5IntentModel(nn.Module):
         # Residual trunk intent logits
         trunk_logits = self.intent_head(trunk)               # [B, 4]
 
-        # Blend: α * rule_scores + (1-α) * trunk_logits
+        # Project rule scores from [0,1] to logit scale, then blend
+        # with trunk logits. Both are now on the same unbounded scale.
+        rule_logits  = self.rule_score_projection(intent_rule_scores)  # [B, 4]
         rule_weight  = torch.sigmoid(self.rule_weight_logit)
         intent_logits = (
-            rule_weight       * intent_rule_scores
+            rule_weight       * rule_logits
             + (1 - rule_weight) * trunk_logits
         )                                                    # [B, 4]
 
@@ -183,6 +195,7 @@ class Level5IntentModel(nn.Module):
             "predicate_probs":    predicate_probs,
             "rule_activations":   rule_activations,
             "intent_rule_scores": intent_rule_scores,
+            "rule_logits":        rule_logits,
             "trunk_logits":       trunk_logits,
             "rule_weight":        rule_weight,
         }

@@ -8,50 +8,50 @@
     "execution": 0.988,
     "out_of_scope": 1.0
   },
-  "predicate_acc_overall": 0.6604,
+  "predicate_acc_overall": 0.3574,
   "predicate_acc_per_head": {
-    "is_infrastructure": 0.7598,
-    "is_service": 0.3874,
-    "is_metric": 0.6156,
-    "is_incident": 0.5766,
-    "is_job": 0.3423,
-    "is_pipeline": 0.8949,
-    "is_unknown": 0.8649,
-    "is_sre_domain": 0.6156,
-    "has_runbook": 0.8318,
-    "is_known_incident": 0.5856,
-    "is_metric_query": 0.7898
+    "is_infrastructure": 0.2432,
+    "is_service": 0.2282,
+    "is_metric": 0.1051,
+    "is_incident": 0.5165,
+    "is_job": 0.2553,
+    "is_pipeline": 0.6036,
+    "is_unknown": 0.2793,
+    "is_sre_domain": 0.3724,
+    "has_runbook": 0.3934,
+    "is_known_incident": 0.4655,
+    "is_metric_query": 0.4685
   },
-  "rule_fidelity": 0.7748,
-  "fidelity_eligible_rows": 333,
+  "rule_fidelity": 0.0033,
+  "fidelity_eligible_rows": 303,
   "mean_rule_activations": {
-    "R1_metric_investigate": 0.3766,
-    "R2_runbook_execution": 0.2701,
-    "R3_incident_summarization": 0.1349,
-    "R4_unknown_out_of_scope": 0.2129
+    "R1_metric_investigate": 0.0001,
+    "R2_runbook_execution": 0.0,
+    "R3_incident_summarization": 0.0,
+    "R4_unknown_out_of_scope": 0.0
   },
   "rule_strengths": {
-    "R1_metric_investigate": 0.7,
-    "R2_runbook_execution": 0.9,
-    "R3_incident_summarization": 0.6,
-    "R4_unknown_out_of_scope": 0.8
+    "R1_metric_investigate": 0.0001,
+    "R2_runbook_execution": 0.0001,
+    "R3_incident_summarization": 0.0001,
+    "R4_unknown_out_of_scope": 0.0001
   },
   "blend_weight": 0.5,
-  "total_violations": 6,
-  "overall_violation_rate": 0.018,
-  "type_a_false_rejection": 0.0,
-  "type_b_false_execution": 0.009,
-  "type_c_ungrounded_sre": 0.048,
+  "total_violations": 175,
+  "overall_violation_rate": 0.5255,
+  "type_a_false_rejection": 0.2402,
+  "type_b_false_execution": 0.0,
+  "type_c_ungrounded_sre": 0.5345,
   "per_pair_violations": {
     "out_of_scope+infrastructure": 0,
     "out_of_scope+service": 0,
-    "out_of_scope+metric": 0,
+    "out_of_scope+metric": 80,
     "out_of_scope+incident": 0,
     "out_of_scope+job": 0,
     "out_of_scope+pipeline": 0,
-    "execution+incident": 3,
+    "execution+incident": 0,
     "execution+metric": 0,
-    "summarization+unknown": 2,
-    "investigate+unknown": 1
+    "summarization+unknown": 12,
+    "investigate+unknown": 83
   }
 }
