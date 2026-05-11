@@ -112,31 +112,64 @@ def _mean_cosine_to_centroid(members: np.ndarray, centroid: np.ndarray) -> float
 # Symbol name auto-derivation
 # ---------------------------------------------------------------------------
 
-def _symbol_name(centroid_dict: dict[str, float]) -> str:
+def _symbol_name(centroid_dict: dict[str, float], dominant_confusion: str = "") -> str:
     """
-    Derives a human-readable symbol name from the cluster centroid:
-        SYM_<top2_present>__NOT_<top1_absent>
+    Two-mode symbol naming that reflects what the cluster *actually signals*.
 
-    If there are fewer than 2 present or no absent predicates the name is
-    derived from whatever is available.
+    Mode 1 — Present-predicate mode (at least one centroid >= PRESENT_THRESHOLD):
+        SYM_<top1_present>__<top2_present>__NOT_<top1_absent>
+        Used when the model fires strongly on known predicates.  The centroid
+        itself is the grounding.
+
+    Mode 2 — Uncertainty-boundary mode (all centroids < PRESENT_THRESHOLD):
+        SYM_<top_uncertain>__<predicted>_vs_<gold>
+        Used when *no* predicate fires confidently.  The cluster does not
+        represent a known concept — it represents a MISSING discriminative
+        signal.  The confusion transition (predicted->gold) names what the
+        model cannot separate.  This is cognitively more meaningful than
+        listing the predicates that nearly-fired.
 
     Examples
     --------
-    centroid = {is_service: 0.91, is_sre_domain: 0.82, has_runbook: 0.07, ...}
-    → "SYM_is_service__is_sre_domain__NOT_has_runbook"
+    Strong predicates:
+        centroid = {is_service: 0.91, is_sre_domain: 0.82, has_runbook: 0.07}
+        -> "SYM_is_service__is_sre_domain__NOT_has_runbook"
+
+    Uncertain centroid (the common case for boundary failures):
+        top uncertain = is_sre_domain (0.44), confusion = investigate -> summarization
+        -> "SYM_sre_domain__investigate_vs_summarization"
     """
     sorted_by_val = sorted(centroid_dict.items(), key=lambda x: x[1], reverse=True)
     present  = [k for k, v in sorted_by_val if v >= PRESENT_THRESHOLD]
     absent   = [k for k, v in sorted_by_val if v <= ABSENT_THRESHOLD]
-    # sort absent ascending so the most-absent predicate is first
     absent_sorted = sorted(absent, key=lambda k: centroid_dict[k])
 
-    parts = present[:2] if present else [sorted_by_val[0][0]]
-    not_parts = absent_sorted[:1] if absent_sorted else []
+    if present:
+        # Mode 1: strong present predicates drive the name
+        parts     = present[:2]
+        not_parts = absent_sorted[:1]
+        name = "SYM_" + "__".join(parts)
+        if not_parts:
+            name += "__NOT_" + not_parts[0]
+        return name
 
-    name = "SYM_" + "__".join(parts)
-    if not_parts:
-        name += "__NOT_" + not_parts[0]
+    # Mode 2: uncertainty-boundary — the cluster marks missing discriminative evidence
+    # Top uncertain = highest centroid still below PRESENT_THRESHOLD
+    top_pred = sorted_by_val[0][0] if sorted_by_val else "unknown"
+    # Strip leading "is_" for readability in the confusion-based name
+    top_pred_clean = top_pred[3:] if top_pred.startswith("is_") else top_pred
+
+    if dominant_confusion:
+        parts = dominant_confusion.split(" -> ")
+        if len(parts) == 2:
+            pred_side = parts[0].strip()
+            gold_side = parts[1].strip()
+            return f"SYM_{top_pred_clean}__{pred_side}_vs_{gold_side}"
+
+    # Fallback: best-effort from centroid alone
+    name = "SYM_" + "__".join([sorted_by_val[0][0]])
+    if absent_sorted:
+        name += "__NOT_" + absent_sorted[0]
     return name
 
 
@@ -236,7 +269,7 @@ def cluster_failures(
 
         clusters.append({
             "cluster_id":                int(cid),
-            "symbol_name":               _symbol_name(centroid_dict),
+            "symbol_name":               _symbol_name(centroid_dict, dominant_confusion),
             "size":                      int(members.shape[0]),
             "is_noise_cluster":          cid == -1,
             "dominant_confusion":        dominant_confusion,

@@ -1,0 +1,17 @@
+{
+  "symbol_id": "S_002",
+  "symbol_name": "SYM_has_runbook__execution_vs_out_of_scope",
+  "candidate_rule_name": "R_S_002_SYM_has_runbook__execution_vs_out_of_scope",
+  "dominant_confusion": "execution -> out_of_scope",
+  "majority_gold_intent": "execution",
+  "cluster_size": 603,
+  "non_failure_size": 911,
+  "acc_baseline_cluster": 0.3765,
+  "acc_injected_cluster": 0.2454,
+  "accuracy_delta_noretrain": -0.131,
+  "false_positive_rate": 0.0,
+  "promotion_eligible": false,
+  "promotion_reasons": [
+    "accuracy_delta_noretrain -0.131 < min 0.03"
+  ]
+}

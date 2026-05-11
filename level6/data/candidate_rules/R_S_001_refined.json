@@ -1,0 +1,52 @@
+{
+  "_l6_symbol_id": "S_001",
+  "_l6_source_cluster_id": "see symbol_registry.json/S_001",
+  "_l6_dominant_confusion": "investigate -> summarization",
+  "_l6_majority_gold_intent": "investigate",
+  "_l6_status": "ok",
+  "_l6_redundant_with": "",
+  "name": "R_S_001_SYM_sre_domain__investigate_vs_summarization_refined",
+  "description": "Candidate rule born from failure cluster S_001. Targets confusion: investigate -> summarization. Coverage: 654 failures. Antecedent tightened by PredicateEvolver (Task 20/21): added NOT has_runbook NOT is_infrastructure. Contradictory conditions removed: NOT is_sre_domain.",
+  "antecedents": {
+    "logic": "AND",
+    "operands": [
+      {
+        "predicate": "is_sre_domain"
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_incident"
+        }
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "has_runbook"
+        }
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_infrastructure"
+        }
+      }
+    ]
+  },
+  "consequent_intent": "investigate",
+  "rule_strength_init": 0.7809,
+  "_l6_coverage": 654,
+  "_l6_cohesion": 0.9761,
+  "_l6_grounding_quality": 0.7987,
+  "_l6_file_stem": "R_S_001_refined",
+  "_l6_refined_from": "R_S_001_SYM_sre_domain__investigate_vs_summarization",
+  "_l6_rejected_conditions": [
+    "'AND NOT is_sre_domain' contradicts base 'is_sre_domain': mu_tp=0.5195 > 0.45 -- most TP rows would fail this condition"
+  ],
+  "_l6_accepted_conditions": [
+    "NOT has_runbook",
+    "NOT is_infrastructure"
+  ],
+  "_l6_original_fpr": 0.4555,
+  "_l6_estimated_residual_fpr": 0.0
+}

@@ -1,0 +1,184 @@
+{
+  "current_cycle": 5,
+  "symbols": {
+    "S_001": {
+      "symbol_id": "S_001",
+      "name": "SYM_sre_domain__investigate_vs_summarization",
+      "status": "deprecated",
+      "created_cycle": 0,
+      "last_evaluated_cycle": 0,
+      "predicate_profile": {
+        "present": [],
+        "absent": [
+          "is_incident",
+          "is_job",
+          "is_pipeline",
+          "is_known_incident",
+          "is_metric_query",
+          "has_runbook",
+          "is_metric",
+          "is_unknown",
+          "is_service"
+        ],
+        "uncertain": [
+          "is_infrastructure",
+          "is_sre_domain"
+        ],
+        "centroid": {
+          "is_infrastructure": 0.3366,
+          "is_service": 0.2963,
+          "is_metric": 0.1168,
+          "is_incident": 0.018,
+          "is_job": 0.0203,
+          "is_pipeline": 0.0315,
+          "is_unknown": 0.1215,
+          "is_sre_domain": 0.4761,
+          "has_runbook": 0.113,
+          "is_known_incident": 0.0421,
+          "is_metric_query": 0.0647
+        }
+      },
+      "coverage": 654,
+      "cohesion": 0.9761,
+      "grounding_quality": 0.7987,
+      "dominant_confusion": "investigate -> summarization",
+      "majority_gold_intent": "investigate",
+      "majority_predicted_intent": "investigate",
+      "example_utterances": [
+        "summarize the observability stack health",
+        "provide a brief on the service catalog update status",
+        "summarize the load test performance baseline results",
+        "analyze the pod restart loop on the payment service",
+        "provide a recap of the network changes this quarter"
+      ],
+      "low_confidence_grounding": false,
+      "candidate_rule_name": "R_S_001_refined",
+      "rule_strength_init": 0.7809,
+      "accuracy_delta_noretrain": 0.005,
+      "false_positive_rate": 0.0362,
+      "retrain_delta_over_noretrain": 0.0255,
+      "consecutive_weak_cycles": 2,
+      "weakening_count": 3,
+      "deprecated_cycle": 4
+    },
+    "S_002": {
+      "symbol_id": "S_002",
+      "name": "SYM_has_runbook__execution_vs_out_of_scope",
+      "status": "proposed",
+      "created_cycle": 0,
+      "last_evaluated_cycle": 4,
+      "predicate_profile": {
+        "present": [],
+        "absent": [
+          "is_incident",
+          "is_job",
+          "is_known_incident",
+          "is_pipeline",
+          "is_metric_query",
+          "is_metric",
+          "is_service",
+          "is_unknown"
+        ],
+        "uncertain": [
+          "is_infrastructure",
+          "is_sre_domain",
+          "has_runbook"
+        ],
+        "centroid": {
+          "is_infrastructure": 0.3313,
+          "is_service": 0.2416,
+          "is_metric": 0.0968,
+          "is_incident": 0.0563,
+          "is_job": 0.0639,
+          "is_pipeline": 0.0801,
+          "is_unknown": 0.2579,
+          "is_sre_domain": 0.4848,
+          "has_runbook": 0.5054,
+          "is_known_incident": 0.0798,
+          "is_metric_query": 0.085
+        }
+      },
+      "coverage": 30,
+      "cohesion": 0.9967,
+      "grounding_quality": 0.7249,
+      "dominant_confusion": "execution -> out_of_scope",
+      "majority_gold_intent": "execution",
+      "majority_predicted_intent": "execution",
+      "example_utterances": [
+        "how do I trigger an automatic savings transfer",
+        "how do I add a health check endpoint to my django app",
+        "enable the web application firewall rules",
+        "run the tls delegation certificate signing request",
+        "enable the transparent hugepages for the database"
+      ],
+      "low_confidence_grounding": false,
+      "candidate_rule_name": "R_S_002_SYM_has_runbook__execution_vs_out_of_scope",
+      "rule_strength_init": 0.7974,
+      "accuracy_delta_noretrain": -0.131,
+      "false_positive_rate": 0.0,
+      "retrain_delta_over_noretrain": null,
+      "consecutive_weak_cycles": 0,
+      "weakening_count": 0
+    },
+    "S_003": {
+      "symbol_id": "S_003",
+      "name": "SYM_unknown__out_of_scope_vs_summarization",
+      "status": "deprecated",
+      "created_cycle": 0,
+      "last_evaluated_cycle": 0,
+      "predicate_profile": {
+        "present": [],
+        "absent": [
+          "is_incident",
+          "is_job",
+          "is_pipeline",
+          "has_runbook",
+          "is_known_incident",
+          "is_metric_query",
+          "is_infrastructure",
+          "is_metric",
+          "is_sre_domain",
+          "is_service"
+        ],
+        "uncertain": [
+          "is_unknown"
+        ],
+        "centroid": {
+          "is_infrastructure": 0.1358,
+          "is_service": 0.2562,
+          "is_metric": 0.1449,
+          "is_incident": 0.0211,
+          "is_job": 0.0233,
+          "is_pipeline": 0.037,
+          "is_unknown": 0.3395,
+          "is_sre_domain": 0.2309,
+          "has_runbook": 0.0454,
+          "is_known_incident": 0.0648,
+          "is_metric_query": 0.0915
+        }
+      },
+      "coverage": 20,
+      "cohesion": 0.9971,
+      "grounding_quality": 0.9065,
+      "dominant_confusion": "out_of_scope -> summarization",
+      "majority_gold_intent": "summarization",
+      "majority_predicted_intent": "out_of_scope",
+      "example_utterances": [
+        "provide a brief on the long-running query trends",
+        "give me a summary of the latency percentile trends",
+        "give me a summary of the audit findings by control area",
+        "give me a summary of the event-driven architecture reliability",
+        "summarize the open incidents and their current state"
+      ],
+      "low_confidence_grounding": false,
+      "candidate_rule_name": "R_S_003_refined",
+      "rule_strength_init": 0.7977,
+      "accuracy_delta_noretrain": 0.005,
+      "false_positive_rate": 0.0,
+      "retrain_delta_over_noretrain": 0.2585,
+      "consecutive_weak_cycles": 2,
+      "weakening_count": 3,
+      "deprecated_cycle": 4
+    }
+  }
+}

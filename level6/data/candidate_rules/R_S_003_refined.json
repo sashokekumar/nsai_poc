@@ -1,0 +1,43 @@
+{
+  "_l6_symbol_id": "S_003",
+  "_l6_source_cluster_id": "see symbol_registry.json/S_003",
+  "_l6_dominant_confusion": "out_of_scope -> summarization",
+  "_l6_majority_gold_intent": "summarization",
+  "_l6_status": "ok",
+  "_l6_redundant_with": "",
+  "name": "R_S_003_SYM_unknown__out_of_scope_vs_summarization_refined",
+  "description": "Candidate rule born from failure cluster S_003. Targets confusion: out_of_scope -> summarization. Coverage: 20 failures. Antecedent tightened by PredicateEvolver (Task 20/21): added NOT is_unknown. Contradictory conditions removed: none.",
+  "antecedents": {
+    "logic": "AND",
+    "operands": [
+      {
+        "predicate": "is_unknown"
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_incident"
+        }
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_unknown"
+        }
+      }
+    ]
+  },
+  "consequent_intent": "summarization",
+  "rule_strength_init": 0.7977,
+  "_l6_coverage": 20,
+  "_l6_cohesion": 0.9971,
+  "_l6_grounding_quality": 0.9065,
+  "_l6_file_stem": "R_S_003_refined",
+  "_l6_refined_from": "R_S_003_SYM_unknown__out_of_scope_vs_summarization",
+  "_l6_rejected_conditions": [],
+  "_l6_accepted_conditions": [
+    "NOT is_unknown"
+  ],
+  "_l6_original_fpr": 0.4808,
+  "_l6_estimated_residual_fpr": 0.0011
+}

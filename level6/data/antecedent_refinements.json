@@ -1,0 +1,178 @@
+[
+  {
+    "symbol_id": "S_001",
+    "symbol_name": "SYM_sre_domain__investigate_vs_summarization",
+    "original_antecedent_description": "Candidate rule born from failure cluster S_001. Targets confusion: investigate -> summarization. Coverage: 654 failures.",
+    "candidate_rule_name": "R_S_001_SYM_sre_domain__investigate_vs_summarization",
+    "original_fpr": 0.4555,
+    "n_tp": 274,
+    "n_fp": 415,
+    "n_previously_correct": 911,
+    "top_discriminants": [
+      {
+        "predicate": "has_runbook",
+        "mu_tp": 0.1438,
+        "mu_fp": 0.5292,
+        "delta": 0.3854,
+        "direction": "high_in_fp",
+        "condition_type": "AND NOT",
+        "fp_exclusion_rate": 0.7855,
+        "tp_exclusion_rate": 0.0,
+        "net_benefit": 0.7855
+      },
+      {
+        "predicate": "is_sre_domain",
+        "mu_tp": 0.5195,
+        "mu_fp": 0.6493,
+        "delta": 0.1298,
+        "direction": "high_in_fp",
+        "condition_type": "AND NOT",
+        "fp_exclusion_rate": 1.0,
+        "tp_exclusion_rate": 0.7117,
+        "net_benefit": 0.2883
+      },
+      {
+        "predicate": "is_infrastructure",
+        "mu_tp": 0.3998,
+        "mu_fp": 0.4359,
+        "delta": 0.0361,
+        "direction": "high_in_fp",
+        "condition_type": "AND NOT",
+        "fp_exclusion_rate": 0.412,
+        "tp_exclusion_rate": 0.3102,
+        "net_benefit": 0.1018
+      },
+      {
+        "predicate": "is_service",
+        "mu_tp": 0.2559,
+        "mu_fp": 0.2867,
+        "delta": 0.0307,
+        "direction": "high_in_fp",
+        "condition_type": "AND NOT",
+        "fp_exclusion_rate": 0.0,
+        "tp_exclusion_rate": 0.0,
+        "net_benefit": 0.0
+      }
+    ],
+    "suggested_additional_conditions": [
+      "AND NOT has_runbook > 0.45",
+      "AND NOT is_sre_domain > 0.45",
+      "AND NOT is_infrastructure > 0.45"
+    ],
+    "estimated_residual_fpr": 0.0,
+    "can_resolve_with_existing": true,
+    "tp_predicate_means": {
+      "is_infrastructure": 0.3998,
+      "is_service": 0.2559,
+      "is_metric": 0.0924,
+      "is_incident": 0.0178,
+      "is_job": 0.0198,
+      "is_pipeline": 0.0283,
+      "is_unknown": 0.1199,
+      "is_sre_domain": 0.5195,
+      "has_runbook": 0.1438,
+      "is_known_incident": 0.0321,
+      "is_metric_query": 0.0527
+    },
+    "fp_predicate_means": {
+      "is_infrastructure": 0.4359,
+      "is_service": 0.2867,
+      "is_metric": 0.0729,
+      "is_incident": 0.0266,
+      "is_job": 0.0316,
+      "is_pipeline": 0.0445,
+      "is_unknown": 0.0872,
+      "is_sre_domain": 0.6493,
+      "has_runbook": 0.5292,
+      "is_known_incident": 0.0439,
+      "is_metric_query": 0.0505
+    }
+  },
+  {
+    "symbol_id": "S_003",
+    "symbol_name": "SYM_unknown__out_of_scope_vs_summarization",
+    "original_antecedent_description": "Candidate rule born from failure cluster S_003. Targets confusion: out_of_scope -> summarization. Coverage: 20 failures.",
+    "candidate_rule_name": "R_S_003_SYM_unknown__out_of_scope_vs_summarization",
+    "original_fpr": 0.4808,
+    "n_tp": 293,
+    "n_fp": 438,
+    "n_previously_correct": 911,
+    "top_discriminants": [
+      {
+        "predicate": "is_unknown",
+        "mu_tp": 0.2514,
+        "mu_fp": 0.8674,
+        "delta": 0.6159,
+        "direction": "high_in_fp",
+        "condition_type": "AND NOT",
+        "fp_exclusion_rate": 0.9977,
+        "tp_exclusion_rate": 0.0751,
+        "net_benefit": 0.9226
+      },
+      {
+        "predicate": "is_infrastructure",
+        "mu_tp": 0.1774,
+        "mu_fp": 0.0734,
+        "delta": 0.104,
+        "direction": "high_in_tp",
+        "condition_type": "AND",
+        "fp_exclusion_rate": 1.0,
+        "tp_exclusion_rate": 1.0,
+        "net_benefit": 0.0
+      },
+      {
+        "predicate": "is_service",
+        "mu_tp": 0.3006,
+        "mu_fp": 0.0728,
+        "delta": 0.2278,
+        "direction": "high_in_tp",
+        "condition_type": "AND",
+        "fp_exclusion_rate": 1.0,
+        "tp_exclusion_rate": 1.0,
+        "net_benefit": 0.0
+      },
+      {
+        "predicate": "is_metric",
+        "mu_tp": 0.1473,
+        "mu_fp": 0.0607,
+        "delta": 0.0865,
+        "direction": "high_in_tp",
+        "condition_type": "AND",
+        "fp_exclusion_rate": 1.0,
+        "tp_exclusion_rate": 1.0,
+        "net_benefit": 0.0
+      }
+    ],
+    "suggested_additional_conditions": [
+      "AND NOT is_unknown > 0.45"
+    ],
+    "estimated_residual_fpr": 0.0011,
+    "can_resolve_with_existing": true,
+    "tp_predicate_means": {
+      "is_infrastructure": 0.1774,
+      "is_service": 0.3006,
+      "is_metric": 0.1473,
+      "is_incident": 0.0229,
+      "is_job": 0.0256,
+      "is_pipeline": 0.0409,
+      "is_unknown": 0.2514,
+      "is_sre_domain": 0.3099,
+      "has_runbook": 0.075,
+      "is_known_incident": 0.0665,
+      "is_metric_query": 0.0902
+    },
+    "fp_predicate_means": {
+      "is_infrastructure": 0.0734,
+      "is_service": 0.0728,
+      "is_metric": 0.0607,
+      "is_incident": 0.0428,
+      "is_job": 0.0428,
+      "is_pipeline": 0.0463,
+      "is_unknown": 0.8674,
+      "is_sre_domain": 0.0853,
+      "has_runbook": 0.0835,
+      "is_known_incident": 0.0573,
+      "is_metric_query": 0.0699
+    }
+  }
+]

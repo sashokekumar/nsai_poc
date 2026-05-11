@@ -211,7 +211,7 @@ def can_promote_to_experimental(symbol: dict) -> tuple[bool, list[str]]:
     fpr = symbol.get("false_positive_rate", 1.0)
     if fpr >= criteria["max_false_positive_rate"]:
         reasons.append(
-            f"false_positive_rate {fpr:.3f} ≥ max "
+            f"false_positive_rate {fpr:.3f} >= max "
             f"{criteria['max_false_positive_rate']}"
         )
 

@@ -1,7 +1,7 @@
 [
   {
     "cluster_id": 1,
-    "symbol_name": "SYM_is_sre_domain__NOT_is_incident",
+    "symbol_name": "SYM_sre_domain__investigate_vs_summarization",
     "size": 654,
     "is_noise_cluster": false,
     "dominant_confusion": "investigate -> summarization",
@@ -48,7 +48,7 @@
   },
   {
     "cluster_id": 0,
-    "symbol_name": "SYM_has_runbook__NOT_is_incident",
+    "symbol_name": "SYM_has_runbook__execution_vs_out_of_scope",
     "size": 30,
     "is_noise_cluster": false,
     "dominant_confusion": "execution -> out_of_scope",
@@ -95,7 +95,7 @@
   },
   {
     "cluster_id": 2,
-    "symbol_name": "SYM_is_unknown__NOT_is_incident",
+    "symbol_name": "SYM_unknown__out_of_scope_vs_summarization",
     "size": 20,
     "is_noise_cluster": false,
     "dominant_confusion": "out_of_scope -> summarization",
@@ -142,7 +142,7 @@
   },
   {
     "cluster_id": -1,
-    "symbol_name": "SYM_is_sre_domain__NOT_is_incident",
+    "symbol_name": "SYM_sre_domain__out_of_scope_vs_summarization",
     "size": 346,
     "is_noise_cluster": true,
     "dominant_confusion": "out_of_scope -> summarization",

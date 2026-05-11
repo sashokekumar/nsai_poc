@@ -1,0 +1,29 @@
+{
+  "_l6_symbol_id": "S_002",
+  "_l6_source_cluster_id": "see symbol_registry.json/S_002",
+  "_l6_dominant_confusion": "execution -> out_of_scope",
+  "_l6_majority_gold_intent": "execution",
+  "_l6_status": "redundant",
+  "_l6_redundant_with": "R2_runbook_execution",
+  "name": "R_S_002_SYM_has_runbook__execution_vs_out_of_scope",
+  "description": "Candidate rule born from failure cluster S_002. Targets confusion: execution -> out_of_scope. Coverage: 30 failures.",
+  "antecedents": {
+    "logic": "AND",
+    "operands": [
+      {
+        "predicate": "has_runbook"
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_incident"
+        }
+      }
+    ]
+  },
+  "consequent_intent": "execution",
+  "rule_strength_init": 0.7974,
+  "_l6_coverage": 30,
+  "_l6_cohesion": 0.9967,
+  "_l6_grounding_quality": 0.7249
+}

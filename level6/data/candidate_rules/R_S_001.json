@@ -1,0 +1,29 @@
+{
+  "_l6_symbol_id": "S_001",
+  "_l6_source_cluster_id": "see symbol_registry.json/S_001",
+  "_l6_dominant_confusion": "investigate -> summarization",
+  "_l6_majority_gold_intent": "investigate",
+  "_l6_status": "ok",
+  "_l6_redundant_with": "",
+  "name": "R_S_001_SYM_sre_domain__investigate_vs_summarization",
+  "description": "Candidate rule born from failure cluster S_001. Targets confusion: investigate -> summarization. Coverage: 654 failures.",
+  "antecedents": {
+    "logic": "AND",
+    "operands": [
+      {
+        "predicate": "is_sre_domain"
+      },
+      {
+        "predicate": "NOT",
+        "operand": {
+          "predicate": "is_incident"
+        }
+      }
+    ]
+  },
+  "consequent_intent": "investigate",
+  "rule_strength_init": 0.7809,
+  "_l6_coverage": 654,
+  "_l6_cohesion": 0.9761,
+  "_l6_grounding_quality": 0.7987
+}

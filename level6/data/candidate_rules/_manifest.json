@@ -1,0 +1,10 @@
+[
+  {
+    "symbol_id": "S_002",
+    "rule_name": "R_S_002_SYM_has_runbook__execution_vs_out_of_scope",
+    "status": "redundant",
+    "intent": "execution",
+    "strength_init": 0.7974,
+    "file": "R_S_002.json"
+  }
+]
