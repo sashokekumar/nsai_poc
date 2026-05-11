@@ -211,7 +211,8 @@ def train(args):
         hard_rules=args.hard_rules,
     )
     if args.hard_rules:
-        print("Hard rules mode (L5B): rule_strength fixed at 1.0, no grad")
+        print("Hard rules mode (L5B): rule_strength effectively fixed at 1.0 "
+              "(sigmoid(10)≈0.99995, no grad) — symbolic rules are the only intent path")
     else:
         print("Soft rules mode (L5A): rule_strength_logits learnable")
 
@@ -307,7 +308,9 @@ if __name__ == "__main__":
     parser.add_argument("--pred-weight",       type=float, default=0.5,
                         help="Weight on predicate BCE loss (0.0 = no predicate supervision)")
     parser.add_argument("--hard-rules",        action="store_true",
-                        help="L5B mode: fix rule_strength=1.0, no grad (hard compiled symbolic)")
+                        help="L5B mode: rule_strength effectively fixed at 1.0 (sigmoid(10), no grad). "
+                             "Removes neural intent escape path. Does NOT guarantee zero violations "
+                             "\u2014 predicate accuracy still required.")
     parser.add_argument("--rule-strength-init", type=float, default=None,
                         help="Override all rule_strength_init values before training")
     args = parser.parse_args()

@@ -27,11 +27,20 @@ Key Level 5 property:
     intent head, no blend weight. The neural trunk's only job is to estimate
     symbolic predicate probabilities; the compiled rule layer determines intent.
 
+    NOTE: this removes the neural intent *escape path*, but does not guarantee
+    zero violations. If the predicate heads predict wrong predicate probabilities,
+    the rule layer will still produce wrong intent logits. Violations require
+    correct predicate predictions as well as correct symbolic rules.
+
     Two modes:
       L5A (soft) — rule_strength learnable; rules are compiled but their
                    strength adapts during training
-      L5B (hard) — rule_strength fixed at 1.0; rules are strictly structural
-                   and cannot be weakened by training (strongest Kautz L5 claim)
+      L5B (hard) — rule_strength effectively fixed at 1.0 (sigmoid(10) ≈ 0.99995,
+                   requires_grad=False); rules are structurally non-negotiable.
+                   This is the strongest Kautz L5 claim: symbolic rules are the
+                   only route to intent — the model cannot learn to ignore them.
+                   It does NOT guarantee zero violations; that depends on whether
+                   the learned predicates are accurate.
 
     Contrast with:
       Level 4    — rules shape training loss only; no rules at inference
@@ -73,7 +82,9 @@ class Level5IntentModel(nn.Module):
         encoder_name   : HuggingFace model name for SentenceTransformer
         rule_base_path : path to rule_base.json (defaults to level5/data/rule_base.json)
         dropout        : dropout rate for shared trunk
-        hard_rules     : if True (L5B), rule_strength fixed at 1.0 with no grad;
+        hard_rules     : if True (L5B), rule_strength_logits are filled with 10.0
+                         (sigmoid(10) ≈ 0.99995, effectively 1.0) and frozen with
+                         requires_grad=False — rules cannot be weakened by training;
                          if False (L5A), rule_strength_logits remain learnable
     """
 
@@ -119,12 +130,16 @@ class Level5IntentModel(nn.Module):
         )
 
         # ------------------------------------------------------------------
-        # Hard rules mode (L5B): fix rule_strength = 1.0, no grad.
+        # Hard rules mode (L5B): fill rule_strength_logits with 10.0 and freeze.
+        # sigmoid(10.0) ≈ 0.99995 — effectively 1.0, not exactly 1.0.
+        # This makes rules structurally non-negotiable: the model cannot learn
+        # to down-weight any rule. It does NOT guarantee correct intent output;
+        # that still depends on predicate head accuracy.
         # Soft rules mode (L5A): rule_strength_logits remain learnable.
         # ------------------------------------------------------------------
         if hard_rules:
             with torch.no_grad():
-                self.rule_layer.rule_strength_logits.fill_(10.0)  # sigmoid(10) ≈ 1.0
+                self.rule_layer.rule_strength_logits.fill_(10.0)  # sigmoid(10) ≈ 0.99995
             self.rule_layer.rule_strength_logits.requires_grad_(False)
         self.hard_rules = hard_rules
 
