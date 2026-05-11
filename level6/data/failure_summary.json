@@ -1,0 +1,41 @@
+{
+  "n_total": 1961,
+  "n_failures": 1050,
+  "n_misclassification": 743,
+  "n_low_confidence": 935,
+  "n_both": 628,
+  "failure_rate": 0.5354,
+  "misclassification_rate": 0.3789,
+  "intent_accuracy": 0.6211,
+  "low_confidence_threshold": 0.65,
+  "failure_predicate_profile": {
+    "is_infrastructure": 0.3078,
+    "is_service": 0.2801,
+    "is_metric": 0.1195,
+    "is_incident": 0.0254,
+    "is_job": 0.0282,
+    "is_pipeline": 0.0404,
+    "is_unknown": 0.1823,
+    "is_sre_domain": 0.4376,
+    "has_runbook": 0.1442,
+    "is_known_incident": 0.0521,
+    "is_metric_query": 0.0738
+  },
+  "intent_confusion_matrix": {
+    "out_of_scope": {
+      "summarization": 188,
+      "investigate": 101,
+      "execution": 15
+    },
+    "investigate": {
+      "summarization": 191,
+      "execution": 2,
+      "out_of_scope": 21
+    },
+    "execution": {
+      "summarization": 30,
+      "investigate": 179,
+      "out_of_scope": 16
+    }
+  }
+}
