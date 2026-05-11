@@ -1,0 +1,190 @@
+[
+  {
+    "cluster_id": 1,
+    "symbol_name": "SYM_is_sre_domain__NOT_is_incident",
+    "size": 654,
+    "is_noise_cluster": false,
+    "dominant_confusion": "investigate -> summarization",
+    "present_predicates": [],
+    "absent_predicates": [
+      "is_incident",
+      "is_job",
+      "is_pipeline",
+      "is_known_incident",
+      "is_metric_query",
+      "has_runbook",
+      "is_metric",
+      "is_unknown",
+      "is_service"
+    ],
+    "uncertain_predicates": [
+      "is_infrastructure",
+      "is_sre_domain"
+    ],
+    "centroid": {
+      "is_infrastructure": 0.3366,
+      "is_service": 0.2963,
+      "is_metric": 0.1168,
+      "is_incident": 0.018,
+      "is_job": 0.0203,
+      "is_pipeline": 0.0315,
+      "is_unknown": 0.1215,
+      "is_sre_domain": 0.4761,
+      "has_runbook": 0.113,
+      "is_known_incident": 0.0421,
+      "is_metric_query": 0.0647
+    },
+    "cohesion": 0.9761,
+    "grounding_quality": 0.7987,
+    "example_utterances": [
+      "summarize the observability stack health",
+      "provide a brief on the service catalog update status",
+      "summarize the load test performance baseline results",
+      "analyze the pod restart loop on the payment service",
+      "provide a recap of the network changes this quarter"
+    ],
+    "majority_gold_intent": "investigate",
+    "majority_predicted_intent": "investigate"
+  },
+  {
+    "cluster_id": 0,
+    "symbol_name": "SYM_has_runbook__NOT_is_incident",
+    "size": 30,
+    "is_noise_cluster": false,
+    "dominant_confusion": "execution -> out_of_scope",
+    "present_predicates": [],
+    "absent_predicates": [
+      "is_incident",
+      "is_job",
+      "is_known_incident",
+      "is_pipeline",
+      "is_metric_query",
+      "is_metric",
+      "is_service",
+      "is_unknown"
+    ],
+    "uncertain_predicates": [
+      "is_infrastructure",
+      "is_sre_domain",
+      "has_runbook"
+    ],
+    "centroid": {
+      "is_infrastructure": 0.3313,
+      "is_service": 0.2416,
+      "is_metric": 0.0968,
+      "is_incident": 0.0563,
+      "is_job": 0.0639,
+      "is_pipeline": 0.0801,
+      "is_unknown": 0.2579,
+      "is_sre_domain": 0.4848,
+      "has_runbook": 0.5054,
+      "is_known_incident": 0.0798,
+      "is_metric_query": 0.085
+    },
+    "cohesion": 0.9967,
+    "grounding_quality": 0.7249,
+    "example_utterances": [
+      "how do I trigger an automatic savings transfer",
+      "how do I add a health check endpoint to my django app",
+      "enable the web application firewall rules",
+      "run the tls delegation certificate signing request",
+      "enable the transparent hugepages for the database"
+    ],
+    "majority_gold_intent": "execution",
+    "majority_predicted_intent": "execution"
+  },
+  {
+    "cluster_id": 2,
+    "symbol_name": "SYM_is_unknown__NOT_is_incident",
+    "size": 20,
+    "is_noise_cluster": false,
+    "dominant_confusion": "out_of_scope -> summarization",
+    "present_predicates": [],
+    "absent_predicates": [
+      "is_incident",
+      "is_job",
+      "is_pipeline",
+      "has_runbook",
+      "is_known_incident",
+      "is_metric_query",
+      "is_infrastructure",
+      "is_metric",
+      "is_sre_domain",
+      "is_service"
+    ],
+    "uncertain_predicates": [
+      "is_unknown"
+    ],
+    "centroid": {
+      "is_infrastructure": 0.1358,
+      "is_service": 0.2562,
+      "is_metric": 0.1449,
+      "is_incident": 0.0211,
+      "is_job": 0.0233,
+      "is_pipeline": 0.037,
+      "is_unknown": 0.3395,
+      "is_sre_domain": 0.2309,
+      "has_runbook": 0.0454,
+      "is_known_incident": 0.0648,
+      "is_metric_query": 0.0915
+    },
+    "cohesion": 0.9971,
+    "grounding_quality": 0.9065,
+    "example_utterances": [
+      "provide a brief on the long-running query trends",
+      "give me a summary of the latency percentile trends",
+      "give me a summary of the audit findings by control area",
+      "give me a summary of the event-driven architecture reliability",
+      "summarize the open incidents and their current state"
+    ],
+    "majority_gold_intent": "summarization",
+    "majority_predicted_intent": "out_of_scope"
+  },
+  {
+    "cluster_id": -1,
+    "symbol_name": "SYM_is_sre_domain__NOT_is_incident",
+    "size": 346,
+    "is_noise_cluster": true,
+    "dominant_confusion": "out_of_scope -> summarization",
+    "present_predicates": [],
+    "absent_predicates": [
+      "is_incident",
+      "is_job",
+      "is_pipeline",
+      "is_known_incident",
+      "is_metric_query",
+      "is_metric",
+      "has_runbook",
+      "is_service",
+      "is_infrastructure",
+      "is_unknown"
+    ],
+    "uncertain_predicates": [
+      "is_sre_domain"
+    ],
+    "centroid": {
+      "is_infrastructure": 0.2612,
+      "is_service": 0.2542,
+      "is_metric": 0.125,
+      "is_incident": 0.0369,
+      "is_job": 0.0403,
+      "is_pipeline": 0.0539,
+      "is_unknown": 0.2816,
+      "is_sre_domain": 0.3726,
+      "has_runbook": 0.1774,
+      "is_known_incident": 0.068,
+      "is_metric_query": 0.089
+    },
+    "cohesion": 0.9341,
+    "grounding_quality": 0.8491,
+    "example_utterances": [
+      "summarize the horizontal pod autoscaler activity",
+      "provide a recap of the cost trends by environment",
+      "why is the backup not completing within the window",
+      "summarize the scheduled downtime impact on availability sla",
+      "check why the kubernetes node is not ready"
+    ],
+    "majority_gold_intent": "summarization",
+    "majority_predicted_intent": "out_of_scope"
+  }
+]

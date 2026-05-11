@@ -41,7 +41,18 @@ from level5.model.level5_model import Level5IntentModel
 def load_model(checkpoint_path: str, device: torch.device):
     ckpt = torch.load(checkpoint_path, map_location=device, weights_only=False)
     model = Level5IntentModel()
-    model.load_state_dict(ckpt["state_dict"])
+    incompatible = model.load_state_dict(ckpt["state_dict"], strict=False)
+    if incompatible.unexpected_keys:
+        import warnings
+        warnings.warn(
+            f"load_model: checkpoint contains keys not present in the current model "
+            f"(skipped): {incompatible.unexpected_keys}",
+            UserWarning,
+        )
+    if incompatible.missing_keys:
+        raise RuntimeError(
+            f"load_model: model weights missing from checkpoint: {incompatible.missing_keys}"
+        )
     model.to(device)
     model.eval()
     meta = {k: v for k, v in ckpt.items() if k != "state_dict"}

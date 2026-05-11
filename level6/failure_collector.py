@@ -293,7 +293,7 @@ def print_summary(summary: dict):
     print(f"  Total rows         : {summary['n_total']}")
     print(f"  Total failures     : {summary['n_failures']}  ({summary['failure_rate']:.1%})")
     print(f"  Misclassifications : {summary['n_misclassification']}  "
-          f"(intent acc = {summary['intent_accuracy']:.4f})")
+          f"(L6 stress dataset accuracy = {summary['intent_accuracy']:.4f})")
     print(f"  Low-confidence     : {summary['n_low_confidence']}  "
           f"(threshold = {summary['low_confidence_threshold']})")
     print(f"  Both               : {summary['n_both']}")
