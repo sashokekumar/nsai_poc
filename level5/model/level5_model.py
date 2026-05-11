@@ -1,37 +1,42 @@
 # level5/model/level5_model.py
 """
-Level 5 neural model: symbolic rules compiled into a differentiable rule layer.
+Level 5 neural model: neural predicate estimator + compiled differentiable symbolic rules.
 
-Architecture:
+Architecture (clean L5):
     utterance
         ↓
     SentenceTransformer encoder   [384-dim, frozen]
         ↓
     Shared dense trunk            [384 → 256, ReLU, Dropout]
         ↓
-    Predicate heads               [256 → 11, sigmoid] — one per predicate
+    Predicate heads               [256 → 11, sigmoid] — neural network learns symbolic facts
         ↓
     DifferentiableRuleLayer       [11 predicates → 4 rule activations]
         (RuleCompiler: product t-norm logic over predicate confidence scores)
-        (learnable rule_strength per rule)
+        (L5A: rule_strength learnable per rule)
+        (L5B: rule_strength fixed at 1.0 — hard compiled symbolic)
         ↓
-    Intent logit blend
-        rule_score  = rule_layer.scatter_to_intents(rule_activations)  [B, 4]
-        trunk_score = intent_head(trunk)                                [B, 4]
-        rule_logits = rule_score_projection(intent_rule_scores)  [B, 4]  ← projects [0,1] rule scores to logit scale
-        final_logit = rule_weight * rule_logits + (1 - rule_weight) * trunk_logits
+    scatter_to_intents            max rule activation per intent  [B, 4]
+        ↓
+    torch.logit(score.clamp(ε))   deterministic logit transform (no learned remapping)
         ↓
     softmax → 4 intent classes
 
 Key Level 5 property:
-    Symbolic rules are STRUCTURAL — they live in the forward pass and
-    gradients flow back through the rule activations, updating the shared
-    trunk and predicate heads. The rule_strength parameters are also
-    differentiable, so the network learns how much to trust each rule.
+    The symbolic rule layer is the SOLE decision path — no residual neural
+    intent head, no blend weight. The neural trunk's only job is to estimate
+    symbolic predicate probabilities; the compiled rule layer determines intent.
+
+    Two modes:
+      L5A (soft) — rule_strength learnable; rules are compiled but their
+                   strength adapts during training
+      L5B (hard) — rule_strength fixed at 1.0; rules are strictly structural
+                   and cannot be weakened by training (strongest Kautz L5 claim)
 
     Contrast with:
-      Level 4  — rules shape training loss only; no rules at inference
-      Level 4.5 — rules applied post-hoc after softmax at runtime
+      Level 4    — rules shape training loss only; no rules at inference
+      Level 4.5  — rules applied post-hoc after softmax at runtime
+      Old L5     — neural intent_head blended with rule output (not pure symbolic)
 """
 
 from pathlib import Path
@@ -58,15 +63,18 @@ _DEFAULT_RULE_BASE = (
 
 class Level5IntentModel(nn.Module):
     """
-    Neuro-symbolic intent classifier with rules compiled into the architecture.
+    Neuro-symbolic intent classifier — neural predicate learner + compiled symbolic rules.
+
+    The neural trunk estimates symbolic predicate probabilities. The compiled
+    differentiable rule layer is the sole decision path to intent logits.
+    No residual neural intent classifier is present.
 
     Args:
-        encoder_name    : HuggingFace model name for SentenceTransformer
-        rule_base_path  : path to rule_base.json (defaults to level5/data/rule_base.json)
-        dropout         : dropout rate for shared trunk
-        rule_weight     : initial blend weight — fraction of final logit from rule layer.
-                          Learnable if rule_weight_learnable=True.
-        rule_weight_learnable : if True, rule_weight is a trainable sigmoid parameter
+        encoder_name   : HuggingFace model name for SentenceTransformer
+        rule_base_path : path to rule_base.json (defaults to level5/data/rule_base.json)
+        dropout        : dropout rate for shared trunk
+        hard_rules     : if True (L5B), rule_strength fixed at 1.0 with no grad;
+                         if False (L5A), rule_strength_logits remain learnable
     """
 
     def __init__(
@@ -74,8 +82,7 @@ class Level5IntentModel(nn.Module):
         encoder_name: str = "all-MiniLM-L6-v2",
         rule_base_path: str = None,
         dropout: float = 0.2,
-        rule_weight: float = 0.5,
-        rule_weight_learnable: bool = True,
+        hard_rules: bool = False,
     ):
         super().__init__()
 
@@ -112,30 +119,14 @@ class Level5IntentModel(nn.Module):
         )
 
         # ------------------------------------------------------------------
-        # Residual intent head (trunk → intent logits, no symbolic knowledge)
+        # Hard rules mode (L5B): fix rule_strength = 1.0, no grad.
+        # Soft rules mode (L5A): rule_strength_logits remain learnable.
         # ------------------------------------------------------------------
-        self.intent_head = nn.Linear(HIDDEN_DIM, NUM_INTENTS)
-
-        # ------------------------------------------------------------------
-        # Rule score projection — maps rule scores from [0,1] to logit scale
-        # so they are on the same scale as trunk_logits before blending.
-        # Initialized as identity-like (no bias) so early training is stable.
-        # ------------------------------------------------------------------
-        self.rule_score_projection = nn.Linear(NUM_INTENTS, NUM_INTENTS, bias=True)
-
-        # ------------------------------------------------------------------
-        # Blend weight: fraction of final logit from rule layer
-        # Stored as a logit so sigmoid keeps it in [0, 1] during training
-        # ------------------------------------------------------------------
-        import math
-        p = max(min(rule_weight, 0.9999), 0.0001)
-        rw_logit = math.log(p / (1.0 - p))
-        if rule_weight_learnable:
-            self.rule_weight_logit = nn.Parameter(torch.tensor(rw_logit))
-        else:
-            self.register_buffer(
-                "rule_weight_logit", torch.tensor(rw_logit)
-            )
+        if hard_rules:
+            with torch.no_grad():
+                self.rule_layer.rule_strength_logits.fill_(10.0)  # sigmoid(10) ≈ 1.0
+            self.rule_layer.rule_strength_logits.requires_grad_(False)
+        self.hard_rules = hard_rules
 
     # ------------------------------------------------------------------
     # Encoding
@@ -157,47 +148,35 @@ class Level5IntentModel(nn.Module):
 
     def forward(self, utterances: list[str], device: torch.device) -> dict:
         """
-        Full forward pass through the neuro-symbolic architecture.
+        Full forward pass: neural predicate estimator → compiled symbolic rule layer.
+
+        The rule layer is the sole decision path. No residual intent head, no blend.
 
         Returns dict with:
-            intent_logits     : [B, 4]  — final blended intent logits
-            predicate_probs   : [B, 11] — sigmoid predicate activations
+            intent_logits     : [B, 4]       — final intent logits (from rules only)
+            predicate_probs   : [B, 11]      — sigmoid predicate activations
             rule_activations  : [B, n_rules] — per-rule weighted activation scores
-            intent_rule_scores: [B, 4]  — raw rule activations scattered to intent dims
-            rule_logits       : [B, 4]  — rule scores projected to logit scale
-            trunk_logits      : [B, 4]  — residual trunk-only intent logits
-            rule_weight       : scalar  — current blend weight (sigmoid)
+            intent_rule_scores: [B, 4]       — max rule activation per intent
         """
-        embeddings = self.encode(utterances, device)         # [B, 384]
-        trunk      = self.shared(embeddings)                 # [B, 256]
+        embeddings = self.encode(utterances, device)                               # [B, 384]
+        trunk      = self.shared(embeddings)                                       # [B, 256]
 
-        # Predicate head — sigmoid for [0,1] confidence scores
-        predicate_probs = torch.sigmoid(self.predicate_head(trunk))  # [B, 11]
+        # Predicate heads — neural network learns symbolic predicate probabilities
+        predicate_probs = torch.sigmoid(self.predicate_head(trunk))                # [B, 11]
 
-        # Rule layer — compile symbolic rules over predicate activations
-        rule_activations   = self.rule_layer(predicate_probs)         # [B, n_rules]
+        # Compiled symbolic rule layer — sole decision path
+        rule_activations   = self.rule_layer(predicate_probs)                      # [B, n_rules]
         intent_rule_scores = self.rule_layer.scatter_to_intents(rule_activations)  # [B, 4]
 
-        # Residual trunk intent logits
-        trunk_logits = self.intent_head(trunk)               # [B, 4]
-
-        # Project rule scores from [0,1] to logit scale, then blend
-        # with trunk logits. Both are now on the same unbounded scale.
-        rule_logits  = self.rule_score_projection(intent_rule_scores)  # [B, 4]
-        rule_weight  = torch.sigmoid(self.rule_weight_logit)
-        intent_logits = (
-            rule_weight       * rule_logits
-            + (1 - rule_weight) * trunk_logits
-        )                                                    # [B, 4]
+        # Deterministic logit transform — no learned remapping across intents
+        eps = 1e-6
+        intent_logits = torch.logit(intent_rule_scores.clamp(eps, 1.0 - eps))     # [B, 4]
 
         return {
             "intent_logits":      intent_logits,
             "predicate_probs":    predicate_probs,
             "rule_activations":   rule_activations,
             "intent_rule_scores": intent_rule_scores,
-            "rule_logits":        rule_logits,
-            "trunk_logits":       trunk_logits,
-            "rule_weight":        rule_weight,
         }
 
     # ------------------------------------------------------------------
@@ -210,12 +189,11 @@ class Level5IntentModel(nn.Module):
         device: torch.device = None,
     ) -> list[dict]:
         """
-        Clean inference — no symbolic post-processing beyond what the rule
-        layer contributes structurally.
+        Inference through the compiled symbolic architecture.
 
         Returns one dict per utterance with:
             intent, intent_prob, predicate_activations, rule_activations,
-            rule_weight
+            intent_rule_scores
         """
         if device is None:
             device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -228,9 +206,9 @@ class Level5IntentModel(nn.Module):
             preds = torch.argmax(probs, dim=-1)
             preds_cpu = preds.cpu().tolist()
             probs_cpu = probs.cpu().tolist()
-            pred_probs_cpu = out["predicate_probs"].cpu().tolist()
-            rule_act_cpu   = out["rule_activations"].cpu().tolist()
-            rw = float(out["rule_weight"].cpu())
+            pred_probs_cpu     = out["predicate_probs"].cpu().tolist()
+            rule_act_cpu       = out["rule_activations"].cpu().tolist()
+            intent_scores_cpu  = out["intent_rule_scores"].cpu().tolist()
 
         results = []
         for i, utt in enumerate(utterances):
@@ -246,7 +224,10 @@ class Level5IntentModel(nn.Module):
                     rule["name"]: round(rule_act_cpu[i][r], 4)
                     for r, rule in enumerate(self.rule_layer.rules)
                 },
-                "rule_weight": round(rw, 4),
+                "intent_rule_scores": {
+                    INTENT_LABELS[k]: round(intent_scores_cpu[i][k], 4)
+                    for k in range(len(INTENT_LABELS))
+                },
             })
         return results
 
@@ -255,9 +236,5 @@ class Level5IntentModel(nn.Module):
     # ------------------------------------------------------------------
 
     def rule_strength_dict(self) -> dict:
-        """Current learned rule strengths (for logging/checkpointing)."""
+        """Current rule strengths (for logging/checkpointing)."""
         return self.rule_layer.rule_strength_dict()
-
-    def blend_weight(self) -> float:
-        """Current learned blend weight α (fraction from rule layer)."""
-        return float(torch.sigmoid(self.rule_weight_logit).detach().cpu())

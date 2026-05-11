@@ -2,15 +2,18 @@
 """
 Training script for Level 5 rule-compiled neural model.
 
+Architecture: neural predicate estimator → compiled differentiable symbolic rules → intent.
+No residual neural intent classifier. No blend weight.
+
 Usage:
-    # Experiment A — rules disabled (rule_strength frozen at 0.0, pred_weight=0)
-    python -m level5.train --run-name exp_a_rules_disabled --freeze-rules --rule-strength-init 0.0 --pred-weight 0.0
+    # L5A — soft compiled symbolic logic (rule_strength learnable)
+    python -m level5.train --run-name exp_l5a_soft
 
-    # Experiment B — main Level 5 run (rules learnable, predicates supervised)
-    python -m level5.train --run-name exp_b_l5_main
+    # L5B — hard compiled symbolic logic (rule_strength fixed at 1.0)
+    python -m level5.train --run-name exp_l5b_hard --hard-rules
 
-    # Experiment C — ablation: rule_strength frozen at 1.0 (hard symbolic)
-    python -m level5.train --run-name exp_c_hard_rules --freeze-rules --rule-strength-init 1.0
+    # L5A with predicate supervision ablation (no pred loss)
+    python -m level5.train --run-name exp_l5a_no_pred --pred-weight 0.0
 
 Saves per-run checkpoint and training log to level5/saved_models/<run-name>/
 """
@@ -117,9 +120,10 @@ def evaluate(model, loader, loss_fn, device) -> dict:
     model.eval()
     totals = dict(loss=0.0, intent_loss=0.0, predicate_loss=0.0,
                   intent_acc=0.0, pred_acc=0.0)
-    all_pred_probs  = []
-    all_pred_tgts   = []
-    all_rule_acts   = []
+    all_pred_probs    = []
+    all_pred_tgts     = []
+    all_rule_acts     = []
+    all_intent_scores = []
     n = 0
 
     for batch in loader:
@@ -144,6 +148,7 @@ def evaluate(model, loader, loss_fn, device) -> dict:
         all_pred_probs.append(out["predicate_probs"].cpu())
         all_pred_tgts.append(pred_tgt.cpu())
         all_rule_acts.append(out["rule_activations"].cpu())
+        all_intent_scores.append(out["intent_rule_scores"].cpu())
         n += 1
 
     metrics = {k: v / n for k, v in totals.items()}
@@ -161,6 +166,12 @@ def evaluate(model, loader, loss_fn, device) -> dict:
         for r in range(all_rule_acts.shape[1])
     }
 
+    # No-rule-fired: inputs where no intent rule scores above threshold
+    all_intent_scores = torch.cat(all_intent_scores, dim=0)  # [N, n_intents]
+    no_rule_fired = (all_intent_scores.max(dim=1).values < 0.1).sum().item()
+    metrics["no_rule_fired_count"] = int(no_rule_fired)
+    metrics["no_rule_fired_frac"]  = round(no_rule_fired / len(all_intent_scores), 4)
+
     return metrics
 
 
@@ -174,7 +185,7 @@ def train(args):
     print(
         f"Run: {args.run_name} | epochs={args.epochs} | "
         f"batch={args.batch_size} | lr={args.lr} | "
-        f"pred_weight={args.pred_weight} | freeze_rules={args.freeze_rules}"
+        f"pred_weight={args.pred_weight} | hard_rules={args.hard_rules}"
     )
 
     out_dir = Path(__file__).parent / "saved_models" / args.run_name
@@ -197,14 +208,12 @@ def train(args):
     # Model
     model = Level5IntentModel(
         dropout=args.dropout,
-        rule_weight=args.rule_weight_init,
-        rule_weight_learnable=(not args.freeze_rules),
+        hard_rules=args.hard_rules,
     )
-
-    # Optionally freeze rule_strength (Experiment C)
-    if args.freeze_rules:
-        model.rule_layer.rule_strength_logits.requires_grad_(False)
-        print("rule_strength frozen (hard symbolic mode)")
+    if args.hard_rules:
+        print("Hard rules mode (L5B): rule_strength fixed at 1.0, no grad")
+    else:
+        print("Soft rules mode (L5A): rule_strength_logits learnable")
 
     model = model.to(device)
     loss_fn = Level5Loss(pred_weight=args.pred_weight)
@@ -225,7 +234,6 @@ def train(args):
 
         # Rule diagnostics
         rule_strengths = model.rule_strength_dict()
-        blend_w        = model.blend_weight()
 
         row = {
             "epoch":              epoch,
@@ -242,7 +250,8 @@ def train(args):
             "val_pred_per_head":  val_m["pred_per_head"],
             "mean_rule_activations": val_m["mean_rule_activations"],
             "rule_strengths":     rule_strengths,
-            "blend_weight":       round(blend_w, 4),
+            "no_rule_fired":      val_m["no_rule_fired_count"],
+            "no_rule_fired_frac": val_m["no_rule_fired_frac"],
             "elapsed_sec":        round(elapsed, 1),
         }
         history.append(row)
@@ -253,7 +262,7 @@ def train(args):
             f"val_int_acc={row['val_intent_acc']:.3f}  "
             f"tr_loss={row['train_loss']:.4f}  "
             f"val_loss={row['val_loss']:.4f}  "
-            f"blend_w={blend_w:.3f}  "
+            f"no_rule_fired={row['no_rule_fired']}  "
             f"rule_str={list(rule_strengths.values())}  "
             f"{elapsed:.1f}s"
         )
@@ -268,7 +277,7 @@ def train(args):
                     "state_dict":       model.state_dict(),
                     "val_intent_acc":   best_val_intent_acc,
                     "rule_strengths":   rule_strengths,
-                    "blend_weight":     blend_w,
+                    "hard_rules":       args.hard_rules,
                     "args":             vars(args),
                 },
                 out_dir / "best_model.pt",
@@ -297,10 +306,8 @@ if __name__ == "__main__":
     parser.add_argument("--dropout",           type=float, default=0.2)
     parser.add_argument("--pred-weight",       type=float, default=0.5,
                         help="Weight on predicate BCE loss (0.0 = no predicate supervision)")
-    parser.add_argument("--rule-weight-init",  type=float, default=0.5,
-                        help="Initial blend weight α for rule vs trunk logits")
-    parser.add_argument("--freeze-rules",      action="store_true",
-                        help="Freeze rule_strength params (use for Exp A / Exp C)")
+    parser.add_argument("--hard-rules",        action="store_true",
+                        help="L5B mode: fix rule_strength=1.0, no grad (hard compiled symbolic)")
     parser.add_argument("--rule-strength-init", type=float, default=None,
                         help="Override all rule_strength_init values before training")
     args = parser.parse_args()

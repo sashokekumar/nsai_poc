@@ -69,8 +69,6 @@ def format_result(pred: dict, json_out: bool) -> str:
     return (
         f"utterance   : {pred['utterance']}\n"
         f"intent      : {pred['intent']}  (conf={pred['intent_prob']:.3f})\n"
-        f"rule_weight : {pred['rule_weight']:.3f}  "
-        f"(fraction of logit from rule layer)\n"
         f"rules       : {rule_str}\n"
         f"top preds   : {pred_str}"
     )
@@ -130,7 +128,7 @@ def main():
         f"val_intent_acc={meta.get('val_intent_acc', 0):.4f}"
     )
     print(f"Rule strengths: {meta.get('rule_strengths', {})}")
-    print(f"Blend weight  : {meta.get('blend_weight', '?')}")
+    print(f"Hard rules    : {meta.get('hard_rules', '?')}")
     print(f"Device        : {device}\n")
 
     output_lines = []

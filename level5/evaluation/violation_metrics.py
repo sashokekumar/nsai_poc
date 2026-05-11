@@ -212,7 +212,7 @@ def compute_metrics(
         "fidelity_eligible_rows":  fidelity_eligible,
         "mean_rule_activations":   mean_rule_activations,
         "rule_strengths":          model.rule_strength_dict(),
-        "blend_weight":            model.blend_weight(),
+        "hard_rules":              model.hard_rules,
         "total_violations":        total_violations,
         "overall_violation_rate":  round(overall_violation_rate, 4),
         "type_a_false_rejection":  round(type_a_rate, 4),
@@ -242,7 +242,7 @@ def print_metrics(metrics: dict, run_name: str, compare_l4: dict = None):
     print("  Rule fidelity      : {:.4f}  ({} eligible rows)".format(
         metrics["rule_fidelity"], metrics["fidelity_eligible_rows"]))
     print("  Rule strengths     :", metrics["rule_strengths"])
-    print("  Blend weight α     : {:.4f}".format(metrics["blend_weight"]))
+    print("  Hard rules (L5B)   :", metrics["hard_rules"])
     print("  Mean rule activations:")
     for k, v in metrics["mean_rule_activations"].items():
         print(f"    {k:<35} {v:.4f}")
