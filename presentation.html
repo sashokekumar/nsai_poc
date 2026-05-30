@@ -2077,7 +2077,31 @@ rule_base.json updated → next L5 cycle</pre>
           <td>Intent: cross-entropy · Entity: cosine similarity</td>
           <td>Intent representations + entity alias proximity</td>
           <td>ontology.py (all domain knowledge)</td>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:10.5px; color:var(--text-dimmer); margin-top:10px; align-self:flex-end">▶ Advanced levels (L4 – L6) on next slide</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 11b — TRAINING (L4 – L6)
+  ════════════════════════════════════════════ -->
+  <section class="slide" id="s11b">
+    <div class="section-label">Training Layer — continued</div>
+    <h2 class="slide-title">How <span class="gradient-text">Training</span> Evolved <span style="font-size:0.65em; color:var(--text-dimmer)">(L4 – L6)</span></h2>
+    <div class="divider"></div>
+    <div style="width:100%; max-width:1080px; overflow-x:auto">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Model Architecture</th>
+          <th>Training Objective</th>
+          <th>What’s Learned</th>
+          <th>What’s Authored</th>
         </tr>
+      </thead>
+      <tbody>
         <tr>
           <td><span class="pill" style="background:rgba(232,121,249,0.2);color:#e879f9">L4</span></td>
           <td>Frozen MiniLM-L6-v2 + Linear trunk + 3 heads</td>
@@ -2170,6 +2194,31 @@ rule_base.json updated → next L5 cycle</pre>
           <td>frame + reasoning + plan + response string</td>
           <td style="color:var(--green)">Domain guard + mode reject</td>
         </tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:10.5px; color:var(--text-dimmer); margin-top:10px; align-self:flex-end">▶ Advanced levels (L4 – L6) on next slide</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 12b — INFERENCE (L4 – L6)
+  ════════════════════════════════════════════ -->
+  <section class="slide" id="s12b">
+    <div class="section-label">Inference Layer — continued</div>
+    <h2 class="slide-title">How <span class="gradient-text">Inference</span> Evolved <span style="font-size:0.65em; color:var(--text-dimmer)">(L4 – L6)</span></h2>
+    <div class="divider"></div>
+    <div style="width:100%; max-width:1080px; overflow-x:auto">
+    <table class="compare">
+      <thead>
+        <tr>
+          <th>Level</th>
+          <th>Input</th>
+          <th>Inference Path</th>
+          <th>Output</th>
+          <th>Symbolic Role</th>
+        </tr>
+      </thead>
+      <tbody>
         <tr>
           <td><span class="pill" style="background:rgba(232,121,249,0.2);color:#e879f9">L4</span></td>
           <td>Raw utterance</td>
@@ -2256,6 +2305,18 @@ rule_base.json updated → next L5 cycle</pre>
           <div class="tl-card-body">Parse → IntentFrame → Reason → Plan → Respond. Ontology-grounded. Domain-swappable. Zero hallucination in decision path.</div>
         </div>
       </div>
+    </div>
+    <p style="font-size:10.5px; color:var(--text-dimmer); margin-top:10px; align-self:flex-end">▶ L4 – L6 on next slide</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 13t — TIMELINE (L4 – L6)
+  ════════════════════════════════════════════ -->
+  <section class="slide" id="s13t">
+    <div class="section-label">Evolution Timeline — continued</div>
+    <h2 class="slide-title">Evolution at a Glance <span style="font-size:0.65em; color:var(--text-dimmer)">(L4 – L6)</span></h2>
+    <div class="divider"></div>
+    <div class="timeline">
       <div class="tl-item">
         <div class="tl-badge" style="border-color:#e879f9; color:#e879f9">L4</div>
         <div class="tl-label">Symbolic Training</div>
@@ -2441,6 +2502,27 @@ rule_base.json updated → next L5 cycle</pre>
         <div style="font-size:11px;color:var(--text);line-height:1.5">A single intent label is impoverished for real SRE decisions. IntentFrame adds entity + symptom + time, enabling deterministic multi-step reasoning with zero hallucination in the decision path.</div>
       </div>
 
+    </div>
+    <p style="font-size:10.5px; color:var(--text-dimmer); margin-top:10px; align-self:flex-end">▶ L4 – L6 on next slide</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE 13bx — ARCHITECTURE MATRIX (L4 – L6)
+  ════════════════════════════════════════════ -->
+  <section class="slide" id="s13bx">
+    <div class="section-label">Architecture Summary — continued</div>
+    <h2 class="slide-title"><span class="gradient-text">Architecture</span> Summary <span style="font-size:0.65em; color:var(--text-dimmer)">(L4 – L6)</span></h2>
+    <div class="divider"></div>
+    <div style="display:grid; grid-template-columns:100px 1fr 1fr 1fr 1.55fr; gap:3px; max-width:1160px; width:100%">
+
+      <!-- ── Column headers ── -->
+      <div></div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">📊 DATA</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">🧠 NEURAL LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">⚙️ SYMBOLIC LAYER</div>
+      <div style="background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:6px; padding:6px 8px; text-align:center; font-size:10px; font-weight:800; color:var(--text); letter-spacing:1px">🎯 WHY THIS LEVEL</div>
+
+
       <!-- ── L4 ── -->
       <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(232,121,249,0.08);border:1px solid rgba(232,121,249,0.25)">
         <div style="font-size:20px;font-weight:800;color:#e879f9;line-height:1">L4</div>
@@ -2541,6 +2623,351 @@ rule_base.json updated → next L5 cycle</pre>
   </section>
 
   <!-- ══════════════════════════════════════════
+       SLIDE 13c — THE FOUR INFLECTION POINTS
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s13c">
+    <div class="section-label">Architecture Reasoning</div>
+    <h2 class="slide-title">The Four <span class="gradient-text">Inflection Points</span> — What Forced Each Change</h2>
+    <div class="divider"></div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; max-width:1140px; width:100%">
+
+      <!-- T1: L0 → L1/L2 -->
+      <div style="background:var(--surface2); border:1px solid rgba(139,92,246,0.3); border-radius:10px; padding:14px 16px">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+          <span style="font-size:12px; font-weight:800; color:#3b82f6; background:rgba(59,130,246,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L0</span>
+          <span style="color:var(--text-dimmer)">→</span>
+          <span style="font-size:12px; font-weight:800; color:#8b5cf6; background:rgba(139,92,246,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L1 · L2</span>
+          <div style="font-size:10px; font-weight:800; color:var(--text-dimmer); letter-spacing:1px; flex:1; text-align:right">SCORES ≠ DECISIONS</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px">
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#ef4444; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Wall</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">92% confidence on "restart prod-db" still executes. No structural gate separates prediction from action. Failures are silent.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#60a5fa; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Change</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Scores → predicates (once, in the symbolization layer). Rule engine reads predicates only. Decision logic moves to rules.json. L2 adds clause extraction + policy validation.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#10b981; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">NSAI Unlock</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Structural safety gates. Full decision_trace. Domain experts modify rules.json without touching Python. Auditable by design.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T2: L1/L2 → L3/L3.5 -->
+      <div style="background:var(--surface2); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:14px 16px">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+          <span style="font-size:12px; font-weight:800; color:#06b6d4; background:rgba(6,182,212,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L1 · L2</span>
+          <span style="color:var(--text-dimmer)">→</span>
+          <span style="font-size:12px; font-weight:800; color:#10b981; background:rgba(16,185,129,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L3 · L3.5</span>
+          <div style="font-size:10px; font-weight:800; color:var(--text-dimmer); letter-spacing:1px; flex:1; text-align:right">FREQUENCY ≠ MEANING</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px">
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#ef4444; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Wall</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">TF-IDF treats "restart" and "reboot" as unrelated tokens. 4 binary detectors share zero representation. No semantic generalisation possible.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#60a5fa; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Change</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">nn.Embedding: dense learned vectors, one unified model, backprop through all 4 classes. L3.5 adds ontology-grounded entity/symptom extraction via IntentFrame.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#10b981; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">NSAI Unlock</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Synonyms cluster in embedding space. Backbone is swappable (MiniLM, BERT) without touching the symbolic layer. Zero hallucination in the reasoning path.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T3: L3.5 → L4/L4.5/L5 -->
+      <div style="background:var(--surface2); border:1px solid rgba(232,121,249,0.3); border-radius:10px; padding:14px 16px">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+          <span style="font-size:12px; font-weight:800; color:#f59e0b; background:rgba(245,158,11,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L3.5</span>
+          <span style="color:var(--text-dimmer)">→</span>
+          <span style="font-size:12px; font-weight:800; color:#ef4444; background:rgba(239,68,68,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L4 · L4.5 · L5</span>
+          <div style="font-size:10px; font-weight:800; color:var(--text-dimmer); letter-spacing:1px; flex:1; text-align:right">EXTERNAL GATES DON'T SCALE</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px">
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#ef4444; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Wall</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Runtime symbolic gates add inference latency, are external to the model, non-differentiable. Rule strengths must be hand-tuned for every domain change.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#60a5fa; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Change</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">L4: SymbolicConstraintLoss(λ) bakes rules into weights during training. L5: RuleCompiler as a trainable nn.Module — AND/OR/NOT via product t-norm; rule_strengths are learned parameters.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#10b981; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">NSAI Unlock</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Gradients flow through symbolic logic end-to-end. 0 TYPE-A/B violations. Full predicate + rule strength trace at inference. Rules are learned, not guessed.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- T4: L5 → L6 -->
+      <div style="background:var(--surface2); border:1px solid rgba(20,184,166,0.3); border-radius:10px; padding:14px 16px">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px">
+          <span style="font-size:12px; font-weight:800; color:#ef4444; background:rgba(239,68,68,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L5</span>
+          <span style="color:var(--text-dimmer)">→</span>
+          <span style="font-size:12px; font-weight:800; color:#14b8a6; background:rgba(20,184,166,0.12); padding:3px 8px; border-radius:5px; white-space:nowrap">L6</span>
+          <div style="font-size:10px; font-weight:800; color:var(--text-dimmer); letter-spacing:1px; flex:1; text-align:right">STATIC VOCABULARY GOES STALE</div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px">
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#ef4444; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Wall</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">The 11 predicates were hand-crafted. Novel failure modes that don't map to any existing predicate produce silent misclassifications with no automated recovery path.</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#60a5fa; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">The Change</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">Failures → HDBSCAN (11-dim predicate space) → SYM_ symbols born → candidate rules auto-generated → two-gate promotion (Δacc+FPR no-retrain, then retrain_delta).</div>
+          </div>
+          <div>
+            <div style="font-size:9px; font-weight:800; color:#10b981; letter-spacing:1.5px; margin-bottom:4px; text-transform:uppercase">NSAI Unlock</div>
+            <div style="font-size:10.5px; color:var(--text-dim); line-height:1.5">62.3% failure coverage. 0 human-authored rules. Symbol lifecycle (Active→Weakening→Deprecated) prevents vocabulary bloat across 5 cycles.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 13d — NSAI 6-LEVEL FRAMEWORK ALIGNMENT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s13d">
+    <div class="section-label">Framework Alignment</div>
+    <h2 class="slide-title">NSAI <span class="gradient-text">6-Level Framework</span> — Where This POC Lands</h2>
+    <div class="divider"></div>
+    <div style="display:flex; flex-direction:column; gap:9px; max-width:1120px; width:100%">
+
+      <!-- NSAI Level 1 -->
+      <div style="display:grid; grid-template-columns:190px 1fr 160px; gap:12px; align-items:center; background:var(--surface2); border:1px solid rgba(139,92,246,0.25); border-radius:8px; padding:11px 14px">
+        <div>
+          <div style="font-size:9px; font-weight:800; letter-spacing:2px; color:var(--text-dimmer); text-transform:uppercase; margin-bottom:3px">NSAI Level 1</div>
+          <div style="font-size:13px; font-weight:800; color:#8b5cf6">Neural + Post-Symbolic</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">Neural output is filtered and interpreted by a symbolic layer added on top. Numbers never reach the rule engine.</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
+          <strong style="color:var(--text)">L1:</strong> TF-IDF/LR scores → symbolization layer → predicates → JSON rule engine. Numbers never cross the symbolic boundary. decision_trace added; rules.json editable by domain experts with zero Python. <strong style="color:var(--text)">L2</strong> extends this: clause extractor + validator enforce entity/time/policy constraints before any action is taken.
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(59,130,246,0.12); color:#3b82f6; border:1px solid rgba(59,130,246,0.3)">L0</span>
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(139,92,246,0.12); color:#8b5cf6; border:1px solid rgba(139,92,246,0.3)">L1</span>
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(6,182,212,0.12); color:#06b6d4; border:1px solid rgba(6,182,212,0.3)">L2</span>
+        </div>
+      </div>
+
+      <!-- NSAI Level 2 -->
+      <div style="display:grid; grid-template-columns:190px 1fr 160px; gap:12px; align-items:center; background:var(--surface2); border:1px solid rgba(16,185,129,0.25); border-radius:8px; padding:11px 14px">
+        <div>
+          <div style="font-size:9px; font-weight:800; letter-spacing:2px; color:var(--text-dimmer); text-transform:uppercase; margin-bottom:3px">NSAI Level 2</div>
+          <div style="font-size:13px; font-weight:800; color:#10b981">Semantic Neural Grounding</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">Richer neural representations let the symbolic layer reason over meaning rather than token frequency.</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
+          <strong style="color:var(--text)">L3:</strong> TF-IDF replaced by nn.Embedding — dense learned vectors, semantically similar terms cluster. Single unified 4-class model; backbone interface-separated so it's swappable without touching the symbolic layer. <strong style="color:var(--text)">L3.5</strong> adds ontology-grounded IntentFrame (entity + symptom + time); reasoning operates on structured facts — zero hallucination in the decision path.
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(16,185,129,0.12); color:#10b981; border:1px solid rgba(16,185,129,0.3)">L3</span>
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(245,158,11,0.12); color:#f59e0b; border:1px solid rgba(245,158,11,0.3)">L3.5</span>
+        </div>
+      </div>
+
+      <!-- NSAI Level 3 -->
+      <div style="display:grid; grid-template-columns:190px 1fr 160px; gap:12px; align-items:center; background:var(--surface2); border:1px solid rgba(232,121,249,0.25); border-radius:8px; padding:11px 14px">
+        <div>
+          <div style="font-size:9px; font-weight:800; letter-spacing:2px; color:var(--text-dimmer); text-transform:uppercase; margin-bottom:3px">NSAI Level 3</div>
+          <div style="font-size:13px; font-weight:800; color:#e879f9">Constraint-Aware Training</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">Symbolic rules enter the training objective. Weights learn to satisfy constraints — no runtime symbolic gate needed at inference.</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
+          <strong style="color:var(--text)">L4:</strong> Frozen MiniLM-L6 (384-dim) + 3 task heads (intent, entity_type, domain) + <code style="font-size:10px; color:var(--text)">SymbolicConstraintLoss(λ)</code>. During backprop λ penalises disallowed (intent, entity_type) co-predictions. Weights learn to avoid violations — no symbolic layer at inference. λ=1.0 → <strong style="color:#e879f9">96.7% acc · 3.6% viol · TYPE-B violations eliminated</strong>.
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(232,121,249,0.12); color:#e879f9; border:1px solid rgba(232,121,249,0.3)">L4</span>
+        </div>
+      </div>
+
+      <!-- NSAI Levels 4–5 -->
+      <div style="display:grid; grid-template-columns:190px 1fr 160px; gap:12px; align-items:center; background:var(--surface2); border:1px solid rgba(239,68,68,0.25); border-radius:8px; padding:11px 14px">
+        <div>
+          <div style="font-size:9px; font-weight:800; letter-spacing:2px; color:var(--text-dimmer); text-transform:uppercase; margin-bottom:3px">NSAI Levels 4–5</div>
+          <div style="font-size:13px; font-weight:800; color:#ef4444">Differentiable Symbolic Architecture</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">Symbolic logic (AND/OR/NOT, rules) is embedded as differentiable nn.Modules. Gradients flow through both neural and symbolic parts end-to-end.</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
+          <strong style="color:var(--text)">L4.5</strong> proves pre-softmax logic gates achieve zero violations by construction. <strong style="color:var(--text)">L5</strong> compiles 4 rules as a trainable <code style="font-size:10px; color:var(--text)">RuleCompiler</code> nn.Module using product t-norm — AND/OR/NOT are differentiable operations, <code style="font-size:10px; color:var(--text)">rule_strengths×4</code> are learned parameters, α blends rule and direct prediction. <strong style="color:#ef4444">98.8% acc · 0 TYPE-A/B violations · full predicate + rule trace at inference</strong>.
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(249,115,22,0.12); color:#f97316; border:1px solid rgba(249,115,22,0.3)">L4.5</span>
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(239,68,68,0.12); color:#ef4444; border:1px solid rgba(239,68,68,0.3)">L5</span>
+        </div>
+      </div>
+
+      <!-- NSAI Level 6 -->
+      <div style="display:grid; grid-template-columns:190px 1fr 160px; gap:12px; align-items:center; background:var(--surface2); border:1px solid rgba(20,184,166,0.25); border-radius:8px; padding:11px 14px">
+        <div>
+          <div style="font-size:9px; font-weight:800; letter-spacing:2px; color:var(--text-dimmer); text-transform:uppercase; margin-bottom:3px">NSAI Level 6</div>
+          <div style="font-size:13px; font-weight:800; color:#14b8a6">Autonomous Symbolic Grounding</div>
+          <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">The system discovers and names new symbolic concepts from its own failures — no human authoring. Symbolic vocabulary evolves with operational reality.</div>
+        </div>
+        <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
+          <strong style="color:var(--text)">L6:</strong> L5 failures → HDBSCAN clustering in the 11-dim predicate space → SYM_ symbols born → candidate rules auto-generated → two-gate promotion (Δacc+FPR no-retrain, then retrain_delta). Symbol lifecycle tracks Active→Weakening→Deprecated. <strong style="color:#14b8a6">62.3% failure coverage · 0 human-authored rules · 5-cycle lifecycle demo</strong>.
+        </div>
+        <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
+          <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(20,184,166,0.12); color:#14b8a6; border:1px solid rgba(20,184,166,0.3)">L6</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE 13e — NSAI MATURITY SCORECARD
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s13e">
+    <div class="section-label">Capability Accumulation</div>
+    <h2 class="slide-title">NSAI <span class="gradient-text">Maturity Scorecard</span> — How Each Level Adds a New Property</h2>
+    <div class="divider"></div>
+    <div style="max-width:1120px; width:100%; overflow-x:auto">
+      <table style="width:100%; border-collapse:separate; border-spacing:0 4px; font-size:11px">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:6px 10px; color:var(--text-dimmer); font-size:9px; font-weight:800; letter-spacing:1.5px; text-transform:uppercase; width:220px">NSAI CAPABILITY</th>
+            <th style="text-align:center; padding:6px 6px; color:#3b82f6; font-size:10px; font-weight:800">L0</th>
+            <th style="text-align:center; padding:6px 6px; color:#8b5cf6; font-size:10px; font-weight:800">L1</th>
+            <th style="text-align:center; padding:6px 6px; color:#06b6d4; font-size:10px; font-weight:800">L2</th>
+            <th style="text-align:center; padding:6px 6px; color:#10b981; font-size:10px; font-weight:800">L3</th>
+            <th style="text-align:center; padding:6px 6px; color:#f59e0b; font-size:10px; font-weight:800">L3.5</th>
+            <th style="text-align:center; padding:6px 6px; color:#e879f9; font-size:10px; font-weight:800">L4</th>
+            <th style="text-align:center; padding:6px 6px; color:#f97316; font-size:10px; font-weight:800">L4.5</th>
+            <th style="text-align:center; padding:6px 6px; color:#ef4444; font-size:10px; font-weight:800">L5</th>
+            <th style="text-align:center; padding:6px 6px; color:#14b8a6; font-size:10px; font-weight:800">L6</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row 1 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Symbolic Boundary</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">Numbers never reach the rule engine</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 2 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Structured Clause Validation</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">Entity + environment + policy checked</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 3 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Learned Semantic Vectors</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">Embeddings — not frequency counts</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 4 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Ontology-Grounded Reasoning</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">Domain knowledge hub — domain-swappable</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 5 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Constraint-Shaped Weights</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">Rules enter the training objective (λ-loss)</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 6 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Differentiable Symbolic Rules</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">AND/OR/NOT compiled into the architecture</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#f59e0b; font-weight:800; font-size:11px">½</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#10b981; font-weight:800; font-size:13px">✓</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+          <!-- Row 7 -->
+          <tr style="background:var(--surface2)">
+            <td style="padding:8px 10px; border-radius:6px 0 0 6px; border:1px solid var(--border); border-right:none">
+              <div style="font-size:11px; font-weight:700; color:var(--text)">Autonomous Symbol Evolution</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:2px">System names its own failure modes; 0 human-authored rules</div>
+            </td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-top:1px solid var(--border); border-bottom:1px solid var(--border); color:#ef4444; font-weight:800; font-size:13px">✗</td>
+            <td style="text-align:center; padding:8px 6px; border-radius:0 6px 6px 0; border:1px solid var(--border); border-left:none; color:#10b981; font-weight:800; font-size:13px">✓</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top:12px; display:flex; gap:20px; font-size:10px; color:var(--text-dimmer); align-items:center">
+        <span><span style="color:#10b981; font-weight:800">✓</span> — fully demonstrated</span>
+        <span><span style="color:#f59e0b; font-weight:800">½</span> — partially (L4.5 pre-softmax gate is differentiable but external to the architecture)</span>
+        <span><span style="color:#ef4444; font-weight:800">✗</span> — not yet present</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        SLIDE 14 — KEY TAKEAWAYS
   ══════════════════════════════════════════ -->
   <section class="slide" id="s14">
@@ -2610,6 +3037,13 @@ rule_base.json updated → next L5 cycle</pre>
         </div>
         <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> and blend weight <strong style="color:var(--text)">α</strong> are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy (+2.1 pp vs L4 λ=1.0) · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
       </div>
+      <div class="card" style="border-color:#14b8a6; padding:14px 18px">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+          <span class="card-icon" style="margin:0">🌀</span>
+          <div class="card-title" style="color:#14b8a6; margin:0">L6 — Self-Evolving Symbolic Vocabulary <span style="font-size:10px; font-weight:500; color:var(--text-dimmer); letter-spacing:0">[Research Frontier]</span></div>
+        </div>
+        <div class="card-body">The symbolic vocabulary itself is no longer fixed. Runtime failures cluster in the 11-dim predicate space (HDBSCAN); each cluster births a candidate symbol. Two promotion gates — Stage 1 (Δacc+FPR) and Stage 2 (optional retrain) — validate before rule_base.json is updated. Symbol lifecycle (Active → Weakening → Deprecated) prevents rule bloat. Result: <strong style="color:#14b8a6">S_001 Δacc=+0.2401 (FPR 3.6%) · S_003 Δacc=+0.2538 (FPR 0%) · 62.3% failure coverage (654/1,050) · 0 human-authored rules</strong>.</div>
+      </div>
     </div>
   </section>
 
@@ -2661,6 +3095,29 @@ rule_base.json updated → next L5 cycle</pre>
             <td>Full reasoning pipeline with zero hallucination in the decision path. All domain knowledge in one file (<code>ontology.py</code>) — swapping domain (SRE → network ops) requires zero model retraining.</td>
             <td><strong style="color:var(--yellow)">93.1% intent accuracy</strong> · domain-swappable with 0 retraining · zero hallucination in plan/respond path</td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:10.5px; color:var(--text-dimmer); margin-top:10px; align-self:flex-end">▶ Advanced levels (L4 – L6) on next slide</p>
+  </section>
+
+  <!-- ════════════════════════════════════════════
+       SLIDE s_value2 — VALUE DELIVERED (L4 – L6)
+  ════════════════════════════════════════════ -->
+  <section class="slide" id="s_value2">
+    <div class="section-label">Summary — continued</div>
+    <h2 class="slide-title">💎 Value <span class="gradient-text">Delivered</span> <span style="font-size:0.65em; color:var(--text-dimmer)">(L4 – L6)</span></h2>
+    <div class="divider"></div>
+    <div style="width:100%; max-width:980px; overflow-x:auto">
+      <table class="compare">
+        <thead>
+          <tr>
+            <th style="text-align:center">Level</th>
+            <th>📌 What We Gain</th>
+            <th>📊 Key Numbers</th>
+          </tr>
+        </thead>
+        <tbody>
           <tr>
             <td style="text-align:center"><span class="lp4">L4</span></td>
             <td>Constraint compliance moves from runtime enforcement to <em>learned behaviour</em>. No runtime symbolic dependency at inference — lower complexity, but violations are reduced statistically rather than made impossible. An ~18× reduction in violation rate vs L3.5 baseline.</td>
@@ -2720,7 +3177,10 @@ rule_base.json updated → next L5 cycle</pre>
   <div class="dot" data-idx="27"></div>
   <div class="dot" data-idx="28"></div>
   <div class="dot" data-idx="29"></div>
-  <span id="slide-counter">1 / 32</span>
+  <div class="dot" data-idx="30"></div>
+  <div class="dot" data-idx="31"></div>
+  <div class="dot" data-idx="32"></div>
+  <span id="slide-counter">1 / 40</span>
 </div>
 
 <script>
