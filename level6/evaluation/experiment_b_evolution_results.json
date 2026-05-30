@@ -1,0 +1,102 @@
+{
+  "experiment": "B \u2014 Evolution Cycle Symbol Birth and Rule Generation",
+  "computed_at": "2026-05-30T20:56:33.061921+00:00",
+  "cluster_summary": {
+    "total_clusters": 4,
+    "non_noise_clusters": 3,
+    "noise_points": 1
+  },
+  "registered_symbols": 3,
+  "rules_generated": 1,
+  "has_duplicates": false,
+  "cluster_checks": [
+    {
+      "cluster_id": 1,
+      "symbol_name": "SYM_sre_domain__investigate_vs_summarization",
+      "size": 654,
+      "cohesion": 0.9761,
+      "grounding_quality": 0.7987,
+      "dominant_confusion": "investigate -> summarization",
+      "errors": [],
+      "passed": true
+    },
+    {
+      "cluster_id": 0,
+      "symbol_name": "SYM_has_runbook__execution_vs_out_of_scope",
+      "size": 30,
+      "cohesion": 0.9967,
+      "grounding_quality": 0.7249,
+      "dominant_confusion": "execution -> out_of_scope",
+      "errors": [],
+      "passed": true
+    },
+    {
+      "cluster_id": 2,
+      "symbol_name": "SYM_unknown__out_of_scope_vs_summarization",
+      "size": 20,
+      "cohesion": 0.9971,
+      "grounding_quality": 0.9065,
+      "dominant_confusion": "out_of_scope -> summarization",
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "rule_checks": [
+    {
+      "symbol_id": "S_001",
+      "rule_name": "R_S_001_SYM_sre_domain__investigate_vs_summarization",
+      "rule_file": "R_S_001.json",
+      "is_redundant": false,
+      "consequent": "investigate",
+      "strength": 0.7809,
+      "n_antecedent_operands": 2,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "symbol_id": "S_001",
+      "rule_name": "R_S_001_SYM_sre_domain__investigate_vs_summarization_refined",
+      "rule_file": "R_S_001_refined.json",
+      "is_redundant": false,
+      "consequent": "investigate",
+      "strength": 0.7809,
+      "n_antecedent_operands": 4,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "symbol_id": "S_002",
+      "rule_name": "R_S_002_SYM_has_runbook__execution_vs_out_of_scope",
+      "rule_file": "R_S_002.json",
+      "is_redundant": true,
+      "consequent": "execution",
+      "strength": 0.7974,
+      "n_antecedent_operands": 2,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "symbol_id": "S_003",
+      "rule_name": "R_S_003_SYM_unknown__out_of_scope_vs_summarization",
+      "rule_file": "R_S_003.json",
+      "is_redundant": false,
+      "consequent": "summarization",
+      "strength": 0.7977,
+      "n_antecedent_operands": 2,
+      "errors": [],
+      "passed": true
+    },
+    {
+      "symbol_id": "S_003",
+      "rule_name": "R_S_003_SYM_unknown__out_of_scope_vs_summarization_refined",
+      "rule_file": "R_S_003_refined.json",
+      "is_redundant": false,
+      "consequent": "summarization",
+      "strength": 0.7977,
+      "n_antecedent_operands": 3,
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "verdict": "PASS"
+}

@@ -1,0 +1,48 @@
+{
+  "cycle": 5,
+  "computed_at": "2026-05-30T20:54:56.309176+00:00",
+  "symbol_counts": {
+    "deprecated": 2,
+    "proposed": 1
+  },
+  "total_symbols": 3,
+  "accuracy_delta_dist": {
+    "n": 3,
+    "mean": -0.0403,
+    "min": -0.131,
+    "max": 0.005
+  },
+  "fpr_dist": {
+    "n": 3,
+    "mean": 0.0121,
+    "min": 0.0,
+    "max": 0.0362
+  },
+  "grounding_quality_dist": {
+    "n": 3,
+    "mean": 0.81,
+    "min": 0.7249,
+    "max": 0.9065
+  },
+  "failure_coverage": {
+    "total_failures": 1050,
+    "covered_failures": 0,
+    "coverage_rate": 0.0
+  },
+  "active_symbol_details": [],
+  "weakening_symbol_details": [],
+  "deprecated_symbol_details": [
+    {
+      "symbol_id": "S_001",
+      "symbol_name": "SYM_sre_domain__investigate_vs_summarization",
+      "weakening_count": 3,
+      "deprecated_cycle": 4
+    },
+    {
+      "symbol_id": "S_003",
+      "symbol_name": "SYM_unknown__out_of_scope_vs_summarization",
+      "weakening_count": 3,
+      "deprecated_cycle": 4
+    }
+  ]
+}

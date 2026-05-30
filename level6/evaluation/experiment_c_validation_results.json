@@ -1,0 +1,109 @@
+{
+  "experiment": "C \u2014 Candidate Rule Validation and Accuracy-Delta Measurement",
+  "computed_at": "2026-05-30T20:55:00.534136+00:00",
+  "thresholds": {
+    "stage1_min_acc_delta": 0.03,
+    "stage1_max_fpr": 0.1,
+    "stage2_min_retrain_delta": 0.01
+  },
+  "baseline_intent_accuracy": 0.6211,
+  "symbol_results": [
+    {
+      "symbol_id": "S_001",
+      "symbol_name": "SYM_sre_domain__investigate_vs_summarization",
+      "current_status": "deprecated",
+      "dominant_confusion": "investigate -> summarization",
+      "cluster_size": 933,
+      "non_failure_size": 911,
+      "acc_baseline_cluster": 0.3055,
+      "acc_injected_cluster": 0.5456,
+      "accuracy_delta_noretrain": 0.2401,
+      "false_positive_rate": 0.0362,
+      "retrain_delta": 0.0255,
+      "gate_results": {
+        "acc_delta_gate": {
+          "value": 0.2401,
+          "threshold": ">= 0.03",
+          "passed": true
+        },
+        "fpr_gate": {
+          "value": 0.0362,
+          "threshold": "< 0.1",
+          "passed": true
+        }
+      },
+      "stage1_eligible": true,
+      "stage2_eligible": true,
+      "fully_active_eligible": true,
+      "non_eligible_reasons": []
+    },
+    {
+      "symbol_id": "S_002",
+      "symbol_name": "SYM_has_runbook__execution_vs_out_of_scope",
+      "current_status": "proposed",
+      "dominant_confusion": "execution -> out_of_scope",
+      "cluster_size": 603,
+      "non_failure_size": 911,
+      "acc_baseline_cluster": 0.3765,
+      "acc_injected_cluster": 0.2454,
+      "accuracy_delta_noretrain": -0.131,
+      "false_positive_rate": 0.0,
+      "retrain_delta": null,
+      "gate_results": {
+        "acc_delta_gate": {
+          "value": -0.131,
+          "threshold": ">= 0.03",
+          "passed": false
+        },
+        "fpr_gate": {
+          "value": 0.0,
+          "threshold": "< 0.1",
+          "passed": true
+        }
+      },
+      "stage1_eligible": false,
+      "stage2_eligible": false,
+      "fully_active_eligible": false,
+      "non_eligible_reasons": [
+        "accuracy_delta_noretrain -0.131 < min 0.03"
+      ]
+    },
+    {
+      "symbol_id": "S_003",
+      "symbol_name": "SYM_unknown__out_of_scope_vs_summarization",
+      "current_status": "deprecated",
+      "dominant_confusion": "out_of_scope -> summarization",
+      "cluster_size": 457,
+      "non_failure_size": 911,
+      "acc_baseline_cluster": 0.1313,
+      "acc_injected_cluster": 0.3851,
+      "accuracy_delta_noretrain": 0.2538,
+      "false_positive_rate": 0.0,
+      "retrain_delta": 0.2585,
+      "gate_results": {
+        "acc_delta_gate": {
+          "value": 0.2538,
+          "threshold": ">= 0.03",
+          "passed": true
+        },
+        "fpr_gate": {
+          "value": 0.0,
+          "threshold": "< 0.1",
+          "passed": true
+        }
+      },
+      "stage1_eligible": true,
+      "stage2_eligible": true,
+      "fully_active_eligible": true,
+      "non_eligible_reasons": []
+    }
+  ],
+  "summary": {
+    "n_evaluated": 3,
+    "n_stage1_pass": 2,
+    "n_stage2_pass": 2,
+    "n_fully_eligible": 2,
+    "mean_eligible_acc_delta": 0.247
+  },
+  "verdict": "PASS"
+}

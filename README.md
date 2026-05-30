@@ -57,7 +57,7 @@ jupyter notebook
 | 4 | Type 4 | Training-time differentiable constraint loss | ✅ Complete |
 | 4.5 | Type 4.5 | Runtime logic-gating (transition experiment) | ✅ Complete |
 | 5 | Type 5 | Rules compiled into differentiable architecture | ✅ Complete |
-| 6 | Type 6 (ext.) | Self-evolving symbolic vocabulary | 🔄 In Progress |
+| 6 | Type 6 (ext.) | Self-evolving symbolic vocabulary | ✅ Complete |
 
 ---
 
@@ -211,7 +211,7 @@ The blend weight α is a learnable parameter (sigmoid, init 0.5) controlling how
 
 ---
 
-### 🌱 [Level 6: Self-Evolving Neuro-Symbolic Architecture](level6/TODO.md)
+### 🌱 [Level 6: Self-Evolving Neuro-Symbolic Architecture](level6/README.md)
 **Kautz**: Type 5 architecture with a self-modifying symbolic substrate (practical extension toward Type 6)  
 **Innovation**: The symbolic rule vocabulary is no longer static. Failures in the Level 5 model drive discovery of new predicate-space symbols → candidate rules → validation → promotion into the rule base.
 
@@ -219,17 +219,18 @@ The blend weight α is a learnable parameter (sigmoid, init 0.5) controlling how
 ```
 L5 inference → failure collection → predicate-space clustering (HDBSCAN)
 → symbol birth → lifecycle registry (Proposed → Experimental → Active → Weakening → Deprecated)
-→ candidate rule generation → no-retrain validation → [optional] fine-tune validation
+→ candidate rule generation → no-retrain validation → fine-tune validation
 → rule_base update → L5 inference (next cycle)
 ```
 
-**Implemented so far** (Tasks 1–5 of 19):
-- `ReasoningState` dataclass (`level6/reasoning_state.py`) — anchors all L6 operations; tensor-backed with named predicate accessors
-- `lifecycle.py` — `SymbolStatus` enum + promotion/deprecation criteria
-- `build_seed_dataset.py` — 300 harder boundary-case utterances across 7 categories; combined dataset 1,961 rows saved to `level6/data/level6_seed.csv`
-- Typology and scope documented in `level6/__init__.py`
+**Key results** (all 19 tasks complete):
+- 1,050 failures collected from 1,961-sample seed dataset (L5 baseline accuracy: 62.1%)
+- 3 symbols auto-discovered: S_001 (`sre_domain`), S_002 (`has_runbook`, redundant), S_003 (`unknown`)
+- S_001 refined rule: +0.24 Δacc on failure cluster, FPR=3.6%, retrainΔ=+0.026
+- 5-cycle lifecycle demo: full Active → Weakening → Deprecated transitions verified
+- L5 vs L6: failure coverage 0% → 62.3% (654/1,050 failures covered by evolved rules)
 
-**Remaining** (Tasks 6–19): FailureCollector, SymbolCluster, SymbolRegistry, RuleCandidateGen, RuleValidator, EvolutionEngine, evaluation metrics, experiments, notebook, README.
+[→ View Level 6 Details](level6/README.md)
 
 ---
 
@@ -248,7 +249,7 @@ nsai_poc/
 ├── level4/                           # Symbolically supervised neural (training-time constraint loss)
 ├── level4_5_logic_gating/            # Runtime logic-gating experiment (L4→L5 transition)
 ├── level5/                           # Rule-compiled differentiable network (product t-norm)
-├── level6/                           # Self-evolving symbolic vocabulary (in progress)
+├── level6/                           # Self-evolving symbolic vocabulary (complete)
 ├── validation/                       # Multi-level comparison notebook
 ├── artifacts/                        # Cross-level evaluation outputs
 ├── models/                           # Shared model artifacts

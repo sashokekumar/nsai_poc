@@ -1,0 +1,16 @@
+[
+  {
+    "cycle": 5,
+    "computed_at": "2026-05-30T20:54:56.309176+00:00",
+    "symbol_counts": {
+      "deprecated": 2,
+      "proposed": 1
+    },
+    "total_symbols": 3,
+    "failure_coverage": 0.0,
+    "active_count": 0,
+    "weakening_count": 0,
+    "deprecated_count": 2,
+    "proposed_count": 1
+  }
+]

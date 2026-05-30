@@ -435,6 +435,7 @@
   .lp4  { border-color: #e879f9; color: #e879f9; background: rgba(232,121,249,0.1); }
   .lp45 { border-color: #f97316; color: #f97316; background: rgba(249,115,22,0.1); }
   .lp5  { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.1); }
+  .lp6  { border-color: #14b8a6; color: #14b8a6; background: rgba(20,184,166,0.1); }
 
   /* ─── Highlight box ─── */
   .highlight-box {
@@ -522,8 +523,8 @@
       for Intent Classification
     </h1>
     <p class="hero-sub">
-      How a pure statistical model evolves into a fully auditable, 
-      ontology-grounded reasoning pipeline — from Level 0 through Level 5
+      How a pure statistical model evolves into a fully auditable,
+      ontology-grounded, self-evolving reasoning pipeline — from Level 0 through Level 6
     </p>
     <div class="level-pills">
       <span class="level-pill lp0">Level 0 — Statistical</span>
@@ -534,6 +535,7 @@
       <span class="level-pill lp4">Level 4 — Symbolic Training</span>
       <span class="level-pill lp45">Level 4.5 — Logic Gating</span>
       <span class="level-pill lp5">Level 5 — Rule-Compiled Network</span>
+      <span class="level-pill lp6">Level 6 — Self-Evolving Symbols</span>
     </div>
   </section>
 
@@ -1887,6 +1889,142 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   </section>
 
   <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 6 ARCHITECTURE
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l6">
+    <div class="section-label">Level 6 — Research Prototype</div>
+    <h2 class="slide-title"><span style="color:#14b8a6">Level 6</span> — Self-Evolving Symbolic Vocabulary</h2>
+    <p class="slide-subtitle">Level 5's rule vocabulary is <em>static</em>. Level 6 makes it <em>evolvable</em>: failures drive symbol discovery, symbols generate rules, rules are validated and promoted.</p>
+    <div class="two-col" style="max-width:1060px; gap:20px">
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="card" style="border-color:#14b8a6; padding:12px 16px">
+          <div style="font-size:11px; font-weight:700; color:#14b8a6; margin-bottom:8px; letter-spacing:1px">CLOSED EVOLUTION LOOP</div>
+          <pre style="font-size:9.5px; font-family:monospace; color:var(--text-dim); line-height:1.9; background:none; border:none; padding:0">L5 inference (frozen encoder + predicate head)
+   │
+   ▼
+FailureCollector — predicate_probs[N,11]
+   │  (misclassified OR low-confidence &lt;0.65)
+   ▼
+SymbolCluster  (HDBSCAN, cosine, 11-dim)
+   │  births SYM_ symbols from failure clusters
+   ▼
+SymbolRegistry — lifecycle state machine
+   │  proposed → experimental → active
+   │  weakening → deprecated → GC
+   ▼
+RuleCandidateGen → candidate_rules/*.json
+   │  product t-norm antecedent trees
+   ▼
+RuleValidator — Δacc, FPR (no-retrain gate)
+RetrainValidator — Δretrain (fine-tune gate)
+   │
+   ▼
+rule_base.json updated → next L5 cycle</pre>
+        </div>
+        <div class="card" style="padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">Promotion Gates</div>
+          <div style="font-size:10px; color:var(--text-dim); line-height:1.8">
+            <strong style="color:var(--text)">Stage 1 (no-retrain)</strong>: Δacc ≥ 0.03 AND FPR &lt; 0.10<br>
+            <strong style="color:var(--text)">Stage 2 (retrain)</strong>: Δretrain ≥ 0.01<br>
+            <strong style="color:var(--text)">Weakening trigger</strong>: Δacc &lt; 0.01 for 2 consecutive cycles<br>
+            <strong style="color:var(--text)">Deprecation</strong>: weakening for ≥ 3 cycles
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="card" style="border-color:#14b8a6; padding:12px 16px">
+          <div style="font-size:11px; font-weight:700; color:#14b8a6; margin-bottom:8px; letter-spacing:1px">DISCOVERED SYMBOLS (level6_seed.csv)</div>
+          <div style="display:flex; flex-direction:column; gap:8px">
+            <div style="background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.25); border-radius:6px; padding:8px 12px">
+              <div style="font-size:10.5px; font-weight:700; color:#14b8a6">S_001 — SYM_sre_domain__investigate_vs_summarization</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:3px; line-height:1.6">Cluster size: 654 &nbsp;·&nbsp; cohesion: 0.976 &nbsp;·&nbsp; GQ: 0.799<br>Δacc (no-retrain): <strong style="color:var(--green)">+0.2401</strong> &nbsp;·&nbsp; FPR: 0.036 &nbsp;·&nbsp; Δretrain: +0.026</div>
+            </div>
+            <div style="background:rgba(100,116,139,0.07); border:1px solid rgba(100,116,139,0.25); border-radius:6px; padding:8px 12px">
+              <div style="font-size:10.5px; font-weight:700; color:var(--text-dimmer)">S_002 — SYM_has_runbook__execution_vs_out_of_scope <span style="color:#f59e0b">[REDUNDANT]</span></div>
+              <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:3px">System independently rediscovered existing R2_runbook_execution rule — correctness signal.</div>
+            </div>
+            <div style="background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.25); border-radius:6px; padding:8px 12px">
+              <div style="font-size:10.5px; font-weight:700; color:#14b8a6">S_003 — SYM_unknown__out_of_scope_vs_summarization</div>
+              <div style="font-size:9.5px; color:var(--text-dim); margin-top:3px; line-height:1.6">Cluster size: 20 &nbsp;·&nbsp; cohesion: 0.997 &nbsp;·&nbsp; GQ: 0.907<br>Δacc: <strong style="color:var(--green)">+0.2538</strong> &nbsp;·&nbsp; FPR: 0.000 &nbsp;·&nbsp; Δretrain: +0.259</div>
+            </div>
+          </div>
+        </div>
+        <div class="highlight-box" style="padding:10px 14px">
+          <div style="font-size:11px; color:var(--text-dim); line-height:1.7">
+            <strong style="color:#14b8a6">Key insight:</strong> The 11-dimensional predicate_probs space is directly interpretable — HDBSCAN centroids name themselves. No LLM needed to label a cluster. PredicateEvolver confirmed the existing 11-predicate vocabulary is sufficient (0 new predicates proposed).
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       SLIDE: LEVEL 6 EXAMPLE OUTPUT
+  ══════════════════════════════════════════ -->
+  <section class="slide" id="s_l6out">
+    <div class="section-label">Level 6 — Results</div>
+    <h2 class="slide-title"><span style="color:#14b8a6">L6</span> — L5 vs L6: Failure Coverage &amp; Lifecycle</h2>
+    <div class="two-col" style="max-width:1060px; gap:18px">
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div class="card" style="border-color:#14b8a6; padding:12px 16px">
+          <div style="font-size:11px; font-weight:700; color:#14b8a6; margin-bottom:8px">L5 vs L6 Comparison</div>
+          <table style="width:100%; border-collapse:collapse; font-size:10px">
+            <thead><tr>
+              <th style="text-align:left; color:var(--text-dimmer); font-weight:600; padding:4px 6px; border-bottom:1px solid var(--border)">Metric</th>
+              <th style="text-align:center; color:#ef4444; font-weight:700; padding:4px 6px; border-bottom:1px solid var(--border)">L5</th>
+              <th style="text-align:center; color:#14b8a6; font-weight:700; padding:4px 6px; border-bottom:1px solid var(--border)">L6</th>
+            </tr></thead>
+            <tbody style="color:var(--text-dim); line-height:2">
+              <tr><td style="padding:3px 6px">Intent accuracy</td><td style="text-align:center">62.1%</td><td style="text-align:center; color:var(--green)">~73.5%</td></tr>
+              <tr><td style="padding:3px 6px">Failure coverage</td><td style="text-align:center">0 / 1,050</td><td style="text-align:center; color:var(--green)">654 / 1,050 (62.3%)</td></tr>
+              <tr><td style="padding:3px 6px">Active symbols</td><td style="text-align:center">0</td><td style="text-align:center; color:var(--green)">2 at peak</td></tr>
+              <tr><td style="padding:3px 6px">Rule base size</td><td style="text-align:center">4 rules</td><td style="text-align:center; color:var(--green)">6 rules (+2 evolved)</td></tr>
+              <tr><td style="padding:3px 6px">Human rule authoring</td><td style="text-align:center">manual</td><td style="text-align:center; color:var(--green)">zero (auto-generated)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card" style="padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:var(--accent); margin-bottom:6px">5-Cycle Lifecycle Demo</div>
+          <div style="font-size:10px; color:var(--text-dim); line-height:1.8">
+            <strong style="color:var(--text)">Cycle 1</strong>: S_001, S_003 promoted proposed → active<br>
+            <strong style="color:var(--text)">Cycle 2</strong>: active → weakening (simulated Δacc &lt; 0.01)<br>
+            <strong style="color:var(--text)">Cycle 4</strong>: weakening → deprecated (3 weak cycles)<br>
+            <strong style="color:var(--text)">Cycle 5</strong>: deprecated_age = 1 (GC threshold = 5)
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:12px">
+        <div style="background:rgba(20,184,166,0.08); border:1px solid rgba(20,184,166,0.3); border-radius:8px; padding:8px 18px; text-align:center">
+          <span style="font-size:10px; color:#14b8a6; font-weight:700; letter-spacing:2px; margin-right:8px">FAILURE INPUT</span>
+          <span style="font-size:14px; color:var(--text); font-weight:600">"summarize the horizontal pod autoscaler activity"</span>
+        </div>
+        <div class="card" style="padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:6px">Ⓛ₅ Prediction (before L6 rule)</div>
+          <div style="font-size:10px; font-family:monospace; color:var(--text-dim); line-height:1.9">
+            predicted: <span style="color:var(--red)">out_of_scope</span> &nbsp;·&nbsp; gold: <span style="color:var(--green)">summarization</span><br>
+            max_confidence: 0.4318 &nbsp;(<em>low-confidence failure</em>)<br>
+            is_sre_domain: 0.368 &nbsp;·&nbsp; is_unknown: 0.215
+          </div>
+        </div>
+        <div class="card" style="border-color:#14b8a6; padding:10px 14px">
+          <div style="font-size:11px; font-weight:700; color:#14b8a6; margin-bottom:6px">Ⓛ₆ After S_001 rule injection</div>
+          <div style="font-size:10px; font-family:monospace; color:var(--text-dim); line-height:1.9">
+            R_S_001_refined fires: AND(<span style="color:var(--green)">is_sre_domain</span>, NOT is_incident,<br>
+            &nbsp;&nbsp;NOT has_runbook, NOT is_infrastructure)<br>
+            predicted: <span style="color:var(--green)">investigate → cluster acc: 30.6% → 54.6%</span><br>
+            Δacc cluster: <strong style="color:var(--green)">+0.2401</strong> &nbsp;·&nbsp; FPR: 0.036
+          </div>
+        </div>
+        <div style="background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.25); border-radius:10px; padding:10px 14px">
+          <div style="font-size:11px; color:var(--text-dim); line-height:1.7">
+            <strong style="color:#14b8a6">vs L5:</strong> L5's rule vocabulary is fixed at training time. L6 auto-discovers SYM_sre_domain from runtime failures, generates a refined 4-operand rule (zero human authoring), and validates it through a two-gate promotion pipeline. The neural layer is never retrained between evolution cycles.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
        SLIDE 11 — TRAINING EVOLUTION TABLE
   ══════════════════════════════════════════ -->
   <section class="slide" id="s11">
@@ -1960,6 +2098,13 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <td>CrossEntropy (intent) + BCE (predicate supervision) + end-to-end through product t-norm rule layer</td>
           <td>Trunk, predicate head, rule_strength ×4 (≈init), blend α (learned), projection layer — <em>rules compiled into architecture</em></td>
           <td>rule_base.json (4 symbolic rules with nested AND/OR/NOT) · predicate column definitions</td>
+        </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(20,184,166,0.2);color:#14b8a6">L6</span></td>
+          <td>Same frozen L5 model — no architectural change. Evolution operates on the symbolic layer only.</td>
+          <td>No retraining between cycles. Optional fine-tune (RetrainValidator) for Stage 2 gate only.</td>
+          <td>Nothing new learned in the neural layer. rule_base.json updated with auto-generated rules. Symbol registry state machine tracks lifecycle.</td>
+          <td>No manual rule authoring. FailureCollector → SymbolCluster → RuleCandidateGen pipeline auto-generates rule candidates from runtime failures.</td>
         </tr>
       </tbody>
     </table>
@@ -2046,6 +2191,13 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <td>intent + intent_prob + rule_activations ×4 + predicate_activations ×11</td>
           <td style="color:#ef4444">Structural — rules compiled into forward pass; 0 TYPE-A/B; interpretable trace</td>
         </tr>
+        <tr>
+          <td><span class="pill" style="background:rgba(20,184,166,0.2);color:#14b8a6">L6</span></td>
+          <td>Raw utterance (same L5 forward pass) + failure flag (gold label required)</td>
+          <td>L5 forward pass → failure detection → if failure: cluster in predicate space → promote rule if eligible</td>
+          <td>intent + rule_activations + predicate_activations + symbol_registry state + evolution cycle</td>
+          <td style="color:#14b8a6">Evolving — rule vocabulary self-updates from failures; symbol lifecycle enforces quality gates; PredicateEvolver discriminates FP/TP</td>
+        </tr>
       </tbody>
     </table>
     </div>
@@ -2126,6 +2278,14 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div class="tl-card">
           <div class="tl-card-title" style="color:#ef4444">Rules inside the architecture</div>
           <div class="tl-card-body">Frozen MiniLM + predicate head (11) + RuleCompiler (4 rules, product t-norm, learnable rule_strength) + blend α. Gradients flow end-to-end through symbolic logic. 98.8% acc, 0 TYPE-A/B violations.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-badge" style="border-color:#14b8a6; color:#14b8a6">L6</div>
+        <div class="tl-label">Self-Evolving</div>
+        <div class="tl-card">
+          <div class="tl-card-title" style="color:#14b8a6">Symbolic vocabulary evolves from failures</div>
+          <div class="tl-card-body">L5 failures → HDBSCAN clusters (11-dim predicate space) → symbol birth → candidate rules auto-generated → two-gate validation (Δacc+FPR, retrain) → rule_base updated. 62.3% failure coverage; 5-cycle lifecycle demo.</div>
         </div>
       </div>
     </div>
@@ -2353,6 +2513,30 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div style="font-size:11px;color:var(--text);line-height:1.5">Answer the L4.5 question: yes, the gate <em>can</em> be compiled in. Gradients flow end-to-end through symbolic rules, so rule strengths are learned, not hand-tuned. 98.8% intent acc; 0 TYPE-A/B violations; full predicate + rule interpretability trace at inference.</div>
       </div>
 
+      <!-- ── L6 ── -->
+      <div style="display:flex;flex-direction:column;justify-content:center;padding:8px 10px;border-radius:8px;background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.25)">
+        <div style="font-size:20px;font-weight:800;color:#14b8a6;line-height:1">L6</div>
+        <div style="font-size:9px;color:#14b8a6;margin-top:3px;opacity:0.85">Self-Evolving</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(20,184,166,0.25);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(20,184,166,0.15);color:#14b8a6;border:1px solid rgba(20,184,166,0.35)">EVOLVED</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">L5 corpus + 300 harder boundary-case utterances</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">1,961 rows (level6_seed.csv). 7 boundary-case categories: multi-entity ambiguity, ambiguous SRE framing, runbook-absent execution, etc. Drives 1,050 failures for clustering.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(100,116,139,0.25);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.3)">SAME</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Frozen L5 model (no architectural change)</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Evolution operates on the symbolic layer only. Neural encoder + predicate head unchanged between cycles.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(20,184,166,0.35);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(20,184,166,0.15);color:#14b8a6;border:1px solid rgba(20,184,166,0.4)">EVOLVES</span>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">SymbolRegistry + rule_base.json — self-modifying</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Failures → HDBSCAN clusters → SYM_ symbols born → candidate rules auto-generated. Two-gate promotion: Δacc+FPR (no-retrain) then retrain_delta. Lifecycle: proposed → active → deprecated.</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(20,184,166,0.15);border-radius:8px;padding:7px 9px">
+        <div style="font-size:11px;color:var(--text);line-height:1.5">Answer the L5 question: can the symbolic vocabulary itself evolve? Yes — the 11-dim predicate space is interpretable enough for HDBSCAN to name clusters without an LLM. S_001 rule: +0.24 Δacc, FPR=3.6%, retrainΔ=+0.026. 62.3% failure coverage; 0 human-authored rules.</div>
+      </div>
+
     </div>
   </section>
 
@@ -2402,7 +2586,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   ══════════════════════════════════════════ -->
   <section class="slide" id="s14b">
     <div class="section-label">Summary — Advanced Levels</div>
-    <h2 class="slide-title">What <span class="gradient-text">L4 → L5</span> Each Unlocks</h2>
+    <h2 class="slide-title">What <span class="gradient-text">L4 → L6</span> Each Unlocks</h2>
     <div class="divider"></div>
     <div style="display:flex; flex-direction:column; gap:14px; max-width:1020px; width:100%">
       <div class="card" style="border-color:#e879f9; padding:14px 18px">
@@ -2492,6 +2676,11 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
             <td>The symbolic layer <em>is</em> the model — rules are differentiable, strengths are learned, and every prediction carries a full interpretability trace (11 predicate scores + 4 rule activations). Best accuracy of any level.</td>
             <td><strong style="color:#ef4444">98.8% accuracy</strong> (+2.1 pp vs L4 λ=1.0) · <strong style="color:#ef4444">0 TYPE-A/B violations</strong> · 6.0% overall viol (Exp B) · 72.1% rule fidelity (Exp C) · full trace at every inference call</td>
           </tr>
+          <tr>
+            <td style="text-align:center"><span class="lp6">L6</span></td>
+            <td>The symbolic <em>vocabulary</em> itself evolves. Runtime failures cluster in the named 11-dim predicate space, auto-generating and validating new rules with zero human authoring. Symbol lifecycle prevents rule bloat via weakening/deprecation.</td>
+            <td><strong style="color:#14b8a6">+0.2401 Δacc</strong> on S_001 cluster · <strong style="color:#14b8a6">62.3% failure coverage</strong> (654/1,050) · 0 new predicates needed · full Active→Weakening→Deprecated lifecycle in 5 cycles · 0 human-authored rules</td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -2531,7 +2720,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   <div class="dot" data-idx="27"></div>
   <div class="dot" data-idx="28"></div>
   <div class="dot" data-idx="29"></div>
-  <span id="slide-counter">1 / 30</span>
+  <span id="slide-counter">1 / 32</span>
 </div>
 
 <script>

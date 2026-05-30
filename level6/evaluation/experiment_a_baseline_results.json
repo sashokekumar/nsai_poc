@@ -1,0 +1,110 @@
+{
+  "experiment": "A \u2014 Level 5 Baseline Failure Analysis",
+  "computed_at": "2026-05-30T20:56:31.730329+00:00",
+  "dataset_stats": {
+    "n_total": 1961,
+    "n_failures": 1050,
+    "failure_rate": 0.5354,
+    "n_misclassification": 743,
+    "n_low_confidence": 935,
+    "intent_accuracy": 0.6211,
+    "low_conf_threshold": 0.65
+  },
+  "top_confused_pairs": [
+    {
+      "pair": "summarization -> investigate",
+      "count": 191
+    },
+    {
+      "pair": "summarization -> out_of_scope",
+      "count": 188
+    },
+    {
+      "pair": "investigate -> execution",
+      "count": 179
+    },
+    {
+      "pair": "investigate -> out_of_scope",
+      "count": 101
+    },
+    {
+      "pair": "summarization -> execution",
+      "count": 30
+    }
+  ],
+  "top_failure_predicates": [
+    {
+      "predicate": "is_sre_domain",
+      "mean_activation": 0.4376
+    },
+    {
+      "predicate": "is_infrastructure",
+      "mean_activation": 0.3078
+    },
+    {
+      "predicate": "is_service",
+      "mean_activation": 0.2801
+    },
+    {
+      "predicate": "is_unknown",
+      "mean_activation": 0.1823
+    },
+    {
+      "predicate": "has_runbook",
+      "mean_activation": 0.1442
+    }
+  ],
+  "predicate_high_activation_rate": {
+    "is_infrastructure": 0.0114,
+    "is_service": 0.0,
+    "is_metric": 0.0,
+    "is_incident": 0.0,
+    "is_job": 0.0,
+    "is_pipeline": 0.0,
+    "is_unknown": 0.0267,
+    "is_sre_domain": 0.339,
+    "has_runbook": 0.02,
+    "is_known_incident": 0.0,
+    "is_metric_query": 0.0
+  },
+  "top_active_predicates_in_failures": [
+    {
+      "predicate": "is_sre_domain",
+      "activation_rate": 0.339
+    },
+    {
+      "predicate": "is_unknown",
+      "activation_rate": 0.0267
+    },
+    {
+      "predicate": "has_runbook",
+      "activation_rate": 0.02
+    },
+    {
+      "predicate": "is_infrastructure",
+      "activation_rate": 0.0114
+    },
+    {
+      "predicate": "is_service",
+      "activation_rate": 0.0
+    }
+  ],
+  "clustering_viability": {
+    "viable": true,
+    "n_failures": 1050,
+    "min_required": 50,
+    "diverse_predicates": [
+      "is_infrastructure",
+      "is_service",
+      "is_metric",
+      "is_unknown",
+      "is_sre_domain",
+      "has_runbook"
+    ],
+    "reasons": [
+      "sufficient failures: 1050 >= 50",
+      "predicate diversity: 6 predicates above 0.20 activation"
+    ]
+  },
+  "verdict": "PASS"
+}
