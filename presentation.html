@@ -680,7 +680,7 @@
             <div class="pipe-num">①</div>
             <div class="pipe-content">
               <div class="pipe-name">TF-IDF Vectorizer</div>
-              <div class="pipe-desc">5,000 features · unigrams + bigrams · stop-words stripped</div>
+              <div class="pipe-desc">100 features · unigrams + bigrams · stop-words stripped</div>
             </div>
             <span class="pipe-tag tag-neural">Neural</span>
           </div>
@@ -706,11 +706,11 @@
         <div class="card">
           <div class="card-title">Output</div>
           <pre class="code-block" style="margin-top:8px; font-size:11px">{
-  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"intent"</span>:      <span class="st">"execution"</span>,
   <span class="st">"confidence"</span>: <span class="num">0.92</span>,
-  <span class="st">"evidence_tokens"</span>: [
-    {<span class="st">"token"</span>: <span class="st">"restart"</span>, <span class="st">"weight"</span>: <span class="num">1.23</span>}
-  ]
+  <span class="st">"abstained"</span>:  <span class="kw">false</span>,
+  <span class="st">"model"</span>:      <span class="st">"level0"</span>,
+  <span class="st">"version"</span>:    <span class="st">"1.0"</span>
 }</pre>
         </div>
         <div class="grid g2" style="gap:10px">
@@ -755,15 +755,13 @@
         </div>
       </div>
       <div>
-        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--red)">3 fields</span></div>
+        <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--red)">5 fields</span></div>
         <pre class="code-block">{
-  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"intent"</span>:      <span class="st">"execution"</span>,
   <span class="st">"confidence"</span>: <span class="num">0.92</span>,
-  <span class="st">"evidence_tokens"</span>: [
-    {<span class="st">"token"</span>: <span class="st">"restart"</span>, <span class="st">"weight"</span>: <span class="num">1.23</span>},
-    {<span class="st">"token"</span>: <span class="st">"nginx"</span>,   <span class="st">"weight"</span>: <span class="num">0.87</span>},
-    {<span class="st">"token"</span>: <span class="st">"service"</span>, <span class="st">"weight"</span>: <span class="num">0.64</span>}
-  ]
+  <span class="st">"abstained"</span>:  <span class="kw">false</span>,
+  <span class="st">"model"</span>:      <span class="st">"level0"</span>,
+  <span class="st">"version"</span>:    <span class="st">"1.0"</span>
 }</pre>
         <div style="margin-top:12px; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
           <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
@@ -813,10 +811,10 @@
           <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--green); margin-bottom:8px">LAYER 3 — RULE ENGINE</div>
           <div class="card-body">
             <strong>Reads predicates only — no numbers</strong><br>
-            Rules loaded from <code style="font-size:10.5px">rules.json</code><br>
-            R1 (P100): quality gate<br>
-            R4 (P90): safety block<br>
-            R2 (P50): ambiguity flag
+            Rules defined in <code style="font-size:10.5px">level1_model.py</code> (saved as <code style="font-size:10.5px">rules.json</code>)<br>
+            R_INSUFFICIENT_INPUT (P100): quality gate<br>
+            R_EXECUTION_LOW_CONFIDENCE (P90): clarification gate<br>
+            R_AMBIGUOUS (P50): ambiguity flag
           </div>
           <div style="margin-top:8px"><span class="pill pill-green">Rules</span></div>
         </div>
@@ -856,8 +854,8 @@
           <li><strong>L0 → L1 shift:</strong> 1 multiclass model → 4 independent binary models (one-vs-rest per intent)</li>
           <li>Each binary detector trained on same corpus, tuned to fire only for its own intent</li>
           <li>Scores are independent floats — they do <em>not</em> sum to 1</li>
-          <li>Thresholds (<code>BASE_MIN_SCORE=0.30</code>, <code>HIGH_CONFIDENCE=0.85</code>) tuned during training but stored in <code>CONFIG</code>, not in model weights</li>
-          <li>Rules (<code>rules.json</code>) are authored by domain experts, not learned — zero training dependency</li>
+          <li>Thresholds (<code>BASE_MIN_SCORE=0.30</code>, <code>HIGH_CONFIDENCE_SCORE=0.85</code>) tuned during training but stored in <code>CONFIG</code>, not in model weights</li>
+          <li>Rules are defined as <code>DEFAULT_RULES</code> in <code>level1_model.py</code> and optionally persisted to <code>rules.json</code> — authored by domain experts, not learned</li>
         </ul>
       </div>
       <div>
@@ -865,15 +863,15 @@
         <ul class="bullet purple">
           <li>4 detectors run in parallel → 4 raw scores emitted</li>
           <li>Symbolization converts every score to predicates: threshold logic fires once, here, and nowhere else</li>
-          <li>Rule engine processes predicate set via priority queue (R1→R4→R2→R3)</li>
+          <li>Rule engine processes predicate set via priority queue: R_INSUFFICIENT_INPUT (P100) → R_NO_CANDIDATE_INTENT (P95) → R_EXECUTION_LOW_CONFIDENCE (P90) → R_AMBIGUOUS (P50) → R_DEFAULT (P0)</li>
           <li>First matching rule determines <code>decision_state</code> + <code>decision_reason</code></li>
           <li>Full <code>decision_trace</code> attached to every output for auditability</li>
         </ul>
         <div class="highlight-box" style="margin-top:14px; padding:12px 16px">
           <pre class="code-block" style="font-size:10.5px">{
   <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
-  <span class="st">"decision_state"</span>: <span class="st">"blocked"</span>,
-  <span class="st">"triggered_rules"</span>: [{<span class="st">"rule_id"</span>: <span class="st">"R4"</span>, <span class="st">"category"</span>: <span class="st">"safety"</span>}]
+  <span class="st">"decision_state"</span>: <span class="st">"needs_clarification"</span>,
+  <span class="st">"triggered_rules"</span>: [<span class="st">"R_EXECUTION_LOW_CONFIDENCE"</span>]
 }</pre>
         </div>
       </div>
@@ -885,7 +883,7 @@
   ══════════════════════════════════════════ -->
   <section class="slide" id="s7out">
     <div class="section-label">Level 1 — Live Example</div>
-    <h2 class="slide-title"><span style="color:#8b5cf6">L1</span> — Same Utterance, Now Blocked</h2>
+    <h2 class="slide-title"><span style="color:#8b5cf6">L1</span> — Same Utterance, Now Needs Clarification</h2>
     <div style="background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.35); border-radius:10px; padding:10px 22px; margin-bottom:14px; text-align:center; max-width:860px; width:100%">
       <span style="font-size:11px; color:var(--accent2); font-weight:700; letter-spacing:2px; margin-right:8px">INPUT</span>
       <span style="font-size:16px; color:var(--text); font-weight:600">"Restart the nginx service on web-prod-3"</span>
@@ -913,33 +911,26 @@
         <div class="card green" style="padding:12px 14px; border-color:#10b981">
           <div style="font-size:11px; font-weight:700; color:var(--green); margin-bottom:6px">③ Rule engine (reads predicates only)</div>
           <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
-            R1 quality P100 → PASS<br>
-            <strong style="color:var(--red)">R4 safety P90 → FIRED</strong><br>
-            CANDIDATE_EXECUTION ∧ NOT_HIGH_CONFIDENCE_EXECUTION → blocked
+            R_INSUFFICIENT_INPUT P100 → PASS<br>
+            <strong style="color:var(--red)">R_EXECUTION_LOW_CONFIDENCE P90 → FIRED</strong><br>
+            CANDIDATE_EXECUTION ∧ NOT_HIGH_CONFIDENCE_EXECUTION → needs_clarification
           </div>
         </div>
       </div>
       <div>
         <div style="font-size:11px; font-weight:700; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:10px">Output — <span style="color:var(--accent2)">7 fields + full trace</span></div>
         <pre class="code-block" style="font-size:10.5px">{
-  <span class="st">"predicted_intent"</span>:  <span class="st">"execution"</span>,
-  <span class="st">"decision_state"</span>:    <span class="st">"blocked"</span>,
-  <span class="st">"decision_reason"</span>:   <span class="st">"execution_safety_block"</span>,
-  <span class="st">"triggered_rules"</span>: [{
-    <span class="st">"rule_id"</span>:   <span class="st">"R4"</span>,
-    <span class="st">"category"</span>: <span class="st">"safety"</span>,
-    <span class="st">"priority"</span>: <span class="num">90</span>
-  }],
-  <span class="st">"decision_trace"</span>: {
-    <span class="st">"detectors_fired"</span>:        [<span class="st">"execution"</span>],
-    <span class="st">"hard_rules_failed"</span>:      [<span class="st">"R4"</span>],
-    <span class="st">"soft_rules_passed"</span>:      [],
-    <span class="st">"alternatives_eliminated"</span>: []
-  }
+  <span class="st">"utterance"</span>:        <span class="st">"Restart the nginx service on web-prod-3"</span>,
+  <span class="st">"predicted_intent"</span>: <span class="st">"execution"</span>,
+  <span class="st">"decision_state"</span>:   <span class="st">"needs_clarification"</span>,
+  <span class="st">"decision_reason"</span>:  <span class="st">"R_EXECUTION_LOW_CONFIDENCE"</span>,
+  <span class="st">"triggered_rules"</span>:  [<span class="st">"R_EXECUTION_LOW_CONFIDENCE"</span>],
+  <span class="st">"symbols"</span>: [<span class="st">"CANDIDATE_EXECUTION"</span>, <span class="st">"NOT_HIGH_CONFIDENCE_EXECUTION"</span>, <span class="cm">…</span>],
+  <span class="st">"detector_scores"</span>:   {<span class="st">"execution"</span>: <span class="num">0.73</span>, <span class="cm">…</span>}
 }</pre>
         <div style="margin-top:10px; background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.3); border-radius:10px; padding:10px 14px">
           <div style="font-size:12px; color:var(--text-dim); line-height:1.6">
-            <strong style="color:var(--accent2)">vs L0:</strong> Same intent detected — but now the system <em>blocks</em> it with a named reason, priority-ordered rule trace, and full audit log. The rule is JSON — no code change to tighten it.
+            <strong style="color:var(--accent2)">vs L0:</strong> Same intent detected — but now the system <em>requires clarification</em> with a named reason (R_EXECUTION_LOW_CONFIDENCE), the full predicate set, and rule trace. The rule is authored in code — no numeric threshold reaches the rule engine.
           </div>
         </div>
       </div>
@@ -1074,9 +1065,9 @@
         <div style="font-size:12.5px; color:var(--text); font-weight:700; margin-bottom:6px">NeuralIntentModel</div>
         <div class="card-body">
           word → integer ID<br>
-          ID → 16-dim embedding vector (learned)<br>
-          4 vectors → mean-pool → 1×16<br>
-          Linear(16→4) → logits<br>
+          ID → 32-dim embedding vector (learned)<br>
+          4 vectors → mean-pool → 1×32<br>
+          Linear(32→4) → logits<br>
           argmax → <strong style="color:var(--accent)">class_index (int)</strong>
         </div>
         <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dimmer)">Logits, probabilities, embeddings — <strong style="color:var(--red)">never leave this stage</strong></div>
@@ -1100,11 +1091,11 @@
         <div style="font-size:10px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:10px">STAGE 3 — SYMBOLIC DISPATCH</div>
         <div style="font-size:12.5px; color:var(--text); font-weight:700; margin-bottom:6px">Rule Engine</div>
         <div class="card-body">
-          Pure Python dict lookup:<br><br>
-          <code style="font-size:11px">dispatch[symbol.intent]</code><br>
+          if/elif chain over symbol.intent:<br><br>
+          <code style="font-size:11px">rule_engine.route(symbol)</code><br>
           &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
           <code style="font-size:11px">{action, requires_approval}</code><br><br>
-          No if/elif, no numbers, no thresholds — just a table of symbol → action
+          No numbers, no thresholds — just symbol → action routing
         </div>
         <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--border); font-size:11px; color:var(--text-dimmer)">Swap neural backbone: this stage does not change at all</div>
         <div style="margin-top:8px"><span class="pill pill-purple">Deterministic · Authored</span></div>
@@ -1130,12 +1121,12 @@
         <div class="card" style="padding:14px; margin-bottom:10px">
           <div class="card-title" style="margin-bottom:8px">How TF-IDF represents a word</div>
           <div class="card-body" style="font-size:12px; line-height:1.9">
-            Build a fixed vocabulary of <strong style="color:var(--text)">5,000 words</strong> from the corpus<br>
-            Each word gets a <strong style="color:var(--text)">column index</strong> in a 5,000-wide vector<br>
+            Build a fixed vocabulary of <strong style="color:var(--text)">100 words</strong> from the corpus<br>
+            Each word gets a <strong style="color:var(--text)">column index</strong> in a 100-wide vector<br>
             Each utterance → sparse vector: <strong>most entries = 0</strong><br><br>
             <code style="font-size:11px; color:var(--text)">"restart nginx"</code><br>
             → <code style="font-size:10.5px; color:var(--text-dim)">[0, 0, …, <strong style="color:var(--green)">1.23</strong>, 0, …, <strong style="color:var(--green)">0.87</strong>, …, 0]</code><br>
-            <span style="font-size:11px; color:var(--text-dimmer)">&nbsp;&nbsp;&nbsp;5,000 dims · 2 non-zero values</span>
+            <span style="font-size:11px; color:var(--text-dimmer)">&nbsp;&nbsp;&nbsp;100 dims · 2 non-zero values</span>
           </div>
         </div>
         <div style="background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:12px 14px">
@@ -1143,7 +1134,7 @@
             <strong style="color:var(--red)">Fixed forever:</strong> "restart" always gets the same weight regardless of what surrounds it<br>
             <strong style="color:var(--red)">No semantic link:</strong> "restart" and "reboot" are two completely separate columns — zero relationship<br>
             <strong style="color:var(--red)">No word order:</strong> "nginx restart" = "restart nginx" (bag of words)<br>
-            <strong style="color:var(--red)">Sparse:</strong> 5,000 columns, mostly zero — wasted capacity
+            <strong style="color:var(--red)">Sparse:</strong> 100 columns, mostly zero — limited capacity
           </div>
         </div>
       </div>
@@ -1153,19 +1144,19 @@
           <div class="card-title" style="margin-bottom:8px">How embeddings represent a word</div>
           <div class="card-body" style="font-size:12px; line-height:1.9">
             Build vocab → assign each word an <strong style="color:var(--text)">integer ID</strong><br>
-            <code style="font-size:11.5px">nn.Embedding(vocab_size, 16)</code> → a learnable <strong style="color:var(--text)">matrix</strong> initialized random<br><br>
+            <code style="font-size:11.5px">nn.Embedding(vocab_size, 32)</code> → a learnable <strong style="color:var(--text)">matrix</strong> initialized random<br><br>
             <code style="font-size:11px; color:var(--text)">"restart" → ID 42 → row 42 of matrix</code><br>
-            → <code style="font-size:10.5px; color:var(--green)">[0.31, −0.12, 0.84, 0.02, 0.67, …]</code> <span style="color:var(--text-dimmer)">(16 values)</span><br><br>
+            → <code style="font-size:10.5px; color:var(--green)">[0.31, −0.12, 0.84, 0.02, 0.67, …]</code> <span style="color:var(--text-dimmer)">(32 values)</span><br><br>
             <code style="font-size:11px; color:var(--text)">"reboot" → ID 17 → row 17 of matrix</code><br>
             → <code style="font-size:10.5px; color:var(--green)">[0.29, −0.11, 0.81, 0.03, 0.65, …]</code> <span style="color:var(--text-dimmer)">similar! learned</span>
           </div>
         </div>
         <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px 14px">
           <div style="font-size:11.5px; color:var(--text-dim); line-height:1.8">
-            <strong style="color:var(--green)">Sequence → single vector:</strong> 4 word vectors → mean-pool → one 16-dim vector per utterance<br>
+            <strong style="color:var(--green)">Sequence → single vector:</strong> 4 word vectors → mean-pool → one 32-dim vector per utterance<br>
             <strong style="color:var(--green)">Semantic proximity:</strong> words used in similar contexts drift together during training<br>
             <strong style="color:var(--green)">Gradients flow all the way back:</strong> Linear → pool → Embedding. The <em>word representations themselves</em> update each epoch<br>
-            <strong style="color:var(--green)">Dense:</strong> 16 dims, all meaningful — no wasted capacity
+            <strong style="color:var(--green)">Dense:</strong> 32 dims, all meaningful — no wasted capacity
           </div>
         </div>
       </div>
@@ -1223,24 +1214,22 @@ index_to_intent = {
       <div>
         <div style="font-size:11px; font-weight:800; letter-spacing:2px; color:var(--accent2); margin-bottom:10px">INSIDE STAGE 3 (symbolic, public)</div>
         <div class="card purple" style="padding:14px; border-color:#8b5cf6">
-          <div class="card-title" style="margin-bottom:8px; color:var(--accent2)">Dispatch table — pure dict</div>
-          <pre class="code-block" style="font-size:10.5px; background:transparent; border:none; padding:0">DISPATCH = {
-  <span class="st">"execution"</span>: {
-    <span class="st">"action"</span>: <span class="st">"execute_w_approval"</span>,
-    <span class="st">"requires_approval"</span>: <span class="kw">true</span>
-  },
-  <span class="st">"investigate"</span>: {
-    <span class="st">"action"</span>: <span class="st">"run_query"</span>,
-    <span class="st">"requires_approval"</span>: <span class="kw">false</span>
-  },
-  <span class="st">"summarization"</span>: {
-    <span class="st">"action"</span>: <span class="st">"generate_report"</span>,
-    <span class="st">"requires_approval"</span>: <span class="kw">false</span>
-  }
-}</pre>
+          <div class="card-title" style="margin-bottom:8px; color:var(--accent2)">Rule engine — if/elif chain</div>
+          <pre class="code-block" style="font-size:10.5px; background:transparent; border:none; padding:0"><span class="kw">if</span> symbol.intent == <span class="st">"execution"</span>:
+    action = <span class="st">"route_to_executor"</span>
+    requires_approval = <span class="kw">True</span>
+<span class="kw">elif</span> symbol.intent == <span class="st">"investigate"</span>:
+    action = <span class="st">"trigger_diagnostics"</span>
+    requires_approval = <span class="kw">False</span>
+<span class="kw">elif</span> symbol.intent == <span class="st">"summarization"</span>:
+    action = <span class="st">"call_summarization_pipeline"</span>
+    requires_approval = <span class="kw">False</span>
+<span class="kw">else</span>:
+    action = <span class="st">"return_safe_fallback"</span>
+    requires_approval = <span class="kw">False</span></pre>
         </div>
         <div style="margin-top:10px; font-size:11px; color:var(--text-dimmer); text-align:center">
-          No if/elif · No numbers · No thresholds<br>Swap neural model → this dict unchanged
+          No numbers · No thresholds<br>Swap neural model → this routing unchanged
         </div>
       </div>
     </div>
@@ -1268,10 +1257,10 @@ index_to_intent = {
           <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:2">
             words:&nbsp;&nbsp; [restart, nginx, service, web-prod-3]<br>
             ids:&nbsp;&nbsp;&nbsp;&nbsp; [<span style="color:var(--accent)">42</span>, <span style="color:var(--accent)">17</span>, <span style="color:var(--accent)">88</span>, <span style="color:var(--accent)">203</span>, 0, 0, 0, 0]&nbsp; <span style="color:var(--text-dimmer)">(pad to 12)</span><br>
-            embed:&nbsp;&nbsp; row 42 of E → [<span style="color:var(--green)">0.31,−0.12, 0.84,…</span>] 16-dim<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; row 17 of E → [<span style="color:var(--green)">0.14, 0.92,−0.03,…</span>] 16-dim<br>
+            embed:&nbsp;&nbsp; row 42 of E → [<span style="color:var(--green)">0.31,−0.12, 0.84,…</span>] 32-dim<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; row 17 of E → [<span style="color:var(--green)">0.14, 0.92,−0.03,…</span>] 32-dim<br>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; … (4 active rows, 8 zero-pad rows)<br>
-            pool:&nbsp;&nbsp;&nbsp; mean(12 rows) → [<span style="color:var(--green)">0.18, 0.41, 0.22,…</span>] 1×16<br>
+            pool:&nbsp;&nbsp;&nbsp; mean(12 rows) → [<span style="color:var(--green)">0.18, 0.41, 0.22,…</span>] 1×32<br>
             linear:&nbsp; W·x+b → [<span style="color:var(--text-dim)">−0.3</span>, <strong style="color:var(--green)">2.1</strong>, <span style="color:var(--text-dim)">0.4</span>, <span style="color:var(--text-dim)">−1.2</span>] (4 logits)<br>
             argmax:&nbsp; index <strong style="color:var(--green)">1</strong> wins&nbsp;&nbsp;<span style="color:var(--red); font-size:10.5px">← stays here, does not leave Stage 1</span>
           </div>
@@ -1285,10 +1274,10 @@ index_to_intent = {
           </div>
         </div>
         <div class="card purple" style="padding:11px 14px; border-color:#8b5cf6">
-          <div style="font-size:10.5px; font-weight:800; color:var(--accent2); letter-spacing:1.5px; margin-bottom:8px">③ DISPATCH TABLE — pure symbols</div>
+          <div style="font-size:10.5px; font-weight:800; color:var(--accent2); letter-spacing:1.5px; margin-bottom:8px">③ RULE ENGINE — if/elif over symbol</div>
           <div style="font-size:11.5px; color:var(--text-dim); font-family:monospace; line-height:1.9">
             key: <strong style="color:var(--accent2)">"execution"</strong><br>
-            → action = "execute_with_approval"<br>
+            → action = "route_to_executor"<br>
             → requires_approval = <span style="color:var(--yellow)">true</span>
           </div>
         </div>
@@ -1298,7 +1287,7 @@ index_to_intent = {
         <pre class="code-block">{
   <span class="st">"symbol"</span>: <span class="st">"execution"</span>,
   <span class="st">"decision"</span>: {
-    <span class="st">"action"</span>:            <span class="st">"execute_with_approval"</span>,
+    <span class="st">"action"</span>:            <span class="st">"route_to_executor"</span>,
     <span class="st">"requires_approval"</span>: <span class="kw">true</span>
   }
 }</pre>
@@ -1310,7 +1299,7 @@ index_to_intent = {
             <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--accent2)">vs L1:</strong> L1 had 4 float scores → predicates → rule chain. L3 collapses that to 1 integer → 1 typed symbol → 1 dict lookup. More direct, harder to misuse — no numeric value ever reaches Stage 3.</div>
           </div>
           <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.25); border-radius:10px; padding:10px 12px">
-            <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--green)">Training note:</strong> On each training epoch, the <em>word vectors in the embedding matrix itself</em> are updated. "restart" and "reboot" gradually move closer in the 16-dim space. This is the key thing TF-IDF could never do.</div>
+            <div style="font-size:11.5px; color:var(--text-dim); line-height:1.6"><strong style="color:var(--green)">Training note:</strong> On each training epoch, the <em>word vectors in the embedding matrix itself</em> are updated. "restart" and "reboot" gradually move closer in the 32-dim space. This is the key thing TF-IDF could never do.</div>
           </div>
         </div>
       </div>
@@ -1378,9 +1367,22 @@ index_to_intent = {
         </div>
       </div>
     </div>
-    <div class="highlight-box yellow" style="margin-top:16px; padding:12px 18px">
-      <div style="font-size:12px; font-weight:700; color:var(--yellow); margin-bottom:4px">Key Innovation at L3.5</div>
-      <div style="font-size:12.5px; color:var(--text-dim)">All domain knowledge lives in <strong style="color:var(--text)">ontology.py</strong> — INTENTS, ENTITIES, ENTITY_ALIASES, SYMPTOM_ALIASES, TIME_CONTEXT_PATTERNS. Pipeline stages are domain-agnostic. Swap ontology → new domain, zero code changes.</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; max-width:1080px; width:100%">
+
+      <div class="highlight-box yellow" style="margin:0; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:var(--yellow); margin-bottom:4px">Key Innovation — Ontology-Driven Domain Swap</div>
+        <div style="font-size:12px; color:var(--text-dim); line-height:1.6">All domain knowledge lives in <strong style="color:var(--text)">ontology.py</strong> — INTENTS, ENTITIES, ENTITY_ALIASES, SYMPTOM_ALIASES, TIME_CONTEXT_PATTERNS. Pipeline stages are domain-agnostic. Swap ontology → new domain, zero code changes, zero retraining.</div>
+      </div>
+
+      <div style="background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:var(--yellow); margin-bottom:6px">⚠ All three layers change simultaneously — here's why</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:var(--text)">Data:</strong> corpus gains entity aliases, symptom keywords, time patterns — needed to build IntentFrame.<br>
+          <strong style="color:var(--text)">Neural:</strong> deliberately reverts from L3's <code style="font-size:10.5px">nn.Embedding</code> back to TF-IDF+LR — the classifier only needs to produce one reliable intent symbol; rich representation adds no value when the pipeline does the heavy lifting.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> single dispatch replaced by a full Reason → Plan → Respond chain — because <em>intent alone</em> is not enough to drive an SRE action; you need <em>who</em> (entity), <em>what</em> (symptom), and <em>when</em> (time context) before any decision is safe to make.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1543,6 +1545,27 @@ index_to_intent = {
         </div>
       </div>
     </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; max-width:1060px; width:100%">
+
+      <div style="background:rgba(232,121,249,0.07); border:1px solid rgba(232,121,249,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#e879f9; margin-bottom:6px">What changes from L3.5 — all three layers again</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:var(--text)">Data:</strong> same intent corpus, but now annotated with <code style="font-size:10.5px">entity_type</code> and <code style="font-size:10.5px">domain</code> labels — needed to supervise the two new heads.<br>
+          <strong style="color:var(--text)">Neural:</strong> completely replaced — frozen MiniLM-L6-v2 (384-dim) replaces the shallow <code style="font-size:10.5px">nn.Embedding(32)</code>; three prediction heads instead of one; 101,644 trainable params vs ~hundreds.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> disappears from inference entirely — rules become <code style="font-size:10.5px">SymbolicConstraintLoss(λ)</code> during training, then are discarded. No runtime symbolic layer exists.
+        </div>
+      </div>
+
+      <div style="background:rgba(232,121,249,0.07); border:1px solid rgba(232,121,249,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#e879f9; margin-bottom:6px">Why this design — the key trade-off</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          L3.5 enforced rules <em>at runtime</em> — the symbolic layer could correct the model but couldn't update its weights. Every hard-to-classify utterance was a runtime band-aid.<br><br>
+          L4 bakes the rules into the loss function so the model <em>learns</em> to never produce a forbidden (intent, entity_type) pair. The gain: zero inference overhead, no symbolic dependency in production. The cost: changing a rule requires retraining — you can't patch it live.
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════
@@ -1674,6 +1697,27 @@ index_to_intent = {
         </div>
       </div>
     </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; max-width:1020px; width:100%">
+
+      <div style="background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#f97316; margin-bottom:6px">What changes from L4 — the architecture simplifies</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:var(--text)">Data:</strong> enriched with 3 boolean facts + per-utterance allowed/suppressed intent lists — the training signal now encodes intent pragmatics, not just label.<br>
+          <strong style="color:var(--text)">Neural:</strong> deliberately simpler — back to shallow TF-IDF+Linear. The gate does the safety work; the model only needs to rank plausible intents well.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> re-emerges at runtime as a constraint gate — either post-hoc masking (Path A) or pre-softmax logit blocking (Path B). Rules are external, not baked into weights.
+        </div>
+      </div>
+
+      <div style="background:rgba(249,115,22,0.07); border:1px solid rgba(249,115,22,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#f97316; margin-bottom:6px">Why this design — the key trade-off vs L4</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          L4 baked constraints into weights via training loss — no runtime gate, but rule changes require retraining. L4.5 inverts this: constraints are live, editable rules applied at inference.<br><br>
+          Path B moves the gate <em>inside</em> the forward pass (pre-softmax), so a suppressed intent is structurally impossible to output — violation rate is 0 by construction. This is the conceptual bridge to L5, where the gate becomes a <em>compiled, learned</em> rule module rather than an external per-utterance filter.
+        </div>
+      </div>
+
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════
@@ -1743,7 +1787,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   ══════════════════════════════════════════ -->
   <section class="slide" id="s_l5">
     <div class="section-label">Level 5 — Research Prototype</div>
-    <h2 class="slide-title"><span style="color:#ef4444">Level 5</span> — Rule-Compiled Network (Kautz Architecture)</h2>
+    <h2 class="slide-title"><span style="color:#ef4444">Level 5</span> — Rule-Compiled Network</h2>
     <div class="two-col" style="max-width:1060px; gap:18px">
       <div style="display:flex; flex-direction:column; gap:10px">
         <div class="pipeline" style="gap:6px">
@@ -1751,7 +1795,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
             <div class="pipe-num" style="background:#ef4444">1</div>
             <div class="pipe-content">
               <div class="pipe-name">Frozen Encoder + Trunk</div>
-              <div class="pipe-desc">all-MiniLM-L6-v2 → 384-dim → Linear(384→256) + ReLU + Dropout(0.3)</div>
+              <div class="pipe-desc">all-MiniLM-L6-v2 → 384-dim → Linear(384→256) + ReLU + Dropout(0.2)</div>
               <span class="pipe-tag tag-neural">Neural</span>
             </div>
           </div>
@@ -1774,8 +1818,8 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <div class="pipe-stage" style="border-color:rgba(239,68,68,0.3)">
             <div class="pipe-num" style="background:#ef4444">4</div>
             <div class="pipe-content">
-              <div class="pipe-name">Blend + Softmax</div>
-              <div class="pipe-desc">intent_logit = α · rule_logits + (1−α) · trunk_logits → softmax → 4-class intent. α is a learnable parameter (sigmoid, init=0.5)</div>
+              <div class="pipe-name">Logit Transform + Softmax</div>
+              <div class="pipe-desc">torch.logit(rule_scores.clamp(ε)) → softmax → 4-class intent. RuleCompiler is the sole decision path — no blend parameter, no residual trunk head.</div>
               <span class="pipe-tag tag-neural">End-to-end</span>
             </div>
           </div>
@@ -1812,11 +1856,32 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">3 Ablations — isolating the rule layer's contribution</div>
           <div style="display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:9.5px">
             <span style="color:var(--text-dimmer); font-weight:700">Exp A</span><span style="color:var(--text-dim)">Rules off (strength=0) — baseline: 52.6% viol, 24% TYPE-A</span>
-            <span style="color:var(--green); font-weight:700">Exp B</span><span style="color:var(--text-dim)">Main L5 (learnable) — 98.8% acc, 6.0% viol, <strong style="color:var(--green)">0 TYPE-A/B</strong>, 61.6% rule fidelity, α=0.467</span>
+            <span style="color:var(--green); font-weight:700">Exp B</span><span style="color:var(--text-dim)">Main L5 (learnable) — 98.8% acc, 6.0% viol, <strong style="color:var(--green)">0 TYPE-A/B</strong>, 61.6% rule fidelity</span>
             <span style="color:var(--yellow); font-weight:700">Exp C</span><span style="color:var(--text-dim)">Hard rules (strength=1.0 frozen) — 3.9% viol, 72.1% rule fidelity</span>
           </div>
         </div>
       </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; max-width:1060px; width:100%">
+
+      <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#ef4444; margin-bottom:6px">What changes from L4.5 — rules move inside the network</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:var(--text)">Data:</strong> same SRE corpus but now annotated with 11 predicate labels — the network learns to predict each predicate independently before applying rules.<br>
+          <strong style="color:var(--text)">Neural:</strong> frozen MiniLM encoder returns; predicate head (11 sigmoid outputs) added alongside the intent path. Rules are no longer external — they're <code style="font-size:10.5px">nn.Module</code> compiled from <code style="font-size:10.5px">rule_base.json</code>.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> <code style="font-size:10.5px">RuleCompiler</code> evaluates 4 rules using differentiable product t-norm; <code style="font-size:10.5px">rule_strength</code> per rule is a learned parameter. RuleCompiler output IS the intent logit — no separate classification head.
+        </div>
+      </div>
+
+      <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#ef4444; margin-bottom:6px">Why this design — closing the gap L4.5 left open</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          L4.5's pre-softmax gate was still an <em>external</em> per-utterance filter — the model's weights never learned the rule structure itself. When the filter was removed, violations returned.<br><br>
+          L5 makes the rules permanently structural: gradients flow end-to-end through the <code style="font-size:10.5px">RuleCompiler</code> — AND/OR/NOT operations and rule strengths are all differentiable. The model literally <em>learns how strongly to apply each rule</em>. Full predicate + rule trace at every inference call means the decision is always explainable.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -1861,10 +1926,6 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
   <span class="st">"intent"</span>:     <span class="st">"investigate"</span>,
   <span class="st">"intent_prob"</span>: <span class="num">0.971</span>,
 
-  <span class="cm">// blend: α=0.467 (learned)</span>
-  <span class="st">"rule_weight"</span>: <span class="num">0.467</span>,
-  <span class="cm">// intent_logit = 0.467·rule + 0.533·trunk</span>
-
   <span class="st">"rule_activations"</span>: {
     <span class="st">"R1_metric_investigate"</span>: <span class="num">0.652</span>,  <span class="cm">// ← drives decision</span>
     <span class="st">"R2_runbook_execution"</span>:  <span class="num">0.057</span>,
@@ -1880,7 +1941,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
 }</pre>
         <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
           <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
-            <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here R1 fires <em>inside</em> the forward pass — the rule score contributes 46.7% of the intent logit before softmax. Both trunk and rule gradients update the same weights end-to-end.<br><br>
+            <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here R1 fires <em>inside</em> the forward pass — the rule score IS the intent logit (via logit transform), the only decision path. Both predicate head and rule_strength gradients update the same weights end-to-end.<br><br>
             <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A/B violations in Exp B and C.
           </div>
         </div>
@@ -1910,7 +1971,7 @@ SymbolCluster  (HDBSCAN, cosine, 11-dim)
    ▼
 SymbolRegistry — lifecycle state machine
    │  proposed → experimental → active
-   │  weakening → deprecated → GC
+   │  weakening → deprecated (GC removes entry after grace period)
    ▼
 RuleCandidateGen → candidate_rules/*.json
    │  product t-norm antecedent trees
@@ -1955,6 +2016,27 @@ rule_base.json updated → next L5 cycle</pre>
           </div>
         </div>
       </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; max-width:1060px; width:100%">
+
+      <div style="background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#14b8a6; margin-bottom:6px">What changes from L5 — the rule vocabulary itself becomes dynamic</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:var(--text)">Data:</strong> no longer a fixed annotated corpus — failures at inference become the training signal. Misclassified or low-confidence predictions are collected and clustered automatically.<br>
+          <strong style="color:var(--text)">Neural:</strong> L5's architecture is reused frozen as the inference engine. The evolution loop wraps around it — L6 adds no new neural components, only the feedback pipeline.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> <code style="font-size:10.5px">rule_base.json</code> is no longer static. New symbols are born from failure clusters, validated through two promotion gates, and written back into the rule base — closing the loop.
+        </div>
+      </div>
+
+      <div style="background:rgba(20,184,166,0.07); border:1px solid rgba(20,184,166,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#14b8a6; margin-bottom:6px">Why this design — the problem L5 couldn't solve</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          L5's 4 rules and 11 predicates were hand-authored. When the model fails on a genuinely novel pattern, there is no mechanism to adapt — you must retrain and re-author rules manually.<br><br>
+          L6 makes failure productive: HDBSCAN clusters failures in the 11-dim predicate space, names them from dominant predicate activations, then generates and validates candidate rules automatically. The two-gate promotion (no-retrain Δacc gate, then optional retrain gate) ensures only genuinely useful symbols survive. Zero human-authored rules in the evolved set.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -2068,8 +2150,8 @@ rule_base.json updated → next L5 cycle</pre>
           <td><span class="pill pill-green">L3</span></td>
           <td>PyTorch nn.Embedding → mean-pool → Linear</td>
           <td>Cross-entropy, 40 epochs, Adam 1e-3</td>
-          <td>Word embeddings (16-dim) + classification weights</td>
-          <td>Rule dispatch table (pure Python dict)</td>
+          <td>Word embeddings (32-dim) + classification weights</td>
+          <td>Rule if/elif chain (pure Python, symbolic dispatch)</td>
         </tr>
         <tr>
           <td><span class="pill pill-yellow">L3.5</span></td>
@@ -2120,7 +2202,7 @@ rule_base.json updated → next L5 cycle</pre>
           <td><span class="pill" style="background:rgba(239,68,68,0.2);color:#ef4444">L5</span></td>
           <td>Frozen MiniLM + Trunk + Predicate Head (11) + RuleCompiler (4 rules) + rule_score_projection</td>
           <td>CrossEntropy (intent) + BCE (predicate supervision) + end-to-end through product t-norm rule layer</td>
-          <td>Trunk, predicate head, rule_strength ×4 (≈init), blend α (learned), projection layer — <em>rules compiled into architecture</em></td>
+          <td>Trunk, predicate head, rule_strength ×4 (learned) — <em>rules compiled as sole decision path into architecture</em></td>
           <td>rule_base.json (4 symbolic rules with nested AND/OR/NOT) · predicate column definitions</td>
         </tr>
         <tr>
@@ -2236,7 +2318,7 @@ rule_base.json updated → next L5 cycle</pre>
         <tr>
           <td><span class="pill" style="background:rgba(239,68,68,0.2);color:#ef4444">L5</span></td>
           <td>Raw utterance (no per-utterance constraint lists needed)</td>
-          <td>encoder → trunk → predicate head → RuleCompiler (product t-norm) → blend(α) → softmax</td>
+          <td>encoder → trunk → predicate head → RuleCompiler (product t-norm) → logit(rule_scores) → softmax</td>
           <td>intent + intent_prob + rule_activations ×4 + predicate_activations ×11</td>
           <td style="color:#ef4444">Structural — rules compiled into forward pass; 0 TYPE-A/B; interpretable trace</td>
         </tr>
@@ -2338,7 +2420,7 @@ rule_base.json updated → next L5 cycle</pre>
         <div class="tl-label">Compiled Rules</div>
         <div class="tl-card">
           <div class="tl-card-title" style="color:#ef4444">Rules inside the architecture</div>
-          <div class="tl-card-body">Frozen MiniLM + predicate head (11) + RuleCompiler (4 rules, product t-norm, learnable rule_strength) + blend α. Gradients flow end-to-end through symbolic logic. 98.8% acc, 0 TYPE-A/B violations.</div>
+          <div class="tl-card-body">Frozen MiniLM + predicate head (11) + RuleCompiler (4 rules, product t-norm, learnable rule_strength). RuleCompiler is the sole decision path. Gradients flow end-to-end through symbolic logic. 98.8% acc, 0 TYPE-A/B violations.</div>
         </div>
       </div>
       <div class="tl-item">
@@ -2466,7 +2548,7 @@ rule_base.json updated → next L5 cycle</pre>
       </div>
       <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">PyTorch nn.Embedding(16) + Linear</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">PyTorch nn.Embedding(32) + Linear</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">TF-IDF gone. Dense learned vectors. Gradients flow through word representations.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
@@ -2488,18 +2570,18 @@ rule_base.json updated → next L5 cycle</pre>
         <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">Same corpus + ontology knowledge base</div>
         <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Entity aliases, symptom keywords, time patterns in ontology.py.</div>
       </div>
-      <div style="background:var(--surface2);border:1px solid rgba(59,130,246,0.25);border-radius:8px;padding:7px 9px">
-        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.35)">EVOLVED</span>
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
+        <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
         <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">TF-IDF+LR intent + EntityMatcher overlay</div>
-        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Back to TF-IDF for intent; EntityMatcher adds ontology-grounded entity extraction.</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Deliberate revert from nn.Embedding. TF-IDF is sufficient here — the intelligence moves to the pipeline, not the representation.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.3);border-radius:8px;padding:7px 9px">
         <span style="font-size:8.5px;font-weight:800;letter-spacing:1.5px;padding:2px 5px;border-radius:3px;background:rgba(245,158,11,0.15);color:#fbbf24;border:1px solid rgba(245,158,11,0.35)">REPLACED</span>
-        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4-stage pipeline: Parse→Frame→Reason→Plan→Respond</div>
-        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Dispatch dict replaced by full reasoning pipeline. IntentFrame carries entity + symptom + time.</div>
+        <div style="font-size:10.5px;font-weight:600;color:var(--text);margin-top:4px;line-height:1.3">4-stage pipeline: Parse → Reason → Plan → Respond</div>
+        <div style="font-size:9.5px;color:var(--text-dim);margin-top:2px;line-height:1.4">Dispatch dict replaced by full reasoning pipeline. IntentFrame carries entity + symptom + time. No floats enter the symbolic path.</div>
       </div>
       <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.15);border-radius:8px;padding:7px 9px">
-        <div style="font-size:11px;color:var(--text);line-height:1.5">A single intent label is impoverished for real SRE decisions. IntentFrame adds entity + symptom + time, enabling deterministic multi-step reasoning with zero hallucination in the decision path.</div>
+        <div style="font-size:11px;color:var(--text);line-height:1.5"><strong style="color:var(--yellow)">Largest transition in the table — all three layers change at once.</strong> The neural layer deliberately reverts to TF-IDF: for 4-class intent classification the representation doesn't need to be rich, <em>the pipeline does</em>. A single intent label can't drive SRE decisions — you need <em>who</em> (entity), <em>what symptom</em>, and <em>when</em>. IntentFrame supplies all three, unlocking a deterministic Reason → Plan → Respond chain. Domain swap (SRE → network ops) requires editing one file, zero retraining.</div>
       </div>
 
     </div>
@@ -2795,7 +2877,7 @@ rule_base.json updated → next L5 cycle</pre>
           <div style="font-size:10px; color:var(--text-dim); margin-top:3px; line-height:1.4">Symbolic logic (AND/OR/NOT, rules) is embedded as differentiable nn.Modules. Gradients flow through both neural and symbolic parts end-to-end.</div>
         </div>
         <div style="font-size:11px; color:var(--text-dim); line-height:1.6; border-left:1px solid var(--border); padding-left:12px">
-          <strong style="color:var(--text)">L4.5</strong> proves pre-softmax logic gates achieve zero violations by construction. <strong style="color:var(--text)">L5</strong> compiles 4 rules as a trainable <code style="font-size:10px; color:var(--text)">RuleCompiler</code> nn.Module using product t-norm — AND/OR/NOT are differentiable operations, <code style="font-size:10px; color:var(--text)">rule_strengths×4</code> are learned parameters, α blends rule and direct prediction. <strong style="color:#ef4444">98.8% acc · 0 TYPE-A/B violations · full predicate + rule trace at inference</strong>.
+          <strong style="color:var(--text)">L4.5</strong> proves pre-softmax logic gates achieve zero violations by construction. <strong style="color:var(--text)">L5</strong> compiles 4 rules as a trainable <code style="font-size:10px; color:var(--text)">RuleCompiler</code> nn.Module using product t-norm — AND/OR/NOT are differentiable operations, <code style="font-size:10px; color:var(--text)">rule_strengths×4</code> are learned parameters, RuleCompiler is the sole decision path. <strong style="color:#ef4444">98.8% acc · 0 TYPE-A/B violations · full predicate + rule trace at inference</strong>.
         </div>
         <div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:flex-end">
           <span style="font-size:10px; font-weight:800; padding:3px 8px; border-radius:5px; background:rgba(249,115,22,0.12); color:#f97316; border:1px solid rgba(249,115,22,0.3)">L4.5</span>
@@ -3035,7 +3117,7 @@ rule_base.json updated → next L5 cycle</pre>
           <span class="card-icon" style="margin:0">🧬</span>
           <div class="card-title" style="color:#ef4444; margin:0">L5 — Symbolic Rules Compiled Into the Architecture <span style="font-size:10px; font-weight:500; color:var(--text-dimmer); letter-spacing:0">[Research Prototype]</span></div>
         </div>
-        <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> and blend weight <strong style="color:var(--text)">α</strong> are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy (+2.1 pp vs L4 λ=1.0) · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
+        <div class="card-body">Rules are differentiable modules inside the network. The <strong style="color:var(--text)">RuleCompiler</strong> evaluates 4 domain rules over 11 learned predicate probabilities using product t-norm (AND = a·b · OR = a+b−ab · NOT = 1−a). Learnable <strong style="color:var(--text)">rule_strength×4</strong> parameters are trained jointly with the rest of the network — gradients flow end-to-end through symbolic logic. Result: <strong style="color:#ef4444">98.8% accuracy (+2.1 pp vs L4 λ=1.0) · 0 TYPE-A/B violations · full rule + predicate trace at every inference call</strong>.</div>
       </div>
       <div class="card" style="border-color:#14b8a6; padding:14px 18px">
         <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
@@ -3088,7 +3170,7 @@ rule_base.json updated → next L5 cycle</pre>
           <tr>
             <td style="text-align:center"><span class="lp3">L3</span></td>
             <td>Semantic similarity unlocked — "restart" ≈ "reboot" without hand-crafted synonyms. Strict typed boundary eliminates an entire class of numeric-leakage bugs.</td>
-            <td>16-dim learned embeddings · strict integer symbolic boundary · cleaner auditability vs L2</td>
+            <td>32-dim learned embeddings · strict integer symbolic boundary · cleaner auditability vs L2</td>
           </tr>
           <tr>
             <td style="text-align:center"><span class="lp35">L3.5</span></td>
