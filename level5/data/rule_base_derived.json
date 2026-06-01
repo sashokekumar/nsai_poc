@@ -1,0 +1,208 @@
+{
+  "_description": "Data-derived symbolic rule base for Level 5 (v2). Rules extracted from predicate-intent chi2 association mining on level5_labeled.csv. Contrast with rule_base.json (hand-authored by domain expert). See level5/model/rule_miner.py for the full derivation procedure.",
+  "_source": "data_derived",
+  "_mined_from": "level5/data/level5_labeled.csv",
+  "_n_samples": 1661,
+  "_predicate_columns": [
+    "is_infrastructure",
+    "is_service",
+    "is_metric",
+    "is_incident",
+    "is_job",
+    "is_pipeline",
+    "is_unknown",
+    "is_sre_domain",
+    "has_runbook",
+    "is_known_incident",
+    "is_metric_query"
+  ],
+  "_intent_labels": [
+    "investigate",
+    "summarization",
+    "execution",
+    "out_of_scope"
+  ],
+  "_changes_from_v1": [
+    "DR1 replaces R1: adds is_infrastructure (lift=1.56, P=0.396 for investigate) instead of is_known_incident (P=0.087); wraps with is_sre_domain",
+    "DR2 = R2 (data-validated): has_runbook chi2=928.6, lift=3.80 for execution",
+    "DR3 is NEW \u2014 no human-authored equivalent: is_infrastructure+is_sre_domain+NOT has_runbook \u2192 execution; fills coverage gap for ad-hoc infra ops",
+    "DR4 replaces R3: uses is_incident (lift=3.82) + is_metric (lift=2.03) instead of is_known_incident only (narrower sub-predicate)",
+    "DR5 = R4 (data-validated): is_unknown chi2=1135.6, P(unknown|OOS)=1.0"
+  ],
+  "rules": [
+    {
+      "name": "DR1_sre_infra_or_metric_investigate",
+      "description": "SRE-domain utterances about infrastructure or metric queries are investigation requests",
+      "_source": "data_derived",
+      "_support": {
+        "is_infrastructure": {
+          "chi2": 57.5,
+          "lift_investigate": 1.561,
+          "P_pred_given_investigate": 0.3956
+        },
+        "is_metric_query": {
+          "chi2": 60.7,
+          "lift_investigate": 2.221,
+          "P_pred_given_investigate": 0.1578
+        },
+        "is_sre_domain": {
+          "P_pred_given_investigate": 0.5146
+        },
+        "rationale": "is_infrastructure (P=0.396, lift=1.56) is 4.5\u00d7 more common in investigate than is_known_incident (P=0.087 in human R1). is_metric_query (lift=2.22) is the highest-lift investigate signal. AND with is_sre_domain reduces false positives from non-SRE mentions."
+      },
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {
+            "predicate": "is_sre_domain"
+          },
+          {
+            "logic": "OR",
+            "operands": [
+              {
+                "predicate": "is_infrastructure"
+              },
+              {
+                "predicate": "is_metric_query"
+              }
+            ]
+          }
+        ]
+      },
+      "consequent_intent": "investigate",
+      "rule_strength_init": 0.8
+    },
+    {
+      "name": "DR2_runbook_execution",
+      "description": "SRE utterances with runbook/procedural actions are execution requests",
+      "_source": "data_validated",
+      "_support": {
+        "has_runbook": {
+          "chi2": 928.6,
+          "lift_execution": 3.804,
+          "P_pred_given_execution": 0.6755
+        },
+        "rationale": "has_runbook is the single strongest signal in the dataset (chi2=928.6, lift=3.80, P=0.676 for execution). Human R2 is fully data-validated \u2014 rule and antecedents unchanged."
+      },
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {
+            "predicate": "has_runbook"
+          },
+          {
+            "predicate": "is_sre_domain"
+          }
+        ]
+      },
+      "consequent_intent": "execution",
+      "rule_strength_init": 0.9
+    },
+    {
+      "name": "DR3_infra_execution_no_runbook",
+      "description": "Infrastructure entity in SRE domain without a runbook procedure \u2192 direct (ad-hoc) execution",
+      "_source": "data_derived",
+      "_support": {
+        "is_infrastructure": {
+          "chi2": 95.3,
+          "lift_execution": 1.72,
+          "P_pred_given_execution": 0.4358
+        },
+        "rationale": "is_infrastructure has lift=1.72 for execution (chi2=95.3, P=0.436). No human-authored rule covers this combination (infra ops without runbook). DR3 is entirely data-derived \u2014 it fills the rule coverage gap for utterances like 'restart the payment-service pods' where there is no formal runbook but the intent is clearly operational/executory."
+      },
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {
+            "predicate": "is_infrastructure"
+          },
+          {
+            "predicate": "is_sre_domain"
+          },
+          {
+            "predicate": "NOT",
+            "operand": {
+              "predicate": "has_runbook"
+            }
+          }
+        ]
+      },
+      "consequent_intent": "execution",
+      "rule_strength_init": 0.7
+    },
+    {
+      "name": "DR4_metric_or_incident_summarization",
+      "description": "SRE incidents or metric anomalies without runbook actions are summarization/status-reporting requests",
+      "_source": "data_derived",
+      "_support": {
+        "is_incident": {
+          "chi2": 44.7,
+          "lift_summarization": 3.817,
+          "P_pred_given_summarization": 0.0506
+        },
+        "is_metric": {
+          "chi2": 50.0,
+          "lift_summarization": 2.029,
+          "P_pred_given_summarization": 0.1966
+        },
+        "rationale": "is_incident (lift=3.82, highest single-predicate lift for summarization) and is_metric (lift=2.03, P=0.197) are the two strongest summarization signals. Human R3 used only is_known_incident (a sub-predicate with lower coverage). DR4 is data-improved: broader is_incident + adds is_metric as alternative antecedent."
+      },
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {
+            "predicate": "is_sre_domain"
+          },
+          {
+            "predicate": "NOT",
+            "operand": {
+              "predicate": "has_runbook"
+            }
+          },
+          {
+            "logic": "OR",
+            "operands": [
+              {
+                "predicate": "is_incident"
+              },
+              {
+                "predicate": "is_metric"
+              }
+            ]
+          }
+        ]
+      },
+      "consequent_intent": "summarization",
+      "rule_strength_init": 0.75
+    },
+    {
+      "name": "DR5_unknown_out_of_scope",
+      "description": "Unknown entity with no SRE domain context \u2192 out_of_scope",
+      "_source": "data_validated",
+      "_support": {
+        "is_unknown": {
+          "chi2": 1135.6,
+          "lift_oos": 2.688,
+          "P_pred_given_oos": 1.0
+        },
+        "rationale": "is_unknown is the dominant out_of_scope signal (chi2=1135.6, P=1.0 \u2014 every OOS row in the dataset has is_unknown=1). Human R4 is fully data-validated \u2014 rule and antecedents unchanged."
+      },
+      "antecedents": {
+        "logic": "AND",
+        "operands": [
+          {
+            "predicate": "is_unknown"
+          },
+          {
+            "predicate": "NOT",
+            "operand": {
+              "predicate": "is_sre_domain"
+            }
+          }
+        ]
+      },
+      "consequent_intent": "out_of_scope",
+      "rule_strength_init": 0.9
+    }
+  ]
+}

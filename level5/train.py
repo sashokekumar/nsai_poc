@@ -206,9 +206,11 @@ def train(args):
     print(f"Train: {len(train_ds)} rows | Val: {len(val_ds)} rows")
 
     # Model
+    rule_base = str(Path(args.rule_base).resolve()) if args.rule_base else None
     model = Level5IntentModel(
         dropout=args.dropout,
         hard_rules=args.hard_rules,
+        rule_base_path=rule_base,
     )
     if args.hard_rules:
         print("Hard rules mode (L5B): rule_strength effectively fixed at 1.0 "
@@ -279,6 +281,7 @@ def train(args):
                     "val_intent_acc":   best_val_intent_acc,
                     "rule_strengths":   rule_strengths,
                     "hard_rules":       args.hard_rules,
+                    "rule_base":        rule_base,
                     "args":             vars(args),
                 },
                 out_dir / "best_model.pt",
@@ -311,6 +314,9 @@ if __name__ == "__main__":
                         help="L5B mode: rule_strength effectively fixed at 1.0 (sigmoid(10), no grad). "
                              "Removes neural intent escape path. Does NOT guarantee zero violations "
                              "\u2014 predicate accuracy still required.")
+    parser.add_argument("--rule-base",          type=str, default=None,
+                        help="Path to rule_base JSON. Defaults to level5/data/rule_base.json. "
+                             "Use data/rule_base_derived.json for v2 data-derived rules.")
     parser.add_argument("--rule-strength-init", type=float, default=None,
                         help="Override all rule_strength_init values before training")
     args = parser.parse_args()

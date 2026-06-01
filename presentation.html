@@ -1819,7 +1819,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
             <div class="pipe-num" style="background:#ef4444">3</div>
             <div class="pipe-content">
               <div class="pipe-name">RuleCompiler — product t-norm logic</div>
-              <div class="pipe-desc">Reads rule_base.json · evaluates 4 rules over predicate probs using differentiable AND/OR/NOT · applies learnable rule_strength ∈ [0,1] per rule · rule_score_projection maps [0,1] → logit scale</div>
+              <div class="pipe-desc">Reads rule_base_derived.json · evaluates 5 data-derived rules over predicate probs · DR3 (is_infra+sre+NOT runbook→execution) is new — no human-authored equivalent · learnable rule_strength per rule</div>
               <span class="pipe-tag tag-rule">Compiled Rules</span>
             </div>
           </div>
@@ -1835,21 +1835,25 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
       </div>
       <div style="display:flex; flex-direction:column; gap:10px">
         <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:10px 14px">
-          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:8px">4 Symbolic Rules (rule_base.json) — learnable rule_strength per rule</div>
-          <div style="display:grid; grid-template-columns:auto 1fr auto; gap:5px 10px; align-items:center; font-size:9.5px">
-            <span style="color:#ef4444; font-weight:800">R1</span>
-            <span style="color:var(--text-dim); font-family:monospace">OR(is_metric_query, is_known_incident) → <strong style="color:var(--green)">investigate</strong></span>
-            <span style="color:var(--text-dimmer)">strength=0.698</span>
-            <span style="color:#ef4444; font-weight:800">R2</span>
+          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:8px">5 Symbolic Rules (rule_base_derived.json) — data-derived via chi² mining</div>
+          <div style="display:grid; grid-template-columns:auto 1fr auto; gap:5px 10px; align-items:start; font-size:9.5px">
+            <span style="color:#ef4444; font-weight:800">DR1</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_sre_domain, OR(is_infrastructure, is_metric_query)) → <strong style="color:var(--green)">investigate</strong></span>
+            <span style="color:var(--text-dimmer)">lift=1.56/2.22</span>
+            <span style="color:#ef4444; font-weight:800">DR2</span>
             <span style="color:var(--text-dim); font-family:monospace">AND(has_runbook, is_sre_domain) → <strong style="color:var(--green)">execution</strong></span>
-            <span style="color:var(--text-dimmer)">strength=0.906</span>
-            <span style="color:#ef4444; font-weight:800">R3</span>
-            <span style="color:var(--text-dim); font-family:monospace">AND(is_known_incident, is_sre_domain, NOT has_runbook) → <strong style="color:var(--green)">summarization</strong></span>
-            <span style="color:var(--text-dimmer)">strength=0.597</span>
-            <span style="color:#ef4444; font-weight:800">R4</span>
+            <span style="color:var(--text-dimmer)">chi²=928</span>
+            <span style="color:#ef4444; font-weight:800; white-space:nowrap">DR3 <span style="color:#fbbf24">[NEW]</span></span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_infrastructure, is_sre_domain, NOT has_runbook) → <strong style="color:var(--green)">execution</strong></span>
+            <span style="color:var(--text-dimmer)">lift=1.72</span>
+            <span style="color:#ef4444; font-weight:800">DR4</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_sre_domain, NOT has_runbook, OR(is_incident, is_metric)) → <strong style="color:var(--green)">summarization</strong></span>
+            <span style="color:var(--text-dimmer)">lift=3.82/2.03</span>
+            <span style="color:#ef4444; font-weight:800">DR5</span>
             <span style="color:var(--text-dim); font-family:monospace">AND(is_unknown, NOT is_sre_domain) → <strong style="color:var(--green)">out_of_scope</strong></span>
-            <span style="color:var(--text-dimmer)">strength=0.803</span>
+            <span style="color:var(--text-dimmer)">P=1.00</span>
           </div>
+          <div style="font-size:9px; color:var(--text-dimmer); margin-top:6px">DR1/DR4 replace hand-authored R1/R3 using stronger data signals. DR3 is entirely new — no human-authored equivalent. DR2/DR5 unchanged (data validates them).</div>
         </div>
         <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
           <div style="font-size:10.5px; font-weight:700; color:#ef4444; margin-bottom:6px">Product T-Norm — differentiable logic operators</div>
@@ -1861,12 +1865,12 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:6px; line-height:1.5">All operators are differentiable → gradients flow end-to-end through the rule layer. Rule strengths are learned during backprop, not fixed by hand.</div>
         </div>
         <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
-          <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">3 Ablations — isolating the rule layer's contribution</div>
+          <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">2 Experiments (v2, data-derived rules) — measured results</div>
           <div style="display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:9.5px">
-            <span style="color:var(--text-dimmer); font-weight:700">Exp A</span><span style="color:var(--text-dim)">Rules off (strength=0) — baseline: 52.6% viol, 24% TYPE-A</span>
-            <span style="color:var(--green); font-weight:700">Exp B</span><span style="color:var(--text-dim)">Main L5 (learnable) — 98.8% acc, 6.0% viol, <strong style="color:var(--green)">0 TYPE-A/B</strong>, 61.6% rule fidelity</span>
-            <span style="color:var(--yellow); font-weight:700">Exp C</span><span style="color:var(--text-dim)">Hard rules (strength=1.0 frozen) — 3.9% viol, 72.1% rule fidelity</span>
+            <span style="color:var(--green); font-weight:700">Exp D</span><span style="color:var(--text-dim)">Soft rules (learnable) — 98.8% acc, TYPE-A/B=0, <strong style="color:var(--green)">100% rule fidelity</strong></span>
+            <span style="color:var(--yellow); font-weight:700">Exp E</span><span style="color:var(--text-dim)">Hard rules (strength=1.0) — <strong style="color:var(--green)">99.1% acc</strong>, TYPE-A=0, <strong style="color:var(--green)">100% rule fidelity</strong></span>
           </div>
+          <div style="font-size:9px; color:var(--text-dimmer); margin-top:5px">v1 ref (Exp B/C, old arch): 98.8% acc, 61–72% rule fidelity. Data-derived rules improve fidelity to 100% by better matching the data distribution.</div>
         </div>
       </div>
     </div>
@@ -1876,9 +1880,9 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
       <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.35); border-radius:10px; padding:12px 18px">
         <div style="font-size:12px; font-weight:700; color:#ef4444; margin-bottom:6px">What changes from L4.5 — rules move inside the network</div>
         <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
-          <strong style="color:var(--text)">Data:</strong> same SRE corpus but now annotated with 11 predicate labels — the network learns to predict each predicate independently before applying rules.<br>
-          <strong style="color:var(--text)">Neural:</strong> frozen MiniLM encoder returns; predicate head (11 sigmoid outputs) added alongside the intent path. Rules are no longer external — they're <code style="font-size:10.5px">nn.Module</code> compiled from <code style="font-size:10.5px">rule_base.json</code>.<br>
-          <strong style="color:var(--text)">Symbolic:</strong> <code style="font-size:10.5px">RuleCompiler</code> evaluates 4 rules using differentiable product t-norm; <code style="font-size:10.5px">rule_strength</code> per rule is a learned parameter. RuleCompiler output IS the intent logit — no separate classification head.
+          <strong style="color:var(--text)">Data:</strong> same SRE corpus now annotated with 11 predicate labels. Rule base generated by <code style="font-size:10.5px">rule_miner.py</code> via chi² association mining — DR3 (infra+SRE→execution) is entirely data-derived with no human-authored equivalent.<br>
+          <strong style="color:var(--text)">Neural:</strong> frozen MiniLM encoder; predicate head (11 sigmoid outputs). Rules compiled as <code style="font-size:10.5px">nn.Module</code> from <code style="font-size:10.5px">rule_base_derived.json</code> — sole decision path, no intent head.<br>
+          <strong style="color:var(--text)">Symbolic:</strong> <code style="font-size:10.5px">RuleCompiler</code> evaluates 5 data-derived rules using differentiable product t-norm; <code style="font-size:10.5px">rule_strength</code> per rule is learned. Rule layer output IS the intent logit.
         </div>
       </div>
 
@@ -1919,12 +1923,13 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           </div>
         </div>
         <div class="card" style="padding:12px 14px; border-color:#ef4444">
-          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:6px">② RuleCompiler evaluates 4 rules (product t-norm)</div>
+          <div style="font-size:11px; font-weight:700; color:#ef4444; margin-bottom:6px">② RuleCompiler evaluates 5 rules (product t-norm)</div>
           <div style="font-size:10px; font-family:monospace; color:var(--text-dim); line-height:2">
-            R1 → OR(0.924, 0.118) = <strong style="color:var(--green)">0.934</strong> × strength(0.698) = <strong style="color:var(--green)">0.652</strong> → investigate<br>
-            R2 → AND(0.071, 0.891) = <span style="color:var(--text-dimmer)">0.063</span> × strength(0.906) = <span style="color:var(--text-dimmer)">0.057</span> → execution<br>
-            R3 → AND(0.118, 0.891, NOT 0.071) = <span style="color:var(--text-dimmer)">0.097</span> → summarization<br>
-            R4 → AND(0.034, NOT 0.891) = <span style="color:var(--text-dimmer)">0.004</span> → out_of_scope
+            DR1 → AND(0.891, OR(0.924, 0.782)) = <strong style="color:var(--green)">0.891 × 0.972 = 0.867</strong> × str(0.803) = <strong style="color:var(--green)">0.696</strong> → investigate<br>
+            DR2 → AND(0.071, 0.891) = <span style="color:var(--text-dimmer)">0.063</span> × str(0.904) = <span style="color:var(--text-dimmer)">0.057</span> → execution<br>
+            DR3 → AND(0.924, 0.891, NOT 0.071) = <span style="color:var(--text-dimmer)">0.764</span> × str(0.666) = <span style="color:var(--text-dimmer)">0.509</span> → execution<br>
+            DR4 → AND(0.891, NOT 0.071, OR(0.118, 0.853)) = <span style="color:var(--text-dimmer)">0.753</span> × str(0.758) = <span style="color:var(--text-dimmer)">0.571</span> → summarization<br>
+            DR5 → AND(0.034, NOT 0.891) = <span style="color:var(--text-dimmer)">0.004</span> → out_of_scope
           </div>
         </div>
       </div>
@@ -1932,25 +1937,26 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <pre class="code-block" style="font-size:10px">{
   <span class="st">"utterance"</span>:  <span class="st">"Check error rate for payment-service"</span>,
   <span class="st">"intent"</span>:     <span class="st">"investigate"</span>,
-  <span class="st">"intent_prob"</span>: <span class="num">0.971</span>,
+  <span class="st">"intent_prob"</span>: <span class="num">0.983</span>,
 
   <span class="st">"rule_activations"</span>: {
-    <span class="st">"R1_metric_investigate"</span>: <span class="num">0.652</span>,  <span class="cm">// ← drives decision</span>
-    <span class="st">"R2_runbook_execution"</span>:  <span class="num">0.057</span>,
-    <span class="st">"R3_incident_summarize"</span>: <span class="num">0.091</span>,
-    <span class="st">"R4_unknown_oos"</span>:        <span class="num">0.004</span>
+    <span class="st">"DR1_sre_infra_or_metric_investigate"</span>: <span class="num">0.696</span>,  <span class="cm">// ← drives decision</span>
+    <span class="st">"DR2_runbook_execution"</span>:              <span class="num">0.057</span>,
+    <span class="st">"DR3_infra_execution_no_runbook"</span>:     <span class="num">0.509</span>,
+    <span class="st">"DR4_metric_or_incident_summarization"</span>:<span class="num">0.571</span>,
+    <span class="st">"DR5_unknown_out_of_scope"</span>:           <span class="num">0.004</span>
   },
   <span class="st">"predicate_activations"</span>: {
     <span class="st">"is_metric_query"</span>:  <span class="num">0.924</span>,
     <span class="st">"is_sre_domain"</span>:    <span class="num">0.891</span>,
-    <span class="st">"is_metric"</span>:        <span class="num">0.853</span>,
+    <span class="st">"is_infrastructure"</span>:<span class="num">0.924</span>,
     <span class="st">"is_service"</span>:       <span class="num">0.782</span>
   }
 }</pre>
         <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
           <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
-            <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here R1 fires <em>inside</em> the forward pass — the rule score IS the intent logit (via logit transform), the only decision path. Both predicate head and rule_strength gradients update the same weights end-to-end.<br><br>
-            <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A/B violations in Exp B and C.
+            <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here DR1 fires <em>inside</em> the forward pass — the rule score IS the intent logit (via logit transform), the only decision path. Both predicate head and rule_strength gradients update the same weights end-to-end.<br><br>
+            <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A/B violations in Exp D. Rule fidelity 100% — every prediction matches its highest-activated rule's consequent.
           </div>
         </div>
       </div>

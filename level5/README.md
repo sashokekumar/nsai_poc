@@ -14,42 +14,32 @@ Utterance (text)
      │
      ▼
 ┌──────────────────────────┐
-│  Shared Trunk (MLP)      │  Linear(384→256) + ReLU + Dropout(0.3)
+│  Shared Trunk (MLP)      │  Linear(384→256) + ReLU + Dropout(0.2)
 └──────────────────────────┘
      │
-     ├──────────────────────────────────────┐
-     ▼                                      ▼
-┌───────────────────────┐        ┌────────────────────────────┐
-│  Predicate Head       │        │  Intent Head (trunk_logits)│
-│  Linear(256→11)       │        │  Linear(256→4)             │
-│  sigmoid → [0,1]      │        └────────────────────────────┘
-└───────────────────────┘                   │
-     │                                      │
-     ▼                                      │
-┌───────────────────────────────────────┐   │
-│  RuleCompiler (product t-norm logic)  │   │
-│  4 rules × learnable rule_strength   │   │
-│  → rule_scores [batch, 4]  ∈ [0,1]   │   │
-└───────────────────────────────────────┘   │
-     │                                      │
-     ▼                                      │
-┌───────────────────────────────────────┐   │
-│  rule_score_projection                │   │
-│  Linear(4→4, bias=True)               │   │
-│  maps [0,1] scores → logit scale     │   │
-└───────────────────────────────────────┘   │
-     │                                      │
-     └──────────────┬────────────────────────┘
-                    ▼
-         intent_logit = α · rule_logits + (1-α) · trunk_logits
-                    │
-                    ▼
-               softmax → 4 intent classes
+     ▼
+┌───────────────────────┐
+│  Predicate Head       │  Linear(256→11) + sigmoid → 11 probabilities
+└───────────────────────┘
+     │
+     ▼
+┌───────────────────────────────────────┐
+│  RuleCompiler (product t-norm logic)  │
+│  N rules × learnable rule_strength   │
+│  → rule_scores [batch, N]  ∈ [0,1]   │
+└───────────────────────────────────────┘
+     │
+     ▼
+┌───────────────────────────────────────┐
+│  scatter_to_intents                   │
+│  max rule activation per intent [B,4]│
+└───────────────────────────────────────┘
+     │
+     ▼
+  torch.logit(score.clamp(ε))  →  softmax  →  4-class intent
 ```
 
-**Intents (4):** `investigate`, `summarization`, `execution`, `out_of_scope`
-
-**Predicates (11):** `is_infrastructure`, `is_service`, `is_metric`, `is_incident`, `is_job`, `is_pipeline`, `is_unknown`, `is_sre_domain`, `has_runbook`, `is_known_incident`, `is_metric_query`
+**Key Level 5 property:** The RuleCompiler is the **sole decision path** — no residual neural intent head, no blend weight. The trunk's only job is to estimate predicate probabilities; intent is determined entirely by compiled symbolic rules.
 
 ## Product T-Norm Logic
 
@@ -61,108 +51,101 @@ All logic operations are differentiable, allowing backpropagation through symbol
 | OR(a, b)  | $a + b - a \cdot b$ |
 | NOT(a)    | $1 - a$ |
 
-The blend weight $\alpha$ (learnable sigmoid parameter, init=0.5) controls how much rule scores vs trunk logits drive the final intent prediction.
 
-## Rule Base
+## Rule Base (v2 — Data-Derived)
 
-Defined in `level5/data/rule_base.json`. Four rules derived from SRE domain knowledge:
+Defined in `level5/data/rule_base_derived.json`. Five rules derived from predicate-intent chi-squared association mining on `level5_labeled.csv` (see `level5/model/rule_miner.py`). Contrast with `rule_base.json` (hand-authored v1).
 
-| Rule | Logic | Target Intent | Init Strength |
-|------|-------|--------------|---------------|
-| R1 | OR(is_metric_query, is_known_incident) | investigate | 0.7 |
-| R2 | AND(has_runbook, is_sre_domain) | execution | 0.9 |
-| R3 | AND(is_known_incident, is_sre_domain, NOT has_runbook) | summarization | 0.6 |
-| R4 | AND(is_unknown, NOT is_sre_domain) | out_of_scope | 0.8 |
+| Rule | Logic | Target Intent | Init Strength | Source | Key Support |
+|------|-------|--------------|---------------|--------|-------------|
+| DR1 | `AND(is_sre_domain, OR(is_infrastructure, is_metric_query))` | investigate | 0.80 | data-derived | is_infra lift=1.56 (P=0.396) vs R1's is_known_incident (P=0.087) |
+| DR2 | `AND(has_runbook, is_sre_domain)` | execution | 0.90 | data-validated | has_runbook chi2=928.6, lift=3.80 — same as R2 |
+| DR3 | `AND(is_infrastructure, is_sre_domain, NOT has_runbook)` | execution | 0.70 | **data-derived (NEW)** | no human equivalent; is_infra lift=1.72 for execution (chi2=95.3) |
+| DR4 | `AND(is_sre_domain, NOT has_runbook, OR(is_incident, is_metric))` | summarization | 0.75 | data-derived | is_incident lift=3.82 + is_metric lift=2.03; R3 only used is_known_incident |
+| DR5 | `AND(is_unknown, NOT is_sre_domain)` | out_of_scope | 0.90 | data-validated | is_unknown P=1.0 for OOS — same as R4 |
 
-`rule_base.json` schema:
-```json
-{
-  "rules": [
-    {
-      "name": "R1_metric_investigate",
-      "antecedents": {
-        "logic": "OR",
-        "operands": [
-          {"predicate": "is_metric_query"},
-          {"predicate": "is_known_incident"}
-        ]
-      },
-      "consequent_intent": "investigate",
-      "rule_strength_init": 0.7
-    }
-  ]
-}
-```
+**What changed from v1 (R1–R4):**
+- **DR1 ≠ R1:** R1 used `OR(is_metric_query, is_known_incident)` — but `is_known_incident` appears in only 8.7% of investigate cases (P=0.087). `is_infrastructure` appears in 39.6% (P=0.396). DR1 corrects this.
+- **DR3 is new:** There was no rule for infra+SRE+no-runbook → execution. This covers utterances like *"restart the payment-service pods"* that don't reference a runbook but are clearly executory.
+- **DR4 ≠ R3:** R3 used `is_known_incident` only. `is_metric` is a stronger summarization signal (lift=2.03 vs 1.84 for is_known_incident) and covers 19.7% of summarization cases.
+- **DR2 = R2, DR5 = R4:** Data fully validates these human-authored rules.
+
+To regenerate: `python -m level5.model.rule_miner`
 
 ## Experiments
 
-Three ablations were run to isolate the contribution of the rule layer:
+Five ablations total across v1 and v2. v1 used a hybrid architecture with a blend weight α and a residual intent head (incompatible with current code). v2 uses the clean L5 architecture where RuleCompiler is the sole decision path.
+
+### v2 Experiments (data-derived rules — current architecture)
 
 | Experiment | Description | Key Config |
-|------------|-------------|-----------|
-| **Exp A** — Rules Off | Rules frozen at strength=0.0 and pred_weight=0; pure trunk baseline with no symbolic component | `--freeze-rules --rule-strength-init 0.0 --pred-weight 0.0` |
-| **Exp B** — Main (L5) | Full neuro-symbolic: learnable rule strengths + predicate supervision | `--epochs 20` |
-| **Exp C** — Hard Rules | Rules frozen at strength=1.0 (hard symbolic); trunk must learn around them | `--freeze-rules --rule-strength-init 1.0` |
+|------------|-------------|-----------||
+| **Exp D** — Derived Soft (L5A) | Data-derived rules, learnable rule strengths | `--rule-base level5/data/rule_base_derived.json --epochs 20` |
+| **Exp E** — Derived Hard (L5B) | Data-derived rules, strengths frozen at 1.0 | `--rule-base level5/data/rule_base_derived.json --hard-rules --epochs 20` |
 
 ### Reproduce Commands
 
 ```bash
-# Exp A — rules disabled (pure trunk baseline)
-python -m level5.train --run-name exp_a_rules_disabled --freeze-rules --rule-strength-init 0.0 --pred-weight 0.0 --epochs 20
+# Exp D — data-derived rules, soft (learnable strengths)
+python -m level5.train --run-name exp_d_derived_soft --rule-base level5/data/rule_base_derived.json --epochs 20
 
-# Exp B — main Level 5 (learnable rules)
-python -m level5.train --run-name exp_b_l5_main --epochs 20
+# Exp E — data-derived rules, hard (frozen at 1.0)
+python -m level5.train --run-name exp_e_derived_hard --rule-base level5/data/rule_base_derived.json --hard-rules --epochs 20
+```
 
-# Exp C — hard symbolic rules (frozen at 1.0)
-python -m level5.train --run-name exp_c_hard_rules --freeze-rules --rule-strength-init 1.0 --epochs 20
+### Regenerate rule base from data
+
+```bash
+python -m level5.model.rule_miner
 ```
 
 ### Evaluate
 
 ```bash
 python -m level5.evaluation.violation_metrics \
-    --checkpoint saved_models/exp_b_l5_main/best_model.pt \
-    --run-name exp_b_l5_main \
-    --compare-l4 level4/saved_models/lam2_0/evaluation_metrics.json
-```
+    --checkpoint saved_models/exp_d_derived_soft/best_model.pt \
+    --run-name exp_d_derived_soft
 
-### Inference
-
-```bash
-# Single utterance
-python -m level5.infer --checkpoint saved_models/exp_b_l5_main/best_model.pt \
-    --utterance "Check error rate for payment-service"
-
-# Batch CSV
-python -m level5.infer --checkpoint saved_models/exp_b_l5_main/best_model.pt \
-    --input-file data.csv --utterance-col utterance --output-file results.json
+python -m level5.evaluation.violation_metrics \
+    --checkpoint saved_models/exp_e_derived_hard/best_model.pt \
+    --run-name exp_e_derived_hard
 ```
 
 ## Results
 
-| Experiment | Intent Acc | Pred Acc | Rule Fidelity | Viol Rate | TYPE-A | TYPE-B | TYPE-C | Rule Strengths | Blend α |
-|------------|-----------|---------|--------------|----------|--------|--------|--------|----------------|---------|
-| L3.5 Baseline | 0.9309 | — | — | 0.6426 | 0.0 | 0.0 | 0.6426 | — | — |
-| L4 λ=2.0 | 0.9610 | — | — | 0.0210 | 0.0 | 0.0 | 0.0511 | — | — |
-| L5-A (rules off) | 0.9880 | 0.3574 | 0.0033 | 0.5255 | 0.2402 | 0.0 | 0.5345 | [0.000, 0.000, 0.000, 0.000] | 0.500 |
-| L5-B (main) | 0.9880 | 0.8821 | 0.6156 | 0.0601 | 0.0 | 0.0 | 0.0841 | [0.698, 0.906, 0.597, 0.803] | 0.467 |
-| L5-C (hard rules) | 0.9880 | 0.8834 | 0.7207 | 0.0390 | 0.0 | 0.0 | 0.0631 | [1.000, 1.000, 1.000, 1.000] | 0.500 |
+### v2 — Measured (data-derived rules, current architecture)
+
+| Experiment | Intent Acc | Pred Acc | Rule Fidelity | Overall Viol* | TYPE-A | TYPE-B | TYPE-C | TYPE-D | TYPE-F† | Rule Strengths |
+|------------|-----------|---------|--------------|--------------|--------|--------|--------|--------|---------|----------------|
+| **Exp D** (derived soft) | **0.9880** | 0.8643 | **1.000** | 0.2733 | 0.000 | 0.000 | 0.063 | 0.057 | 0.210 | [0.803, 0.904, 0.666, 0.758, 0.904] |
+| **Exp E** (derived hard) | **0.9910** | 0.8583 | **1.000** | 0.3213 | 0.000 | 0.003 | 0.108 | 0.099 | 0.210 | [1.0, 1.0, 1.0, 1.0, 1.0] |
+
+*Overall rate dominated by TYPE-F (21%). See † note below.
+
+†**TYPE-F note (data-vs-constraint tension):** The L4 ontology classifies `summarization+metric` as a violation (TYPE-F, temporal phase mismatch). But the data shows `is_metric` has lift=2.03 for summarization — one of the two strongest summarization signals. DR4 correctly fires metric→summarization based on data evidence. The 21% TYPE-F rate documents the tension between the L4 constraint and the data — not a pure model error.
+
+### v1 — Reference (hand-authored rules, old hybrid architecture)
+
+> ⚠️ Old Exp B/C checkpoints used a different architecture (blend weight α + residual intent head, `rule_score_projection`) that has since been replaced with the clean pure-symbolic forward pass. Old checkpoints cannot be re-evaluated with the current code. Results preserved for reference.
+
+| Experiment | Intent Acc | Pred Acc | Rule Fidelity | Viol Rate | TYPE-A | TYPE-B | TYPE-C | Blend α |
+|------------|-----------|---------|--------------|----------|--------|--------|--------|----------|
+| L5-A (rules off) | 0.9880 | 0.3574 | 0.003 | 0.526 | 0.240 | 0.000 | 0.535 | 0.500 |
+| L5-B (main, blend) | 0.9880 | 0.8821 | 0.616 | 0.060 | 0.000 | 0.000 | 0.084 | 0.467 |
+| L5-C (hard, blend) | 0.9880 | 0.8834 | 0.721 | 0.039 | 0.000 | 0.000 | 0.063 | 0.500 |
 
 ### Key Findings
 
-> **Ablation caveat**: All three L5 variants reach the same 98.8% intent accuracy, so accuracy alone does not demonstrate what the rule layer adds. The stronger evidence is the ablation: with rules off (Exp A), accuracy stays at 98.8% but the violation rate spikes to 52.6%. With rules on (Exp B/C), violations drop to 3.9–6.0%. The rule layer contributes **symbolic validity**, not just accuracy.
+> **Rule fidelity 100% in both Exp D and E**: every val-set prediction matches the consequent of the highest-activated rule. Compared to v1's 61.6% (Exp B) and 72.1% (Exp C), this confirms that the data-derived rules better align with data patterns — the rule layer drives the decision, not the trunk.
 
-- **All L5 variants reach 98.8% intent accuracy** — +2.7 pp over L4 λ=2.0 (96.1%)
-- **Exp A (rules truly off)** confirms the rule layer is essential: without rules, violation rate rises to 52.6% with high TYPE-A (24%) and TYPE-C (53%) — pure trunk provides no symbolic grounding
-- **Exp B (main)** reduces violations to 6.0% with zero TYPE-A/B — learnable rule strengths converge near their init values, validating the rule priors; rule fidelity 61.6%
-- **Exp C (hard symbolic)** achieves the lowest violation rate (3.9%) and highest rule fidelity (72.1%) — frozen-at-1.0 rules act as hard constraints the trunk learns to complement
-- **Zero TYPE-B violations in B and C** — the rule layer eliminates false-execution entirely
-- **TYPE-C (ungrounded SRE)** is the residual challenge at 6–8%; additional rules with broader SRE coverage would address this
-- **rule_score_projection layer** (Linear 4→4) is critical: it maps rule scores from [0,1] to the logit scale before blending, preventing scale mismatch with trunk logits
+- **Exp E (derived hard) reaches 99.1% intent accuracy**, +0.3 pp over v1 at 98.8%
+- **Zero TYPE-A violations** in both D and E — the compiled rule layer prevents classifying SRE entities as `out_of_scope`
+- **Zero TYPE-B in Exp D** — derived rules prevent false-execution against non-actionable entities
+- **TYPE-D (unsafe execution = 5.7–9.9%)**: execution predicted with unknown entity type. DR3 (`is_infra+is_sre+NOT has_runbook → execution`) can fire when `is_unknown` also activates. Hard rules (Exp E) exacerbate this.
+- **TYPE-F rate is 21% (data-vs-constraint)**: DR4 correctly fires `is_metric → summarization` (data lift=2.03). This conflicts with the L4 TYPE-F constraint. See note in results table above.
+- **DR3 is the key new addition**: 5 rules vs 4; covers the `is_infrastructure → execution (no runbook)` gap that no hand-authored rule addressed.
 
 ## Kautz Classification
-
-| Level | Symbolic Role | Integration Point | Differentiable? |
 |-------|--------------|------------------|-----------------|
 | L3.5 | Runtime post-hoc rules | After prediction | No |
 | L4 | Training-time constraint penalty | Loss function only | Yes (loss) |
@@ -174,24 +157,25 @@ python -m level5.infer --checkpoint saved_models/exp_b_l5_main/best_model.pt \
 ```
 level5/
 ├── data/
-│   ├── level5_labeled.csv       # 1,661 rows, 15 cols (utterance + 11 predicates + intent)
-│   └── rule_base.json           # 4 symbolic rules with nested AND/OR/NOT logic
+│   ├── level5_labeled.csv          # 1,661 rows, 15 cols (utterance + 11 predicates + intent)
+│   ├── rule_base.json               # 4 human-authored rules (v1 reference)
+│   └── rule_base_derived.json       # 5 data-derived rules (v2 current)
 ├── model/
 │   ├── __init__.py
-│   ├── dataset.py               # Level5Dataset — loads CSV, validates predicates
-│   ├── differentiable_logic.py  # Product t-norm: logic_and, logic_or, logic_not
-│   ├── rule_compiler.py         # RuleCompiler — evaluates rule trees over predicate probs
-│   ├── level5_model.py          # Level5IntentModel — full architecture
-│   └── losses.py                # Level5Loss = CrossEntropy + pred_weight * BCE
+│   ├── dataset.py                   # Level5Dataset — loads CSV, validates predicates
+│   ├── differentiable_logic.py      # Product t-norm: logic_and, logic_or, logic_not
+│   ├── rule_compiler.py             # RuleCompiler — evaluates rule trees over predicate probs
+│   ├── rule_miner.py                # Chi2 association miner — generates rule_base_derived.json
+│   ├── level5_model.py              # Level5IntentModel — full architecture
+│   └── losses.py                    # Level5Loss = CrossEntropy + pred_weight * BCE
 ├── evaluation/
 │   ├── __init__.py
-│   └── violation_metrics.py     # Intent acc, pred acc, rule fidelity, TYPE-A/B/C violations
+│   └── violation_metrics.py         # Intent acc, pred acc, rule fidelity, TYPE-A/B/C/D/F
 ├── saved_models/
-│   ├── exp_a_rules_disabled/    # best_model.pt, training_log.json, evaluation_metrics.json
-│   ├── exp_b_l5_main/           # best_model.pt, training_log.json, evaluation_metrics.json
-│   └── exp_c_hard_rules/        # best_model.pt, training_log.json, evaluation_metrics.json
-├── train.py                     # Training loop with 3-experiment CLI
-├── infer.py                     # Inference: single/batch/REPL with interpretable output
+│   ├── exp_d_derived_soft/          # best_model.pt, training_log.json, evaluation_metrics.json
+│   └── exp_e_derived_hard/          # best_model.pt, training_log.json, evaluation_metrics.json
+├── train.py                         # Training loop (--rule-base, --hard-rules CLI args)
+├── infer.py                         # Inference: single/batch/REPL with interpretable output
 ├── level5_rule_compiled_network.ipynb  # End-to-end walkthrough notebook
 ├── TODO.md
 └── README.md

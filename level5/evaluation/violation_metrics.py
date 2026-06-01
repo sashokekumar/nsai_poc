@@ -54,7 +54,9 @@ L4_RULES  = REPO_ROOT / "level4" / "ontology" / "constraint_rules.json"
 
 def load_model(checkpoint_path: str, device: torch.device):
     ckpt = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    model = Level5IntentModel()
+    # Restore the exact rule_base that was used during training (if recorded)
+    rule_base = ckpt.get("rule_base") or ckpt.get("args", {}).get("rule_base", None)
+    model = Level5IntentModel(rule_base_path=rule_base)
     model.load_state_dict(ckpt["state_dict"])
     model.to(device)
     model.eval()
@@ -202,6 +204,16 @@ def compute_metrics(
         if pi in ["investigate", "summarization", "execution"] and pe == "unknown"
     ) / n
 
+    # TYPE_D — unsafe execution: execution predicted for unknown entity
+    # Pulled from per-pair count already computed above (execution+unknown)
+    type_d_rate = violation_counts.get("execution+unknown", 0) / n
+
+    # TYPE_F — temporal phase mismatch: summarization predicted for metric entity
+    # NOTE: is_metric has lift=2.03 for summarization in this dataset, so the rate
+    # reflects the tension between the L4 domain constraint and the data signal.
+    # High TYPE_F rate here is expected and documents this constraint ambiguity.
+    type_f_rate = violation_counts.get("summarization+metric", 0) / n
+
     return {
         "n": n,
         "intent_acc":              round(float(intent_acc), 4),
@@ -218,6 +230,8 @@ def compute_metrics(
         "type_a_false_rejection":  round(type_a_rate, 4),
         "type_b_false_execution":  round(type_b_rate, 4),
         "type_c_ungrounded_sre":   round(type_c_rate, 4),
+        "type_d_unsafe_execution": round(type_d_rate, 4),
+        "type_f_temporal_mismatch": round(type_f_rate, 4),
         "per_pair_violations":     violation_counts,
     }
 
@@ -252,6 +266,10 @@ def print_metrics(metrics: dict, run_name: str, compare_l4: dict = None):
     print(f"  TYPE_A (false rej) : {metrics['type_a_false_rejection']:.4f}")
     print(f"  TYPE_B (false exec): {metrics['type_b_false_execution']:.4f}")
     print(f"  TYPE_C (ungrounded): {metrics['type_c_ungrounded_sre']:.4f}")
+    print(f"  TYPE_D (unsafe exec): {metrics['type_d_unsafe_execution']:.4f}")
+    print(f"  TYPE_F (temporal)  : {metrics['type_f_temporal_mismatch']:.4f}")
+    print(f"  [TYPE_F note: is_metric lift=2.03 for summarization in data; " +
+          "this rate reflects L4 constraint vs data tension — not a pure model error]")
 
     if compare_l4:
         print()
