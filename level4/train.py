@@ -1,17 +1,20 @@
 # level4/train.py
 """
-Training script for Level 4 symbolically supervised neural model.
+Training script for Level 4 symbolically supervised neural model (v2 — enhanced constraints).
 
 Usage:
-    # Experiment A — baseline (no symbolic loss)
-    python -m level4.train --lam 0.0 --run-name baseline
+    # Experiment A — baseline (no symbolic loss, no causal loss)
+    python -m level4.train --lam 0.0 --gamma 0.0 --run-name baseline
 
-    # Experiment C — symbolically supervised
-    python -m level4.train --lam 0.5 --run-name level4_lam0.5
+    # Experiment B — symbolically supervised (v1 constraints, no TYPE_E)
+    python -m level4.train --lam 1.0 --gamma 0.0 --run-name lam1_0_v1
 
-    # λ ablation sweep (all values)
+    # Experiment C — symbolically supervised (v2: all constraints + TYPE_E causal)
+    python -m level4.train --lam 1.0 --gamma 0.75 --run-name lam1_0_enhanced
+
+    # λ ablation sweep (all values, with TYPE_E enabled)
     for lam in 0.0 0.1 0.25 0.5 1.0 2.0:
-        python -m level4.train --lam <lam> --run-name ablation_lam<lam>
+        python -m level4.train --lam <lam> --gamma 0.75 --run-name ablation_lam<lam>_v2
 
 Saves per-run checkpoint and training log to level4/saved_models/<run-name>/
 """
@@ -70,7 +73,7 @@ def domain_accuracy(logits: torch.Tensor, targets: torch.Tensor) -> float:
 def train_one_epoch(model, loader, optimizer, loss_fn, device) -> dict:
     model.train()
     totals = dict(loss=0.0, intent_loss=0.0, entity_loss=0.0,
-                  domain_loss=0.0, constraint_loss=0.0,
+                  domain_loss=0.0, constraint_loss=0.0, causal_loss=0.0,
                   intent_acc=0.0, entity_acc=0.0, domain_acc=0.0)
     n_batches = 0
 
@@ -96,6 +99,7 @@ def train_one_epoch(model, loader, optimizer, loss_fn, device) -> dict:
         totals["entity_loss"]     += loss_dict["entity_loss"]
         totals["domain_loss"]     += loss_dict["domain_loss"]
         totals["constraint_loss"] += loss_dict["constraint_loss"]
+        totals["causal_loss"]     += loss_dict["causal_loss"]
         totals["intent_acc"]      += intent_accuracy(out["intent_logits"].detach(), intent_tgt)
         totals["entity_acc"]      += entity_accuracy(out["entity_logits"].detach(), entity_tgt)
         totals["domain_acc"]      += domain_accuracy(out["domain_logits"].detach(), domain_tgt)
@@ -111,7 +115,7 @@ def train_one_epoch(model, loader, optimizer, loss_fn, device) -> dict:
 def evaluate(model, loader, loss_fn, device) -> dict:
     model.eval()
     totals = dict(loss=0.0, intent_loss=0.0, entity_loss=0.0,
-                  domain_loss=0.0, constraint_loss=0.0,
+                  domain_loss=0.0, constraint_loss=0.0, causal_loss=0.0,
                   intent_acc=0.0, entity_acc=0.0, domain_acc=0.0)
     n_batches = 0
 
@@ -132,6 +136,7 @@ def evaluate(model, loader, loss_fn, device) -> dict:
         totals["entity_loss"]     += loss_dict["entity_loss"]
         totals["domain_loss"]     += loss_dict["domain_loss"]
         totals["constraint_loss"] += loss_dict["constraint_loss"]
+        totals["causal_loss"]     += loss_dict["causal_loss"]
         totals["intent_acc"]      += intent_accuracy(out["intent_logits"], intent_tgt)
         totals["entity_acc"]      += entity_accuracy(out["entity_logits"], entity_tgt)
         totals["domain_acc"]      += domain_accuracy(out["domain_logits"], domain_tgt)
@@ -146,7 +151,7 @@ def evaluate(model, loader, loss_fn, device) -> dict:
 def train(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
-    print(f"Run: {args.run_name} | λ={args.lam} | epochs={args.epochs} | batch={args.batch_size} | lr={args.lr}")
+    print(f"Run: {args.run_name} | λ={args.lam} | γ={args.gamma} | epochs={args.epochs} | batch={args.batch_size} | lr={args.lr}")
 
     # Output dir
     out_dir = Path(__file__).parent / "saved_models" / args.run_name
@@ -164,7 +169,7 @@ def train(args):
 
     # Model + loss + optimiser
     model    = Level4IntentModel(dropout=args.dropout).to(device)
-    loss_fn  = Level4Loss(lam=args.lam, alpha=args.alpha, beta=args.beta)
+    loss_fn  = Level4Loss(lam=args.lam, alpha=args.alpha, beta=args.beta, gamma=args.gamma)
     # Only train the heads and shared trunk — encoder is frozen
     trainable = [p for p in model.parameters() if p.requires_grad]
     optimizer = optim.AdamW(trainable, lr=args.lr, weight_decay=1e-4)
@@ -191,6 +196,7 @@ def train(args):
             "train_entity_loss":   round(train_metrics["entity_loss"], 4),
             "train_domain_loss":   round(train_metrics["domain_loss"], 4),
             "train_constraint":    round(train_metrics["constraint_loss"], 4),
+            "train_causal":        round(train_metrics["causal_loss"], 4),
             "train_intent_acc":    round(train_metrics["intent_acc"], 4),
             "train_entity_acc":    round(train_metrics["entity_acc"], 4),
             "train_domain_acc":    round(train_metrics["domain_acc"], 4),
@@ -199,6 +205,7 @@ def train(args):
             "val_entity_loss":     round(val_metrics["entity_loss"], 4),
             "val_domain_loss":     round(val_metrics["domain_loss"], 4),
             "val_constraint":      round(val_metrics["constraint_loss"], 4),
+            "val_causal":          round(val_metrics["causal_loss"], 4),
             "val_intent_acc":      round(val_metrics["intent_acc"], 4),
             "val_entity_acc":      round(val_metrics["entity_acc"], 4),
             "val_domain_acc":      round(val_metrics["domain_acc"], 4),
@@ -209,8 +216,8 @@ def train(args):
         print(
             f"Epoch {epoch:02d}/{args.epochs} | "
             f"train_intent_acc={row['train_intent_acc']:.3f} val_intent_acc={row['val_intent_acc']:.3f} | "
-            f"train_loss={row['train_loss']:.4f} (constraint={row['train_constraint']:.4f}) | "
-            f"val_loss={row['val_loss']:.4f} (constraint={row['val_constraint']:.4f}) | "
+            f"train_loss={row['train_loss']:.4f} (constr={row['train_constraint']:.4f} causal={row['train_causal']:.4f}) | "
+            f"val_loss={row['val_loss']:.4f} (constr={row['val_constraint']:.4f} causal={row['val_causal']:.4f}) | "
             f"{elapsed:.1f}s"
         )
 
@@ -221,6 +228,7 @@ def train(args):
             torch.save({
                 "epoch":    epoch,
                 "lam":      args.lam,
+                "gamma":    args.gamma,
                 "state_dict": model.state_dict(),
                 "val_intent_acc": best_val_intent_acc,
             }, out_dir / "best_model.pt")
@@ -240,9 +248,10 @@ def train(args):
 # -------------------------------------------------------
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Level 4 symbolic-loss training")
-    parser.add_argument("--lam",        type=float, default=0.5,  help="Constraint loss weight λ (0.0 = baseline)")
+    parser.add_argument("--lam",        type=float, default=0.5,  help="Constraint loss weight λ — TYPE_A/B/C/D/F pair constraints (0.0 = baseline)")
     parser.add_argument("--alpha",      type=float, default=1.0,  help="Entity loss weight α")
     parser.add_argument("--beta",       type=float, default=1.0,  help="Domain loss weight β")
+    parser.add_argument("--gamma",      type=float, default=0.75, help="Causal loss weight γ — TYPE_E domain-intent consistency (0.0 = disabled)")
     parser.add_argument("--epochs",     type=int,   default=20,   help="Number of training epochs")
     parser.add_argument("--batch-size", type=int,   default=32,   help="Batch size")
     parser.add_argument("--lr",         type=float, default=3e-4, help="Learning rate")

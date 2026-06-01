@@ -1482,19 +1482,21 @@ index_to_intent = {
             <div class="pipe-num" style="background:linear-gradient(135deg,#e879f9,#8b5cf6)">③</div>
             <div class="pipe-content">
               <div class="pipe-name">3 Heads: intent (→4) · entity_type (→7) · domain (→1)</div>
-              <div class="pipe-desc">CrossEntropy + CrossEntropy + BCEWithLogits &nbsp;<strong>+</strong>&nbsp; <span style="color:#e879f9">SymbolicConstraintLoss(λ)</span></div>
+              <div class="pipe-desc">CrossEntropy + CrossEntropy + BCEWithLogits &nbsp;<strong>+</strong>&nbsp; <span style="color:#e879f9">SymbolicConstraintLoss(λ) + DomainIntentCausalLoss(γ)</span></div>
             </div>
             <span class="pipe-tag" style="background:rgba(232,121,249,0.2); color:#e879f9">Symbolic×</span>
           </div>
         </div>
         <div style="background:rgba(232,121,249,0.08); border:1px solid rgba(232,121,249,0.3); border-radius:10px; padding:12px 14px; margin-top:12px">
-          <div style="font-size:11.5px; font-weight:700; color:#e879f9; margin-bottom:6px">The Constraint Loss (differentiable)</div>
-          <div style="font-size:12px; color:var(--text-dim); line-height:1.8">
-            10 disallowed <code>(intent, entity_type)</code> pairs from <code>constraint_rules.json</code><br>
+          <div style="font-size:11.5px; font-weight:700; color:#e879f9; margin-bottom:6px">Six-Tier Symbolic Constraint Loss (v2 — differentiable)</div>
+          <div style="font-size:11.5px; color:var(--text-dim); line-height:1.75">
             <strong style="color:var(--text)">TYPE_A</strong> (×6, w=1.0): out_of_scope + any SRE entity → false rejection<br>
             <strong style="color:var(--text)">TYPE_B</strong> (×2, w=0.75): execution + incident/metric → false execution<br>
-            <strong style="color:var(--text)">TYPE_C</strong> (×2, w=0.5): investigate/summarization + unknown → ungrounded<br><br>
-            <code style="font-size:11px">L_total = L_intent + α·L_entity + β·L_domain + λ·L_constraint</code>
+            <strong style="color:var(--text)">TYPE_C</strong> (×2, w=0.5): investigate/summarization + unknown → ungrounded<br>
+            <strong style="color:#e879f9">TYPE_D</strong> (×1, w=1.25): <em>execution + unknown → hierarchical safety</em><br>
+            <strong style="color:#e879f9">TYPE_E</strong> (cross-head, γ=0.75): <em>domain_conf × p(out_of_scope) → causal</em><br>
+            <strong style="color:#e879f9">TYPE_F</strong> (×1, w=0.4): <em>summarization + metric → temporal mismatch</em><br><br>
+            <code style="font-size:10.5px">L = L_intent + α·L_entity + β·L_domain + λ·L_constraint + γ·L_causal</code>
           </div>
         </div>
       </div>
@@ -1546,14 +1548,23 @@ index_to_intent = {
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; max-width:1060px; width:100%">
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px; max-width:1060px; width:100%">
 
       <div style="background:rgba(232,121,249,0.07); border:1px solid rgba(232,121,249,0.35); border-radius:10px; padding:12px 18px">
         <div style="font-size:12px; font-weight:700; color:#e879f9; margin-bottom:6px">What changes from L3.5 — all three layers again</div>
         <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
           <strong style="color:var(--text)">Data:</strong> same intent corpus, but now annotated with <code style="font-size:10.5px">entity_type</code> and <code style="font-size:10.5px">domain</code> labels — needed to supervise the two new heads.<br>
           <strong style="color:var(--text)">Neural:</strong> completely replaced — frozen MiniLM-L6-v2 (384-dim) replaces the shallow <code style="font-size:10.5px">nn.Embedding(32)</code>; three prediction heads instead of one; 101,644 trainable params vs ~hundreds.<br>
-          <strong style="color:var(--text)">Symbolic:</strong> disappears from inference entirely — rules become <code style="font-size:10.5px">SymbolicConstraintLoss(λ)</code> during training, then are discarded. No runtime symbolic layer exists.
+          <strong style="color:var(--text)">Symbolic:</strong> disappears from inference entirely — rules become <code style="font-size:10.5px">SymbolicConstraintLoss(λ)</code> + <code style="font-size:10.5px">DomainIntentCausalLoss(γ)</code> during training, then are discarded. No runtime symbolic layer exists.
+        </div>
+      </div>
+
+      <div style="background:rgba(232,121,249,0.07); border:1px solid rgba(232,121,249,0.35); border-radius:10px; padding:12px 18px">
+        <div style="font-size:12px; font-weight:700; color:#e879f9; margin-bottom:6px">v2 — Three new constraint families (stronger symbolic supervision)</div>
+        <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
+          <strong style="color:#e879f9">TYPE_D — Hierarchical</strong> (w=1.25): execution+unknown closes the safety gap left by TYPE_B. The execution hierarchy now covers: metric/incident (0.75) → unknown (1.25).<br>
+          <strong style="color:#e879f9">TYPE_E — Causal</strong> (γ=0.75): first <em>cross-head</em> constraint — penalises the logical contradiction of predicting both high domain confidence and out_of_scope simultaneously.<br>
+          <strong style="color:#e879f9">TYPE_F — Temporal</strong> (w=0.4): summarization+metric penalises retrospective intent on real-time signals — directly addresses the investigate↔summarize confusion observed in L6 failure analysis.
         </div>
       </div>
 
@@ -1561,7 +1572,7 @@ index_to_intent = {
         <div style="font-size:12px; font-weight:700; color:#e879f9; margin-bottom:6px">Why this design — the key trade-off</div>
         <div style="font-size:11.5px; color:var(--text-dim); line-height:1.65">
           L3.5 enforced rules <em>at runtime</em> — the symbolic layer could correct the model but couldn't update its weights. Every hard-to-classify utterance was a runtime band-aid.<br><br>
-          L4 bakes the rules into the loss function so the model <em>learns</em> to never produce a forbidden (intent, entity_type) pair. The gain: zero inference overhead, no symbolic dependency in production. The cost: changing a rule requires retraining — you can't patch it live.
+          L4 bakes the rules into the loss function so the model <em>learns</em> to never produce a forbidden pair. The gain: zero inference overhead, no symbolic dependency in production. The cost: changing a rule requires retraining — you can't patch it live.
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 # level4/evaluation/violation_metrics.py
 """
-Offline evaluation of constraint violations for Level 4.
+Offline evaluation of constraint violations for Level 4 (v2 — enhanced constraints).
 
 Loads a saved checkpoint, runs inference on the test set, and computes:
   - Intent / entity / domain accuracy
@@ -8,6 +8,9 @@ Loads a saved checkpoint, runs inference on the test set, and computes:
   - TYPE_A violation rate: false rejection (out_of_scope predicted, SRE entity present)
   - TYPE_B violation rate: false execution (execution predicted, entity=metric or incident)
   - TYPE_C violation rate: ungrounded SRE (SRE intent predicted, entity=unknown)
+  - TYPE_D violation rate: hierarchical — execution predicted, entity=unknown (most dangerous)
+  - TYPE_E violation rate: causal inconsistency — out_of_scope predicted, domain_prob >= 0.7
+  - TYPE_F violation rate: temporal mismatch — summarization predicted, entity=metric
   - Per-intent accuracy breakdown
 
 This script is OFFLINE ONLY — it never corrects predictions.
@@ -20,8 +23,8 @@ Usage:
         --run-name baseline
 
     python -m level4.evaluation.violation_metrics \
-        --checkpoint saved_models/level4_lam0_5/best_model.pt \
-        --run-name level4_lam0_5
+        --checkpoint saved_models/lam1_0_enhanced/best_model.pt \
+        --run-name lam1_0_enhanced
 """
 
 import argparse
@@ -108,10 +111,27 @@ def compute_metrics(df_true: pd.DataFrame, preds: list[dict]) -> dict:
     type_b_mask = (df_pred["intent"] == "execution") & (df_pred["entity_type"].isin(["metric", "incident"]))
     type_b_rate = float(type_b_mask.mean())
 
-    # TYPE_C — ungrounded SRE: SRE intent predicted, entity=unknown
+    # TYPE_C — ungrounded SRE: SRE intent predicted, entity=unknown (weak signal)
     sre_intents = ["investigate", "summarization", "execution"]
     type_c_mask = (df_pred["intent"].isin(sre_intents)) & (df_pred["entity_type"] == "unknown")
     type_c_rate = float(type_c_mask.mean())
+
+    # TYPE_D — hierarchical: execution predicted against unknown entity (most dangerous)
+    # Subset of TYPE_C restricted to execution intent — catches the highest-severity
+    # ungrounded execution case that TYPE_C only weakly penalised at w=0.5.
+    type_d_mask = (df_pred["intent"] == "execution") & (df_pred["entity_type"] == "unknown")
+    type_d_rate = float(type_d_mask.mean())
+
+    # TYPE_E — causal inconsistency: model predicts out_of_scope but domain head is
+    # confident the utterance is SRE-domain (domain_prob >= 0.7 threshold).
+    # Uses the domain_prob field returned by model.predict() — available in all preds.
+    type_e_mask = (df_pred["intent"] == "out_of_scope") & (df_pred["domain_prob"] >= 0.7)
+    type_e_rate = float(type_e_mask.mean())
+
+    # TYPE_F — temporal mismatch: summarization predicted for metric entity.
+    # Metrics are real-time continuously-observed signals; summarization is retrospective.
+    type_f_mask = (df_pred["intent"] == "summarization") & (df_pred["entity_type"] == "metric")
+    type_f_rate = float(type_f_mask.mean())
 
     return {
         "n": n,
@@ -124,6 +144,9 @@ def compute_metrics(df_true: pd.DataFrame, preds: list[dict]) -> dict:
         "type_a_false_rejection": round(type_a_rate, 4),
         "type_b_false_execution": round(type_b_rate, 4),
         "type_c_ungrounded_sre":  round(type_c_rate, 4),
+        "type_d_unsafe_execution":  round(type_d_rate, 4),
+        "type_e_causal_inconsistency": round(type_e_rate, 4),
+        "type_f_temporal_mismatch":    round(type_f_rate, 4),
         "per_pair_violations":    violation_counts,
     }
 
@@ -149,6 +172,9 @@ def print_metrics(metrics: dict, run_name: str, lam):
     print(f"  TYPE_A false rejection   : {metrics['type_a_false_rejection']:.4f}")
     print(f"  TYPE_B false execution   : {metrics['type_b_false_execution']:.4f}")
     print(f"  TYPE_C ungrounded SRE    : {metrics['type_c_ungrounded_sre']:.4f}")
+    print(f"  TYPE_D unsafe execution  : {metrics['type_d_unsafe_execution']:.4f}  (exec+unknown — hierarchical)")
+    print(f"  TYPE_E causal inconsist. : {metrics['type_e_causal_inconsistency']:.4f}  (oos+domain≥0.7 — cross-head)")
+    print(f"  TYPE_F temporal mismatch : {metrics['type_f_temporal_mismatch']:.4f}  (summ+metric — temporal)")
     print()
     if any(v > 0 for v in metrics["per_pair_violations"].values()):
         print("  Per-pair violations:")

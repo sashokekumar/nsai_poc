@@ -1,5 +1,5 @@
 {
-  "_description": "Ontology-derived symbolic constraints for Level 4 training. Defines which intent/entity_type combinations are valid, which are disallowed, and what violation penalties to apply during training. Grounded in intents_base.csv distribution and SRE domain semantics.",
+  "_description": "Ontology-derived symbolic constraints for Level 4 training (v2 — enhanced with hierarchical, causal, and temporal constraint families). Defines which intent/entity_type combinations are valid, which are disallowed, and what violation penalties to apply during training. Grounded in intents_base.csv distribution and SRE domain semantics. v1 had 10 (intent,entity) pair constraints (TYPE_A/B/C). v2 adds TYPE_D (hierarchical: execution+unknown), TYPE_E (causal: domain-intent cross-head consistency via DomainIntentCausalLoss), TYPE_F (temporal: summarization+metric phase mismatch), bringing the total to 12 (intent,entity) constraints plus 1 cross-head causal loss.",
 
   "intents": ["investigate", "summarization", "execution", "out_of_scope"],
 
@@ -72,6 +72,20 @@
       "entity_type": "unknown",
       "reason": "Investigation without any identifiable entity or symptom context is a weak signal of a false SRE classification",
       "penalty_weight": 0.5
+    },
+    {
+      "intent": "execution",
+      "entity_type": "unknown",
+      "reason": "TYPE_D (hierarchical): executing against an unknown entity is the most operationally dangerous unpenalized combination. In the intent-severity hierarchy, execution carries the highest risk of irreversible system changes; executing on an unidentified target exceeds even TYPE_B violations because the target itself is unknown. Penalty deliberately higher than TYPE_B (0.75) to reflect the escalated danger.",
+      "penalty_weight": 1.25,
+      "tier": "TYPE_D"
+    },
+    {
+      "intent": "summarization",
+      "entity_type": "metric",
+      "reason": "TYPE_F (temporal): metrics are continuously-observed real-time signals (present-tense observations). Summarization is a retrospective, closed-event intent (past-tense reporting). Predicting summarization for a metric entity represents a temporal phase mismatch — the correct intent for metric entities is investigate (diagnose) not summarize (report). Soft penalty to allow borderline cases like metric trend reports.",
+      "penalty_weight": 0.4,
+      "tier": "TYPE_F"
     }
   ],
 
@@ -98,6 +112,25 @@
       "description": "SRE intent predicted with no identifiable entity (unknown entity_type); the utterance may be in-domain but cannot be grounded to an ontology concept",
       "detection": "intent != out_of_scope AND entity_type == unknown",
       "severity": "low"
+    },
+    "TYPE_D_UNSAFE_EXECUTION": {
+      "description": "Hierarchical: execution predicted against an unknown entity type — the most dangerous unpenalized combination. The target is unidentified, making the predicted action operationally unsafe.",
+      "detection": "intent == execution AND entity_type == unknown",
+      "severity": "high",
+      "constraint_family": "hierarchical"
+    },
+    "TYPE_E_CAUSAL_INCONSISTENCY": {
+      "description": "Causal: domain head confident in-domain (domain_prob >= 0.7) but intent head predicts out_of_scope. A causal contradiction — the neural network simultaneously believes the utterance is SRE-relevant and that it should be rejected.",
+      "detection": "intent == out_of_scope AND domain_prob >= 0.7",
+      "severity": "medium",
+      "constraint_family": "causal",
+      "note": "Cross-head penalty — measured during training via DomainIntentCausalLoss, not as an (intent, entity) pair. Evaluated at inference by checking domain_prob threshold."
+    },
+    "TYPE_F_TEMPORAL_MISMATCH": {
+      "description": "Temporal: summarization predicted for a metric entity. Metrics are real-time continuously-observed signals (present-tense). Summarization is retrospective/closed-event (past-tense). Temporal phase mismatch in the SRE operational lifecycle.",
+      "detection": "intent == summarization AND entity_type == metric",
+      "severity": "low",
+      "constraint_family": "temporal"
     }
   },
 
