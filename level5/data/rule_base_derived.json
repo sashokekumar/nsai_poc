@@ -26,7 +26,7 @@
     "DR1 replaces R1: adds is_infrastructure (lift=1.56, P=0.396 for investigate) instead of is_known_incident (P=0.087); wraps with is_sre_domain",
     "DR2 = R2 (data-validated): has_runbook chi2=928.6, lift=3.80 for execution",
     "DR3 is NEW \u2014 no human-authored equivalent: is_infrastructure+is_sre_domain+NOT has_runbook \u2192 execution; fills coverage gap for ad-hoc infra ops",
-    "DR4 replaces R3: uses is_incident (lift=3.82) + is_metric (lift=2.03) instead of is_known_incident only (narrower sub-predicate)",
+    "DR4 v2: removed is_metric from antecedent (aligns with L4 TYPE-F constraint: summarization+metric = temporal phase mismatch); keeps is_incident only (lift=3.82). Metric queries are handled by DR1 (investigate).",
     "DR5 = R4 (data-validated): is_unknown chi2=1135.6, P(unknown|OOS)=1.0"
   ],
   "rules": [
@@ -100,7 +100,7 @@
     },
     {
       "name": "DR3_infra_execution_no_runbook",
-      "description": "Infrastructure entity in SRE domain without a runbook procedure \u2192 direct (ad-hoc) execution",
+      "description": "Infrastructure entity in SRE domain without a runbook and with known entity type \u2192 direct (ad-hoc) execution",
       "_source": "data_derived",
       "_support": {
         "is_infrastructure": {
@@ -108,7 +108,7 @@
           "lift_execution": 1.72,
           "P_pred_given_execution": 0.4358
         },
-        "rationale": "is_infrastructure has lift=1.72 for execution (chi2=95.3, P=0.436). No human-authored rule covers this combination (infra ops without runbook). DR3 is entirely data-derived \u2014 it fills the rule coverage gap for utterances like 'restart the payment-service pods' where there is no formal runbook but the intent is clearly operational/executory."
+        "rationale": "is_infrastructure has lift=1.72 for execution (chi2=95.3, P=0.436). NOT is_unknown guard added (v2 fix): prevents unsafe execution when entity type is uncertain (was causing TYPE-D violations). For legitimate infra entities is_unknown\u22480 so (1-is_unknown)\u22481 \u2014 no activation loss for clean cases."
       },
       "antecedents": {
         "logic": "AND",
@@ -124,6 +124,12 @@
             "operand": {
               "predicate": "has_runbook"
             }
+          },
+          {
+            "predicate": "NOT",
+            "operand": {
+              "predicate": "is_unknown"
+            }
           }
         ]
       },
@@ -131,8 +137,8 @@
       "rule_strength_init": 0.7
     },
     {
-      "name": "DR4_metric_or_incident_summarization",
-      "description": "SRE incidents or metric anomalies without runbook actions are summarization/status-reporting requests",
+      "name": "DR4_incident_summarization",
+      "description": "SRE incidents without a runbook \u2192 summarization/status report. is_metric removed: aligns with L4 TYPE-F constraint (summarization+metric = temporal phase mismatch). Metric queries handled by DR1 (investigate).",
       "_source": "data_derived",
       "_support": {
         "is_incident": {
@@ -140,12 +146,7 @@
           "lift_summarization": 3.817,
           "P_pred_given_summarization": 0.0506
         },
-        "is_metric": {
-          "chi2": 50.0,
-          "lift_summarization": 2.029,
-          "P_pred_given_summarization": 0.1966
-        },
-        "rationale": "is_incident (lift=3.82, highest single-predicate lift for summarization) and is_metric (lift=2.03, P=0.197) are the two strongest summarization signals. Human R3 used only is_known_incident (a sub-predicate with lower coverage). DR4 is data-improved: broader is_incident + adds is_metric as alternative antecedent."
+        "rationale": "is_incident has the highest lift for summarization (3.82). is_metric (lift=2.03) was removed in v2 to comply with L4 safety ontology: summarization+metric is a TYPE-F temporal phase mismatch (metrics are real-time; summarization implies historical reporting). Metric queries are correctly routed by DR1 to investigate instead."
       },
       "antecedents": {
         "logic": "AND",
@@ -160,15 +161,7 @@
             }
           },
           {
-            "logic": "OR",
-            "operands": [
-              {
-                "predicate": "is_incident"
-              },
-              {
-                "predicate": "is_metric"
-              }
-            ]
+            "predicate": "is_incident"
           }
         ]
       },

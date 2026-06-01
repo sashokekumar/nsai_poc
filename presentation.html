@@ -1847,13 +1847,13 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
             <span style="color:var(--text-dim); font-family:monospace">AND(is_infrastructure, is_sre_domain, NOT has_runbook) → <strong style="color:var(--green)">execution</strong></span>
             <span style="color:var(--text-dimmer)">lift=1.72</span>
             <span style="color:#ef4444; font-weight:800">DR4</span>
-            <span style="color:var(--text-dim); font-family:monospace">AND(is_sre_domain, NOT has_runbook, OR(is_incident, is_metric)) → <strong style="color:var(--green)">summarization</strong></span>
-            <span style="color:var(--text-dimmer)">lift=3.82/2.03</span>
+            <span style="color:var(--text-dim); font-family:monospace">AND(is_sre_domain, NOT has_runbook, is_incident) → <strong style="color:var(--green)">summarization</strong></span>
+            <span style="color:var(--text-dimmer)">lift=3.82</span>
             <span style="color:#ef4444; font-weight:800">DR5</span>
             <span style="color:var(--text-dim); font-family:monospace">AND(is_unknown, NOT is_sre_domain) → <strong style="color:var(--green)">out_of_scope</strong></span>
             <span style="color:var(--text-dimmer)">P=1.00</span>
           </div>
-          <div style="font-size:9px; color:var(--text-dimmer); margin-top:6px">DR1/DR4 replace hand-authored R1/R3 using stronger data signals. DR3 is entirely new — no human-authored equivalent. DR2/DR5 unchanged (data validates them).</div>
+          <div style="font-size:9px; color:var(--text-dimmer); margin-top:6px">DR1/DR4 replace hand-authored R1/R3 using stronger data signals. DR4 uses is_incident only (not is_metric) to align with L4 TYPE-F safety constraint. DR3 is entirely new — no human-authored equivalent.</div>
         </div>
         <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
           <div style="font-size:10.5px; font-weight:700; color:#ef4444; margin-bottom:6px">Product T-Norm — differentiable logic operators</div>
@@ -1865,12 +1865,12 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
           <div style="font-size:9.5px; color:var(--text-dimmer); margin-top:6px; line-height:1.5">All operators are differentiable → gradients flow end-to-end through the rule layer. Rule strengths are learned during backprop, not fixed by hand.</div>
         </div>
         <div style="background:rgba(239,68,68,0.05); border:1px solid rgba(239,68,68,0.2); border-radius:8px; padding:9px 12px">
-          <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">2 Experiments (v2, data-derived rules) — measured results</div>
+          <div style="font-size:10px; font-weight:700; color:#ef4444; margin-bottom:5px">2 Experiments (v3, ontology-aligned rules) — measured results</div>
           <div style="display:grid; grid-template-columns:auto 1fr; gap:3px 10px; font-size:9.5px">
-            <span style="color:var(--green); font-weight:700">Exp D</span><span style="color:var(--text-dim)">Soft rules (learnable) — 98.8% acc, TYPE-A/B=0, <strong style="color:var(--green)">100% rule fidelity</strong></span>
-            <span style="color:var(--yellow); font-weight:700">Exp E</span><span style="color:var(--text-dim)">Hard rules (strength=1.0) — <strong style="color:var(--green)">99.1% acc</strong>, TYPE-A=0, <strong style="color:var(--green)">100% rule fidelity</strong></span>
+            <span style="color:var(--green); font-weight:700">Exp D</span><span style="color:var(--text-dim)">Soft rules (learnable) — 99.1% acc, TYPE-A/B=0/0.6%, <strong style="color:var(--green)">100% rule fidelity, TYPE-F=0%</strong></span>
+            <span style="color:var(--yellow); font-weight:700">Exp E</span><span style="color:var(--text-dim)">Hard rules (strength=1.0) — <strong style="color:var(--green)">99.1% acc</strong>, <strong style="color:var(--green)">100% rule fidelity, TYPE-F=0%</strong></span>
           </div>
-          <div style="font-size:9px; color:var(--text-dimmer); margin-top:5px">v1 ref (Exp B/C, old arch): 98.8% acc, 61–72% rule fidelity. Data-derived rules improve fidelity to 100% by better matching the data distribution.</div>
+          <div style="font-size:9px; color:var(--text-dimmer); margin-top:5px">v1 ref (Exp B/C, old arch): 98.8% acc, 61–72% rule fidelity, TYPE-F not measured. L5 v3 adds full ontology alignment: TYPE-F eliminated, rule fidelity 100%.</div>
         </div>
       </div>
     </div>
@@ -1928,7 +1928,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
             DR1 → AND(0.891, OR(0.924, 0.782)) = <strong style="color:var(--green)">0.891 × 0.972 = 0.867</strong> × str(0.803) = <strong style="color:var(--green)">0.696</strong> → investigate<br>
             DR2 → AND(0.071, 0.891) = <span style="color:var(--text-dimmer)">0.063</span> × str(0.904) = <span style="color:var(--text-dimmer)">0.057</span> → execution<br>
             DR3 → AND(0.924, 0.891, NOT 0.071) = <span style="color:var(--text-dimmer)">0.764</span> × str(0.666) = <span style="color:var(--text-dimmer)">0.509</span> → execution<br>
-            DR4 → AND(0.891, NOT 0.071, OR(0.118, 0.853)) = <span style="color:var(--text-dimmer)">0.753</span> × str(0.758) = <span style="color:var(--text-dimmer)">0.571</span> → summarization<br>
+            DR4 → AND(0.891, NOT 0.071, 0.118) = <span style="color:var(--text-dimmer)">0.097</span> × str(0.758) = <span style="color:var(--text-dimmer)">0.074</span> → summarization<br>
             DR5 → AND(0.034, NOT 0.891) = <span style="color:var(--text-dimmer)">0.004</span> → out_of_scope
           </div>
         </div>
@@ -1943,7 +1943,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
     <span class="st">"DR1_sre_infra_or_metric_investigate"</span>: <span class="num">0.696</span>,  <span class="cm">// ← drives decision</span>
     <span class="st">"DR2_runbook_execution"</span>:              <span class="num">0.057</span>,
     <span class="st">"DR3_infra_execution_no_runbook"</span>:     <span class="num">0.509</span>,
-    <span class="st">"DR4_metric_or_incident_summarization"</span>:<span class="num">0.571</span>,
+    <span class="st">"DR4_incident_summarization"</span>:       <span class="num">0.074</span>,
     <span class="st">"DR5_unknown_out_of_scope"</span>:           <span class="num">0.004</span>
   },
   <span class="st">"predicate_activations"</span>: {
@@ -1956,7 +1956,7 @@ predicted = <span class="st">"investigate"</span>  ✓  (violation rate = 0 by d
         <div style="background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.3); border-radius:10px; padding:10px 14px">
           <div style="font-size:12px; color:var(--text-dim); line-height:1.7">
             <strong style="color:#ef4444">vs L4.5:</strong> L4.5 applies the gate externally after the model runs. Here DR1 fires <em>inside</em> the forward pass — the rule score IS the intent logit (via logit transform), the only decision path. Both predicate head and rule_strength gradients update the same weights end-to-end.<br><br>
-            <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A/B violations in Exp D. Rule fidelity 100% — every prediction matches its highest-activated rule's consequent.
+            <strong style="color:#ef4444">Full interpretability:</strong> Every prediction comes with predicate probs + rule activation scores — you can trace exactly which symbolic rule drove the decision. Zero TYPE-A violations in Exp D. Zero TYPE-F in both — ontology-aligned rules enforce the L4 safety constraint structurally, inside the forward pass.
           </div>
         </div>
       </div>

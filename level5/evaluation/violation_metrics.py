@@ -54,9 +54,10 @@ L4_RULES  = REPO_ROOT / "level4" / "ontology" / "constraint_rules.json"
 
 def load_model(checkpoint_path: str, device: torch.device):
     ckpt = torch.load(checkpoint_path, map_location=device, weights_only=False)
-    # Restore the exact rule_base that was used during training (if recorded)
-    rule_base = ckpt.get("rule_base") or ckpt.get("args", {}).get("rule_base", None)
-    model = Level5IntentModel(rule_base_path=rule_base)
+    # Restore the exact rule_base and hard_rules flag used during training
+    rule_base  = ckpt.get("rule_base")  or ckpt.get("args", {}).get("rule_base",  None)
+    hard_rules = ckpt.get("hard_rules") or ckpt.get("args", {}).get("hard_rules", False)
+    model = Level5IntentModel(rule_base_path=rule_base, hard_rules=hard_rules)
     model.load_state_dict(ckpt["state_dict"])
     model.to(device)
     model.eval()

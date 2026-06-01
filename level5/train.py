@@ -214,7 +214,7 @@ def train(args):
     )
     if args.hard_rules:
         print("Hard rules mode (L5B): rule_strength effectively fixed at 1.0 "
-              "(sigmoid(10)≈0.99995, no grad) — symbolic rules are the only intent path")
+              "(sigmoid(10)~=0.99995, no grad) - symbolic rules are the only intent path")
     else:
         print("Soft rules mode (L5A): rule_strength_logits learnable")
 
